@@ -1,3 +1,19 @@
+sudo: false
+
+language: node_js
+node_js:
+  - 6
+
+env:
+  - CI=true
+  - CI_BUILD=true
+  - CI_STORYBOOK=true
+
+script:
+  -  if [ "${CI}" = "true" ]; then npm run test -- --coverage; fi
+  -  if [ "${CI_BUILD}" = "true" ]; then npm run build; fi
+  -  if [ "${CI_STORYBOOK}" = "true" ]; then npm run build-storybook; fi
+
 deploy:
   provider: gcs
   access_key_id: GOOGSML5SDHJDCVE2HSOZZLX
