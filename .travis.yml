@@ -4,15 +4,7 @@ language: node_js
 node_js:
   - 10
 
-env:
-  - CI=false
-  - CI_BUILD=true
-  - CI_STORYBOOK=false
-
-script:
-  -  if [ "${CI}" = "true" ]; then npm run test -- --coverage; fi
-  -  if [ "${CI_BUILD}" = "true" ]; then npm run build; fi
-  -  if [ "${CI_STORYBOOK}" = "true" ]; then npm run build-storybook; fi
+script: npm run build
 
 deploy:
   provider: gcs
