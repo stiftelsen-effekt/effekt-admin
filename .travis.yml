@@ -5,9 +5,9 @@ node_js:
   - 10
 
 env:
-  - CI=true
+  - CI=false
   - CI_BUILD=true
-  - CI_STORYBOOK=true
+  - CI_STORYBOOK=false
 
 script:
   -  if [ "${CI}" = "true" ]; then npm run test -- --coverage; fi
