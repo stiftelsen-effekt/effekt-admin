@@ -13,6 +13,7 @@ const reducer = (state: AppState = initialState, action: Action<any>) => {
   return state;
 }
 const store = createStore(reducer);
+console.log(store);
 
 const App: React.FC = () => {
   return (
