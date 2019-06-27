@@ -1,3 +1,5 @@
+import { IAccessKey } from "../authenticate/auth";
+
 export interface AppState {
-    count: number
+    accessKey?: IAccessKey
 }
