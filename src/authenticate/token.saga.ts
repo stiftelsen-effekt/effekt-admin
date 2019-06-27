@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 import { IAccessKey } from './auth'
-import { FETCH_TOKEN_SUCCESS } from './token.actions';
+import { fetchTokenSuccess } from './token.actions';
 import * as API from '../util/api';
 import { AppState } from '../models/state';
 
@@ -13,5 +13,5 @@ export function* fetchToken() {
         method: API.Method.GET, 
         data: { key: accessKey.key }
     });
-    yield put({type: FETCH_TOKEN_SUCCESS, payload: { token: tokenResponse.content }});
+    yield put(fetchTokenSuccess(tokenResponse.content));
 }

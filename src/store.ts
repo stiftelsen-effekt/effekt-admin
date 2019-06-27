@@ -4,9 +4,11 @@ import createSagaMiddleware from 'redux-saga'
 import { FETCH_TOKEN_SUCCESS } from './authenticate/token.actions';
 import watchAll from './root.saga';
 import { LOGIN_SUCCESS } from './authenticate/login.actions';
+import { FETCH_DONOR_SUCCESS } from './components/app/home/home.actions';
 
 const initialState: AppState = {
-    accessKey: { key: "DefaultKey", expires: new Date() }
+    accessKey: { key: "DefaultKey", expires: new Date() },
+    authorized: false
 }
 
 const reducer = (state: AppState = initialState, action: AnyAction): AppState => {
@@ -18,7 +20,16 @@ const reducer = (state: AppState = initialState, action: AnyAction): AppState =>
                 accessKey: action.payload
             };
         case FETCH_TOKEN_SUCCESS:
-            return state;
+            return {
+                ...state,
+                currentToken: action.payload,
+                authorized: true
+            };
+        case FETCH_DONOR_SUCCESS:
+            return {
+                ...state,
+                selectedDonor: action.payload
+            }
         default:
             return state;
     }

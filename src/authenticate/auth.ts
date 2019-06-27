@@ -12,7 +12,7 @@ export interface IAccessKey {
 }
 
 export interface IAccessToken {
-    toke: string,
+    token: string,
     expires: Date
 }
 
@@ -37,10 +37,6 @@ export class Auth {
         else {
             throw new Error(`Authentication mismatch, expected ${AuthUtil.authState} got ${callbackVariables.state}`)
         }
-    }
-
-    static setSession() {
-
     }
 
     static logOut() {
