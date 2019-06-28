@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import { FETCH_TOKEN_SUCCESS } from './authenticate/token.actions';
 import watchAll from './root.saga';
 import { LOGIN_SUCCESS } from './authenticate/login.actions';
-import { FETCH_DONOR_SUCCESS } from './components/app/home/home.actions';
+import { FETCH_DONOR_SUCCESS } from './components/app/pages/home/home.actions';
 
 const initialState: AppState = {
     accessKey: { key: "DefaultKey", expires: new Date() },

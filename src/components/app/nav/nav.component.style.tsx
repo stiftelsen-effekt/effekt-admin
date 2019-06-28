@@ -6,4 +6,5 @@ export const MainNav = styled.nav`
     background: black;
 
     color: white;
+    padding-top: 5px;
 `

@@ -5,6 +5,7 @@ import { AppState } from '../../../models/state';
 import { loginBegin } from '../../../authenticate/login.actions';
 import { Redirect } from 'react-router';
 import { Auth } from '../../../authenticate/auth';
+import { LoginWrapper, LoginButton, LoginHeader } from './login.component.style';
 
 class LoginComponent extends Component<IStateProps & IDispatchProps, any> {
     constructor(props: IStateProps & IDispatchProps) {
@@ -24,7 +25,12 @@ class LoginComponent extends Component<IStateProps & IDispatchProps, any> {
             )
         } else {
             return(
-                <button onClick={this.loginClick}>Login</button>)
+                <LoginWrapper>
+                    <div>
+                        <LoginHeader>GiEffektivt administrasjon</LoginHeader>
+                        <LoginButton onClick={this.loginClick}>Autoriser</LoginButton>
+                    </div>
+                </LoginWrapper>)
         }
         
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppState } from '../../../models/state';
+import { AppState } from '../../../../models/state';
 import { fetchDonorRequest } from './home.actions'
 import { connect } from 'react-redux';
 

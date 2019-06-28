@@ -1,6 +1,6 @@
 import React from 'react'
 import { Switch, Route } from "react-router";
-import homeComponent from "./home/home.component";
+import homeComponent from "./pages/home/home.component";
 import { MainNavigation } from "./nav/nav.component";
 
 export const AdminPanel: React.FunctionComponent = () => {
