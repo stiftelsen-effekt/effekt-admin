@@ -1,10 +1,8 @@
 import styled from 'styled-components'
 
 export const MainNav = styled.nav`
-    position: fixed;
-    left: 0;
-    top: 0;
     width: 340px;
+    height: 100vh;
     background: black;
 
     color: white;

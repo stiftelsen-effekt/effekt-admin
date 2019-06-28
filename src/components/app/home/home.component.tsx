@@ -11,7 +11,7 @@ class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
     render() {
         return (
             <div className="home">
-                <button onClick={this.fetchDonor}>Login</button>
+                <button onClick={this.fetchDonor}>Fetch donor</button>
 
                 <div style={{
                     borderRadius: 10,
