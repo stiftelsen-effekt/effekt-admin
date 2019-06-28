@@ -10,22 +10,18 @@ class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
 
     render() {
         return (
-            <div className="App">
-                <header className="App-header">
-                    <p>GiEffektivt admin panel is alive! Logged in</p>
+            <div className="home">
+                <button onClick={this.fetchDonor}>Login</button>
 
-                    <button onClick={this.fetchDonor}>Login</button>
-
-                    <div style={{
-                        borderRadius: 10,
-                        background: 'rgba(255,255,255,.9)',
-                        color: 'black',
-                        padding: 20,
-                        whiteSpace: 'pre-wrap'
-                    }}>
-                        {JSON.stringify(this.props.selectedDonor)}
-                    </div>
-                </header>
+                <div style={{
+                    borderRadius: 10,
+                    background: 'rgba(255,255,255,.9)',
+                    color: 'black',
+                    padding: 20,
+                    whiteSpace: 'pre-wrap'
+                }}>
+                    {JSON.stringify(this.props.selectedDonor)}
+                </div>
             </div>
         )
     }
