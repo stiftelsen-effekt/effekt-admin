@@ -3,26 +3,40 @@ import { Component, ReactNode } from 'react'
 import { connect } from 'react-redux';
 import { AppState } from '../../../models/state';
 import { loginBegin } from '../../../authenticate/login.actions';
-import { IAccessKey } from '../../../authenticate/auth';
+import { Redirect } from 'react-router';
+import { Auth } from '../../../authenticate/auth';
 
 class LoginComponent extends Component<IStateProps & IDispatchProps, any> {
+    constructor(props: IStateProps & IDispatchProps) {
+        super(props)
+
+        Auth.tryCachedKey()
+    }
+
     loginClick = () => {
         this.props.loginBegin()
     }
 
     render(): ReactNode {
-        return(
-            <button onClick={this.loginClick}>Login</button>)
+        if (this.props.authorized) {
+            return (
+                <Redirect to="/" />
+            )
+        } else {
+            return(
+                <button onClick={this.loginClick}>Login</button>)
+        }
+        
     }
 }
 
 //TODO: Remove accessKey
 interface IStateProps {
-    accessKey: IAccessKey | undefined,
+    authorized: boolean,
 }
 const mapStateToProps = (state: AppState): IStateProps => {
     return {
-        accessKey: state.accessKey
+        authorized: state.authorized
     }
 }
 
