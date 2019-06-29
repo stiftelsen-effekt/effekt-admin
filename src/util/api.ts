@@ -19,7 +19,17 @@ export const call = (params: IAPIParameters): Promise<Response> => {
     if (params.method === Method.GET) {
         let query = "";
         if (params.data !== null) query = "?" + queryString.stringify(params.data);
-        return fetch(`${API_URL}${params.endpoint}${query}`).then(response => response.json())
+        const url = `${API_URL}${params.endpoint}${query}`;
+
+        let options = {}
+        if (params.token != null) {
+            options = { 
+                ...options, 
+                headers: { 'authorization': 'Bearer ' + params.token } 
+            }
+        }
+        
+        return fetch(url, options).then(response => response.json())
     } 
     else {
         //TODO: Handle in a much better way

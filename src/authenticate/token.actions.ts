@@ -1,5 +1,7 @@
+import { IAccessToken } from "./auth";
+
 export const FETCH_TOKEN_REQUEST = "FETCH_TOKEN_REQUEST";
-export const FETCH_TOKEN_SUCCESS = "FETCH_TOKEN_SUCCESS"
+export const FETCH_TOKEN_SUCCESS = "FETCH_TOKEN_SUCCESS";
 
 export const fetchTokenRequest = () => {
     return {
@@ -7,8 +9,9 @@ export const fetchTokenRequest = () => {
     }
 }
 
-export const fetchTokenSuccess = () => {
+export const fetchTokenSuccess = (payload: IAccessToken) => {
     return {
-        type: FETCH_TOKEN_SUCCESS
+        type: FETCH_TOKEN_SUCCESS,
+        payload
     }
 }

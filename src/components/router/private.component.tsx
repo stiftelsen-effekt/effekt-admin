@@ -6,7 +6,7 @@ interface IPrivateRouteProps {
     component: ComponentType 
 }
 
-export const PrivateRoute: React.SFC<IPrivateRouteProps & RouteProps> = ({component: Component, authorized, ...rest}) => {
+export const PrivateRoute: React.FunctionComponent<IPrivateRouteProps & RouteProps> = ({component: Component, authorized, ...rest}) => {
     return (
         <Route {...rest} render={props => (authorized === true 
             ? <Component {...props} />
