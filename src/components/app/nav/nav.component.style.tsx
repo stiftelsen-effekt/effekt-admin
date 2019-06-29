@@ -7,4 +7,7 @@ export const MainNav = styled.nav`
 
     color: white;
     padding-top: 5px;
+
+    display: inline-block;
+    vertical-align: top;
 `

@@ -12,7 +12,7 @@ const initialState: AppState = {
 }
 
 const reducer = (state: AppState = initialState, action: AnyAction): AppState => {
-    console.log("Reducer", state, action);
+    //console.log("Reducer", state, action);
     switch(action.type) {
         case LOGIN_SUCCESS:
             return {

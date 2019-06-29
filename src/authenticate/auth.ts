@@ -18,9 +18,9 @@ export interface IAccessToken {
 }
 
 export class Auth {
-    static login() {
+    static login(): any {
         AuthUtil.setAuthState();
-        window.location.href = AuthUtil.generateLoginUrl();
+        return window.location.assign(AuthUtil.generateLoginUrl());
     }
 
     static tryCachedKey() {

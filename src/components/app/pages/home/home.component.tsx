@@ -10,7 +10,7 @@ class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
 
     render() {
         return (
-            <div className="home">
+            <div className="home" style={{display: 'inline-block', maxWidth: "calc(100vw - 350px)"}}>
                 <button onClick={this.fetchDonor}>Fetch donor</button>
 
                 <div style={{
@@ -18,7 +18,8 @@ class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
                     background: 'rgba(255,255,255,.9)',
                     color: 'black',
                     padding: 20,
-                    whiteSpace: 'pre-wrap'
+                    wordBreak: 'break-all',
+                    maxWidth: '600px'
                 }}>
                     {JSON.stringify(this.props.selectedDonor)}
                 </div>
