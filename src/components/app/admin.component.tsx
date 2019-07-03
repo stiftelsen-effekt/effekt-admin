@@ -1,16 +1,22 @@
 import React from 'react'
-import { Switch, Route } from "react-router";
+import { Switch, Route, Redirect } from "react-router";
 import HomeComponent from "./pages/home/home.component";
 import MainNavigation from "./nav/nav.component";
+import { AdminPanelWrapper } from './admin.component.style';
+import RegisterComponent from './pages/register/register.component';
+import { Breadcrumbs } from 'react-breadcrumbs';
 
 export const AdminPanel: React.FunctionComponent = () => {
     return (
-        <div>
+        <AdminPanelWrapper>
             <MainNavigation></MainNavigation>
-            <Switch>
-                <Route match="/" component={HomeComponent}></Route>
-                <Route match="/register" render={() => (<div>register</div>)}></Route>
-            </Switch>
-        </div>
+            <Breadcrumbs>
+                <Switch>
+                    <Route exact path="/home" component={HomeComponent}></Route>
+                    <Route exact path="/register" component={RegisterComponent}></Route>
+                    <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
+                </Switch>
+            </Breadcrumbs>
+        </AdminPanelWrapper>
     )
 }

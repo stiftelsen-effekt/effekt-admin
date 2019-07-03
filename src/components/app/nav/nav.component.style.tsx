@@ -4,9 +4,11 @@ export const MainNav = styled.nav`
     width: 340px;
     height: 100vh;
     background: black;
+    flex-shrink: 0;
 
     color: white;
     padding-top: 5px;
+    box-sizing: border-box;
 
     display: inline-block;
     vertical-align: top;

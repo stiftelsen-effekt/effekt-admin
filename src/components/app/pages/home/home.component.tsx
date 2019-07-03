@@ -2,6 +2,9 @@ import React from 'react';
 import { AppState } from '../../../../models/state';
 import { fetchDonorRequest } from './home.actions'
 import { connect } from 'react-redux';
+import { Page } from '../../style/elements/page.style';
+import { MainHeader } from '../../style/elements/headers.style';
+import { Breadcrumb } from 'react-breadcrumbs';
 
 class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
     fetchDonor = () => {
@@ -10,7 +13,9 @@ class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
 
     render() {
         return (
-            <div className="home" style={{display: 'inline-block', maxWidth: "calc(100vw - 350px)"}}>
+            <Page>
+                <Breadcrumb data={{title: 'Home', pathname: '/home'}}></Breadcrumb>
+                <MainHeader>Home</MainHeader>
                 <button onClick={this.fetchDonor}>Fetch donor</button>
 
                 <div style={{
@@ -18,12 +23,11 @@ class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
                     background: 'rgba(255,255,255,.9)',
                     color: 'black',
                     padding: 20,
-                    wordBreak: 'break-all',
-                    maxWidth: '600px'
+                    wordBreak: 'break-all'
                 }}>
                     {JSON.stringify(this.props.selectedDonor)}
                 </div>
-            </div>
+            </Page>
         )
     }
 }

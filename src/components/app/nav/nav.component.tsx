@@ -14,13 +14,10 @@ class MainNavigation extends React.Component<IDispatchProps> {
         return (
             <MainNav>
                 <NavMenu>
-                    <NavLink to={'/home'} exact><NavMenuItem>Home</NavMenuItem></NavLink>
+                    <NavLink to={'/'} exact><NavMenuItem>Home</NavMenuItem></NavLink>
                     <NavLink to={'/graphing'} exact><NavMenuItem>Graphing</NavMenuItem></NavLink>
                     <NavLink to={'/reports'} exact><NavMenuItem>Reports</NavMenuItem></NavLink>
                     <NavLink to={'/register'} exact><NavMenuItem>Register</NavMenuItem></NavLink>
-                    
-                    
-                    
                     
                     <NavMenuItem>Donors</NavMenuItem>
                     <NavMenuItem>Settings</NavMenuItem>
