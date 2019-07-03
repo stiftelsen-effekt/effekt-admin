@@ -1,16 +1,21 @@
 import { takeEvery, all, takeLatest } from 'redux-saga/effects';
 import { FETCH_TOKEN_REQUEST } from './authenticate/token.actions';
 import { fetchToken } from './authenticate/token.saga';
-import { LOGIN_BEGIN } from './authenticate/login.actions';
-import { login } from './authenticate/login.saga';
+import { LOGIN_BEGIN, LOGOUT_REQUEST, LOGIN_CACHE_CHECK, LOGIN_CALLBACK } from './authenticate/loginout.actions';
+import { login, logout, loginCacheCheck, callback } from './authenticate/loginout.saga';
 import { FETCH_DONOR_REQUEST } from './components/app/pages/home/home.actions';
 import { fetchDonor } from './components/app/pages/home/home.saga';
 
 function *watchAll() {
     yield all([
-        takeEvery(FETCH_TOKEN_REQUEST, fetchToken),
+        takeLatest(LOGIN_CACHE_CHECK, loginCacheCheck),
         takeLatest(LOGIN_BEGIN, login),
+        takeLatest(LOGIN_CALLBACK, callback),
+        takeEvery(FETCH_TOKEN_REQUEST, fetchToken),
+        takeEvery(LOGOUT_REQUEST, logout),
+
         takeLatest(FETCH_DONOR_REQUEST, fetchDonor)
+        
     ]);
 }
 

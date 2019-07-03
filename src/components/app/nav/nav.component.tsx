@@ -1,21 +1,42 @@
 import React from 'react'
 
-import { MainNav } from './nav.component.style'
+import { MainNav, NavMenu, NavMenuItem, Logout } from './nav.component.style'
+import { logoutRequest } from '../../../authenticate/loginout.actions';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
-export const MainNavigation: React.FunctionComponent<any> = () => {
-    return (
-        <MainNav>
-            <h3>main </h3>
-            <ul>
-                <li>Home</li>
-                <li>Graphing</li>
-                <li>Reports</li>
-                <li>Register</li>
-                <li>Donors</li>
-                <li>Settings</li>
-            </ul>
+class MainNavigation extends React.Component<IDispatchProps> {
+    logout = () => {
+        this.props.logoutRequest();
+    }
 
-            <h2>Logout</h2>
-        </MainNav>
-    )
+    render() {
+        return (
+            <MainNav>
+                <NavMenu>
+                    <NavLink to={'/home'} exact><NavMenuItem>Home</NavMenuItem></NavLink>
+                    <NavLink to={'/graphing'} exact><NavMenuItem>Graphing</NavMenuItem></NavLink>
+                    <NavLink to={'/reports'} exact><NavMenuItem>Reports</NavMenuItem></NavLink>
+                    <NavLink to={'/register'} exact><NavMenuItem>Register</NavMenuItem></NavLink>
+                    
+                    
+                    
+                    
+                    <NavMenuItem>Donors</NavMenuItem>
+                    <NavMenuItem>Settings</NavMenuItem>
+                </NavMenu>
+
+                <Logout onClick={this.logout}>Logout</Logout>
+            </MainNav>
+        )
+    }
 }
+
+interface IDispatchProps {
+    logoutRequest: Function
+}
+const mapDispatchToProps: IDispatchProps = {
+    logoutRequest
+}
+
+export default connect(null, mapDispatchToProps)(MainNavigation)

@@ -33,7 +33,7 @@ interface IStateProps {
 }
 const mapStateToProps = (state: AppState): IStateProps => {
     return {
-        selectedDonor: state.selectedDonor
+        selectedDonor: state.home.selectedDonor
     }
 }
 

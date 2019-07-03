@@ -1,17 +1,16 @@
 import React from 'react';
 import { Component, ReactNode } from 'react'
 import { connect } from 'react-redux';
-import { AppState } from '../../../models/state';
-import { loginBegin } from '../../../authenticate/login.actions';
+import { AppState, AuthStep } from '../../../models/state';
+import { loginBegin, loginCacheCheck } from '../../../authenticate/loginout.actions';
 import { Redirect } from 'react-router';
-import { Auth } from '../../../authenticate/auth';
 import { LoginWrapper, LoginButton, LoginHeader } from './login.component.style';
 
 class LoginComponent extends Component<IStateProps & IDispatchProps, any> {
     constructor(props: IStateProps & IDispatchProps) {
         super(props)
 
-        Auth.tryCachedKey()
+        this.props.loginCacheCheck()
     }
 
     loginClick = () => {
@@ -19,11 +18,11 @@ class LoginComponent extends Component<IStateProps & IDispatchProps, any> {
     }
 
     render(): ReactNode {
-        if (this.props.authorized) {
+        if (this.props.authStep === AuthStep.LOGGED_IN) {
             return (
                 <Redirect to="/" />
             )
-        } else {
+        } else if (this.props.authStep === AuthStep.SHOW_LOGIN_SCREEN) {
             return(
                 <LoginWrapper>
                     <div>
@@ -32,25 +31,30 @@ class LoginComponent extends Component<IStateProps & IDispatchProps, any> {
                     </div>
                 </LoginWrapper>)
         }
+        else {
+            return(<div></div>)
+        }
         
     }
 }
 
 //TODO: Remove accessKey
 interface IStateProps {
-    authorized: boolean,
+    authStep: AuthStep,
 }
 const mapStateToProps = (state: AppState): IStateProps => {
     return {
-        authorized: state.authorized
+        authStep: state.auth.authStep
     }
 }
 
 interface IDispatchProps {
     loginBegin: Function,
+    loginCacheCheck: Function
 }
 const mapDispatchToProps: IDispatchProps = {
-    loginBegin
+    loginBegin,
+    loginCacheCheck
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent)

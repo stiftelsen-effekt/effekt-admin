@@ -2,10 +2,10 @@ import { DEV_ENVIRONMENT, API_URL, API_AUTH } from "../config/config";
 import queryString from "querystring";
 
 import shortid from 'shortid';
-import { loginSuccess } from "./login.actions";
+import { loginSuccess, loginCacheFailure } from "./loginout.actions";
 import { fetchTokenRequest } from "./token.actions";
 
-import store from './../store'
+import store from './../store';
 
 export interface IAccessKey {
     key: string,
@@ -28,6 +28,8 @@ export class Auth {
         if (storedAccessKey) {
             store.dispatch(loginSuccess(storedAccessKey));
             store.dispatch(fetchTokenRequest());
+        } else {
+            store.dispatch(loginCacheFailure());
         }
     }
 
@@ -48,8 +50,8 @@ export class Auth {
         }
     }
 
-    static logOut() {
-
+    static clear() {
+        AuthUtil.clearAccessKey();
     }
 }
 
@@ -59,7 +61,7 @@ interface ICallbackParameters {
     state: string
 }
 
-class AuthUtil {
+export class AuthUtil {
     static generateLoginUrl(): string {
         return `${API_URL}/auth/login?` +
                 `client_id=${API_AUTH.clientId}&` + 
@@ -80,7 +82,7 @@ class AuthUtil {
     TODO: Might be cleaner to move the fetching of cached keys to redux-saga
     */
 
-    private static readonly AUTH_STATE_KEY: string = "auth_state";
+    static readonly AUTH_STATE_KEY: string = "auth_state";
     /* Returns a randomly generated state variable in local storage, used to compare to validate login callback */
     static get authState(): string | null {
         return localStorage.getItem(this.AUTH_STATE_KEY);
@@ -98,7 +100,7 @@ class AuthUtil {
         localStorage.removeItem(this.AUTH_STATE_KEY);
     }
 
-    private static readonly ACCESS_KEY_KEY: string = "access_key";
+    static readonly ACCESS_KEY_KEY: string = "access_key";
     /* Gets the access key from localstorage, or returns null if no access key exists */
     static getStoredAccessKey(): IAccessKey | null{
         let accessKeyStr: string | null = localStorage.getItem(this.ACCESS_KEY_KEY);

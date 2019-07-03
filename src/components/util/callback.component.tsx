@@ -1,32 +1,40 @@
 import React from 'react'
 
-import { Auth } from './../../authenticate/auth';
 import { Redirect, RouteProps } from 'react-router';
+import { AuthStep } from '../../models/state';
+import { loginCallback } from '../../authenticate/loginout.actions';
+import { connect } from 'react-redux';
 
 interface ICallbackProps extends RouteProps {
-    authorized: boolean
+    authStep: AuthStep
 }
 
-class CallbackComponent extends React.Component<ICallbackProps> {
-    constructor(props: ICallbackProps) {
+class CallbackComponent extends React.Component<ICallbackProps & IDispatchProps> {
+    constructor(props: ICallbackProps & IDispatchProps) {
         super(props)
-        //Perhaps not right place to keep?
-        //Leave component presentational and dumb
-        Auth.handleCallback()
+        
+        this.props.loginCallback()
     }
     
     render() {
-        if (this.props.authorized) {
+        if (this.props.authStep === AuthStep.LOGGED_IN) {
             return (
                 <Redirect to="/" />
             )
         }
         else {
             return (
-                <div><h4>Loading</h4></div>
+                <div></div>
             )
         }
     }
 }
 
-export default CallbackComponent
+interface IDispatchProps {
+    loginCallback: Function
+}
+const mapDispatchToProps: IDispatchProps = {
+    loginCallback
+}
+
+export default connect(null, mapDispatchToProps)(CallbackComponent)
