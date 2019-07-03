@@ -6,7 +6,7 @@ import CallbackComponent from './../util/callback.component';
 import { PrivateRoute } from './private.component';
 import { Router, Route } from 'react-router';
 
-import { AppState } from './../../models/state';
+import { AppState, AuthStep } from './../../models/state';
 import { connect } from 'react-redux';
 
 import { createBrowserHistory } from 'history';
@@ -20,21 +20,21 @@ class MainRouter extends React.Component<IStateProps> {
         <Router history={history}>
             <Switch>
                 {/* Login handling */}
-                <Route exact path="/callback" render={(routeProps) => <CallbackComponent {...routeProps} authorized={this.props.authorized}/>}/>
+                <Route exact path="/callback" render={(routeProps) => <CallbackComponent {...routeProps} authStep={this.props.authStep}/>}/>
                 <Route exact path="/login" component={LoginComponent}></Route>
 
-                <PrivateRoute path="/" component={AdminPanel} authorized={this.props.authorized}/>
+                <PrivateRoute path="/" component={AdminPanel} authStep={this.props.authStep}/>
             </Switch>
         </Router>)
     }
 }
 
 interface IStateProps {
-    authorized: boolean
+    authStep: AuthStep
 }
 const mapStateToProps = (state: AppState): IStateProps => {
     return {
-        authorized: state.authorized
+        authStep: state.auth.authStep
     }
 }
 

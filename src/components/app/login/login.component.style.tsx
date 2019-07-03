@@ -27,10 +27,18 @@ export const LoginButton = styled.button`
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
+    margin-top: 20px;
 ` 
 
 export const LoginHeader = styled.h1`
     color: white;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
     text-shadow: 0 1px black;
+`
+
+export const LoginError = styled.div`
+    background: rgba(180,0,0,1);
+    color: white;
+    padding: 10px 20px;
+    border: 1px solid white;
 `
