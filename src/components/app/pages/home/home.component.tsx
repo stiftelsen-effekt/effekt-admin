@@ -4,7 +4,6 @@ import { fetchDonorRequest } from './home.actions'
 import { connect } from 'react-redux';
 import { Page } from '../../style/elements/page.style';
 import { MainHeader } from '../../style/elements/headers.style';
-import { Breadcrumb } from 'react-breadcrumbs';
 
 class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
     fetchDonor = () => {
@@ -14,7 +13,6 @@ class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
     render() {
         return (
             <Page>
-                <Breadcrumb data={{title: 'Home', pathname: '/home'}}></Breadcrumb>
                 <MainHeader>Home</MainHeader>
                 <button onClick={this.fetchDonor}>Fetch donor</button>
 
