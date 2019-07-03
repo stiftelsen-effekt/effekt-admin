@@ -77,9 +77,9 @@ export class AuthUtil {
 
     static getCallbackUrl(): string {
         if (DEV_ENVIRONMENT)
-            return `http://localhost:3000/callback`
+            return `http://localhost:3000/#/callback`
         else
-            return `https://storage.googleapis.com/static.gieffektivt.no/index.html#/callback`
+            return `https://storage.googleapis.com/static.gieffektivt.no/index.html/#/callback`
     }
 
     /*
@@ -130,6 +130,7 @@ export class AuthUtil {
     /* Parses the querystring of the callback from the API authentification
        route, returns a clean object to work with */
     static parseCallback(): ICallbackParameters {
+        console.log(this.getCurrentUrlParameters)
         let params = queryString.parse(this.getCurrentUrlParameters);
         return {
             key: params.key as string,
@@ -140,6 +141,6 @@ export class AuthUtil {
 
     //Helper
     static get getCurrentUrlParameters(): string {
-        return window.location.search.slice(1);
+        return window.location.hash.split('?')[1];
     }
 }
