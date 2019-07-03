@@ -22,6 +22,11 @@ class CallbackComponent extends React.Component<ICallbackProps & IDispatchProps>
                 <Redirect to="/" />
             )
         }
+        else if (this.props.authStep === AuthStep.SHOW_LOGIN_SCREEN) {
+            return (
+                <Redirect to="/login" ></Redirect>
+            )
+        }
         else {
             return (
                 <div></div>

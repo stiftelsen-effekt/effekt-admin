@@ -2,7 +2,8 @@ import {  Auth, IAccessKey } from './auth'
 import { call, select, put } from 'redux-saga/effects'
 import * as API from '../util/api'
 import { AppState } from '../models/state';
-import { logoutSuccess, logoutFailure } from './loginout.actions';
+import { logoutSuccess, logoutFailure, fetchAccessKeySuccess } from './loginout.actions';
+import { fetchTokenRequest } from './token.actions';
 
 export const getApiKey = (state: AppState) => state.auth.accessKey
 
@@ -29,10 +30,15 @@ export function* logout() {
     }
 }
 
+export function* loginSuccess(action: any) {
+    yield put(fetchAccessKeySuccess(action.payload))
+    yield put(fetchTokenRequest())
+}
+
 export function* callback() {
-    yield call(Auth.handleCallback);
+    yield Auth.handleCallback();
 }
 
 export function* loginCacheCheck() {
-    yield call(Auth.tryCachedKey);
+    yield Auth.tryCachedKey();
 }

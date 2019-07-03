@@ -2,7 +2,10 @@ import { IAccessKey } from "./auth";
 
 export const LOGIN_BEGIN = "LOGIN_BEGIN";
 export const LOGIN_CALLBACK = "LOGIN_CALLBACK";
+export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+
+export const FETCH_ACCESS_KEY_SUCCESS = "FETCH_ACCESS_KEY_SUCCESS";
 
 export const LOGIN_CACHE_CHECK = "LOGIN_CACHE_CHECK";
 export const LOGIN_CACHE_FAILURE = "LOGIN_CACHE_FAILURE";
@@ -23,9 +26,23 @@ export const loginCallback = () => {
     }
 }
 
+export const loginFailure = (error: String) => {
+    return {
+        type: LOGIN_FAILURE,
+        payload: error
+    }
+}
+
 export const loginSuccess = (accessKey: IAccessKey) => {
     return {
         type: LOGIN_SUCCESS,
+        payload: accessKey
+    }
+}
+
+export const fetchAccessKeySuccess = (accessKey: IAccessKey) => {
+    return {
+        type: FETCH_ACCESS_KEY_SUCCESS,
         payload: accessKey
     }
 }

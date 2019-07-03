@@ -8,10 +8,12 @@ export interface AppState {
 export interface AuthState {
     currentToken?: IAccessToken,
     accessKey?: IAccessKey,
-    authStep: AuthStep
+    authStep: AuthStep,
+    loginError?: string
 }
 export enum AuthStep {
     INITIAL,
+    SHOW_CONNECTION_FAILED,
     SHOW_LOGIN_SCREEN,
     LOGGED_IN
 }

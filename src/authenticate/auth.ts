@@ -2,10 +2,10 @@ import { DEV_ENVIRONMENT, API_URL, API_AUTH } from "../config/config";
 import queryString from "querystring";
 
 import shortid from 'shortid';
-import { loginSuccess, loginCacheFailure } from "./loginout.actions";
-import { fetchTokenRequest } from "./token.actions";
+import { loginSuccess, loginCacheFailure, loginFailure } from "./loginout.actions";
 
 import store from './../store';
+import { Action } from "redux";
 
 export interface IAccessKey {
     key: string,
@@ -17,24 +17,27 @@ export interface IAccessToken {
     expires: Date
 }
 
+/* 
+store.dispatch(fetchTokenRequest()) !!!!
+*/
+
 export class Auth {
     static login(): any {
         AuthUtil.setAuthState();
         return window.location.assign(AuthUtil.generateLoginUrl());
     }
 
-    static tryCachedKey() {
+    static tryCachedKey(): Action {
         let storedAccessKey = AuthUtil.getStoredAccessKey()
         if (storedAccessKey) {
-            store.dispatch(loginSuccess(storedAccessKey));
-            store.dispatch(fetchTokenRequest());
+            return store.dispatch(loginSuccess(storedAccessKey));
         } else {
-            store.dispatch(loginCacheFailure());
+            return store.dispatch(loginCacheFailure());
         }
     }
 
     /* Handles the callback route, tries to parse the URL parameters and stores the accessKey */
-    static handleCallback() {
+    static handleCallback(): Action {
         let callbackVariables: ICallbackParameters = AuthUtil.parseCallback();
         if (callbackVariables.state === AuthUtil.authState) {
             let key: IAccessKey = {
@@ -42,11 +45,12 @@ export class Auth {
                 expires: callbackVariables.expires
             };
             AuthUtil.storeAccessKey(key);
-            store.dispatch(loginSuccess(key));
-            store.dispatch(fetchTokenRequest());
+            return store.dispatch(loginSuccess(key));
         }
         else {
-            throw new Error(`Authentication mismatch, expected ${AuthUtil.authState} got ${callbackVariables.state}`)
+            return store.dispatch(loginFailure(
+                `State mismatch, expected ${AuthUtil.authState} got ${callbackVariables.state}`
+            ))
         }
     }
 
@@ -126,11 +130,16 @@ export class AuthUtil {
     /* Parses the querystring of the callback from the API authentification
        route, returns a clean object to work with */
     static parseCallback(): ICallbackParameters {
-        let params = queryString.parse(window.location.search.slice(1));
+        let params = queryString.parse(this.getCurrentUrlParameters);
         return {
             key: params.key as string,
             expires: new Date(params.expires as string),
             state: params.state as string
         };
+    }
+
+    //Helper
+    static get getCurrentUrlParameters(): string {
+        return window.location.search.slice(1);
     }
 }
