@@ -2,10 +2,10 @@ import { DEV_ENVIRONMENT, API_URL, API_AUTH } from "../config/config";
 import queryString from "querystring";
 
 import shortid from 'shortid';
-import { loginSuccess } from "./login.actions";
-import { fetchTokenRequest } from "./token.actions";
+import { loginSuccess, loginCacheFailure, loginFailure } from "./loginout.actions";
 
-import store from './../store'
+import store from './../store';
+import { Action } from "redux";
 
 export interface IAccessKey {
     key: string,
@@ -17,22 +17,27 @@ export interface IAccessToken {
     expires: Date
 }
 
+/* 
+store.dispatch(fetchTokenRequest()) !!!!
+*/
+
 export class Auth {
-    static login() {
+    static login(): any {
         AuthUtil.setAuthState();
-        window.location.href = AuthUtil.generateLoginUrl();
+        return window.location.assign(AuthUtil.generateLoginUrl());
     }
 
-    static tryCachedKey() {
+    static tryCachedKey(): Action {
         let storedAccessKey = AuthUtil.getStoredAccessKey()
         if (storedAccessKey) {
-            store.dispatch(loginSuccess(storedAccessKey));
-            store.dispatch(fetchTokenRequest());
+            return store.dispatch(loginSuccess(storedAccessKey));
+        } else {
+            return store.dispatch(loginCacheFailure());
         }
     }
 
     /* Handles the callback route, tries to parse the URL parameters and stores the accessKey */
-    static handleCallback() {
+    static handleCallback(): Action {
         let callbackVariables: ICallbackParameters = AuthUtil.parseCallback();
         if (callbackVariables.state === AuthUtil.authState) {
             let key: IAccessKey = {
@@ -40,16 +45,17 @@ export class Auth {
                 expires: callbackVariables.expires
             };
             AuthUtil.storeAccessKey(key);
-            store.dispatch(loginSuccess(key));
-            store.dispatch(fetchTokenRequest());
+            return store.dispatch(loginSuccess(key));
         }
         else {
-            throw new Error(`Authentication mismatch, expected ${AuthUtil.authState} got ${callbackVariables.state}`)
+            return store.dispatch(loginFailure(
+                `State mismatch, expected ${AuthUtil.authState} got ${callbackVariables.state}`
+            ))
         }
     }
 
-    static logOut() {
-
+    static clear() {
+        AuthUtil.clearAccessKey();
     }
 }
 
@@ -59,7 +65,7 @@ interface ICallbackParameters {
     state: string
 }
 
-class AuthUtil {
+export class AuthUtil {
     static generateLoginUrl(): string {
         return `${API_URL}/auth/login?` +
                 `client_id=${API_AUTH.clientId}&` + 
@@ -80,7 +86,7 @@ class AuthUtil {
     TODO: Might be cleaner to move the fetching of cached keys to redux-saga
     */
 
-    private static readonly AUTH_STATE_KEY: string = "auth_state";
+    static readonly AUTH_STATE_KEY: string = "auth_state";
     /* Returns a randomly generated state variable in local storage, used to compare to validate login callback */
     static get authState(): string | null {
         return localStorage.getItem(this.AUTH_STATE_KEY);
@@ -98,7 +104,7 @@ class AuthUtil {
         localStorage.removeItem(this.AUTH_STATE_KEY);
     }
 
-    private static readonly ACCESS_KEY_KEY: string = "access_key";
+    static readonly ACCESS_KEY_KEY: string = "access_key";
     /* Gets the access key from localstorage, or returns null if no access key exists */
     static getStoredAccessKey(): IAccessKey | null{
         let accessKeyStr: string | null = localStorage.getItem(this.ACCESS_KEY_KEY);
@@ -124,11 +130,16 @@ class AuthUtil {
     /* Parses the querystring of the callback from the API authentification
        route, returns a clean object to work with */
     static parseCallback(): ICallbackParameters {
-        let params = queryString.parse(window.location.search.slice(1));
+        let params = queryString.parse(this.getCurrentUrlParameters);
         return {
             key: params.key as string,
             expires: new Date(params.expires as string),
             state: params.state as string
         };
+    }
+
+    //Helper
+    static get getCurrentUrlParameters(): string {
+        return window.location.search.slice(1);
     }
 }

@@ -15,24 +15,43 @@ export interface IAPIParameters {
     data: any
 }
 
-export const call = (params: IAPIParameters): Promise<Response> => {
-    if (params.method === Method.GET) {
-        let query = "";
-        if (params.data !== null) query = "?" + queryString.stringify(params.data);
-        const url = `${API_URL}${params.endpoint}${query}`;
+interface IFetchOptions {
+    method?: string,
+    headers?: any,
+    body?: any
+}
 
-        let options = {}
-        if (params.token != null) {
-            options = { 
-                ...options, 
-                headers: { 'authorization': 'Bearer ' + params.token } 
-            }
+export const call = (params: IAPIParameters): Promise<Response> => {
+    let url = `${API_URL}${params.endpoint}`
+
+    let options: IFetchOptions = {
+        headers: {}
+    }
+    if (params.token != null) {
+        options = { 
+            ...options, 
+            headers: { 'authorization': 'Bearer ' + params.token } 
         }
-        
-        return fetch(url, options).then(response => response.json())
-    } 
-    else {
-        //TODO: Handle in a much better way
-        return new Promise<Response>((success) => { success(); });
+    }
+
+    switch(params.method) {
+        case Method.GET:
+            if (params.data !== null) url += `?${queryString.stringify(params.data)}`;
+
+            return fetch(url, options).then(response => response.json())
+        case Method.POST:
+            options = {
+                ...options,
+                method: Method.POST,
+                headers: {
+                    ...options.headers,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(params.data)
+            }
+            return fetch(url, options).then(response => response.json());
+        default:
+            return new Promise<Response>((success) => { success(); });
     }
 }

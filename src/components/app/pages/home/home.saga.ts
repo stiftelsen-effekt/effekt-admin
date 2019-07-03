@@ -1,11 +1,11 @@
 import { call, put, select } from 'redux-saga/effects'
-import * as API from '../../../util/api'
-import { AppState } from '../../../models/state';
-import { IAccessToken } from '../../../authenticate/auth';
-import { IAPIParameters } from '../../../util/api';
+import * as API from '../../../../util/api'
+import { AppState } from '../../../../models/state';
+import { IAccessToken } from '../../../../authenticate/auth';
+import { IAPIParameters } from '../../../../util/api';
 import { fetchDonorSuccess } from './home.actions';
 
-export const getApiToken = (state: AppState) => state.currentToken
+export const getApiToken = (state: AppState) => state.auth.currentToken
 
 export function* fetchDonor() {
     const accessToken: IAccessToken = yield select(getApiToken);
