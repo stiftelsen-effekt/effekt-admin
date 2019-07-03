@@ -17,3 +17,4 @@ deploy:
   local-dir: build
   on:
     repo: stiftelsen-effekt/effekt-admin
+  cache_control: 'no-cache'
