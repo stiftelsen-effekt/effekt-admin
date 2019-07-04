@@ -5,6 +5,7 @@ export const orange05 = "#FFEED4"
 
 export const brown50 = "#5D3800"
 export const brown30 = "#8D5400"
+export const brown05 = "#90836F";
 
 export const grey30 = "#8A8A8A"
 export const grey15 = "#B7B7B7"
