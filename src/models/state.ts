@@ -1,8 +1,11 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
+import { IDonor } from "./dbtypes";
 
 export interface AppState {
     auth: AuthState,
-    home: HomeState
+    home: HomeState,
+
+    donorSelector: DonorSelectorState
 }
 
 export interface AuthState {
@@ -20,4 +23,10 @@ export enum AuthStep {
 
 export interface HomeState {
     selectedDonor?: any
+}
+
+export interface DonorSelectorState {
+    selectedDonor?: IDonor,
+    searchResult: Array<IDonor>,
+    visible: boolean
 }
