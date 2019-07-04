@@ -12,8 +12,9 @@ import { connect } from 'react-redux';
 import { AdminPanel } from '../app/admin.component';
 import { Switch } from 'react-router';
 import { HashRouter } from 'react-router-dom';
+import { loginCacheCheck } from '../../authenticate/loginout.actions'
 
-class MainRouter extends React.Component<IStateProps> {
+class MainRouter extends React.Component<IStateProps & IDispatchProps> {
     render() {
         return (
         <HashRouter>
@@ -22,10 +23,17 @@ class MainRouter extends React.Component<IStateProps> {
                 <Route exact path="/callback" render={(routeProps) => <CallbackComponent {...routeProps} authStep={this.props.authStep}/>}/>
                 <Route exact path="/login" component={LoginComponent}></Route>
 
-                <PrivateRoute path="/" component={AdminPanel} authStep={this.props.authStep}/>
+                <PrivateRoute path="/" component={AdminPanel} authStep={this.props.authStep} loginCacheCheck={this.props.loginCacheCheck}/>
             </Switch>
         </HashRouter>)
     }
+}
+
+interface IDispatchProps {
+    loginCacheCheck: Function
+}
+const mapDispatchToProps: IDispatchProps = {
+    loginCacheCheck
 }
 
 interface IStateProps {
@@ -37,4 +45,4 @@ const mapStateToProps = (state: AppState): IStateProps => {
     }
 }
 
-export default connect(mapStateToProps)(MainRouter)
+export default connect(mapStateToProps, mapDispatchToProps)(MainRouter)
