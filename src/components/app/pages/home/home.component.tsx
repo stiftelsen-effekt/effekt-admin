@@ -4,6 +4,7 @@ import { fetchDonorRequest } from './home.actions'
 import { connect } from 'react-redux';
 import { Page } from '../../style/elements/page.style';
 import { MainHeader } from '../../style/elements/headers.style';
+import { EffektButton } from '../../style/elements/button.style';
 
 class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
     fetchDonor = () => {
@@ -14,7 +15,7 @@ class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
         return (
             <Page>
                 <MainHeader>Home</MainHeader>
-                <button onClick={this.fetchDonor}>Fetch donor</button>
+                <EffektButton onClick={this.fetchDonor}>Fetch donor</EffektButton>
 
                 <div style={{
                     borderRadius: 10,
