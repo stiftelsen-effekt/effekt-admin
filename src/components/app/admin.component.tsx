@@ -14,7 +14,11 @@ export const AdminPanel: React.FunctionComponent = () => {
                 <Switch>
                     <Route exact path="/home" component={HomeComponent}></Route>
                     <Route exact path="/register" component={RegisterComponent}></Route>
+                    <Route exact path="/graphing" render={() => <div>Graphing</div>}></Route>
+                    <Route exact path="/reports" render={() => <div>Reports</div>}></Route>
                     <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
+                    <Route exact path="/donors" render={() => <div>Donors</div>}></Route>
+                    <Route exact path="/settings" render={() => <div>Settings</div>}></Route>
                 </Switch>
             </AdminPanelWrapper>
             {/* General overlay elements */}

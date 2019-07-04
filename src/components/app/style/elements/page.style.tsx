@@ -8,4 +8,5 @@ export const Page = styled.section`
     box-sizing: border-box;
     overflow: hidden;
     flex-shrink: 1;
+    width: 100%;
 `
