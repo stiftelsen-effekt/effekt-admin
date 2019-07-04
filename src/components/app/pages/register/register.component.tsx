@@ -3,7 +3,7 @@ import { AppState } from "../../../../models/state";
 import React from "react";
 import { connect } from "react-redux";
 import { Page } from "../../style/elements/page.style";
-import { showDonorSelectionComponent } from "../../modules/donorselector.actions";
+import { showDonorSelectionComponent } from "../../modules/donors/donor-selection.actions";
 import { EffektButton } from "../../style/elements/button.style";
 
 class RegisterComponent extends React.Component<IStateProps & IDispatchProps> {

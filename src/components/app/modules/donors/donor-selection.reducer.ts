@@ -1,6 +1,6 @@
-import { DonorSelectorState } from "../../../models/state";
+import { DonorSelectorState } from "../../../../models/state";
 import { AnyAction } from "redux";
-import { SHOW_DONOR_SELECTION_COMPONENT, HIDE_DONOR_SELECTION_COMPONENT } from "./donorselector.actions";
+import { SHOW_DONOR_SELECTION_COMPONENT, HIDE_DONOR_SELECTION_COMPONENT } from "./donor-selection.actions";
 
 const initialState: DonorSelectorState = {
     visible: false,

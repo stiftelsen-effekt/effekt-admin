@@ -4,7 +4,7 @@ import HomeComponent from "./pages/home/home.component";
 import MainNavigation from "./nav/nav.component";
 import { AdminPanelWrapper } from './admin.component.style';
 import RegisterComponent from './pages/register/register.component'
-import DonorSelectorComponent from './modules/donorselector.component';
+import DonorSelectionDialog from './modules/donors/donor-selection-dialog.component';
 
 export const AdminPanel: React.FunctionComponent = () => {
     return (
@@ -22,7 +22,7 @@ export const AdminPanel: React.FunctionComponent = () => {
                 </Switch>
             </AdminPanelWrapper>
             {/* General overlay elements */}
-            <DonorSelectorComponent></DonorSelectorComponent>
+            <DonorSelectionDialog></DonorSelectionDialog>
         </div>
     )
 }
