@@ -4,6 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Page } from "../../style/elements/page.style";
 import { showDonorSelectionComponent } from "../../modules/donorselector.actions";
+import { EffektButton } from "../../style/elements/button.style";
 
 class RegisterComponent extends React.Component<IStateProps & IDispatchProps> {
     searchForDonor = () => { this.props.showDonorSelectionComponent() }
@@ -12,7 +13,7 @@ class RegisterComponent extends React.Component<IStateProps & IDispatchProps> {
         return (
             <Page>
                 <MainHeader>Register</MainHeader>
-                <button onClick={this.searchForDonor}>Finn donor</button>
+                <EffektButton onClick={this.searchForDonor}>Finn donor</EffektButton>
             </Page>
         )
     }
