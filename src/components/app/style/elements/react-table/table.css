@@ -2,7 +2,6 @@
     font-family: 'Roboto';
 }
 
-
 .ReactTable .rt-table {
     display: table;
     width: 100%;
@@ -12,6 +11,11 @@
 
 .ReactTable .rt-tr {
     display: flex;
+    cursor: pointer;
+}
+
+.ReactTable .rt-tbody .rt-tr:hover {
+    background: #FFEED4;
 }
 
 .ReactTable .rt-th {
@@ -20,9 +24,14 @@
     cursor: pointer;
 }
 
+.ReactTable .rt-thead {
+    border-bottom: 1px solid #8A8A8A;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+}
+
 .ReactTable .rt-th, .ReactTable .rt-td {
     padding: 6px 8px;
-
     font-size: 14px;
 }
 

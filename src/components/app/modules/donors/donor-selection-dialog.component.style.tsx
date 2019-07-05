@@ -26,9 +26,9 @@ export const SelectorWrapper = styled.div`
 export const DonorDialog = styled.div`
     background: white;
     box-shadow: 0px 0px 3px 0px rgba(0,0,0,.3);
-    min-width: 640px;
+    min-width: 880px;
     max-height: 100vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 20px;
     box-sizing: border-box;
 `

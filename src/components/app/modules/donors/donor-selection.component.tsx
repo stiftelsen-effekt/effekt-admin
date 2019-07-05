@@ -1,10 +1,13 @@
 import { AppState } from "../../../../models/state";
-import React from "react";
+import React, { ChangeEvent } from "react";
 
 import { connect } from "react-redux";
 
 import '../../style/elements/react-table/table.css'
 import ReactTable from "react-table";
+import { searchDonorsRequest } from "./donor-selection.actions";
+import { IDonor } from "../../../../models/dbtypes";
+import { EffektText } from "../../style/elements/text.style";
 
 const makeDefaultState = () => ({
     sorted: [],
@@ -22,46 +25,45 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
         this.resetState = this.resetState.bind(this);
     }
 
+    search = (event: ChangeEvent<HTMLInputElement>) => {
+        this.props.searchDonorsRequest(event.target.value);
+    }
+
     resetState() {
         this.setState(makeDefaultState());
+    }
+
+    componentDidMount() {
+        //Gets first 100 results
+        this.props.searchDonorsRequest("");
     }
 
     render() {
         return (
             <div>
-                <span>Searchbox</span>
+                <EffektText type="text" onChange={this.search} placeholder="søk" style={{ width: '100%', marginBottom: '20px' }}></EffektText>
                 <ReactTable
-                    data={mockData}
+                    data={this.props.data}
                     columns={[
                         {
                             Header: "ID",
-                            accessor: "ID"
+                            accessor: "id"
                         },
                         {
-                            Header: "First Name",
+                            Header: "name",
                             accessor: "name"
                         },
                         {
-                            Header: "Email",
+                            Header: "email",
                             accessor: "email"
                         },
                         {
-                            Header: "Donations",
-                            accessor: "donations"
+                            Header: "registered",
+                            accessor: "registered"
                         }
                       ]}
-                      //pivotBy={["lastName"]}
-                      //filterable
                       defaultPageSize={10}
                       className="-striped -highlight"
-                      // Controlled props
-                      //sorted={this.state.sorted}
-                      //page={this.state.page}
-                      //pageSize={this.state.pageSize}
-                      //expanded={this.state.expanded}
-                      //resized={this.state.resized}
-                      //filtered={this.state.filtered}
-                      // Callbacks
                       onSortedChange={sorted => this.setState({ sorted })}
                       onPageChange={page => this.setState({ page })}
                       onPageSizeChange={(pageSize, page) =>
@@ -76,278 +78,19 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
 }
 
 interface IStateProps {
+    data: Array<IDonor>
 }
 const mapStateToProps = (state: AppState): IStateProps => {
     return {
+        data: state.donorSelector.searchResult
     }
 }
 
 interface IDispatchProps {
+    searchDonorsRequest: Function
 }
 const mapDispatchToProps: IDispatchProps = {
-    
+    searchDonorsRequest
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DonorSelectorComponent);
-
-const mockData = [
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-    {
-        ID: Math.round(Math.random()*40),
-        name: 'SomeName',
-        email: 'kkk@kkk.no',
-        donations: Math.round(Math.random()*500),
-        donatoinSum:  Math.round(Math.random()*40000)
-    },
-]

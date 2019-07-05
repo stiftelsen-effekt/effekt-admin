@@ -5,6 +5,8 @@ import { LOGIN_BEGIN, LOGOUT_REQUEST, LOGIN_CACHE_CHECK, LOGIN_CALLBACK, LOGIN_S
 import { login, logout, loginCacheCheck, callback, loginSuccess } from './authenticate/loginout.saga';
 import { FETCH_DONOR_REQUEST } from './components/app/pages/home/home.actions';
 import { fetchDonor } from './components/app/pages/home/home.saga';
+import { SEARCH_DONORS_REQUEST } from './components/app/modules/donors/donor-selection.actions';
+import { searchDonors } from './components/app/modules/donors/donor-selection.saga';
 
 function *watchAll() {
     yield all([
@@ -17,7 +19,9 @@ function *watchAll() {
         takeEvery(FETCH_TOKEN_REQUEST, fetchToken),
         takeEvery(LOGOUT_REQUEST, logout),
 
-        takeLatest(FETCH_DONOR_REQUEST, fetchDonor)
+        takeLatest(FETCH_DONOR_REQUEST, fetchDonor),
+
+        takeLatest(SEARCH_DONORS_REQUEST, searchDonors)
     ]);
 }
 
