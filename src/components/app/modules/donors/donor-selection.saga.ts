@@ -18,7 +18,7 @@ export function* searchDonors(action: any) {
             }
         })
         if (data.status !== 200) 
-            throw "Request error"
+            throw new Error("Request error")
         yield put(searchDonorsSuccess(data.content))
     }
     catch(ex) {
