@@ -1,6 +1,5 @@
 export interface IDonor {
-    ID: number,
+    id: number,
     name: string,
-    email: string,
-    registered: Date
+    email: string
 }

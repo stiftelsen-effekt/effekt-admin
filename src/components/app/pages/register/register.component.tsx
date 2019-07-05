@@ -3,7 +3,7 @@ import { AppState } from "../../../../models/state";
 import React from "react";
 import { connect } from "react-redux";
 import { Page } from "../../style/elements/page.style";
-import { showDonorSelectionComponent } from "../../modules/donorselector.actions";
+import { showDonorSelectionComponent } from "../../modules/donors/donor-selection.actions";
 import { EffektButton } from "../../style/elements/button.style";
 
 class RegisterComponent extends React.Component<IStateProps & IDispatchProps> {
@@ -12,7 +12,11 @@ class RegisterComponent extends React.Component<IStateProps & IDispatchProps> {
     render() {
         return (
             <Page>
-                <MainHeader>Register</MainHeader>
+                <MainHeader>Register donations</MainHeader>
+                {/* 
+                <SubHeader>Upload report</SubHeader>
+                <SubHeader>Process single donation</SubHeader>
+                */}
                 <EffektButton onClick={this.searchForDonor}>Finn donor</EffektButton>
             </Page>
         )

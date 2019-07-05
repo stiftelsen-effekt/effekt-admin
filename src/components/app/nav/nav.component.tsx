@@ -19,7 +19,7 @@ class MainNavigation extends React.Component<IDispatchProps> {
                     <NavLink to={'/reports'} exact><NavMenuItem>Reports</NavMenuItem></NavLink>
                     <NavLink to={'/register'} exact><NavMenuItem>Register</NavMenuItem></NavLink>
                     
-                    <NavMenuItem>Donors</NavMenuItem>
+                    <NavLink to={'/donors'} exact><NavMenuItem>Donors</NavMenuItem></NavLink>
                     <NavMenuItem>Settings</NavMenuItem>
                 </NavMenu>
 

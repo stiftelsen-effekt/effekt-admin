@@ -1,0 +1,100 @@
+.ReactTable {
+    font-family: 'Roboto';
+}
+
+.ReactTable .rt-table {
+    display: table;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ReactTable .rt-tr {
+    display: flex;
+    cursor: pointer;
+}
+
+.ReactTable .rt-tbody .rt-tr:hover {
+    background: #FFEED4;
+}
+
+.ReactTable .rt-th {
+    font-weight: 500;
+    color: #5D3800;
+    cursor: pointer;
+}
+
+.ReactTable .rt-thead {
+    border-bottom: 1px solid #8A8A8A;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+}
+
+.ReactTable .rt-th, .ReactTable .rt-td {
+    padding: 6px 8px;
+    font-size: 14px;
+}
+
+
+.ReactTable .pagination-bottom {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.ReactTable .pagination-bottom .-previous, .ReactTable .pagination-bottom .-center, .ReactTable .pagination-bottom .-next {
+    display: inline-block;
+}
+
+.ReactTable .pagination-bottom .-previous button, .ReactTable .pagination-bottom .-next button {
+    background: none;
+    width: 80px;
+    padding: 5px;
+    border: none;
+    font-weight: 500;
+    color: #5D3800;
+    font-family: 'Roboto';
+    cursor: pointer;
+}
+
+.ReactTable .pagination-bottom .-center {
+    padding-left: 15px;
+    padding-right: 15px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.ReactTable .pagination-bottom .-center .-pageJump {
+    display: inline-block;
+    font-family: 'Roboto';
+    margin: 0 5px;
+}
+
+.ReactTable .pagination-bottom .-center .-pageJump input {
+    border: none;
+    background: #EEE;
+    padding: 8px;
+    width: auto;
+    min-width: auto;
+    width: 26px;
+    font-family: 'Roboto';
+    font-weight: 500;
+}
+
+.ReactTable .pagination-bottom .-center .-totalPages {
+    font-weight: 500;
+}
+
+.ReactTable .pagination-bottom .-center .select-wrap select {
+    border: none;
+    background: #EEE;
+    padding: 8px;
+    margin-left: 16px;
+    font-family: 'Roboto';
+}
+
+/* TODO: Clear */
+.ReactTable .-loading {
+    display: none;
+}
