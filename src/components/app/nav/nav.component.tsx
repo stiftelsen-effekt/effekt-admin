@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { MainNav, NavMenu, NavMenuItem, Logout } from './nav.component.style'
+import { MainNav, NavMenu, NavMenuItem, Logout, Flare } from './nav.component.style'
 import { logoutRequest } from '../../../authenticate/loginout.actions';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -24,6 +24,8 @@ class MainNavigation extends React.Component<IDispatchProps> {
                 </NavMenu>
 
                 <Logout onClick={this.logout}>Logout</Logout>
+
+                <Flare></Flare>
             </MainNav>
         )
     }
