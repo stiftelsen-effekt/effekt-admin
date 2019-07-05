@@ -17,13 +17,13 @@ class MainNavigation extends React.Component<IDispatchProps> {
                 <LogoHolder src={Logo}></LogoHolder>
 
                 <NavMenu>
-                    <NavLink to={'/'} exact><NavMenuItem>Home</NavMenuItem></NavLink>
-                    <NavLink to={'/graphing'} exact><NavMenuItem>Graphing</NavMenuItem></NavLink>
-                    <NavLink to={'/reports'} exact><NavMenuItem>Reports</NavMenuItem></NavLink>
-                    <NavLink to={'/register'} exact><NavMenuItem>Register</NavMenuItem></NavLink>
+                    <NavMenuItem to={'/home'} exact >Home</NavMenuItem>
+                    <NavMenuItem to={'/graphing'} exact>Graphing</NavMenuItem>
+                    <NavMenuItem to={'/reports'} exact>Reports</NavMenuItem>
+                    <NavMenuItem to={'/register'} exact>Register</NavMenuItem>
                     
-                    <NavLink to={'/donors'} exact><NavMenuItem>Donors</NavMenuItem></NavLink>
-                    <NavMenuItem>Settings</NavMenuItem>
+                    <NavMenuItem to={'/donors'} exact>Donors</NavMenuItem>
+                    <NavMenuItem to={'/settings'} exact>Settings</NavMenuItem>
                 </NavMenu>
 
                 <Logout onClick={this.logout}>Logout</Logout>

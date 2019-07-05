@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { orange50, orange20, orange10 } from '../style/colors';
+import { NavLink } from 'react-router-dom';
 
 export const MainNav = styled.nav`
     width: 300px;
@@ -25,13 +26,29 @@ export const NavMenu = styled.ul`
     padding-right: 36px;
 `
 
-export const NavMenuItem = styled.li`
+export const NavMenuItem = styled(NavLink)`
     font-size: 24px;
     font-weight: 300;
     color: white;
     padding-top: 12px;
     padding-bottom: 12px;
     text-decoration: none;
+    display: list-item;
+    position: relative;
+
+    &.active:after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: -36px;
+        top: 15px;
+        
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 11px 11px 11px 0;
+        border-color: transparent #fff transparent transparent;
+    }
 `
 
 export const Logout = styled.span`
