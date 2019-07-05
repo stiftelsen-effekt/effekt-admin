@@ -12,7 +12,7 @@ class RegisterComponent extends React.Component<IStateProps & IDispatchProps> {
     render() {
         return (
             <Page>
-                <MainHeader>Register donatoins</MainHeader>
+                <MainHeader>Register donations</MainHeader>
                 {/* 
                 <SubHeader>Upload report</SubHeader>
                 <SubHeader>Process single donation</SubHeader>
