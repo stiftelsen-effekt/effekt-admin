@@ -1,4 +1,4 @@
-import { MainHeader } from "../../style/elements/headers.style";
+import { MainHeader, SubHeader } from "../../style/elements/headers.style";
 import { AppState } from "../../../../models/state";
 import React from "react";
 import { connect } from "react-redux";
@@ -13,10 +13,8 @@ class RegisterComponent extends React.Component<IStateProps & IDispatchProps> {
         return (
             <Page>
                 <MainHeader>Register donations</MainHeader>
-                {/* 
                 <SubHeader>Upload report</SubHeader>
                 <SubHeader>Process single donation</SubHeader>
-                */}
                 <EffektButton onClick={this.searchForDonor}>Finn donor</EffektButton>
             </Page>
         )
