@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import watchAll from './root.saga';
 import { authReducer } from './authenticate/auth.reducer';
 import { homeReducer } from './components/app/pages/home/home.reducer';
-import { donorSelectorReducer } from './components/app/modules/donorselector.reducer';
+import { donorSelectorReducer } from './components/app/modules/donors/donor-selection.reducer';
 
 const rootReducer = combineReducers<AppState>({
     auth: authReducer,

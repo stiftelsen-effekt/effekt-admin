@@ -9,4 +9,6 @@ export const Page = styled.section`
     overflow: hidden;
     flex-shrink: 1;
     width: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
 `
