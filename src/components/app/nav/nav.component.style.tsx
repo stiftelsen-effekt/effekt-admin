@@ -77,3 +77,11 @@ export const Flare = styled.div`
         opacity: .3;
     }
 `
+
+export const LogoHolder = styled.img`
+    display: block;
+    margin: 0 auto;
+    width: 220px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+`

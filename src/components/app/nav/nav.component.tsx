@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { MainNav, NavMenu, NavMenuItem, Logout, Flare } from './nav.component.style'
+import { MainNav, NavMenu, NavMenuItem, Logout, Flare, LogoHolder } from './nav.component.style'
 import { logoutRequest } from '../../../authenticate/loginout.actions';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import Logo from '../../../assets/logo_link.png'
 
 class MainNavigation extends React.Component<IDispatchProps> {
     logout = () => {
@@ -13,6 +14,8 @@ class MainNavigation extends React.Component<IDispatchProps> {
     render() {
         return (
             <MainNav>
+                <LogoHolder src={Logo}></LogoHolder>
+
                 <NavMenu>
                     <NavLink to={'/'} exact><NavMenuItem>Home</NavMenuItem></NavLink>
                     <NavLink to={'/graphing'} exact><NavMenuItem>Graphing</NavMenuItem></NavLink>
