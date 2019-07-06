@@ -20,21 +20,23 @@ interface IDonorTableState {
     selected: any
 }
 
-const makeDefaultState = () => ({
-    sorted: [],
-    page: 0,
-    pageSize: 10,
-    expanded: {},
-    resized: [],
-    filtered: [],
-    selected: null
-  });
-
 class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProps, IDonorTableState> {
     constructor(props: IStateProps & IDispatchProps) {
         super(props);
-        this.state = makeDefaultState();
+        this.state = this.defaultState;
         this.resetState = this.resetState.bind(this);
+    }
+
+    get defaultState(): IDonorTableState {
+        return {
+            sorted: [],
+            page: 0,
+            pageSize: 10,
+            expanded: {},
+            resized: [],
+            filtered: [],
+            selected: null
+        }
     }
 
     search = (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,12 +48,61 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
     }
 
     resetState() {
-        this.setState(makeDefaultState());
+        this.setState(this.defaultState);
     }
 
     componentDidMount() {
         //Gets first 100 results
         this.props.searchDonorsRequest("");
+    }
+
+    columnDefinitions = [
+        {
+            Header: "ID",
+            accessor: "id"
+        },
+        {
+            Header: "name",
+            accessor: "name"
+        },
+        {
+            Header: "email",
+            accessor: "email"
+        },
+        {
+            Header: "registered",
+            accessor: "registered"
+        }
+    ]
+
+    trProps = (state: any, rowInfo: any) => {
+        if (rowInfo && rowInfo.row) {
+            return {
+                onClick: (e: React.MouseEvent) => this.rowClick(rowInfo),
+                onDoubleClick: (e: any) => this.rowDoubleClick(rowInfo.original.id),
+                style: this.rowStyle(rowInfo.index, this.state.selected)
+            }
+        } else{
+            return {}
+        }
+    }
+
+    rowClick = (rowInfo: any) => {
+        this.props.setSelectedDonor(rowInfo.original)
+        this.setState({
+            selected: rowInfo.index
+        })
+    }
+
+    rowDoubleClick = (donorID: number) => {
+        console.log("GOTO DONOR:", donorID);
+    }
+
+    rowStyle = (rowIndex: number, selectedIndex: number) => {
+        return {
+            background: rowIndex === selectedIndex ? orange50 : '',
+            color: rowIndex === selectedIndex ? 'white' : ''
+        }
     }
 
     render() {
@@ -60,55 +111,15 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
                 <EffektText type="text" onChange={this.search} placeholder="søk" style={{ width: '100%', marginBottom: '20px' }}></EffektText>
                 <ReactTable
                     data={this.props.data}
-                    columns={[
-                        {
-                            Header: "ID",
-                            accessor: "id"
-                        },
-                        {
-                            Header: "name",
-                            accessor: "name"
-                        },
-                        {
-                            Header: "email",
-                            accessor: "email"
-                        },
-                        {
-                            Header: "registered",
-                            accessor: "registered"
-                        }
-                      ]}
+                    columns={this.columnDefinitions}
                       defaultPageSize={10}
-                      className="-striped -highlight"
                       onSortedChange={sorted => this.setState({ sorted })}
                       onPageChange={page => this.setState({ page })}
-                      onPageSizeChange={(pageSize, page) =>
-                        this.setState({ page, pageSize })}
+                      onPageSizeChange={(pageSize, page) => this.setState({ page, pageSize })}
                       onExpandedChange={expanded => this.setState({ expanded })}
                       onResizedChange={resized => this.setState({ resized })}
                       onFilteredChange={filtered => this.setState({ filtered })}
-                      getTrProps={(state:any, rowInfo: any) => {
-                        if (rowInfo && rowInfo.row) {
-                          return {
-                            onClick: (e: any) => {
-                                this.props.setSelectedDonor(rowInfo.original)
-                                this.setState({
-                                    selected: rowInfo.index
-                                })
-                            },
-                            onDoubleClick: (e: any) => {
-                                console.log("GOTO DONOR:", rowInfo.original.id);
-                            },
-                            style: {
-                              background: rowInfo.index === this.state.selected ? orange50 : '',
-                              color: rowInfo.index === this.state.selected ? 'white' : ''
-                            }
-                          }
-                        } else{
-                          return {}
-                        }
-                      }
-                    }
+                      getTrProps={this.trProps}
                 ></ReactTable>
             </div>
         )
