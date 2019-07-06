@@ -7,6 +7,9 @@ export const SEARCH_DONORS_REQUEST = "SEARCH_DONORS_REQUEST"
 export const SEARCH_DONORS_SUCCESS = "SEARCH_DONORS_SUCCESS"
 export const SEARCH_DONORS_FAILURE = "SEARCH_DONORS_FAILURE"
 
+export const SET_SELECTED_DONOR = "SET_SELECTED_DONOR"
+export const CLEAR_SELECTED_DONOR = "CLEAR_SELECTED_DONOR"
+
 export const showDonorSelectionComponent= () => {
     return {
         type: SHOW_DONOR_SELECTION_COMPONENT
@@ -37,5 +40,18 @@ export const searchDonorFailure = (payload: string) => {
     return {
         type: SEARCH_DONORS_FAILURE,
         payload
+    }
+}
+
+export const setSelectedDonor = (payload: IDonor) => {
+    return {
+        type: SET_SELECTED_DONOR,
+        payload
+    }
+}
+
+export const clearSelectedDonor = () => {
+    return {
+        type: CLEAR_SELECTED_DONOR
     }
 }

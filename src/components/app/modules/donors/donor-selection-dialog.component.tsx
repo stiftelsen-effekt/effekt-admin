@@ -3,14 +3,23 @@ import { connect } from "react-redux";
 
 import { SelectorWrapper, DonorDialog, Controls } from "./donor-selection-dialog.component.style";
 
-import { hideDonorSelectionComponent } from './donor-selection.actions'
+import { hideDonorSelectionComponent, clearSelectedDonor } from './donor-selection.actions'
 import { AppState } from '../../../../models/state';
 import { EffektButton, EffektButtonTypes } from '../../style/elements/button.style';
 import DonorSelector from './donor-selection.component';
 
 
 class DonorSelectionDialogComponent extends React.Component<IStateProps & IDispatchProps> {
-    hideComponent = () => { this.props.hideDonorSelectionComponent() }
+    abort = () => {
+        this.props.clearSelectedDonor()
+        this.props.hideDonorSelectionComponent() 
+    }
+
+    confirm = () => {
+        //State is already set in component
+        this.props.hideDonorSelectionComponent() 
+    }
+
     
     render() {
         return (
@@ -19,8 +28,8 @@ class DonorSelectionDialogComponent extends React.Component<IStateProps & IDispa
                     <DonorSelector></DonorSelector>
                     {/* Controls */}
                     <Controls>
-                        <EffektButton buttonStyle={EffektButtonTypes.SECONDARY} onClick={this.hideComponent}>Avbryt</EffektButton>
-                        <EffektButton >Select</EffektButton>
+                        <EffektButton onClick={this.abort} buttonStyle={EffektButtonTypes.SECONDARY}>Avbryt</EffektButton>
+                        <EffektButton onClick={this.confirm}>Confirm</EffektButton>
                     </Controls>
                 </DonorDialog>
             </SelectorWrapper>
@@ -38,10 +47,12 @@ const mapStateToProps = (state: AppState): IStateProps => {
 }
 
 interface IDispatchProps {
-    hideDonorSelectionComponent: Function
+    hideDonorSelectionComponent: Function,
+    clearSelectedDonor: Function
 }
 const mapDispatchToProps: IDispatchProps = {
-    hideDonorSelectionComponent
+    hideDonorSelectionComponent,
+    clearSelectedDonor
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DonorSelectionDialogComponent);

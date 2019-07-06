@@ -5,9 +5,20 @@ import { connect } from "react-redux";
 
 import '../../style/elements/react-table/table.css'
 import ReactTable from "react-table";
-import { searchDonorsRequest } from "./donor-selection.actions";
+import { searchDonorsRequest, setSelectedDonor, clearSelectedDonor } from "./donor-selection.actions";
 import { IDonor } from "../../../../models/dbtypes";
 import { EffektText } from "../../style/elements/text.style";
+import { orange50 } from "../../style/colors";
+
+interface IDonorTableState {
+    sorted: Array<any>,
+    page: number,
+    pageSize: number,
+    expanded: any,
+    resized: any,
+    filtered: any,
+    selected: any
+}
 
 const makeDefaultState = () => ({
     sorted: [],
@@ -15,10 +26,11 @@ const makeDefaultState = () => ({
     pageSize: 10,
     expanded: {},
     resized: [],
-    filtered: []
+    filtered: [],
+    selected: null
   });
 
-class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProps> {
+class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProps, IDonorTableState> {
     constructor(props: IStateProps & IDispatchProps) {
         super(props);
         this.state = makeDefaultState();
@@ -26,7 +38,11 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
     }
 
     search = (event: ChangeEvent<HTMLInputElement>) => {
-        this.props.searchDonorsRequest(event.target.value);
+        this.setState({
+            selected: null
+        })
+        this.props.clearSelectedDonor()
+        this.props.searchDonorsRequest(event.target.value)
     }
 
     resetState() {
@@ -71,6 +87,28 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
                       onExpandedChange={expanded => this.setState({ expanded })}
                       onResizedChange={resized => this.setState({ resized })}
                       onFilteredChange={filtered => this.setState({ filtered })}
+                      getTrProps={(state:any, rowInfo: any) => {
+                        if (rowInfo && rowInfo.row) {
+                          return {
+                            onClick: (e: any) => {
+                                this.props.setSelectedDonor(rowInfo.original)
+                                this.setState({
+                                    selected: rowInfo.index
+                                })
+                            },
+                            onDoubleClick: (e: any) => {
+                                console.log("GOTO DONOR:", rowInfo.original.id);
+                            },
+                            style: {
+                              background: rowInfo.index === this.state.selected ? orange50 : '',
+                              color: rowInfo.index === this.state.selected ? 'white' : ''
+                            }
+                          }
+                        } else{
+                          return {}
+                        }
+                      }
+                    }
                 ></ReactTable>
             </div>
         )
@@ -87,10 +125,14 @@ const mapStateToProps = (state: AppState): IStateProps => {
 }
 
 interface IDispatchProps {
-    searchDonorsRequest: Function
+    searchDonorsRequest: Function,
+    setSelectedDonor: Function,
+    clearSelectedDonor: Function
 }
 const mapDispatchToProps: IDispatchProps = {
-    searchDonorsRequest
+    searchDonorsRequest,
+    setSelectedDonor,
+    clearSelectedDonor
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DonorSelectorComponent);
