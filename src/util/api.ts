@@ -12,7 +12,7 @@ export interface IAPIParameters {
     endpoint: string,
     token?: string,
     method: Method, 
-    data: any
+    data?: any
 }
 
 interface IFetchOptions {

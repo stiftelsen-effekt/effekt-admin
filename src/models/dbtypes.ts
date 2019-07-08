@@ -3,3 +3,12 @@ export interface IDonor {
     name: string,
     email: string
 }
+
+export interface IOrganization {
+    id: number,
+    name: string,
+    abbriv: string,
+    shortDesc: string,
+    standardShare: number,
+    infoUrl: string
+}

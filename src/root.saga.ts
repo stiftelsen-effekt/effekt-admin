@@ -7,6 +7,8 @@ import { FETCH_DONOR_REQUEST } from './components/app/pages/home/home.actions';
 import { fetchDonor } from './components/app/pages/home/home.saga';
 import { SEARCH_DONORS_REQUEST } from './components/app/modules/donors/donor-selection.actions';
 import { searchDonors } from './components/app/modules/donors/donor-selection.saga';
+import { FETCH_ACTIVE_ORGANIZATIONS_REQUEST } from './store/organizations/organizations.action';
+import { fetchActiveOrganizations } from './store/organizations/organizations.saga';
 
 function *watchAll() {
     yield all([
@@ -21,7 +23,9 @@ function *watchAll() {
 
         takeLatest(FETCH_DONOR_REQUEST, fetchDonor),
 
-        takeLatest(SEARCH_DONORS_REQUEST, searchDonors)
+        takeLatest(SEARCH_DONORS_REQUEST, searchDonors),
+
+        takeLatest(FETCH_ACTIVE_ORGANIZATIONS_REQUEST, fetchActiveOrganizations)
     ]);
 }
 

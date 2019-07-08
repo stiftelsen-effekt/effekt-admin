@@ -1,11 +1,13 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor } from "./dbtypes";
+import { IDonor, IOrganization } from "./dbtypes";
 
 export interface AppState {
     auth: AuthState,
     home: HomeState,
 
-    donorSelector: DonorSelectorState
+    donorSelector: DonorSelectorState,
+
+    organizations: OrganizationsState
 }
 
 export interface AuthState {
@@ -29,4 +31,8 @@ export interface DonorSelectorState {
     selectedDonor?: IDonor,
     searchResult: Array<IDonor>,
     visible: boolean
+}
+
+export interface OrganizationsState {
+    active?: Array<IOrganization>
 }
