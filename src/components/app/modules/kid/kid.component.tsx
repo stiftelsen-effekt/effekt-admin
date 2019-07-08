@@ -32,7 +32,7 @@ class KIDComponent extends React.Component<IStateProps & IDispatchProps> {
                 </div>
                 {/* Split */}
                 <div>
-
+                    
                 </div>
 
                 {/* Controls */}
