@@ -2,11 +2,17 @@ import { AppState } from "../../../../models/state";
 import React from "react";
 import { connect } from "react-redux";
 import { KIDWrapper, KIDUpperBracket, KIDLowerBracket } from "./kid.component.style";
-import { IDonor } from "../../../../models/dbtypes";
+import { IDonor, IOrganization } from "../../../../models/dbtypes";
 import { showDonorSelectionComponent } from "../donors/donor-selection.actions";
 import { EffektButton } from "../../style/elements/button.style";
+import { fetchActiveOrganizationsRequest } from "../../../../store/organizations/organizations.action";
+import { KIDDistribution } from "./distribution/distribution.component";
 
 class KIDComponent extends React.Component<IStateProps & IDispatchProps> {
+    componentDidMount() {
+        this.props.fetchActiveOrganizationsRequest();
+    }
+
     openDonorSelectionDialog = () => {
         this.props.showDonorSelectionComponent();
     }
@@ -32,7 +38,7 @@ class KIDComponent extends React.Component<IStateProps & IDispatchProps> {
                 </div>
                 {/* Split */}
                 <div>
-                    
+                    <KIDDistribution organizations={this.props.activeOrganizations}></KIDDistribution>
                 </div>
 
                 {/* Controls */}
@@ -47,19 +53,23 @@ class KIDComponent extends React.Component<IStateProps & IDispatchProps> {
 }
 
 interface IStateProps {
-    selectedDonor: IDonor | undefined
+    selectedDonor: IDonor | undefined,
+    activeOrganizations: Array<IOrganization> | undefined
 }
 const mapStateToProps = (state: AppState): IStateProps => {
     return {
-        selectedDonor: state.donorSelector.selectedDonor
+        selectedDonor: state.donorSelector.selectedDonor,
+        activeOrganizations: state.organizations.active
     }
 }
 
 interface IDispatchProps {
-    showDonorSelectionComponent: Function
+    showDonorSelectionComponent: Function,
+    fetchActiveOrganizationsRequest: Function
 }
 const mapDispatchToProps: IDispatchProps = {
-    showDonorSelectionComponent
+    showDonorSelectionComponent,
+    fetchActiveOrganizationsRequest
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(KIDComponent);
