@@ -5,34 +5,19 @@ import { connect } from "react-redux";
 import { Page } from "../../style/elements/page.style";
 import { showDonorSelectionComponent } from "../../modules/donors/donor-selection.actions";
 import { EffektButton } from "../../style/elements/button.style";
+import KIDComponent from "../../modules/kid/kid.component";
 
-class RegisterComponent extends React.Component<IStateProps & IDispatchProps> {
-    searchForDonor = () => { this.props.showDonorSelectionComponent() }
-
+class RegisterComponent extends React.Component {
     render() {
         return (
             <Page>
                 <MainHeader>Register donations</MainHeader>
                 <SubHeader>Upload report</SubHeader>
                 <SubHeader>Process single donation</SubHeader>
-                <EffektButton onClick={this.searchForDonor}>Finn donor</EffektButton>
+                <KIDComponent></KIDComponent>
             </Page>
         )
     }
 }
 
-interface IStateProps {
-}
-const mapStateToProps = (state: AppState): IStateProps => {
-    return {
-    }
-}
-
-interface IDispatchProps {
-    showDonorSelectionComponent: Function
-}
-const mapDispatchToProps: IDispatchProps = {
-    showDonorSelectionComponent
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterComponent);
+export default RegisterComponent;
