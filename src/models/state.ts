@@ -1,13 +1,13 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor, IOrganization } from "./dbtypes";
+import { IDonor, IOrganization, IPaymentMethod } from "./dbtypes";
 
 export interface AppState {
     auth: AuthState,
     home: HomeState,
 
     donorSelector: DonorSelectorState,
-
     organizations: OrganizationsState
+    singleDonation: SingleDonationState
 }
 
 export interface AuthState {
@@ -35,4 +35,8 @@ export interface DonorSelectorState {
 
 export interface OrganizationsState {
     active?: Array<IOrganization>
+}
+
+export interface SingleDonationState {
+    paymentMethods?: Array<IPaymentMethod>
 }
