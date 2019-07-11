@@ -15,3 +15,13 @@ export interface IOrganization {
     standardShare: number,
     infoUrl: string
 }
+
+export interface IPaymentMethod {
+    id: number,
+    name: string,
+    abbriviation: string,
+    shortDescription: string,
+    flatFee: number,
+    percentageFee: number,
+    lastUpdated: DateTime
+}
