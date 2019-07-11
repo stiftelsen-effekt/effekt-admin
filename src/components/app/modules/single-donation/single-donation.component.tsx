@@ -25,7 +25,6 @@ export const SingleDonation: React.FunctionComponent = (props) => {
         ));
     }
 
-
     return (
         <SingleDonationWrapper>
             <InputWrapper>
@@ -36,8 +35,7 @@ export const SingleDonation: React.FunctionComponent = (props) => {
                     timeFormat="HH:mm"
                     timeIntervals={15}
                     dateFormat="dd.MM.yyyy HH:mm"
-                    timeCaption="time"
-                />
+                    timeCaption="time" />
                 <KIDTextWrapper><EffektText placeholder="KID" style={{ width: '90px', height: '100%' }}></EffektText></KIDTextWrapper>
                 <EffektText placeholder="Sum" style={{ width: '90px' }}></EffektText>
                 <EffektText placeholder="Repeat sum" style={{ width: '90px' }}></EffektText>
