@@ -1,7 +1,10 @@
+import { DateTime } from "luxon";
+
 export interface IDonor {
     id: number,
     name: string,
-    email: string
+    email: string,
+    registered: DateTime
 }
 
 export interface IOrganization {

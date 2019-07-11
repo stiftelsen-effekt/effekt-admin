@@ -1,64 +1,103 @@
-import { AppState } from "../../../../models/state";
-import React from "react";
-import { connect } from "react-redux";
-import { KIDWrapper, KIDUpperBracket, KIDLowerBracket, KIDInnerContent } from "./kid.component.style";
-import { IDonor, IOrganization } from "../../../../models/dbtypes";
-import { showDonorSelectionComponent } from "../donors/donor-selection.actions";
-import { EffektButton } from "../../style/elements/button.style";
-import { fetchActiveOrganizationsRequest } from "../../../../store/organizations/organizations.action";
-import { KIDDistribution, DistributionType } from "./distribution/distribution.component";
-import { SummationComponent } from "./distribution/distribution-summation.component";
 
-class KIDComponent extends React.Component<IStateProps & IDispatchProps> {
+import React from "react";
+
+//Redux
+import { connect } from "react-redux";
+import { AppState } from "../../../../models/state";
+
+import { showDonorSelectionComponent } from "../donors/donor-selection.actions";
+import { fetchActiveOrganizationsRequest } from "../../../../store/organizations/organizations.action";
+
+//Styling
+import { KIDWrapper, KIDUpperBracket, KIDLowerBracket, KIDInnerContent } from "./kid.component.style";
+
+//Models
+import { IDistribution } from "./kid.models";
+import { IDonor, IOrganization } from "../../../../models/dbtypes";
+
+import Decimal from "decimal.js";
+
+//SubComponents
+import { KIDDonorComponent } from "./donor/donor.component";
+import { KIDControls } from "./controls/controls.component";
+import { KIDDistribution } from "./distribution/distribution.component";
+
+interface IProps {
+    donationAmount?: number,
+    KID?: number
+}
+
+interface IState {
+    distribution: Array<IDistribution>,
+    distributionSum: Decimal,
+    distributionMax: Decimal
+}
+
+class KIDComponent extends React.Component<IStateProps & IDispatchProps & IProps, IState> {
     componentDidMount() {
-        this.props.fetchActiveOrganizationsRequest();
+        this.props.fetchActiveOrganizationsRequest()
+
+        this.setState(this.getDefaultState())
+    }
+
+    getDefaultState(): IState {
+        return {
+            distribution: [],
+            distributionSum: new Decimal(0),
+            distributionMax: new Decimal(100)
+        }
     }
 
     openDonorSelectionDialog = () => {
         this.props.showDonorSelectionComponent();
     }
 
-    distributionChanged = (orgId: number, value: number) => {
-        console.log(orgId, value);
+    distributionChanged = (distribution: Array<IDistribution>) => {
+        this.setState({
+            distribution: distribution
+        }, () => {
+            this.calculateDistributionSum();
+        })
+    }
+
+    calculateDistributionSum() {
+        let sum = new Decimal(0);
+        this.state.distribution.forEach(dist => sum = sum.add(dist.value))
+        this.setState({
+            distributionSum: sum
+        })
     }
 
     render() {
-        let selection = null
-        if (this.props.selectedDonor) {
-            selection = (<div>
-                <span><strong>Selection</strong></span>
-                <span>{this.props.selectedDonor.id}</span>
-                <span>{this.props.selectedDonor.name}</span>
-                <span>{this.props.selectedDonor.email}</span>
-            </div>)
-        }
+        if (this.state) {
+            return (
+                <KIDWrapper>
+                    <KIDUpperBracket></KIDUpperBracket>
+                        <KIDInnerContent>
+                            {/* Donor */}
+                            <div>
+                                <KIDDonorComponent 
+                                    selectedDonor={this.props.selectedDonor} 
+                                    openDonorSelectionDialog={this.openDonorSelectionDialog}></KIDDonorComponent>
+                            </div>
+                            {/* Split */}
+                            <div>
+                                <KIDDistribution 
+                                    organizations={this.props.activeOrganizations} 
+                                    onChange={this.distributionChanged}></KIDDistribution>
+                            </div>
 
-        return (
-            <KIDWrapper>
-                <KIDUpperBracket></KIDUpperBracket>
-                    <KIDInnerContent>
-                        {/* Donor */}
-                        <div>
-                            {selection}
-                            <EffektButton onClick={this.openDonorSelectionDialog}>Find</EffektButton>
-                        </div>
-                        {/* Split */}
-                        <div>
-                            <KIDDistribution 
-                                organizations={this.props.activeOrganizations} 
-                                type={DistributionType.percent}
-                                onChange={this.distributionChanged}></KIDDistribution>
-                        </div>
-
-                        {/* Controls */}
-                        <div>
-                            <SummationComponent max={100} current={100}></SummationComponent>
-                            <EffektButton>Save KID</EffektButton>
-                        </div>
-                    </KIDInnerContent>
-                <KIDLowerBracket></KIDLowerBracket>
-            </KIDWrapper>
-        )
+                            {/* Controls */}
+                            <div>
+                                <KIDControls
+                                   distributionMax={this.state.distributionMax}
+                                   distributionSum={this.state.distributionSum} ></KIDControls>
+                            </div>
+                        </KIDInnerContent>
+                    <KIDLowerBracket></KIDLowerBracket>
+                </KIDWrapper>
+            )
+        } else return <div></div>
     }
 }
 

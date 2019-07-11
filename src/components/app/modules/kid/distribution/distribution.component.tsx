@@ -1,41 +1,118 @@
 import React from 'react'
-import { IOrganization } from '../../../../../models/dbtypes';
 import { EffektText } from '../../../style/elements/text.style';
 import { DistributionWrapper, DistributionItem, DistributionRow } from './distribution.component.style';
-
-export enum DistributionType {
-    percent,
-    absolute
-}
+import { DistributionType, IDistribution } from '../kid.models';
+import { IOrganization } from '../../../../../models/dbtypes';
+import Decimal from 'decimal.js'
 
 interface IProperties {
-    organizations: Array<IOrganization> | undefined,
-    type: DistributionType,
-    onChange(orgId: number, value: number): void
+    onChange(distribution: Array<IDistribution> ): void,
+    organizations: Array<IOrganization> | undefined
 }
 
-export const KIDDistribution: React.FunctionComponent<IProperties> = (props: IProperties) => {
-    if (props.organizations) {
-        let items = props.organizations.map((organization, i) => (<DistributionItem key={i}>
-            <span>{organization.abbriv}</span>
-            <EffektText type="number" placeholder="sum" style={{width: '110px'}} onChange={(e) => { props.onChange(organization.id, parseInt(e.target.value)) }}></EffektText>
-        </DistributionItem>));
+interface IState {
+    distribution: Array<IDistribution>,
+    type: DistributionType,
+    sumValue: 100
+}
 
-        let distributionLines = []
-        for (let i = 0; i < props.organizations.length / 3; i++) {
-            distributionLines.push((
-                <DistributionRow key={i}>
-                    { items.slice(i*3, i*3 + 3) }
-                </DistributionRow>
-            ))
+export class KIDDistribution extends React.Component<IProperties, IState> {
+    constructor(props: IProperties) {
+        super(props)
+        this.state = this.getDefaultState()
+    }
+
+    getDefaultState(): IState {
+        return {
+            distribution: [],
+            type: DistributionType.PERCENT,
+            sumValue: 100
         }
+    }
 
+    componentDidUpdate() {
+        if (this.props.organizations && this.state.distribution.length === 0) {
+            this.setState({ 
+                distribution: this.props.organizations.map(org => { 
+                    return {
+                        organizationId: org.id,
+                        value: new Decimal(org.standardShare).dividedBy(100).mul(this.state.sumValue),
+                        abbriv: org.abbriv
+                    } as IDistribution
+                 }) 
+            }, () => {
+                this.props.onChange(this.state.distribution)
+            })
+        }
+    }
+
+    organizationValueChanged(orgId: number, value: string) {
+        try {
+            value = (value === "" ? "0" : value)
+            let parsedValue = new Decimal(value)
+            let updatedDistribution = this.state.distribution.map(dist => {
+                if (dist.organizationId === orgId) return {
+                    ...dist,
+                    value: parsedValue
+                }
+                else return dist
+            })
+
+            this.setState({
+                distribution: updatedDistribution
+            }, () => {
+                this.props.onChange(this.state.distribution)
+            })
+        } catch(ex) {
+            console.log("Could not parse distribution input: ", value)
+        }
+    }
+
+    render() {
+        if (this.props.organizations) {
+            return this.createDistribution()
+        } else {
+            return (<div>Loading...</div>)
+        }
+    }
+
+    createDistribution() {
+        let distributionItems = this.createItems();
+        let distributionLines = this.createLines(distributionItems);
         return (
             <DistributionWrapper>
                 {distributionLines}
             </DistributionWrapper>
         )
-    } else {
-        return (<div>Loading...</div>)
     }
-}
+
+    createLines(distributionItems: any) {
+        let distributionLines = []
+        for (let i = 0; i < distributionItems.length / 3; i++) {
+            let startPickingAt = i*3;
+            let endPickingAt = startPickingAt +3; 
+
+            distributionLines.push((
+                <DistributionRow key={i}>
+                    { distributionItems.slice(startPickingAt, endPickingAt) }
+                </DistributionRow>
+            ))
+        }
+        return distributionLines;
+    }
+
+    createItems() {
+        let distributionItems = this.state.distribution.map((dist, i) => (
+            <DistributionItem key={i}>
+                <span>{dist.abbriv}</span>
+                <EffektText 
+                    type="number" 
+                    placeholder="sum" 
+                    defaultValue={dist.value.toString()} 
+                    style={{width: '110px'}} 
+                    onChange={(e) => { this.organizationValueChanged(dist.organizationId, e.target.value) }}></EffektText>
+            </DistributionItem>));
+
+        return distributionItems;
+    }
+} 

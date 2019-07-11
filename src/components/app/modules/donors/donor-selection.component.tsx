@@ -9,6 +9,7 @@ import { searchDonorsRequest, setSelectedDonor, clearSelectedDonor } from "./don
 import { IDonor } from "../../../../models/dbtypes";
 import { EffektText } from "../../style/elements/text.style";
 import { orange50 } from "../../style/colors";
+import { shortDate } from "../../../../util/formatting";
 
 interface IDonorTableState {
     sorted: Array<any>,
@@ -70,8 +71,9 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
             accessor: "email"
         },
         {
+            id: "registered",
             Header: "registered",
-            accessor: "registered"
+            accessor: (donor: IDonor) => shortDate(donor.registered)
         }
     ]
 
