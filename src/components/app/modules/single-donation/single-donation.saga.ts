@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import * as API from '../../../../util/api'
 import { fetchPaymentMethodsFailure, fetchPaymentMethodsSuccess } from './single-donation.actions';
 
