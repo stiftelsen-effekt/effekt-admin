@@ -25,3 +25,13 @@ export interface IPaymentMethod {
     percentageFee: number,
     lastUpdated: DateTime
 }
+
+export interface IDonation {
+    id: number,
+    donorId: number,
+    paymentId: number,
+    paymentExternalRef: string,
+    sum: number,
+    timestamp: DateTime,
+    KID: number
+}

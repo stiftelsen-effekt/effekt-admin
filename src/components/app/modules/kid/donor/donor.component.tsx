@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DonorSelectionWrapper, SelectionWrapper, DonorSelectionInput, DonorProperty } from "./donor.component.style";
 import { EffektButton } from "../../../style/elements/button.style";
 import { IDonor } from "../../../../../models/dbtypes";
@@ -11,9 +11,13 @@ interface IProps {
 }
 
 export const KIDDonorComponent: React.FunctionComponent<IProps> = (props) => {
+    const [donorId, setDonorId] = useState<number>()
+
     let selectedDonor = null
     if (props.selectedDonor !== undefined) {
         const donor = props.selectedDonor
+
+        if (donor.id !== donorId) setDonorId(donor.id)
 
         selectedDonor = (<SelectionWrapper>
             <DonorProperty>{donor.name}</DonorProperty>
@@ -22,14 +26,12 @@ export const KIDDonorComponent: React.FunctionComponent<IProps> = (props) => {
         </SelectionWrapper>)
     }
 
-    let donorID = (props.selectedDonor ? props.selectedDonor.id : undefined)
-
     return (
         <DonorSelectionWrapper>
             <div style={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
                 <DonorSelectionInput>
                     <strong>Donor</strong>
-                    <EffektText value={donorID} style={{ width: '70px' }} placeholder="DonorID"></EffektText>
+                    <EffektText value={donorId} style={{ width: '70px' }} placeholder="DonorID"></EffektText>
                 </DonorSelectionInput>
                 {selectedDonor}
             </div>

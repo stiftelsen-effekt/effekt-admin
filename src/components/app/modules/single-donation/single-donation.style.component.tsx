@@ -27,3 +27,9 @@ export const KIDTextWrapper = styled.div`
         border-color: ${grey15} transparent transparent transparent;
     }
 `
+
+export const ControlsWrapper = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+`

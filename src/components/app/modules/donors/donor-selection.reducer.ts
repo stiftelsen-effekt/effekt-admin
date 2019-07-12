@@ -10,7 +10,6 @@ const initialState: DonorSelectorState = {
 }
 
 export const donorSelectorReducer = (state: DonorSelectorState = initialState, action: AnyAction): DonorSelectorState => {
-    console.log(action)
     switch(action.type) {
         case SHOW_DONOR_SELECTION_COMPONENT:
             return {

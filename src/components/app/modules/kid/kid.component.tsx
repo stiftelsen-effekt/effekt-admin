@@ -24,7 +24,8 @@ import { KIDDistribution } from "./distribution/distribution.component";
 
 interface IProps {
     donationAmount?: number,
-    KID?: number
+    KID?: number,
+    onChange(distribution: Array<IDistribution> ): void
 }
 
 interface IState {
@@ -57,6 +58,7 @@ class KIDComponent extends React.Component<IStateProps & IDispatchProps & IProps
             distribution: distribution
         }, () => {
             this.calculateDistributionSum();
+            this.props.onChange(this.state.distribution);
         })
     }
 
