@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { grey15 } from '../colors';
 
-export const EffektText = styled.input`
+export const EffektInput = styled.input`
     font-family: 'Roboto';
     font-weight: 300;
     background: #eee;

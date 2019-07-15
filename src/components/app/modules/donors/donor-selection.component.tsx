@@ -7,7 +7,7 @@ import '../../style/elements/react-table/table.css'
 import ReactTable from "react-table";
 import { searchDonorsRequest, setSelectedDonor, clearSelectedDonor } from "./donor-selection.actions";
 import { IDonor } from "../../../../models/dbtypes";
-import { EffektText } from "../../style/elements/text.style";
+import { EffektInput } from "../../style/elements/input.style";
 import { orange50 } from "../../style/colors";
 import { shortDate } from "../../../../util/formatting";
 
@@ -110,7 +110,7 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
     render() {
         return (
             <div>
-                <EffektText type="text" onChange={this.search} placeholder="søk" style={{ width: '100%', marginBottom: '20px' }}></EffektText>
+                <EffektInput type="text" onChange={this.search} placeholder="søk" style={{ width: '100%', marginBottom: '20px' }}></EffektInput>
                 <ReactTable
                     data={this.props.data}
                     columns={this.columnDefinitions}

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { grey15 } from "../../style/colors"
+import { EffektInput } from "../../style/elements/input.style";
 
 export const SingleDonationWrapper = styled.div`
     width: 740px;
@@ -32,4 +33,8 @@ export const ControlsWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-top: 14px;
+`
+
+export const DonationInput = styled(EffektInput)`
+    width: 90px;
 `

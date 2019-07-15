@@ -1,5 +1,5 @@
 import React from 'react'
-import { EffektText } from '../../../style/elements/text.style';
+import { EffektInput } from '../../../style/elements/input.style';
 import { DistributionWrapper, DistributionItem, DistributionRow } from './distribution.component.style';
 import { DistributionType, IDistribution } from '../kid.models';
 import { IOrganization } from '../../../../../models/dbtypes';
@@ -105,12 +105,12 @@ export class KIDDistribution extends React.Component<IProperties, IState> {
         let distributionItems = this.state.distribution.map((dist, i) => (
             <DistributionItem key={i}>
                 <span>{dist.abbriv}</span>
-                <EffektText 
+                <EffektInput 
                     type="number" 
                     placeholder="sum" 
                     defaultValue={dist.value.toString()} 
                     style={{width: '110px'}} 
-                    onChange={(e) => { this.organizationValueChanged(dist.organizationId, e.target.value) }}></EffektText>
+                    onChange={(e) => { this.organizationValueChanged(dist.organizationId, e.target.value) }}></EffektInput>
             </DistributionItem>));
 
         return distributionItems;

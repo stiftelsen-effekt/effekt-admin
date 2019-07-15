@@ -70,6 +70,10 @@ class KIDComponent extends React.Component<IStateProps & IDispatchProps & IProps
         })
     }
 
+    onDonorIdChange = (donorId: number) => {
+        console.log(donorId)
+    }
+
     render() {
         if (this.state) {
             return (
@@ -80,7 +84,8 @@ class KIDComponent extends React.Component<IStateProps & IDispatchProps & IProps
                             <div>
                                 <KIDDonorComponent 
                                     selectedDonor={this.props.selectedDonor} 
-                                    openDonorSelectionDialog={this.openDonorSelectionDialog}></KIDDonorComponent>
+                                    openDonorSelectionDialog={this.openDonorSelectionDialog}
+                                    onDonorIdChange={this.onDonorIdChange}></KIDDonorComponent>
                             </div>
                             {/* Split */}
                             <div>
