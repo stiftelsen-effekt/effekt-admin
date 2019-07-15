@@ -9,8 +9,8 @@ import { SEARCH_DONORS_REQUEST } from './components/app/modules/donors/donor-sel
 import { searchDonors } from './components/app/modules/donors/donor-selection.saga';
 import { FETCH_ACTIVE_ORGANIZATIONS_REQUEST } from './store/organizations/organizations.action';
 import { fetchActiveOrganizations } from './store/organizations/organizations.saga';
-import { FETCH_PAYMENT_METHODS_REQUEST, createDistributionAction } from './components/app/modules/single-donation/single-donation.actions';
-import { fetchPaymentMethods, createDistribution } from './components/app/modules/single-donation/single-donation.saga';
+import { FETCH_PAYMENT_METHODS_REQUEST, createDistribitionAndInsertDonationAction } from './components/app/modules/single-donation/single-donation.actions';
+import { fetchPaymentMethods, createDistributionAndInsertDonation } from './components/app/modules/single-donation/single-donation.saga';
 
 function *watchAll() {
     yield all([
@@ -30,7 +30,8 @@ function *watchAll() {
         takeLatest(FETCH_ACTIVE_ORGANIZATIONS_REQUEST, fetchActiveOrganizations),
 
         takeLatest(FETCH_PAYMENT_METHODS_REQUEST, fetchPaymentMethods),
-        takeLatest(createDistributionAction.started.type, createDistribution)
+
+        takeLatest(createDistribitionAndInsertDonationAction.started.type, createDistributionAndInsertDonation)
     ]);
 }
 

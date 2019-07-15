@@ -2,7 +2,7 @@ import { SingleDonationState } from "../../../../models/state";
 import { AnyAction } from "redux";
 import { IPaymentMethod } from "../../../../models/dbtypes";
 import { DateTime } from "luxon";
-import { FETCH_PAYMENT_METHODS_SUCCESS, createDistributionAction } from "./single-donation.actions";
+import { FETCH_PAYMENT_METHODS_SUCCESS, createDistribitionAndInsertDonationAction } from "./single-donation.actions";
 import { isType } from "typescript-fsa";
 
 const initialState: SingleDonationState = {
@@ -10,8 +10,12 @@ const initialState: SingleDonationState = {
 }
 
 export const singleDonationReducer = (state: SingleDonationState = initialState, action: AnyAction): SingleDonationState => {
-    if (isType(action, createDistributionAction.done)) {
-        alert("Inserted! Got KID " + action.payload.toString())
+    if (isType(action, createDistribitionAndInsertDonationAction.done)) {
+        alert("Inserted!")
+    }
+
+    else if (isType(action, createDistribitionAndInsertDonationAction.failed)) {
+        alert("Failed")
     }
 
     switch(action.type) {
@@ -20,6 +24,7 @@ export const singleDonationReducer = (state: SingleDonationState = initialState,
                 ...state,
                 paymentMethods: action.payload.map((method: IPaymentMethod) => { return {...method, lastUpdated: DateTime.fromISO(method.lastUpdated.toString())}})
             }
+        
         
 
         default:

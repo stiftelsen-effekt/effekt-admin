@@ -1,4 +1,4 @@
-import { IPaymentMethod, IDonor, IDonation } from "../../../../models/dbtypes";
+import { IPaymentMethod, IDonor } from "../../../../models/dbtypes";
 import { IDistribution } from "../kid/kid.models";
 
 import actionCreatorFactory from 'typescript-fsa';
@@ -29,28 +29,29 @@ export const fetchPaymentMethodsSuccess = (paymentMethods: Array<IPaymentMethod>
     }
 }
 
-export const INSERT_DONATION_REQUEST = 'INSERT_DONATION_REQUEST'
-export const INSERT_DONATION_FAILURE = 'INSERT_DONATION_FAILURE'
-export const INSERT_DONATION_SUCCESS = 'INSERT_DONATION_SUCCESS'
-
-export const insertDonationRequest = (donation: IDonation) => {
-    return {
-        type: INSERT_DONATION_REQUEST,
-        payload: donation
-    }
+export interface ICreateDistributionParams {
+    donor: IDonor, 
+    distribution: Array<IDistribution>
 }
 
-export const insertDonationFailure = (error: Error) => {
-    return {
-        type: INSERT_DONATION_FAILURE,
-        payload: error
-    }
+export interface IInsertDonationParams {
+    sum: number,
+    KID: number | undefined,
+    time: Date | null,
+    externalRef: string,
+    methodId: number
 }
 
-export const insertDonationSuccess = () => {
-    return {
-        type: INSERT_DONATION_SUCCESS
-    }
+/*
+Do I need these? I don't think so.
+
+export const insertDonationAction = actionCreator.async<IInsertDonationParams,{},{code: number}>('INSERT_DONATION');
+export const createDistributionAction = actionCreator.async<ICreateDistributionParams,{KID: number},{code: number}>('CREATE_DISTRIBUTION');
+*/
+
+interface ICreateDistributionAndInsertDonationParams {
+    distribution: ICreateDistributionParams,
+    donation: IInsertDonationParams
 }
 
-export const createDistributionAction = actionCreator.async<{donor: IDonor, distribution: Array<IDistribution>},{KID: number},{code: number}>('CREATE_DISTRIBUTION');
+export const createDistribitionAndInsertDonationAction = actionCreator.async<ICreateDistributionAndInsertDonationParams, {}, {code: number}>('CREATE_DISTRIBUTION_AND_INSERT_DONATION');
