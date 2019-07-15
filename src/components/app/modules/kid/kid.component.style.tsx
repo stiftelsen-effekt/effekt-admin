@@ -3,6 +3,7 @@ import { grey15 } from "../../style/colors";
 
 export const KIDWrapper = styled.div`
     width: 740px;
+    min-height: 342px;
 `
 
 let bracketHeight = '10px';

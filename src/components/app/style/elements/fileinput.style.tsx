@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { grey15 } from "../colors";
 
 export const HiddenFileInput = styled.input`
     border: 0;
@@ -9,4 +10,16 @@ export const HiddenFileInput = styled.input`
     position: absolute !important;
     white-space: nowrap;
     width: 1px;  
+`
+
+export const FileInputLabel = styled.label`
+    cursor: pointer;
+    font-family: 'Roboto';
+    font-weight: 300;
+    background: #eee;
+    border: none;
+    border-bottom: 1px solid ${grey15};
+    padding: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
 `

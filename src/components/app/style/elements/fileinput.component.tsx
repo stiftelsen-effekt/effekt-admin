@@ -1,29 +1,43 @@
 import React, { useState } from 'react'
-import { HiddenFileInput } from './fileinput.style';
+import { HiddenFileInput, FileInputLabel } from './fileinput.style';
 
 interface IState {
-    filename: string
+    filename: string | null,
+    file: File | null
 }
 
 interface IProps {
-    id: string
+    id: string,
+    onChange(file: File): void
 }
 
 export const EffektFileInput: React.FunctionComponent<IProps> = (props: IProps) => {
-    const [state, setState] = useState<IState>({filename: ""})
+    const getDefaultState = (): IState => {
+        return {
+            filename: null,
+            file: null
+        }
+    }
+
+    const [state, setState] = useState<IState>(getDefaultState())
 
     const selectedFileChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files !== null && event.target.files.length > 0) {
             setState({
                 ...state,
-                filename: event.target.files[0].name
+                filename: event.target.files[0].name,
+                file: event.target.files[0]
             })
         } else {
-            setState({
-                ...state,
-                filename: ""
-            })
+            setState(getDefaultState())
         }
+    }
+
+    let label;
+    if (state.filename) {
+        label = <FileInputLabel htmlFor={props.id}>{state.filename}</FileInputLabel>
+    } else {
+        label = <FileInputLabel htmlFor={props.id}>Drag file here or click</FileInputLabel>
     }
 
     return (
@@ -31,10 +45,8 @@ export const EffektFileInput: React.FunctionComponent<IProps> = (props: IProps) 
             <HiddenFileInput 
                 {...props} 
                 type="file" 
-                onChange={selectedFileChanged}
-                placeholder="Drag file here or click"/>
-            <label htmlFor={props.id}>Select</label>
-            {state.filename}
+                onChange={selectedFileChanged} />
+            {label}
         </div>
     )
     
