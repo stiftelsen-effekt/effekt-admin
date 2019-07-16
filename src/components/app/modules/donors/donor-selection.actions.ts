@@ -1,4 +1,4 @@
-import { IDonor } from "../../../../models/dbtypes";
+import { IDonor } from "../../../../models/types";
 
 export const SHOW_DONOR_SELECTION_COMPONENT = "SHOW_DONOR_SELECTION_COMPONENT"
 export const HIDE_DONOR_SELECTION_COMPONENT = "HIDE_DONOR_SELECTION_COMPONENT"

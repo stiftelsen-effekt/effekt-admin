@@ -4,7 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Page } from "../../style/elements/page.style";
 import DonorSelectionComponent from "../../modules/donors/donor-selection.component";
-import { IDonor } from "../../../../models/dbtypes";
+import { IDonor } from "../../../../models/types";
 
 class DonorsComponent extends React.Component<IStateProps & IDispatchProps> {
     render() {

@@ -5,7 +5,7 @@ import { EffektSelect } from "../../style/elements/select.style"
 
 import { EffektDatePicker } from '../../style/elements/datepicker.style';
 import "react-datepicker/dist/react-datepicker.css";
-import { IPaymentMethod, IDonor } from '../../../../models/dbtypes';
+import { IPaymentMethod, IDonor } from '../../../../models/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { fetchPaymentMethodsRequest, createDistribitionAndInsertDonationAction, IInsertDonationParams, ICreateDistributionParams } from './single-donation.actions';
@@ -14,23 +14,31 @@ import { IDistribution } from '../kid/kid.models';
 import { Decimal } from 'decimal.js';
 import { toast } from 'react-toastify';
 
-interface IState {
-    selectedDate: Date | null,
-    distribution: Array<IDistribution>,
-    sum: number | undefined,
-    repeatSum: number | undefined,
-    externalRef: string | undefined,
-    paymentMethodId: number | undefined
+interface ICommonPropsAndState {
+    selectedDate?: Date | null,
+    sum?: number,
+    repeatSum?: number,
+    externalRef?: string,
+    paymentMethodId?: number,
 }
 
-export const SingleDonation: React.FunctionComponent = (props) => {
+interface IState extends ICommonPropsAndState {
+    distribution: Array<IDistribution>
+}
+
+interface IProps extends ICommonPropsAndState {
+    onIgnore?(): void
+}
+
+export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) => {
     const [state, setState] = useState<IState>({
-        selectedDate: new Date(),
+        selectedDate: props.selectedDate || new Date(),
+        sum: props.sum || 200,
+        repeatSum: props.repeatSum || 200,
+        externalRef: props.externalRef || "abc",
+        paymentMethodId: props.paymentMethodId || 4,
+
         distribution: [],
-        sum: 200,
-        repeatSum: 200,
-        externalRef: "abc",
-        paymentMethodId: 1
     })
 
     const dispatch = useDispatch()
@@ -77,6 +85,9 @@ export const SingleDonation: React.FunctionComponent = (props) => {
         }
     }
 
+    let ignoreButton;
+    if (props.onIgnore) ignoreButton = <EffektButton onClick={() => props.onIgnore}>Ignore</EffektButton>
+
     return (
         <SingleDonationWrapper>
             <InputWrapper>
@@ -89,9 +100,9 @@ export const SingleDonation: React.FunctionComponent = (props) => {
                     dateFormat="dd.MM.yyyy HH:mm"
                     timeCaption="time" />
                 <KIDTextWrapper><DonationInput placeholder="KID" style={{ height: '100%' }}></DonationInput></KIDTextWrapper>
-                <DonationInput placeholder="Sum"            onChange={(e) => setState({ ...state, sum: parseInt(e.target.value) })} />
-                <DonationInput placeholder="Repeat sum"     onChange={(e) => setState({ ...state, repeatSum: parseInt(e.target.value) })} />
-                <DonationInput placeholder="External ref."  onChange={(e) => setState({ ...state, externalRef: e.target.value })} />
+                <DonationInput value={state.sum} placeholder="Sum"            onChange={(e) => setState({ ...state, sum: parseInt(e.target.value) })} />
+                <DonationInput value={state.repeatSum} placeholder="Repeat sum"     onChange={(e) => setState({ ...state, repeatSum: parseInt(e.target.value) })} />
+                <DonationInput value={state.externalRef} placeholder="External ref."  onChange={(e) => setState({ ...state, externalRef: e.target.value })} />
                 <EffektSelect placeholder="Payment method"  onChange={(e) => setState({ ...state, paymentMethodId: parseInt(e.target.value) })}>
                     {paymentOptions}
                 </EffektSelect>
@@ -99,6 +110,7 @@ export const SingleDonation: React.FunctionComponent = (props) => {
             <KIDComponent onChange={(distribution: Array<IDistribution>) => setState({ ...state, distribution })}></KIDComponent>
 
             <ControlsWrapper>
+                {ignoreButton}
                 <EffektButton onClick={submit}>Insert</EffektButton>
             </ControlsWrapper>
         </SingleDonationWrapper>

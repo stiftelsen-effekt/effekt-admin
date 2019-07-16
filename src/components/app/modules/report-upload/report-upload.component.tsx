@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { EffektButton } from '../../style/elements/button.style';
 import { EffektFileInput } from '../../style/elements/fileinput.component';
 import { ReportTable } from './report-upload.component.style';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ReportTypes, uploadReportAction } from './report-upload.actions';
 import { toast } from 'react-toastify';
+import { AppState } from '../../../../models/state';
+import { Redirect } from 'react-router';
 
 interface IState {
     vippsReport: File | null,
@@ -28,6 +30,10 @@ export const ReportUpload: React.FunctionComponent = (props) => {
         if (!file) return toast.error("No file selected")
         dispatch(uploadReportAction.started({type, report: file}));
     }
+
+    const shouldProcess: boolean = useSelector((state: AppState) => state.reportProcessing.invalidTransactions.length !== 0)
+
+    if (shouldProcess) return <Redirect to="/register/process"></Redirect>
 
     return (<ReportTable>
         <tbody>

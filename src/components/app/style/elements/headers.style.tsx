@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { orange50, orange05, brown50 } from "../colors";
+import { orange50, orange05, brown50, red30, green02, red02, green30 } from "../colors";
 
 export const MainHeader = styled.h1`
     border-left: 6px solid ${orange50};
@@ -23,4 +23,33 @@ export const SubHeader = styled.h2`
     width: 100%;
     box-sizing: border-box;
     max-width: 1024px;
+`
+export const Box = styled.div`
+    border-left-style: solid;
+    border-left-width: 6px;
+    border-left-color: #aaa;
+    background: #eee;
+    padding: 14px 28px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1024px;
+
+    .header {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+`
+
+export const RedBox = styled(Box)`
+    border-left-color: ${red30};
+    background: ${red02};
+    color: ${red30};
+`
+
+export const GreenBox = styled(Box)`
+    border-left-color: ${green30};
+    background: ${green02};
+    color: ${green30};
 `

@@ -13,7 +13,7 @@ import { KIDWrapper, KIDUpperBracket, KIDLowerBracket, KIDInnerContent } from ".
 
 //Models
 import { IDistribution } from "./kid.models";
-import { IDonor, IOrganization } from "../../../../models/dbtypes";
+import { IDonor, IOrganization } from "../../../../models/types";
 
 import Decimal from "decimal.js";
 
