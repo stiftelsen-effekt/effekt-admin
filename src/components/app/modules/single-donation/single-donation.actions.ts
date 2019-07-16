@@ -42,13 +42,6 @@ export interface IInsertDonationParams {
     methodId: number
 }
 
-/*
-Do I need these? I don't think so.
-
-export const insertDonationAction = actionCreator.async<IInsertDonationParams,{},{code: number}>('INSERT_DONATION');
-export const createDistributionAction = actionCreator.async<ICreateDistributionParams,{KID: number},{code: number}>('CREATE_DISTRIBUTION');
-*/
-
 interface ICreateDistributionAndInsertDonationParams {
     distribution: ICreateDistributionParams,
     donation: IInsertDonationParams

@@ -12,7 +12,8 @@ export interface IAPIParameters {
     endpoint: string,
     token?: string,
     method: Method, 
-    data?: any
+    data?: any,
+    formData?: FormData
 }
 
 interface IFetchOptions {
@@ -45,11 +46,29 @@ export const call = (params: IAPIParameters): Promise<Response> => {
                 method: Method.POST,
                 headers: {
                     ...options.headers,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(params.data)
+                    'Accept': 'application/json'
+                }
             }
+
+            if (!params.formData) {
+                //POSTing normal JSON data
+                options = {
+                    ...options,
+                    headers: {
+                        ...options.headers,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(params.data)
+                }
+            }
+            else {
+                //POSTing form data
+                options = {
+                    ...options,
+                    body: params.formData
+                }
+            }
+
             return fetch(url, options).then(response => response.json());
         default:
             return new Promise<Response>((success) => { success(); });

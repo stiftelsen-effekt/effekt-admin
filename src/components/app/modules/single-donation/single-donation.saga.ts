@@ -8,9 +8,7 @@ import {    fetchPaymentMethodsFailure,
 import { AppState } from '../../../../models/state';
 import { IAccessToken } from '../../../../authenticate/auth';
 
-const getApiToken = (state: AppState) => {
-    return state.auth.currentToken
-}
+const getApiToken = (state: AppState) => state.auth.currentToken
 
 export function* fetchPaymentMethods(action: any) {
     try {

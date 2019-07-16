@@ -25,26 +25,28 @@ export const ReportUpload: React.FunctionComponent = (props) => {
 
     const uploadReport = (type: ReportTypes, file: File | null) => {
         if (!file) return alert("No file selected");
-        dispatch(uploadReportAction.started({type, file}));
+        dispatch(uploadReportAction.started({type, report: file}));
     }
 
     return (<ReportTable>
-        <tr>
-            <td><strong>Vipps</strong></td>
-            <td><EffektFileInput onChange={(file: File) => setState({...state, vippsReport: file}) } id="vipps-upload"/></td>
-            <td><EffektButton onClick={() => { uploadReport(ReportTypes.VIPPS, state.vippsReport) }}>Upload</EffektButton></td>
-        </tr>
+        <tbody>
+            <tr>
+                <td><strong>Vipps</strong></td>
+                <td><EffektFileInput onChange={(file: File) => setState({...state, vippsReport: file}) } id="vipps-upload"/></td>
+                <td><EffektButton onClick={() => { uploadReport(ReportTypes.VIPPS, state.vippsReport) }}>Upload</EffektButton></td>
+            </tr>
 
-        <tr>
-            <td><strong>Paypal</strong></td>
-            <td><EffektFileInput onChange={(file: File) => setState({...state, paypalReport: file}) } id="paypal-upload"/></td>
-            <td><EffektButton onClick={() => { uploadReport(ReportTypes.PAYPAL, state.paypalReport) }}>Upload</EffektButton></td>
-        </tr>
+            <tr>
+                <td><strong>Paypal</strong></td>
+                <td><EffektFileInput onChange={(file: File) => setState({...state, paypalReport: file}) } id="paypal-upload"/></td>
+                <td><EffektButton onClick={() => { uploadReport(ReportTypes.PAYPAL, state.paypalReport) }}>Upload</EffektButton></td>
+            </tr>
 
-        <tr>
-            <td><strong>Bank OCR</strong></td>
-            <td><EffektFileInput onChange={(file: File) => setState({...state, bankReport: file}) } id="bank-upload"/></td>
-            <td><EffektButton onClick={() => { uploadReport(ReportTypes.BANK, state.bankReport) }}>Upload</EffektButton></td>
-        </tr>
+            <tr>
+                <td><strong>Bank OCR</strong></td>
+                <td><EffektFileInput onChange={(file: File) => setState({...state, bankReport: file}) } id="bank-upload"/></td>
+                <td><EffektButton onClick={() => { uploadReport(ReportTypes.BANK, state.bankReport) }}>Upload</EffektButton></td>
+            </tr>
+        </tbody>
     </ReportTable>)
 }

@@ -8,7 +8,7 @@ interface IState {
 
 interface IProps {
     id: string,
-    onChange(file: File): void
+    onChange(file: File | null): void
 }
 
 export const EffektFileInput: React.FunctionComponent<IProps> = (props: IProps) => {
@@ -28,8 +28,11 @@ export const EffektFileInput: React.FunctionComponent<IProps> = (props: IProps) 
                 filename: event.target.files[0].name,
                 file: event.target.files[0]
             })
+
+            props.onChange(event.target.files[0])
         } else {
             setState(getDefaultState())
+            props.onChange(null)
         }
     }
 

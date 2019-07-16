@@ -7,7 +7,9 @@ export interface AppState {
 
     donorSelector: DonorSelectorState,
     organizations: OrganizationsState
-    singleDonation: SingleDonationState
+    singleDonation: SingleDonationState,
+
+    reportProcessing: ReportProcessingState
 }
 
 export interface AuthState {
@@ -39,4 +41,8 @@ export interface OrganizationsState {
 
 export interface SingleDonationState {
     paymentMethods?: Array<IPaymentMethod>
+}
+
+export interface ReportProcessingState {
+    failures?: any
 }
