@@ -6,11 +6,14 @@ import { AdminPanelWrapper } from './admin.component.style';
 import RegisterComponent from './pages/register/register.component'
 import DonorSelectionDialog from './modules/donors/donor-selection-dialog.component';
 import DonorsComponent from './pages/donors/donors.component';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const AdminPanel: React.FunctionComponent = () => {
     return (
         <div>
             <AdminPanelWrapper>
+            
                 <MainNavigation></MainNavigation>
                 <Switch>
                     <Route exact path="/home" component={HomeComponent}></Route>
@@ -24,6 +27,7 @@ export const AdminPanel: React.FunctionComponent = () => {
                 </Switch>
             </AdminPanelWrapper>
             {/* General overlay elements */}
+            <ToastContainer />
             <DonorSelectionDialog></DonorSelectionDialog>
         </div>
     )

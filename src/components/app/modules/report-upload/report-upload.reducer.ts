@@ -2,6 +2,7 @@ import { ReportProcessingState } from "../../../../models/state";
 import { AnyAction } from "redux";
 import { isType } from "typescript-fsa";
 import { uploadReportAction } from "./report-upload.actions";
+import { toast } from "react-toastify";
 
 const initialState: ReportProcessingState = {
     failures: null
