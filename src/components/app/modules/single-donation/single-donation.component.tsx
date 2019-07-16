@@ -12,6 +12,7 @@ import { fetchPaymentMethodsRequest, createDistribitionAndInsertDonationAction, 
 import { EffektButton } from '../../style/elements/button.style';
 import { IDistribution } from '../kid/kid.models';
 import { Decimal } from 'decimal.js';
+import { toast } from 'react-toastify';
 
 interface IState {
     selectedDate: Date | null,
@@ -72,7 +73,7 @@ export const SingleDonation: React.FunctionComponent = (props) => {
             }))
         }
         else {
-            alert('No Donor selected')
+            toast.error('Missing fields')
         }
     }
 

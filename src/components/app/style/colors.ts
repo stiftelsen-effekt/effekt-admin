@@ -12,5 +12,7 @@ export const grey15 = "#B7B7B7"
 export const grey05 = "#E2E2E2"
 
 export const red30 = "#4D0000"
+export const red20 = "#ad0000";
 
 export const green30 = "#1C4D00"
+export const green20 = "#2b7500"

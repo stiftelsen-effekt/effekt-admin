@@ -10,7 +10,7 @@ const initialState: ReportProcessingState = {
 
 export const reportProcessingReducer = (state: ReportProcessingState = initialState, action: AnyAction): ReportProcessingState => {
     if (isType(action, uploadReportAction.failed)) {
-        console.log(action.payload.error.message)
+        toast.error("Failed to process report")
     }
     else if (isType(action, uploadReportAction.done)) {
         return {

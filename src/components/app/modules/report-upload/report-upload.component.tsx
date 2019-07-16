@@ -25,7 +25,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
     const [state, setState] = useState<IState>(getDefaultState())
 
     const uploadReport = (type: ReportTypes, file: File | null) => {
-        if (!file) return toast("No file selected")
+        if (!file) return toast.error("No file selected")
         dispatch(uploadReportAction.started({type, report: file}));
     }
 
