@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { SingleDonationWrapper, InputWrapper, KIDTextWrapper, ControlsWrapper, DonationInput } from "./single-donation.style.component";
 import KIDComponent from "../kid/kid.component";
-import { EffektSelect } from "../../style/elements/select.style"
 
 import { EffektDatePicker } from '../../style/elements/datepicker.style';
 import "react-datepicker/dist/react-datepicker.css";
