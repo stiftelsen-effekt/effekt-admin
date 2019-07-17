@@ -20,17 +20,22 @@ export const reportProcessingReducer = (state: ReportProcessingState = defaultSt
         console.log(action.payload.error.message)
     }
     else if (isType(action, uploadReportAction.done)) {
-        return {
-            ...action.payload.result,
-            invalidTransactions: action.payload.result.invalidTransactions.map((invalid) => {
-                return {
-                    reason: invalid.reason,
-                    transaction: {
-                        ...invalid.transaction,
-                        date: new Date(invalid.transaction.date)
+        if (action.payload.result.invalid > 0) {
+            return {
+                ...action.payload.result,
+                invalidTransactions: action.payload.result.invalidTransactions.map((invalid) => {
+                    return {
+                        reason: invalid.reason,
+                        transaction: {
+                            ...invalid.transaction,
+                            date: new Date(invalid.transaction.date)
+                        }
                     }
-                }
-            })
+                })
+            }
+        } else {
+            toast.success(`🔥 inserted ${action.payload.result.valid} donations`)
+            return state
         }
     }
     else if (action.type === POP_INVALID_TRANSACTION) {
