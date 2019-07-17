@@ -4,7 +4,7 @@ import { fetchDonorRequest } from './home.actions'
 import { connect } from 'react-redux';
 import { Page } from '../../style/elements/page.style';
 import { MainHeader } from '../../style/elements/headers.style';
-import { EffektButton, EffektButtonTypes } from '../../style/elements/button.style';
+import { EffektButton, EffektSecondaryButton } from '../../style/elements/button.style';
 
 class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
     fetchDonor = () => {
@@ -16,7 +16,7 @@ class HomeComponent extends React.Component<IStateProps & IDispatchProps> {
             <Page>
                 <MainHeader>Home</MainHeader>
                 <EffektButton onClick={this.fetchDonor}>Fetch donor</EffektButton>&nbsp;
-                <EffektButton buttonStyle={EffektButtonTypes.SECONDARY} onClick={this.fetchDonor}>Secondary</EffektButton>
+                <EffektSecondaryButton onClick={this.fetchDonor}>Secondary</EffektSecondaryButton>
 
                 <div style={{
                     borderRadius: 10,

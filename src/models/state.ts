@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor, IOrganization, IPaymentMethod } from "./dbtypes";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -44,5 +44,7 @@ export interface SingleDonationState {
 }
 
 export interface ReportProcessingState {
-    failures?: any
+    valid: number,
+    invalid: number,
+    invalidTransactions: Array<IInvalidTransaction>
 }

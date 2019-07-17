@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { DonorSelectionWrapper, SelectionWrapper, DonorSelectionInput, DonorProperty } from "./donor.component.style";
 import { EffektButton } from "../../../style/elements/button.style";
-import { IDonor } from "../../../../../models/dbtypes";
+import { IDonor } from "../../../../../models/types";
 import { EffektInput } from '../../../style/elements/input.style';
 import { shortDate } from '../../../../../util/formatting';
 

@@ -1,6 +1,6 @@
 import { SingleDonationState } from "../../../../models/state";
 import { AnyAction } from "redux";
-import { IPaymentMethod } from "../../../../models/dbtypes";
+import { IPaymentMethod } from "../../../../models/types";
 import { DateTime } from "luxon";
 import { FETCH_PAYMENT_METHODS_SUCCESS, createDistribitionAndInsertDonationAction } from "./single-donation.actions";
 import { isType } from "typescript-fsa";

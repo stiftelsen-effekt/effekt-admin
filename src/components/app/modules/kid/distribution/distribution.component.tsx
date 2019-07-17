@@ -2,7 +2,7 @@ import React from 'react'
 import { EffektInput } from '../../../style/elements/input.style';
 import { DistributionWrapper, DistributionItem, DistributionRow } from './distribution.component.style';
 import { DistributionType, IDistribution } from '../kid.models';
-import { IOrganization } from '../../../../../models/dbtypes';
+import { IOrganization } from '../../../../../models/types';
 import Decimal from 'decimal.js'
 
 interface IProperties {

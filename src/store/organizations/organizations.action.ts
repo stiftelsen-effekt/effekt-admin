@@ -1,4 +1,4 @@
-import { IOrganization } from "../../models/dbtypes";
+import { IOrganization } from "../../models/types";
 
 export const FETCH_ACTIVE_ORGANIZATIONS_REQUEST = "FETCH_ACTIVE_ORGANIZATIONS_REQUEST";
 export const FETCH_ACTIVE_ORGANIZATIONS_FAILURE = "FETCH_ACTIVE_ORGANIZATIONS_FAILURE";

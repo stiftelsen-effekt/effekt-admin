@@ -35,3 +35,18 @@ export interface IDonation {
     timestamp: DateTime,
     KID: number
 }
+
+export interface IInvalidTransaction {
+    reason: string,
+    transaction: ITransaction
+}
+
+export interface ITransaction {
+    KID: number,
+    amount: number,
+    date: Date,
+    location: string,
+    message: string,
+    name: string,
+    transactionID: string
+}
