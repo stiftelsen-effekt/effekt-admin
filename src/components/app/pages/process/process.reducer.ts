@@ -12,6 +12,8 @@ const defaultState: ReportProcessingState = {
     invalidTransactions: []
 }
 
+const toastIfDone = (transactionsLeft: number) => transactionsLeft === 0 && toast.success("🎉 Good job, you did them all!")
+
 export const reportProcessingReducer = (state: ReportProcessingState = defaultState, action: AnyAction): ReportProcessingState => {
     if (isType(action, uploadReportAction.failed)) {
         toast.error("Failed to process report")
@@ -34,6 +36,8 @@ export const reportProcessingReducer = (state: ReportProcessingState = defaultSt
     else if (action.type === POP_INVALID_TRANSACTION) {
         let transactions = state.invalidTransactions
         transactions.pop()
+
+        toastIfDone(transactions.length)
         return {
             valid: ++state.valid,
             invalid: --state.invalid,
@@ -47,6 +51,8 @@ export const reportProcessingReducer = (state: ReportProcessingState = defaultSt
         let transactions = state.invalidTransactions.filter(invalid => invalid.transaction.transactionID !== externalRef)
 
         if (transactions.length === state.invalidTransactions.length) return state
+
+        toastIfDone(transactions.length)
         return {
             valid: ++state.valid,
             invalid: --state.invalid,
