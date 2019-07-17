@@ -4,6 +4,7 @@ import { isType } from "typescript-fsa";
 import { uploadReportAction } from "../../modules/report-upload/report-upload.actions";
 import { toast } from "react-toastify";
 import { POP_INVALID_TRANSACTION } from "./process.actions";
+import { createDistribitionAndInsertDonationAction } from "../../modules/single-donation/single-donation.actions";
 
 const defaultState: ReportProcessingState = {
     valid: 0,
@@ -34,8 +35,21 @@ export const reportProcessingReducer = (state: ReportProcessingState = defaultSt
         let transactions = state.invalidTransactions
         transactions.pop()
         return {
-            valid: state.valid++,
-            invalid: state.invalid--,
+            valid: ++state.valid,
+            invalid: --state.invalid,
+            invalidTransactions: transactions
+        }
+    }
+    else if (isType(action, createDistribitionAndInsertDonationAction.done)) {
+        if (state.invalidTransactions.length === 0) return state
+        let externalRef = action.payload.params.donation.externalRef
+
+        let transactions = state.invalidTransactions.filter(invalid => invalid.transaction.transactionID !== externalRef)
+
+        if (transactions.length === state.invalidTransactions.length) return state
+        return {
+            valid: ++state.valid,
+            invalid: --state.invalid,
             invalidTransactions: transactions
         }
     }

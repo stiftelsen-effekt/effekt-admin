@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SingleDonationWrapper, InputWrapper, KIDTextWrapper, ControlsWrapper, DonationInput } from "./single-donation.style.component";
 import KIDComponent from "../kid/kid.component";
 import { EffektSelect } from "../../style/elements/select.style"
@@ -9,10 +9,11 @@ import { IPaymentMethod, IDonor } from '../../../../models/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { fetchPaymentMethodsRequest, createDistribitionAndInsertDonationAction, IInsertDonationParams, ICreateDistributionParams } from './single-donation.actions';
-import { EffektButton } from '../../style/elements/button.style';
+import { EffektButton, EffektSecondaryButton } from '../../style/elements/button.style';
 import { IDistribution } from '../kid/kid.models';
 import { Decimal } from 'decimal.js';
 import { toast } from 'react-toastify';
+import Select from 'react-select';
 
 interface ICommonPropsAndState {
     selectedDate?: Date | null,
@@ -24,6 +25,7 @@ interface ICommonPropsAndState {
 
 interface IState extends ICommonPropsAndState {
     distribution: Array<IDistribution>
+    paymentMethodId: number
 }
 
 interface IProps extends ICommonPropsAndState {
@@ -31,27 +33,28 @@ interface IProps extends ICommonPropsAndState {
 }
 
 export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) => {
-    const [state, setState] = useState<IState>({
-        selectedDate: props.selectedDate || new Date(),
-        sum: props.sum || 200,
-        repeatSum: props.repeatSum || 200,
-        externalRef: props.externalRef || "abc",
-        paymentMethodId: props.paymentMethodId || 4,
+    const getDefaultState = ():IState => {
+        return {
+            selectedDate: props.selectedDate || new Date(),
+            sum: props.sum || 200,
+            repeatSum: props.repeatSum || 200,
+            externalRef: props.externalRef || "abc",
+            paymentMethodId: props.paymentMethodId || 4,
 
-        distribution: [],
-    })
+            distribution: [],
+        }
+    }
+    
+    const [state, setState] = useState<IState>(getDefaultState())
+
+    useEffect(() => setState(
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        getDefaultState()), [props])
 
     const dispatch = useDispatch()
     const paymentMethods = useSelector<AppState, Array<IPaymentMethod> | undefined>((state: AppState) => state.singleDonation.paymentMethods)
-    const selectedDonor = useSelector<AppState, IDonor | undefined>((state: AppState) => state.donorSelector.selectedDonor)
-
-    let paymentOptions = null;
     if (!paymentMethods) dispatch(fetchPaymentMethodsRequest())
-    else {
-        paymentOptions = paymentMethods.map((method, i) => (
-            <option key={i} value={method.id}>{method.name}</option>
-        ));
-    }
+    const selectedDonor = useSelector<AppState, IDonor | undefined>((state: AppState) => state.donorSelector.selectedDonor)
 
     const submit = () => {
         if (selectedDonor &&
@@ -85,8 +88,27 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
         }
     }
 
+    const methodToOption = (method: IPaymentMethod) => {
+        return {value: method.id, label: method.name}
+    }
+
     let ignoreButton;
-    if (props.onIgnore) ignoreButton = <EffektButton onClick={() => props.onIgnore}>Ignore</EffektButton>
+    if (props.onIgnore !== undefined) {
+        let onIgnore = props.onIgnore;
+        ignoreButton = <EffektSecondaryButton onClick={() => onIgnore()}>Ignore</EffektSecondaryButton>
+    }
+
+    let methodsSelect;
+    if (paymentMethods) {
+        let currentPaymentOption = paymentMethods.find((method) => method.id === state.paymentMethodId);
+        if (currentPaymentOption) {
+            methodsSelect = <div style={{width: '120px'}}><Select 
+                options={paymentMethods.map(method => methodToOption(method))}
+                value={methodToOption(currentPaymentOption)}
+                onChange={(selected: any) => setState({...state,paymentMethodId: selected.value})}></Select>
+            </div>
+        }
+    }
 
     return (
         <SingleDonationWrapper>
@@ -103,9 +125,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
                 <DonationInput value={state.sum} placeholder="Sum"            onChange={(e) => setState({ ...state, sum: parseInt(e.target.value) })} />
                 <DonationInput value={state.repeatSum} placeholder="Repeat sum"     onChange={(e) => setState({ ...state, repeatSum: parseInt(e.target.value) })} />
                 <DonationInput value={state.externalRef} placeholder="External ref."  onChange={(e) => setState({ ...state, externalRef: e.target.value })} />
-                <EffektSelect placeholder="Payment method"  onChange={(e) => setState({ ...state, paymentMethodId: parseInt(e.target.value) })}>
-                    {paymentOptions}
-                </EffektSelect>
+                {methodsSelect}
             </InputWrapper>
             <KIDComponent onChange={(distribution: Array<IDistribution>) => setState({ ...state, distribution })}></KIDComponent>
 

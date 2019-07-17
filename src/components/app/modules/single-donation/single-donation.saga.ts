@@ -69,7 +69,7 @@ export function* createDistributionAndInsertDonation(action: any) {
         }
         const donation = yield call(insertDonationCall, donationData)
 
-        yield put(createDistribitionAndInsertDonationAction.done(donation))
+        yield put(createDistribitionAndInsertDonationAction.done({ params: action.payload, result: "OK" }))
     } catch (ex) {
         yield put(createDistribitionAndInsertDonationAction.failed(ex))
     }
