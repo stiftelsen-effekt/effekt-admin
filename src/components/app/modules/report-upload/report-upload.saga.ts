@@ -35,7 +35,7 @@ export function* uploadReport(action: any) {
             formData: formData
         })
         if (data.status !== 200) 
-            throw new Error("Request error")
+            throw new Error(data.content)
         yield put(uploadReportAction.done({params: action.payload, result: data.content}))
     } catch (ex) {
         yield put(uploadReportAction.failed({ params: action.payload, error: ex }))

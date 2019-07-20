@@ -1,3 +1,4 @@
+import React from 'react'
 import { SingleDonationState } from "../../../../models/state";
 import { AnyAction } from "redux";
 import { IPaymentMethod } from "../../../../models/types";
@@ -16,7 +17,7 @@ export const singleDonationReducer = (state: SingleDonationState = initialState,
     }
 
     else if (isType(action, createDistribitionAndInsertDonationAction.failed)) {
-        toast.error("Could not insert donation")
+        toast.error(<div><strong>Could not insert donation</strong><div style={{ fontSize: '12px' }}>{action.payload.error.message}</div></div>)
     }
 
     switch(action.type) {

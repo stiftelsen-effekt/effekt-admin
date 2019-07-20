@@ -47,4 +47,4 @@ interface ICreateDistributionAndInsertDonationParams {
     donation: IInsertDonationParams
 }
 
-export const createDistribitionAndInsertDonationAction = actionCreator.async<ICreateDistributionAndInsertDonationParams, {}, {code: number}>('CREATE_DISTRIBUTION_AND_INSERT_DONATION');
+export const createDistribitionAndInsertDonationAction = actionCreator.async<ICreateDistributionAndInsertDonationParams, {}, Error>('CREATE_DISTRIBUTION_AND_INSERT_DONATION');

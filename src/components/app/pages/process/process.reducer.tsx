@@ -1,3 +1,4 @@
+import React from 'react'
 import { ReportProcessingState } from "../../../../models/state";
 import { AnyAction } from "redux";
 import { isType } from "typescript-fsa";
@@ -16,8 +17,7 @@ const toastIfDone = (transactionsLeft: number) => transactionsLeft === 0 && toas
 
 export const reportProcessingReducer = (state: ReportProcessingState = defaultState, action: AnyAction): ReportProcessingState => {
     if (isType(action, uploadReportAction.failed)) {
-        toast.error("Failed to process report")
-        console.log(action.payload.error.message)
+        toast.error(<div><strong>Failed to process report</strong><div style={{fontSize: '12px'}}>{action.payload.error.message}</div></div>)
     }
     else if (isType(action, uploadReportAction.done)) {
         if (action.payload.result.invalid > 0) {

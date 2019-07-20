@@ -17,7 +17,7 @@ export function* fetchPaymentMethods(action: any) {
             method: API.Method.GET
         })
         if (data.status !== 200) 
-            throw new Error("Request error")
+            throw new Error(data.content)
         yield put(fetchPaymentMethodsSuccess(data.content))
     }
     catch(ex) {
@@ -35,7 +35,7 @@ export function* createDistributionCall(params: ICreateDistributionParams) {
             data: params
         })
         if (data.status !== 200)
-            throw new Error("Request error")
+            throw new Error(data.content)
         return data.content
     } catch (ex) {
         throw ex
@@ -53,7 +53,7 @@ export function* insertDonationCall(params: IInsertDonationParams) {
             data: params
         })
         if (data.status !== 200)
-            throw new Error("Request error")
+            throw new Error(data.content)
         return data.content
     } catch (ex) {
         throw ex
@@ -71,6 +71,6 @@ export function* createDistributionAndInsertDonation(action: any) {
 
         yield put(createDistribitionAndInsertDonationAction.done({ params: action.payload, result: "OK" }))
     } catch (ex) {
-        yield put(createDistribitionAndInsertDonationAction.failed(ex))
+        yield put(createDistribitionAndInsertDonationAction.failed({ params: action.payload, error: ex }))
     }
 }

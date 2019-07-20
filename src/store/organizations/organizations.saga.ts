@@ -9,7 +9,7 @@ export function* fetchActiveOrganizations(action: any) {
             method: API.Method.GET
         })
         if (data.status !== 200) 
-            throw new Error("Request error")
+            throw new Error(data.content)
         yield put(fetchActiveOrganizationsSuccess(data.content))
     }
     catch(ex) {

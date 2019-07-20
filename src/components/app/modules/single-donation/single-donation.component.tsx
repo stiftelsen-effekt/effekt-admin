@@ -94,7 +94,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
     let ignoreButton;
     if (props.onIgnore !== undefined) {
         let onIgnore = props.onIgnore;
-        ignoreButton = <EffektSecondaryButton onClick={() => onIgnore()}>Ignore</EffektSecondaryButton>
+        ignoreButton = <EffektSecondaryButton onClick={() => onIgnore()} style={{ marginRight: '20px' }}>Ignore</EffektSecondaryButton>
     }
 
     let methodsSelect;
