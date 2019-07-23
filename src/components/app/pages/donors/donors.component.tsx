@@ -3,7 +3,7 @@ import { AppState } from "../../../../models/state";
 import React from "react";
 import { connect } from "react-redux";
 import { Page } from "../../style/elements/page.style";
-import DonorSelectionComponent from "../../modules/donors/donor-selection.component";
+import DonorSelectionComponent from "../../modules/donors/selection/donor-selection.component";
 import { IDonor } from "../../../../models/types";
 
 class DonorsComponent extends React.Component<IStateProps & IDispatchProps> {

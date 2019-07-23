@@ -1,4 +1,4 @@
-import { IPaymentMethod, IDonor } from "../../../../models/types";
+import { IPaymentMethod, IDonor, IDonation } from "../../../../models/types";
 import { IDistribution } from "../kid/kid.models";
 
 import actionCreatorFactory from 'typescript-fsa';
@@ -30,21 +30,13 @@ export const fetchPaymentMethodsSuccess = (paymentMethods: Array<IPaymentMethod>
 }
 
 export interface ICreateDistributionParams {
-    donor: IDonor, 
+    donor: IDonor,
     distribution: Array<IDistribution>
-}
-
-export interface IInsertDonationParams {
-    sum: number,
-    KID: number | undefined,
-    time: Date | null,
-    externalRef: string,
-    methodId: number
 }
 
 interface ICreateDistributionAndInsertDonationParams {
     distribution: ICreateDistributionParams,
-    donation: IInsertDonationParams
+    donation: IDonation
 }
 
 export const createDistribitionAndInsertDonationAction = actionCreator.async<ICreateDistributionAndInsertDonationParams, {}, Error>('CREATE_DISTRIBUTION_AND_INSERT_DONATION');

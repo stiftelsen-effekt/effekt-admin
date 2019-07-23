@@ -31,7 +31,10 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
         <Page>
             <MainHeader>Report upload - Manual review</MainHeader>
 
-            <GreenBox><strong>{processingState.valid}</strong> processed donations, <strong>{processingState.invalid}</strong> up for manual review</GreenBox>
+            <GreenBox>
+                <strong>{processingState.valid}</strong> processed donations, 
+                <strong>{processingState.invalid}</strong> up for manual review
+            </GreenBox>
             <RedBox>
                 <div className="header">Reason for failure</div>
                 <span>{current.reason}</span>
@@ -55,11 +58,12 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
             </EffektDisplayTable>
 
             <SingleDonation 
-                sum={current.transaction.amount} 
-                repeatSum={current.transaction.amount}
-                externalRef={current.transaction.transactionID}
-                paymentMethodId={4}
-                selectedDate={current.transaction.date}
+                suggestedValues={{
+                    sum: current.transaction.amount,
+                    paymentExternalRef: current.transaction.transactionID,
+                    paymentId: 4,
+                    timestamp: current.transaction.date
+                }}
                 onIgnore={ignoreTransaction}></SingleDonation>
         </Page>
     )

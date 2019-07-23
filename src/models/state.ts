@@ -40,7 +40,7 @@ export interface OrganizationsState {
 }
 
 export interface SingleDonationState {
-    paymentMethods?: Array<IPaymentMethod>
+    paymentMethods: Array<IPaymentMethod>
 }
 
 export interface ReportProcessingState {

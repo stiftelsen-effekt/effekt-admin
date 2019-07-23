@@ -27,13 +27,13 @@ export interface IPaymentMethod {
 }
 
 export interface IDonation {
-    id: number,
-    donorId: number,
+    id?: number,
+    donorId?: number,
     paymentId: number,
     paymentExternalRef: string,
     sum: number,
-    timestamp: DateTime,
-    KID: number
+    timestamp: Date,
+    KID?: number
 }
 
 export interface IInvalidTransaction {

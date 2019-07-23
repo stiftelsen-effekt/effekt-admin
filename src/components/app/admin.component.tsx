@@ -4,7 +4,7 @@ import HomeComponent from "./pages/home/home.component";
 import MainNavigation from "./nav/nav.component";
 import { AdminPanelWrapper } from './admin.component.style';
 import { RegisterComponent } from './pages/register/register.component'
-import DonorSelectionDialog from './modules/donors/donor-selection-dialog.component';
+import DonorSelectionDialog from './modules/donors/selection/donor-selection-dialog.component';
 import DonorsComponent from './pages/donors/donors.component';
 import 'react-toastify/dist/ReactToastify.css';
 import { EffektToastContainer } from './style/elements/toast/toast.style';

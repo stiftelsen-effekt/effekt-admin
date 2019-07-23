@@ -3,10 +3,10 @@ import * as API from '../../../../util/api'
 import {    fetchPaymentMethodsFailure, 
             fetchPaymentMethodsSuccess,
             createDistribitionAndInsertDonationAction, 
-            ICreateDistributionParams, 
-            IInsertDonationParams } from './single-donation.actions';
+            ICreateDistributionParams } from './single-donation.actions';
 import { AppState } from '../../../../models/state';
 import { IAccessToken } from '../../../../authenticate/auth';
+import { IDonation } from '../../../../models/types';
 
 const getApiToken = (state: AppState) => state.auth.currentToken
 
@@ -43,7 +43,7 @@ export function* createDistributionCall(params: ICreateDistributionParams) {
         
 }
 
-export function* insertDonationCall(params: IInsertDonationParams) {
+export function* insertDonationCall(params: IDonation) {
     try {
         const accessToken: IAccessToken = yield select(getApiToken);
         var data = yield call(API.call, {

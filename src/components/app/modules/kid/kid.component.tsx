@@ -5,7 +5,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../../../models/state";
 
-import { showDonorSelectionComponent } from "../donors/donor-selection.actions";
+import { showDonorSelectionComponent } from "../donors/selection/donor-selection.actions";
 import { fetchActiveOrganizationsRequest } from "../../../../store/organizations/organizations.action";
 
 //Styling
@@ -90,7 +90,7 @@ class KIDComponent extends React.Component<IStateProps & IDispatchProps & IProps
                             {/* Split */}
                             <div>
                                 <KIDDistribution 
-                                    organizations={this.props.activeOrganizations} 
+                                    organizations={this.props.activeOrganizations}
                                     onChange={this.distributionChanged}></KIDDistribution>
                             </div>
 

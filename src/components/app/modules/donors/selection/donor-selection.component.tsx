@@ -1,4 +1,4 @@
-import { AppState } from "../../../../models/state";
+import { AppState } from "../../../../../models/state";
 import React, { ChangeEvent } from "react";
 
 import { connect } from "react-redux";
@@ -6,10 +6,10 @@ import { connect } from "react-redux";
 import '../../style/elements/react-table/table.css'
 import ReactTable from "react-table";
 import { searchDonorsRequest, setSelectedDonor, clearSelectedDonor } from "./donor-selection.actions";
-import { IDonor } from "../../../../models/types";
-import { EffektInput } from "../../style/elements/input.style";
-import { orange50 } from "../../style/colors";
-import { shortDate } from "../../../../util/formatting";
+import { IDonor } from "../../../../../models/types";
+import { EffektInput } from "../../../style/elements/input.style";
+import { orange50 } from "../../../style/colors";
+import { shortDate } from "../../../../../util/formatting";
 
 interface IDonorTableState {
     sorted: Array<any>,

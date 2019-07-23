@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { SelectorWrapper, DonorDialog, Controls } from "./donor-selection-dialog.component.style";
 
 import { hideDonorSelectionComponent, clearSelectedDonor } from './donor-selection.actions'
-import { AppState } from '../../../../models/state';
-import { EffektButton, EffektSecondaryButton } from '../../style/elements/button.style';
+import { AppState } from '../../../../../models/state';
+import { EffektButton, EffektSecondaryButton } from '../../../style/elements/button.style';
 import DonorSelector from './donor-selection.component';
 
 

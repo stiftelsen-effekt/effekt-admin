@@ -51,7 +51,7 @@ export const reportProcessingReducer = (state: ReportProcessingState = defaultSt
     }
     else if (isType(action, createDistribitionAndInsertDonationAction.done)) {
         if (state.invalidTransactions.length === 0) return state
-        let externalRef = action.payload.params.donation.externalRef
+        let externalRef = action.payload.params.donation.paymentExternalRef
 
         let transactions = state.invalidTransactions.filter(invalid => invalid.transaction.transactionID !== externalRef)
 

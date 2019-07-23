@@ -8,7 +8,7 @@ import { isType } from "typescript-fsa";
 import { toast } from "react-toastify";
 
 const initialState: SingleDonationState = {
-    paymentMethods: undefined
+    paymentMethods: []
 }
 
 export const singleDonationReducer = (state: SingleDonationState = initialState, action: AnyAction): SingleDonationState => {

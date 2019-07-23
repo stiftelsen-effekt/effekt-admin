@@ -6,7 +6,7 @@ import { EffektInput } from '../../../style/elements/input.style';
 import { shortDate } from '../../../../../util/formatting';
 
 import { useDispatch } from 'react-redux';
-import { clearSelectedDonor } from '../../donors/donor-selection.actions'
+import { clearSelectedDonor } from '../../donors/selection/donor-selection.actions'
 
 interface IProps {
     selectedDonor: IDonor | undefined,

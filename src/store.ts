@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga'
 import watchAll from './root.saga';
 import { authReducer } from './authenticate/auth.reducer';
 import { homeReducer } from './components/app/pages/home/home.reducer';
-import { donorSelectorReducer } from './components/app/modules/donors/donor-selection.reducer';
+import { donorSelectorReducer } from './components/app/modules/donors/selection/donor-selection.reducer';
 import { organizationsReducer } from './store/organizations/organizations.reducer';
 import { singleDonationReducer } from './components/app/modules/single-donation/single-donation.reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
