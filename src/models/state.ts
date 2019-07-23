@@ -3,7 +3,6 @@ import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction } from "./ty
 
 export interface AppState {
     auth: AuthState,
-    home: HomeState,
 
     donorSelector: DonorSelectorState,
     donorCreation: CreateDonorState,
@@ -25,10 +24,6 @@ export enum AuthStep {
     SHOW_CONNECTION_FAILED,
     SHOW_LOGIN_SCREEN,
     LOGGED_IN
-}
-
-export interface HomeState {
-    selectedDonor?: any
 }
 
 export interface DonorSelectorState {
