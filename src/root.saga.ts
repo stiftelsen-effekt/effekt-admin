@@ -13,6 +13,8 @@ import { FETCH_PAYMENT_METHODS_REQUEST, createDistribitionAndInsertDonationActio
 import { fetchPaymentMethods, createDistributionAndInsertDonation } from './components/app/modules/single-donation/single-donation.saga';
 import { uploadReportAction } from './components/app/modules/report-upload/report-upload.actions';
 import { uploadReport } from './components/app/modules/report-upload/report-upload.saga';
+import { createDonorAction } from './components/app/modules/donors/create/create-donor.actions';
+import { createDonor } from './components/app/modules/donors/create/create-donor.saga';
 
 function *watchAll() {
     yield all([
@@ -34,7 +36,9 @@ function *watchAll() {
         takeLatest(FETCH_PAYMENT_METHODS_REQUEST, fetchPaymentMethods),
 
         takeLatest(createDistribitionAndInsertDonationAction.started.type, createDistributionAndInsertDonation),
-        takeLatest(uploadReportAction.started.type, uploadReport)
+        takeLatest(uploadReportAction.started.type, uploadReport),
+
+        takeLatest(createDonorAction.started.type, createDonor)
     ]);
 }
 

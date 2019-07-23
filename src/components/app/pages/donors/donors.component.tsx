@@ -1,10 +1,11 @@
-import { MainHeader } from "../../style/elements/headers.style";
+import { MainHeader, SubHeader } from "../../style/elements/headers.style";
 import { AppState } from "../../../../models/state";
 import React from "react";
 import { connect } from "react-redux";
 import { Page } from "../../style/elements/page.style";
 import DonorSelectionComponent from "../../modules/donors/selection/donor-selection.component";
 import { IDonor } from "../../../../models/types";
+import { CreateDonor } from "../../modules/donors/create/create-donor.component";
 
 class DonorsComponent extends React.Component<IStateProps & IDispatchProps> {
     render() {
@@ -21,6 +22,9 @@ class DonorsComponent extends React.Component<IStateProps & IDispatchProps> {
         return (
             <Page>
                 <MainHeader>Donors</MainHeader>
+                <SubHeader>Create</SubHeader>
+                <CreateDonor></CreateDonor>
+                <SubHeader>Search</SubHeader>
                 {selection}
                 <DonorSelectionComponent></DonorSelectionComponent>
             </Page>

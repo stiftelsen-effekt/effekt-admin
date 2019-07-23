@@ -3,7 +3,7 @@ import React, { ChangeEvent } from "react";
 
 import { connect } from "react-redux";
 
-import '../../style/elements/react-table/table.css'
+import '../../../style/elements/react-table/table.css'
 import ReactTable from "react-table";
 import { searchDonorsRequest, setSelectedDonor, clearSelectedDonor } from "./donor-selection.actions";
 import { IDonor } from "../../../../../models/types";

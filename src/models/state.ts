@@ -6,10 +6,12 @@ export interface AppState {
     home: HomeState,
 
     donorSelector: DonorSelectorState,
+    donorCreation: CreateDonorState,
+
     organizations: OrganizationsState
     singleDonation: SingleDonationState,
 
-    reportProcessing: ReportProcessingState
+    reportProcessing: ReportProcessingState,
 }
 
 export interface AuthState {
@@ -47,4 +49,8 @@ export interface ReportProcessingState {
     valid: number,
     invalid: number,
     invalidTransactions: Array<IInvalidTransaction>
+}
+
+export interface CreateDonorState {
+
 }

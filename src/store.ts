@@ -9,14 +9,16 @@ import { organizationsReducer } from './store/organizations/organizations.reduce
 import { singleDonationReducer } from './components/app/modules/single-donation/single-donation.reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { reportProcessingReducer } from './components/app/pages/process/process.reducer';
+import { CreateDonorReducer } from './components/app/modules/donors/create/create-donor.reducer';
 
 const rootReducer = combineReducers<AppState>({
     auth: authReducer,
     home: homeReducer,
     donorSelector: donorSelectorReducer,
+    donorCreation: CreateDonorReducer,
     organizations: organizationsReducer,
     singleDonation: singleDonationReducer,
-    reportProcessing: reportProcessingReducer
+    reportProcessing: reportProcessingReducer,
 })
 
 const sagaMiddleware = createSagaMiddleware();

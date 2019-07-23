@@ -6,6 +6,7 @@ import { uploadReportAction } from "../../modules/report-upload/report-upload.ac
 import { toast } from "react-toastify";
 import { POP_INVALID_TRANSACTION } from "./process.actions";
 import { createDistribitionAndInsertDonationAction } from "../../modules/single-donation/single-donation.actions";
+import { toastError } from '../../../../util/toasthelper';
 
 const defaultState: ReportProcessingState = {
     valid: 0,
@@ -17,7 +18,7 @@ const toastIfDone = (transactionsLeft: number) => transactionsLeft === 0 && toas
 
 export const reportProcessingReducer = (state: ReportProcessingState = defaultState, action: AnyAction): ReportProcessingState => {
     if (isType(action, uploadReportAction.failed)) {
-        toast.error(<div><strong>Failed to process report</strong><div style={{fontSize: '12px'}}>{action.payload.error.message}</div></div>)
+        toastError("Failed to process report", action.payload.error.message)
     }
     else if (isType(action, uploadReportAction.done)) {
         if (action.payload.result.invalid > 0) {
