@@ -3,9 +3,7 @@ import { useState } from "react";
 import { EffektInput } from "../../../style/elements/input.style";
 import { EffektButton } from "../../../style/elements/button.style";
 import { useDispatch } from 'react-redux';
-import { createDonor } from './create-donor.saga';
 import { createDonorAction } from './create-donor.actions';
-import { DateTime } from 'luxon';
 import { CreateDonorWrapper } from './create-donor.component.style';
 
 interface IState {
