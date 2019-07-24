@@ -2,8 +2,10 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
 - name: 'gcr.io/cloud-builders/npm'
+  env: ['CI=true']
   args: ['run', 'test']
 - name: 'gcr.io/cloud-builders/npm'
+  env: ['CI=true']
   args: ['run', 'build']
 artifacts:
   objects:
