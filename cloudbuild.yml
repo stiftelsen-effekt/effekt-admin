@@ -7,7 +7,5 @@ steps:
 - name: 'gcr.io/cloud-builders/npm'
   env: ['CI=true']
   args: ['run', 'build']
-artifacts:
-  objects:
-    location: 'gs://static.gieffektivt.no/'
-    paths: ['build/**/*']
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'cp', '-r', 'build/*', 'gs://static.gieffektivt.no/']
