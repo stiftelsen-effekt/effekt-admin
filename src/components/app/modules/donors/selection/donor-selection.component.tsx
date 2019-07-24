@@ -1,11 +1,11 @@
 import { AppState } from "../../../../../models/state";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import '../../../style/elements/react-table/table.css'
 import ReactTable from "react-table";
-import { searchDonorsRequest, setSelectedDonor, clearSelectedDonor } from "./donor-selection.actions";
+import { searchDonorAction, setSelectedDonor, clearSelectedDonor } from "./donor-selection.actions";
 import { IDonor } from "../../../../../models/types";
 import { EffektInput } from "../../../style/elements/input.style";
 import { orange50 } from "../../../style/colors";
@@ -21,14 +21,8 @@ interface IDonorTableState {
     selected: any
 }
 
-class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProps, IDonorTableState> {
-    constructor(props: IStateProps & IDispatchProps) {
-        super(props);
-        this.state = this.defaultState;
-        this.resetState = this.resetState.bind(this);
-    }
-
-    get defaultState(): IDonorTableState {
+export const DonorSelectionComponent: React.FunctionComponent = (props) => {
+    const getDefaultState = (): IDonorTableState => {
         return {
             sorted: [],
             page: 0,
@@ -39,25 +33,27 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
             selected: null
         }
     }
+    
+    const [state, setState] = useState<IDonorTableState>(getDefaultState())
+    const dispatch = useDispatch()
+    const searchResult = useSelector((state: AppState) => state.donorSelector.searchResult)
 
-    search = (event: ChangeEvent<HTMLInputElement>) => {
-        this.setState({
+    if (!searchResult) dispatch(searchDonorAction.started(""))
+
+    const search = (event: ChangeEvent<HTMLInputElement>) => {
+        setState({
+            ...state,
             selected: null
         })
-        this.props.clearSelectedDonor()
-        this.props.searchDonorsRequest(event.target.value)
+        dispatch(clearSelectedDonor())
+        dispatch(searchDonorAction.started(event.target.value))
     }
 
-    resetState() {
-        this.setState(this.defaultState);
+    const resetState = () => {
+        setState(getDefaultState());
     }
 
-    componentDidMount() {
-        //Gets first 100 results
-        this.props.searchDonorsRequest("");
-    }
-
-    columnDefinitions = [
+    const columnDefinitions = [
         {
             Header: "ID",
             accessor: "id"
@@ -77,75 +73,52 @@ class DonorSelectorComponent extends React.Component<IStateProps & IDispatchProp
         }
     ]
 
-    trProps = (state: any, rowInfo: any) => {
-        if (rowInfo && rowInfo.row) {
-            return {
-                onClick: (e: React.MouseEvent) => this.rowClick(rowInfo),
-                onDoubleClick: (e: any) => this.rowDoubleClick(rowInfo.original.id),
-                style: this.rowStyle(rowInfo.index, this.state.selected)
-            }
-        } else{
-            return {}
-        }
-    }
-
-    rowClick = (rowInfo: any) => {
-        this.props.setSelectedDonor(rowInfo.original)
-        this.setState({
+    const rowClick = (rowInfo: any) => {
+        dispatch(setSelectedDonor(rowInfo.original))
+        setState({
+            ...state,
             selected: rowInfo.index
         })
     }
 
-    rowDoubleClick = (donorID: number) => {
+    const rowDoubleClick = (donorID: number) => {
         console.log("GOTO DONOR:", donorID);
     }
 
-    rowStyle = (rowIndex: number, selectedIndex: number) => {
+    const rowStyle = (rowIndex: number, selectedIndex: number) => {
         return {
             background: rowIndex === selectedIndex ? orange50 : '',
             color: rowIndex === selectedIndex ? 'white' : ''
         }
     }
 
-    render() {
-        return (
-            <div>
-                <EffektInput type="text" onChange={this.search} placeholder="søk" style={{ width: '100%', marginBottom: '20px' }}></EffektInput>
-                <ReactTable
-                    data={this.props.data}
-                    columns={this.columnDefinitions}
-                      defaultPageSize={10}
-                      onSortedChange={sorted => this.setState({ sorted })}
-                      onPageChange={page => this.setState({ page })}
-                      onPageSizeChange={(pageSize, page) => this.setState({ page, pageSize })}
-                      onExpandedChange={expanded => this.setState({ expanded })}
-                      onResizedChange={resized => this.setState({ resized })}
-                      onFilteredChange={filtered => this.setState({ filtered })}
-                      getTrProps={this.trProps}
-                ></ReactTable>
-            </div>
-        )
+    const trProps = (state: any, rowInfo: any) => {
+        if (rowInfo && rowInfo.row) {
+            return {
+                onClick: (e: React.MouseEvent) => rowClick(rowInfo),
+                onDoubleClick: (e: any) => rowDoubleClick(rowInfo.original.id),
+                style: rowStyle(rowInfo.index, state.selected)
+            }
+        } else{
+            return {}
+        }
     }
-}
 
-interface IStateProps {
-    data: Array<IDonor>
+    return (
+        <div>
+            <EffektInput type="text" onChange={search} placeholder="søk" style={{ width: '100%', marginBottom: '20px' }}></EffektInput>
+            <ReactTable
+                data={searchResult}
+                columns={columnDefinitions}
+                    defaultPageSize={10}
+                    onSortedChange={sorted => setState({ ...state, sorted })}
+                    onPageChange={page => setState({ ...state, page })}
+                    onPageSizeChange={(pageSize, page) => setState({ ...state, page, pageSize })}
+                    onExpandedChange={expanded => setState({ ...state, expanded })}
+                    onResizedChange={resized => setState({ ...state, resized })}
+                    onFilteredChange={filtered => setState({ ...state, filtered })}
+                    getTrProps={trProps}
+            ></ReactTable>
+        </div>
+    )
 }
-const mapStateToProps = (state: AppState): IStateProps => {
-    return {
-        data: state.donorSelector.searchResult
-    }
-}
-
-interface IDispatchProps {
-    searchDonorsRequest: Function,
-    setSelectedDonor: Function,
-    clearSelectedDonor: Function
-}
-const mapDispatchToProps: IDispatchProps = {
-    searchDonorsRequest,
-    setSelectedDonor,
-    clearSelectedDonor
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DonorSelectorComponent);

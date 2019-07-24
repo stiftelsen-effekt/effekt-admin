@@ -3,7 +3,7 @@ import { FETCH_TOKEN_REQUEST } from './authenticate/token.actions';
 import { fetchToken } from './authenticate/token.saga';
 import { LOGIN_BEGIN, LOGOUT_REQUEST, LOGIN_CACHE_CHECK, LOGIN_CALLBACK, LOGIN_SUCCESS } from './authenticate/loginout.actions';
 import { login, logout, loginCacheCheck, callback, loginSuccess } from './authenticate/loginout.saga';
-import { SEARCH_DONORS_REQUEST } from './components/app/modules/donors/selection/donor-selection.actions';
+import { searchDonorAction } from './components/app/modules/donors/selection/donor-selection.actions';
 import { searchDonors } from './components/app/modules/donors/selection/donor-selection.saga';
 import { FETCH_ACTIVE_ORGANIZATIONS_REQUEST } from './store/organizations/organizations.action';
 import { fetchActiveOrganizations } from './store/organizations/organizations.saga';
@@ -25,7 +25,7 @@ function *watchAll() {
         takeEvery(FETCH_TOKEN_REQUEST, fetchToken),
         takeEvery(LOGOUT_REQUEST, logout),
 
-        takeLatest(SEARCH_DONORS_REQUEST, searchDonors),
+        takeLatest(searchDonorAction.started.type, searchDonors),
 
         takeLatest(FETCH_ACTIVE_ORGANIZATIONS_REQUEST, fetchActiveOrganizations),
 

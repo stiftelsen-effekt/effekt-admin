@@ -1,8 +1,9 @@
 import { DonorSelectorState } from "../../../../../models/state";
 import { AnyAction } from "redux";
-import { SHOW_DONOR_SELECTION_COMPONENT, HIDE_DONOR_SELECTION_COMPONENT, SEARCH_DONORS_SUCCESS, SEARCH_DONORS_FAILURE, CLEAR_SELECTED_DONOR, SET_SELECTED_DONOR } from "./donor-selection.actions";
+import { SHOW_DONOR_SELECTION_COMPONENT, HIDE_DONOR_SELECTION_COMPONENT, CLEAR_SELECTED_DONOR, SET_SELECTED_DONOR, searchDonorAction } from "./donor-selection.actions";
 import { IDonor } from "../../../../../models/types";
 import { DateTime } from "luxon";
+import { isType } from "typescript-fsa";
 
 const initialState: DonorSelectorState = {
     visible: false,
@@ -10,6 +11,18 @@ const initialState: DonorSelectorState = {
 }
 
 export const donorSelectorReducer = (state: DonorSelectorState = initialState, action: AnyAction): DonorSelectorState => {
+    if (isType(action, searchDonorAction.done)) {
+        return {
+            ...state,
+            searchResult: action.payload.result.map((donor: IDonor) => { return {...donor, registered: DateTime.fromISO(donor.registered.toString())}})
+        }
+    } else if (isType(action, searchDonorAction.failed)) {
+        return {
+            ...state,
+            searchResult: []
+        }
+    }
+
     switch(action.type) {
         case SHOW_DONOR_SELECTION_COMPONENT:
             return {
@@ -21,19 +34,6 @@ export const donorSelectorReducer = (state: DonorSelectorState = initialState, a
                 ...state,
                 visible: false
             }
-
-        case SEARCH_DONORS_SUCCESS:
-            return {
-                ...state,
-                searchResult: action.payload.map((donor: IDonor) => { return {...donor, registered: DateTime.fromISO(donor.registered.toString())}})
-            }
-        
-        case SEARCH_DONORS_FAILURE:
-            return {
-                ...state,
-                searchResult: []
-            }
-
         case SET_SELECTED_DONOR:
             return {
                 ...state,

@@ -6,7 +6,7 @@ import { SelectorWrapper, DonorDialog, Controls } from "./donor-selection-dialog
 import { hideDonorSelectionComponent, clearSelectedDonor } from './donor-selection.actions'
 import { AppState } from '../../../../../models/state';
 import { EffektButton, EffektSecondaryButton } from '../../../style/elements/button.style';
-import DonorSelector from './donor-selection.component';
+import { DonorSelectionComponent } from './donor-selection.component';
 
 
 class DonorSelectionDialogComponent extends React.Component<IStateProps & IDispatchProps> {
@@ -25,7 +25,7 @@ class DonorSelectionDialogComponent extends React.Component<IStateProps & IDispa
         return (
             <SelectorWrapper visible={this.props.visible}>
                 <DonorDialog>
-                    <DonorSelector></DonorSelector>
+                    <DonorSelectionComponent></DonorSelectionComponent>
                     {/* Controls */}
                     <Controls>
                         <EffektSecondaryButton onClick={this.abort}>Avbryt</EffektSecondaryButton>

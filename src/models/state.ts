@@ -28,7 +28,7 @@ export enum AuthStep {
 
 export interface DonorSelectorState {
     selectedDonor?: IDonor,
-    searchResult: Array<IDonor>,
+    searchResult?: Array<IDonor>,
     visible: boolean
 }
 

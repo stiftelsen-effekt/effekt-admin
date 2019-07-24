@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 import * as API from '../../../../../util/api'
-import { searchDonorsSuccess, searchDonorFailure } from './donor-selection.actions';
+import { searchDonorAction } from './donor-selection.actions';
 import { AppState } from '../../../../../models/state';
 import { IAccessToken } from '../../../../../authenticate/auth';
 
@@ -19,9 +19,9 @@ export function* searchDonors(action: any) {
         })
         if (data.status !== 200) 
             throw new Error(data.content)
-        yield put(searchDonorsSuccess(data.content))
+        yield put(searchDonorAction.done({ params: action.payload, result: data.content }))
     }
     catch(ex) {
-        yield put(searchDonorFailure(ex))
+        yield put(searchDonorAction.failed({ params: action.payload, error: ex }))
     }
 }
