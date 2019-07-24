@@ -6,6 +6,7 @@ import { EffektButton } from '../../style/elements/button.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { fetchPaymentMethodsRequest } from '../../modules/single-donation/single-donation.actions';
+import { EffektSwitch } from '../../style/elements/effekt-switch/effekt-switch.component';
 
 export enum ReportFileFormats {
     EXCEL,
@@ -51,7 +52,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
                     dateFormat="dd.MM.yyyy"></EffektDatePicker>
             </div>
 
-            <span>Opt1</span><span>Opt2</span>
+            <EffektSwitch left="Excel" right="JSON"></EffektSwitch>
             <EffektButton onClick={download}>Download</EffektButton>
         </Page>
     )
