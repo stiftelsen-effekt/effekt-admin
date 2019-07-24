@@ -1,4 +1,3 @@
-import React from 'react'
 import { SingleDonationState } from "../../../../models/state";
 import { AnyAction } from "redux";
 import { IPaymentMethod } from "../../../../models/types";
@@ -6,6 +5,7 @@ import { DateTime } from "luxon";
 import { FETCH_PAYMENT_METHODS_SUCCESS, createDistribitionAndInsertDonationAction } from "./single-donation.actions";
 import { isType } from "typescript-fsa";
 import { toast } from "react-toastify";
+import { toastError } from '../../../../util/toasthelper';
 
 const initialState: SingleDonationState = {
     paymentMethods: []
@@ -17,7 +17,7 @@ export const singleDonationReducer = (state: SingleDonationState = initialState,
     }
 
     else if (isType(action, createDistribitionAndInsertDonationAction.failed)) {
-        toast.error(<div><strong>Could not insert donation</strong><div style={{ fontSize: '12px' }}>{action.payload.error.message}</div></div>)
+        toastError("Could not insert donation", action.payload.error.message)
     }
 
     switch(action.type) {
@@ -26,8 +26,6 @@ export const singleDonationReducer = (state: SingleDonationState = initialState,
                 ...state,
                 paymentMethods: action.payload.map((method: IPaymentMethod) => { return {...method, lastUpdated: DateTime.fromISO(method.lastUpdated.toString())}})
             }
-        
-        
 
         default:
             return state;

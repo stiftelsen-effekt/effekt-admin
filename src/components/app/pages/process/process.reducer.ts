@@ -1,4 +1,3 @@
-import React from 'react'
 import { ReportProcessingState } from "../../../../models/state";
 import { AnyAction } from "redux";
 import { isType } from "typescript-fsa";
