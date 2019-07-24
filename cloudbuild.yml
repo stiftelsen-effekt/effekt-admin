@@ -10,4 +10,4 @@ steps:
 artifacts:
   objects:
     location: 'gs://static.gieffektivt.no/'
-    paths: ['build/**/**']
+    paths: ['build/**/*']
