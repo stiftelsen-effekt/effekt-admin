@@ -9,6 +9,7 @@ import DonorsComponent from './pages/donors/donors.component';
 import 'react-toastify/dist/ReactToastify.css';
 import { EffektToastContainer } from './style/elements/toast/toast.style';
 import { ProcessDonations } from './pages/process/process.component';
+import { ReportsComponent } from './pages/reports/reports.component';
 
 export const AdminPanel: React.FunctionComponent = () => {
     return (
@@ -20,7 +21,7 @@ export const AdminPanel: React.FunctionComponent = () => {
                     <Route exact path="/register" component={RegisterComponent}></Route>
                     <Route exact path="/register/process" component={ProcessDonations}></Route>
                     <Route exact path="/graphing" render={() => <div>Graphing</div>}></Route>
-                    <Route exact path="/reports" render={() => <div>Reports</div>}></Route>
+                    <Route exact path="/reports" component={ReportsComponent}></Route>
                     <Route exact path="/donors" component={DonorsComponent}></Route>
                     <Route exact path="/settings" render={() => <div>Settings</div>}></Route>
 
