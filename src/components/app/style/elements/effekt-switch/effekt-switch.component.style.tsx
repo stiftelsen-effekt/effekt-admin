@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { SwitchSelected } from "./effekt-switch.component";
-import { orange50, orange05, brown50, brown30 } from "../../colors";
+import { orange50, orange05, brown30 } from "../../colors";
 
 export const EffektSwitchWrapper = styled.div`
     background: ${orange05};
@@ -44,11 +44,11 @@ export const EffektSwitchSlider = styled.div<ISwitchSliderProps>`
         content: '';
         position: absolute;
         top: 0;
-        left: -9.7px;
+        left: -10px;
         width: 0;
         height: 0;
         border-style: solid;
-        border-width: 0 0 33px 10px;
+        border-width: 0 0 35px 10px;
         border-color: transparent transparent ${orange50} transparent;
     }
 
@@ -60,7 +60,7 @@ export const EffektSwitchSlider = styled.div<ISwitchSliderProps>`
         width: 0;
         height: 0;
         border-style: solid;
-        border-width: 33px 10px 0 0;
+        border-width: 35px 10px 0 0;
         border-color: ${orange50} transparent transparent transparent;
     }
 `
