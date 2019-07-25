@@ -2,11 +2,13 @@ import React, { useState, useCallback } from 'react'
 import { Page } from "../../style/elements/page.style";
 import { MainHeader, SubHeader } from "../../style/elements/headers.style";
 import { EffektDatePicker } from '../../style/elements/datepicker.style';
-import { EffektButton } from '../../style/elements/button.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { fetchPaymentMethodsRequest } from '../../modules/single-donation/single-donation.actions';
 import { EffektSwitch, SwitchSelected } from '../../style/elements/effekt-switch/effekt-switch.component';
+import { EffektCheckChoice, EffektCheckForm } from '../../style/elements/effekt-check/effekt-check-form.component';
+import { API_URL } from '../../../../config/config';
+import { DateTime } from 'luxon';
 
 export enum ReportFileFormats {
     EXCEL,
@@ -16,46 +18,81 @@ export enum ReportFileFormats {
 export const ReportsComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
 
+    const token = useSelector((state:AppState) => state.auth.currentToken)
+
     const [from, setFrom] = useState<Date | null>()
-    const [to, setTo] = useState<Date | null>()
+    const [to, setTo] = useState<Date | null>(new Date())
 
     //TODO: Move payment methods to different place in state
     const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods)
     //TODO: Rewrite to FSA
-    if (!paymentMethods) dispatch(fetchPaymentMethodsRequest())
+    if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsRequest())
 
-    const [paymentMethodId, setPaymentMethodId] = useState<number>()
+    const [paymentMethodIds, setPaymentMethodIds] = useState<Array<number>>([4])
+    let paymentMethodChoices: Array<EffektCheckChoice> = paymentMethods.map(method => ({
+        label: method.abbriviation,
+        value: method.id,
+        selected: paymentMethodIds.indexOf(method.id) !== -1
+    }))
+
     const [fileFormat, setFileFormat] = useState<ReportFileFormats>()
-
-    if (from && to && paymentMethodId && setPaymentMethodId && fileFormat)
-        console.log("yay")
-
-    const download = () => {
-        alert('JUST DO IT!')
-    }
-
     const fileFormatChanged = useCallback((selected: SwitchSelected) => setFileFormat(selected === SwitchSelected.LEFT ? ReportFileFormats.EXCEL : ReportFileFormats.JSON ), [setFileFormat])
+
+    const reportRangeUrl = `${API_URL}/reports/range`
 
     return (
         <Page>
             <MainHeader>Reports</MainHeader>
             <SubHeader>Transaction reports</SubHeader>
-            <div>
-                <EffektDatePicker 
-                    onChange={(date) => setFrom(date)}
-                    selected={from}
-                    placeholderText="from"
-                    dateFormat="dd.MM.yyyy"></EffektDatePicker>
-                <span>-></span>
-                <EffektDatePicker 
-                    onChange={(date) => setTo(date)}
-                    selected={to}
-                    placeholderText="to"
-                    dateFormat="dd.MM.yyyy"></EffektDatePicker>
-            </div>
+            <form method="POST" action={reportRangeUrl} target="_blank">
+                {/* Consider splitting each section into subcomponents */}
+                <div>
+                    <EffektDatePicker 
+                        onChange={(date) => setFrom(date)}
+                        selected={from}
+                        placeholderText="from"
+                        dateFormat="dd.MM.yyyy"></EffektDatePicker>
+                    <input
+                        type="hidden"
+                        name="fromDate"
+                        value={(from ? DateTime.fromJSDate(from).toISODate().toString() : '')} />
+                    <span>-></span>
+                    <EffektDatePicker 
+                        onChange={(date) => setTo(date)}
+                        selected={to}
+                        placeholderText="to"
+                        dateFormat="dd.MM.yyyy"></EffektDatePicker>
+                    <input
+                        type="hidden"
+                        name="toDate"
+                        value={(to ? DateTime.fromJSDate(to).toISODate().toString()  : '')} />
+                </div>
 
-            <EffektSwitch left="Excel" right="JSON" onChange={fileFormatChanged} ></EffektSwitch>
-            <EffektButton onClick={download}>Download</EffektButton>
+                <div>
+                    <EffektCheckForm 
+                        choices={paymentMethodChoices} 
+                        onChange={(choices) => setPaymentMethodIds(choices)} />
+                    <input
+                        type="hidden"
+                        name="paymentMethodIDs"
+                        value={paymentMethodIds.join("|")} />
+                </div>
+
+                <div>
+                    <EffektSwitch 
+                        left="Excel" 
+                        right="JSON" 
+                        selected={(fileFormat === ReportFileFormats.EXCEL ? SwitchSelected.LEFT : SwitchSelected.RIGHT)} 
+                        onChange={fileFormatChanged} />
+                    <input 
+                        type="hidden" 
+                        name="filetype"
+                        value={(fileFormat === ReportFileFormats.EXCEL ? "excel" : "json")}></input>
+                </div>
+                
+                <input type="hidden" name="token" value={(token ? token.token : '')}></input>
+                <input type="submit" value="Download"></input>
+            </form>
         </Page>
     )
 }
