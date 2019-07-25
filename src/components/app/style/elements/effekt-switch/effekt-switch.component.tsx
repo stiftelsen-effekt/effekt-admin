@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { EffektSwitchWrapper, EffektSwitchItem, EffektSwitchSlider } from "./effekt-switch.component.style";
 import { useState } from "react";
 
@@ -9,11 +9,14 @@ export enum SwitchSelected {
 
 interface IProps {
     left: string,
-    right: string 
+    right: string,
+    onChange(selected: SwitchSelected): void
 }
 
-export const EffektSwitch: React.FunctionComponent<IProps> = ({left, right}) => {
+export const EffektSwitch: React.FunctionComponent<IProps> = ({left, right, onChange}) => {
     const [selected, setSelected] = useState<SwitchSelected>(SwitchSelected.LEFT)
+
+    useEffect(() => onChange(selected), [onChange, selected])
 
     return (
         <EffektSwitchWrapper>

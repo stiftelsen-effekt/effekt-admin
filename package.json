@@ -3,19 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://storage.googleapis.com/static.gieffektivt.no/",
+  "resolutions": {
+    "browserslist": "4.6.2",
+    "caniuse-lite": "1.0.30000974"
+  },
   "dependencies": {
     "@types/jest": "24.0.15",
     "@types/luxon": "^1.15.2",
     "@types/node": "12.0.8",
-    "@types/react-router": "^5.0.2",
+    "@types/react-router": "^5.0.3",
     "@types/react-router-dom": "^4.3.4",
     "@types/react-select": "^3.0.0",
-    "@types/react-table": "^6.8.4",
+    "@types/react-table": "^6.8.5",
     "@types/react-toastify": "^4.0.2",
     "@types/shortid": "0.0.29",
-    "@types/styled-components": "^4.1.16",
+    "@types/styled-components": "^4.1.18",
     "decimal.js": "^10.2.0",
-    "luxon": "^1.17.1",
+    "luxon": "^1.17.2",
     "query-string": "^6.8.1",
     "react": "^16.8.6",
     "react-breadcrumbs-dynamic": "^1.2.0",
@@ -28,10 +32,10 @@
     "react-select": "^3.0.4",
     "react-table": "^6.10.0",
     "react-toastify": "^5.3.2",
-    "redux": "^4.0.1",
-    "redux-saga": "^1.0.3",
+    "redux": "^4.0.4",
+    "redux-saga": "^1.0.5",
     "shortid": "^2.2.14",
-    "styled-components": "^5.0.0-beta.6",
+    "styled-components": "^5.0.0-beta.6-ej4",
     "typescript": "3.5.2",
     "typescript-fsa": "^3.0.0-beta-2"
   },
@@ -57,10 +61,10 @@
     ]
   },
   "devDependencies": {
-    "@types/react": "^16.8.22",
-    "@types/react-datepicker": "^2.3.0",
-    "@types/react-dom": "^16.8.4",
-    "@types/react-redux": "^7.1.0",
+    "@types/react": "^16.8.23",
+    "@types/react-datepicker": "^2.8.1",
+    "@types/react-dom": "^16.8.5",
+    "@types/react-redux": "^7.1.1",
     "jest-localstorage-mock": "^2.4.0",
     "redux-devtools-extension": "^2.13.8"
   }

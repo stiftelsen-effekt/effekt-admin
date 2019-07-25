@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Page } from "../../style/elements/page.style";
 import { MainHeader, SubHeader } from "../../style/elements/headers.style";
 import { EffektDatePicker } from '../../style/elements/datepicker.style';
@@ -6,7 +6,7 @@ import { EffektButton } from '../../style/elements/button.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { fetchPaymentMethodsRequest } from '../../modules/single-donation/single-donation.actions';
-import { EffektSwitch } from '../../style/elements/effekt-switch/effekt-switch.component';
+import { EffektSwitch, SwitchSelected } from '../../style/elements/effekt-switch/effekt-switch.component';
 
 export enum ReportFileFormats {
     EXCEL,
@@ -27,12 +27,14 @@ export const ReportsComponent: React.FunctionComponent = () => {
     const [paymentMethodId, setPaymentMethodId] = useState<number>()
     const [fileFormat, setFileFormat] = useState<ReportFileFormats>()
 
-    if (from && to && paymentMethodId && setPaymentMethodId && fileFormat && setFileFormat)
+    if (from && to && paymentMethodId && setPaymentMethodId && fileFormat)
         console.log("yay")
 
     const download = () => {
         alert('JUST DO IT!')
     }
+
+    const fileFormatChanged = useCallback((selected: SwitchSelected) => setFileFormat(selected === SwitchSelected.LEFT ? ReportFileFormats.EXCEL : ReportFileFormats.JSON ), [setFileFormat])
 
     return (
         <Page>
@@ -52,7 +54,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
                     dateFormat="dd.MM.yyyy"></EffektDatePicker>
             </div>
 
-            <EffektSwitch left="Excel" right="JSON"></EffektSwitch>
+            <EffektSwitch left="Excel" right="JSON" onChange={fileFormatChanged} ></EffektSwitch>
             <EffektButton onClick={download}>Download</EffektButton>
         </Page>
     )
