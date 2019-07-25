@@ -9,6 +9,7 @@ import { EffektSwitch, SwitchSelected } from '../../style/elements/effekt-switch
 import { EffektCheckChoice, EffektCheckForm } from '../../style/elements/effekt-check/effekt-check-form.component';
 import { API_URL } from '../../../../config/config';
 import { DateTime } from 'luxon';
+import { EffektButton } from '../../style/elements/button.style';
 
 export enum ReportFileFormats {
     EXCEL,
@@ -35,16 +36,17 @@ export const ReportsComponent: React.FunctionComponent = () => {
         selected: paymentMethodIds.indexOf(method.id) !== -1
     }))
 
-    const [fileFormat, setFileFormat] = useState<ReportFileFormats>()
+    const [fileFormat, setFileFormat] = useState<ReportFileFormats>(ReportFileFormats.EXCEL)
     const fileFormatChanged = useCallback((selected: SwitchSelected) => setFileFormat(selected === SwitchSelected.LEFT ? ReportFileFormats.EXCEL : ReportFileFormats.JSON ), [setFileFormat])
 
     const reportRangeUrl = `${API_URL}/reports/range`
+    let form = React.createRef<HTMLFormElement>()
 
     return (
         <Page>
             <MainHeader>Reports</MainHeader>
             <SubHeader>Transaction reports</SubHeader>
-            <form method="POST" action={reportRangeUrl} target="_blank">
+            <form method="POST" action={reportRangeUrl} target="_blank" ref={form}>
                 {/* Consider splitting each section into subcomponents */}
                 <div>
                     <EffektDatePicker 
@@ -91,7 +93,8 @@ export const ReportsComponent: React.FunctionComponent = () => {
                 </div>
                 
                 <input type="hidden" name="token" value={(token ? token.token : '')}></input>
-                <input type="submit" value="Download"></input>
+                
+                <EffektButton onClick={() => form.current && form.current.submit()}>Download</EffektButton>
             </form>
         </Page>
     )
