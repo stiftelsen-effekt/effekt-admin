@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { AppState } from "../../../../models/state";
 
 import { showDonorSelectionComponent } from "../donors/selection/donor-selection.actions";
-import { fetchActiveOrganizationsRequest } from "../../../../store/organizations/organizations.action";
 
 //Styling
 import { KIDWrapper, KIDUpperBracket, KIDLowerBracket, KIDInnerContent } from "./kid.component.style";
@@ -34,10 +33,10 @@ interface IState {
     distributionMax: Decimal
 }
 
+
+//TODO: Rewrite to functional component
 class KIDComponent extends React.Component<IStateProps & IDispatchProps & IProps, IState> {
     componentDidMount() {
-        this.props.fetchActiveOrganizationsRequest()
-
         this.setState(this.getDefaultState())
     }
 
@@ -120,12 +119,10 @@ const mapStateToProps = (state: AppState): IStateProps => {
 }
 
 interface IDispatchProps {
-    showDonorSelectionComponent: Function,
-    fetchActiveOrganizationsRequest: Function
+    showDonorSelectionComponent: Function
 }
 const mapDispatchToProps: IDispatchProps = {
-    showDonorSelectionComponent,
-    fetchActiveOrganizationsRequest
+    showDonorSelectionComponent
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(KIDComponent);

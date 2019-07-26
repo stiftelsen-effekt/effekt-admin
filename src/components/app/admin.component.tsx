@@ -10,8 +10,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { EffektToastContainer } from './style/elements/toast/toast.style';
 import { ProcessDonations } from './pages/process/process.component';
 import { ReportsComponent } from './pages/reports/reports.component';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchActiveOrganizationsAction } from '../../store/organizations/organizations.action';
+import { AppState } from '../../models/state';
 
 export const AdminPanel: React.FunctionComponent = () => {
+    const dispatch = useDispatch()
+    const organizations = useSelector((state: AppState) => state.organizations.active)
+    if (!organizations) dispatch(fetchActiveOrganizationsAction.started())
+    console.log("Render MAIN")
+
     return (
         <div>
             <AdminPanelWrapper>
