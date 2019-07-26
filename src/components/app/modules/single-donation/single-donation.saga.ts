@@ -1,9 +1,8 @@
 import { call, put, select } from 'redux-saga/effects'
 import * as API from '../../../../util/api'
-import {    fetchPaymentMethodsFailure, 
-            fetchPaymentMethodsSuccess,
-            createDistribitionAndInsertDonationAction, 
-            ICreateDistributionParams } from './single-donation.actions';
+import {    createDistribitionAndInsertDonationAction, 
+            ICreateDistributionParams, 
+            fetchPaymentMethodsAction} from './single-donation.actions';
 import { AppState } from '../../../../models/state';
 import { IAccessToken } from '../../../../authenticate/auth';
 import { IDonation } from '../../../../models/types';
@@ -18,10 +17,10 @@ export function* fetchPaymentMethods(action: any) {
         })
         if (data.status !== 200) 
             throw new Error(data.content)
-        yield put(fetchPaymentMethodsSuccess(data.content))
+        yield put(fetchPaymentMethodsAction.done({params: action.params, result: data.content}))
     }
     catch(ex) {
-        yield put(fetchPaymentMethodsFailure(ex))
+        yield put(fetchPaymentMethodsAction.failed(ex))
     }
 }
 

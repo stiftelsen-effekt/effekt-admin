@@ -5,6 +5,7 @@ import actionCreatorFactory from 'typescript-fsa';
  
 const actionCreator = actionCreatorFactory();
 
+/*
 export const FETCH_PAYMENT_METHODS_REQUEST = 'FETCH_PAYMENT_METHODS_REQUEST';
 export const FETCH_PAYMENT_METHODS_FAILURE = 'FETCH_PAYMENT_METHODS_FAILURE';
 export const FETCH_PAYMENT_METHODS_SUCCESS = 'FETCH_PAYMENT_METHODS_SUCCESS';
@@ -28,6 +29,9 @@ export const fetchPaymentMethodsSuccess = (paymentMethods: Array<IPaymentMethod>
         payload: paymentMethods
     }
 }
+*/
+
+export const fetchPaymentMethodsAction = actionCreator.async<undefined, Array<IPaymentMethod>, Error>('FETCH_PAYMENT_METHODS');
 
 export interface ICreateDistributionParams {
     donor: IDonor,

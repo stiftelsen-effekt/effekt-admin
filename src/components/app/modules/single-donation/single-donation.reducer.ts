@@ -2,7 +2,7 @@ import { SingleDonationState } from "../../../../models/state";
 import { AnyAction } from "redux";
 import { IPaymentMethod } from "../../../../models/types";
 import { DateTime } from "luxon";
-import { FETCH_PAYMENT_METHODS_SUCCESS, createDistribitionAndInsertDonationAction } from "./single-donation.actions";
+import { createDistribitionAndInsertDonationAction, fetchPaymentMethodsAction } from "./single-donation.actions";
 import { isType } from "typescript-fsa";
 import { toast } from "react-toastify";
 import { toastError } from '../../../../util/toasthelper';
@@ -20,14 +20,16 @@ export const singleDonationReducer = (state: SingleDonationState = initialState,
         toastError("Could not insert donation", action.payload.error.message)
     }
 
-    switch(action.type) {
-        case FETCH_PAYMENT_METHODS_SUCCESS:
-            return {
-                ...state,
-                paymentMethods: action.payload.map((method: IPaymentMethod) => { return {...method, lastUpdated: DateTime.fromISO(method.lastUpdated.toString())}})
-            }
-
-        default:
-            return state;
+    //TODO: Move to another place in state
+    if (isType(action, fetchPaymentMethodsAction.done)) {
+        return {
+            ...state,
+            paymentMethods: action.payload.result.map((method: IPaymentMethod) => { return {...method, lastUpdated: DateTime.fromISO(method.lastUpdated.toString())}})
+        }
     }
+    else if(isType(action, fetchPaymentMethodsAction.failed)) {
+        toastError("Failed to fetch payment methods", action.payload.error.message)
+    }
+
+    return state
 }

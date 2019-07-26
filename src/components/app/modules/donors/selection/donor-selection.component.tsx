@@ -49,10 +49,6 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
         dispatch(searchDonorAction.started(event.target.value))
     }
 
-    const resetState = () => {
-        setState(getDefaultState());
-    }
-
     const columnDefinitions = [
         {
             Header: "ID",

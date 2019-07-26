@@ -4,7 +4,7 @@ import { MainHeader, SubHeader } from "../../style/elements/headers.style";
 import { EffektDatePicker } from '../../style/elements/datepicker.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { fetchPaymentMethodsRequest } from '../../modules/single-donation/single-donation.actions';
+import { fetchPaymentMethodsAction } from '../../modules/single-donation/single-donation.actions';
 import { EffektSwitch, SwitchSelected } from '../../style/elements/effekt-switch/effekt-switch.component';
 import { EffektCheckChoice, EffektCheckForm } from '../../style/elements/effekt-check/effekt-check-form.component';
 import { API_URL } from '../../../../config/config';
@@ -30,7 +30,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
     //TODO: Move payment methods to different place in state
     const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods)
     //TODO: Rewrite to FSA
-    if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsRequest())
+    if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started())
 
     const [paymentMethodIds, setPaymentMethodIds] = useState<Array<number>>([4])
     let paymentMethodChoices: Array<EffektCheckChoice> = paymentMethods.map(method => ({

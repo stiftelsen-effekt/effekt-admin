@@ -4,7 +4,7 @@ import { SingleDonationWrapper, InputWrapper, ControlsWrapper } from "./single-d
 import { IPaymentMethod, IDonor, IDonation } from '../../../../models/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { fetchPaymentMethodsRequest, createDistribitionAndInsertDonationAction, ICreateDistributionParams } from './single-donation.actions';
+import { createDistribitionAndInsertDonationAction, ICreateDistributionParams, fetchPaymentMethodsAction } from './single-donation.actions';
 import { IDistribution } from '../kid/kid.models';
 import { Decimal } from 'decimal.js';
 
@@ -29,7 +29,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
     const dispatch = useDispatch()
     
     const paymentMethods = useSelector<AppState, Array<IPaymentMethod>>((state: AppState) => state.singleDonation.paymentMethods)
-    if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsRequest())
+    if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started())
 
     const selectedDonor = useSelector<AppState, IDonor | undefined>((state: AppState) => state.donorSelector.selectedDonor)
 
