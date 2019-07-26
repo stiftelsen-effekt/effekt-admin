@@ -3,7 +3,7 @@ import { call, select, put } from 'redux-saga/effects'
 import * as API from '../util/api'
 import { AppState } from '../models/state';
 import { logoutSuccess, logoutFailure, fetchAccessKeySuccess } from './loginout.actions';
-import { fetchTokenRequest } from './token.actions';
+import { fetchTokenAction } from './token.actions';
 
 export const getApiKey = (state: AppState) => state.auth.accessKey
 
@@ -32,7 +32,7 @@ export function* logout() {
 
 export function* loginSuccess(action: any) {
     yield put(fetchAccessKeySuccess(action.payload))
-    yield put(fetchTokenRequest())
+    yield put(fetchTokenAction.started())
 }
 
 export function* callback() {

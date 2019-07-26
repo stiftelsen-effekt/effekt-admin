@@ -15,10 +15,10 @@ import { fetchActiveOrganizationsAction } from '../../store/organizations/organi
 import { AppState } from '../../models/state';
 
 export const AdminPanel: React.FunctionComponent = () => {
+    //TODO: Move someplace where it is run only once
     const dispatch = useDispatch()
     const organizations = useSelector((state: AppState) => state.organizations.active)
     if (!organizations) dispatch(fetchActiveOrganizationsAction.started())
-    console.log("Render MAIN")
 
     return (
         <div>
