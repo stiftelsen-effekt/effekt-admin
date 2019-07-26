@@ -63,7 +63,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
                         type="hidden"
                         name="fromDate"
                         value={(from ? DateTime.fromJSDate(from).toISODate().toString() : '')} />
-                    <img src={rightArrow} style={{ margin: '0 12px', height: '20px', verticalAlign: 'middle' }} />
+                    <img src={rightArrow} style={{ margin: '0 12px', height: '20px', verticalAlign: 'middle' }} alt="arrow" />
                     <EffektDatePicker 
                         onChange={(date) => setTo(date)}
                         selected={to}
