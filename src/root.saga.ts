@@ -5,7 +5,7 @@ import { LOGIN_BEGIN, LOGOUT_REQUEST, LOGIN_CACHE_CHECK, LOGIN_CALLBACK, LOGIN_S
 import { login, logout, loginCacheCheck, callback, loginSuccess } from './authenticate/loginout.saga';
 import { searchDonorAction } from './components/app/modules/donors/selection/donor-selection.actions';
 import { searchDonors } from './components/app/modules/donors/selection/donor-selection.saga';
-import { FETCH_ACTIVE_ORGANIZATIONS_REQUEST } from './store/organizations/organizations.action';
+import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';
 import { fetchActiveOrganizations } from './store/organizations/organizations.saga';
 import { fetchPaymentMethodsAction, createDistribitionAndInsertDonationAction } from './components/app/modules/single-donation/single-donation.actions';
 import { fetchPaymentMethods, createDistributionAndInsertDonation } from './components/app/modules/single-donation/single-donation.saga';
@@ -22,12 +22,12 @@ function *watchAll() {
         takeLatest(LOGIN_SUCCESS, loginSuccess),
 
         takeLatest(LOGIN_CALLBACK, callback),
-        takeEvery(FETCH_TOKEN_REQUEST, fetchToken),
         takeEvery(LOGOUT_REQUEST, logout),
+        takeEvery(FETCH_TOKEN_REQUEST, fetchToken),
 
         takeLatest(searchDonorAction.started.type, searchDonors),
 
-        takeLatest(FETCH_ACTIVE_ORGANIZATIONS_REQUEST, fetchActiveOrganizations),
+        takeLatest(fetchActiveOrganizationsAction.started.type, fetchActiveOrganizations),
 
         takeLatest(fetchPaymentMethodsAction.started.type, fetchPaymentMethods),
 

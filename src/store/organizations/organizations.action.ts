@@ -1,25 +1,6 @@
 import { IOrganization } from "../../models/types";
+import actionCreatorFactory from 'typescript-fsa';
 
-export const FETCH_ACTIVE_ORGANIZATIONS_REQUEST = "FETCH_ACTIVE_ORGANIZATIONS_REQUEST";
-export const FETCH_ACTIVE_ORGANIZATIONS_FAILURE = "FETCH_ACTIVE_ORGANIZATIONS_FAILURE";
-export const FETCH_ACTIVE_ORGANIZATIONS_SUCCESS = "FETCH_ACTIVE_ORGANIZATIONS_SUCCESS";
+const actionCreator = actionCreatorFactory();
 
-export const fetchActiveOrganizationsRequest = () => {
-    return {
-        type: FETCH_ACTIVE_ORGANIZATIONS_REQUEST
-    }
-}
-
-export const fetchActiveOrganizationsFailure = (error: Error) => {
-    return {
-        type: FETCH_ACTIVE_ORGANIZATIONS_FAILURE,
-        payload: error
-    }
-}
-
-export const fetchActiveOrganizationsSuccess = (payload: Array<IOrganization>) => {
-    return {
-        type: FETCH_ACTIVE_ORGANIZATIONS_SUCCESS,
-        payload
-    }
-}
+export const fetchActiveOrganizationsAction = actionCreator.async<undefined, Array<IOrganization>, Error>('FETCH_ACTIVE_ORGANIZATIONS');

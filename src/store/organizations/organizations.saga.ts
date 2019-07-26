@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects'
 import * as API from '../../util/api'
-import { fetchActiveOrganizationsSuccess, fetchActiveOrganizationsFailure } from './organizations.action';
+import { fetchActiveOrganizationsAction } from './organizations.action';
 
 export function* fetchActiveOrganizations(action: any) {
     try {
@@ -10,9 +10,9 @@ export function* fetchActiveOrganizations(action: any) {
         })
         if (data.status !== 200) 
             throw new Error(data.content)
-        yield put(fetchActiveOrganizationsSuccess(data.content))
+        yield put(fetchActiveOrganizationsAction.done({params: action.payload, result: data.content}))
     }
     catch(ex) {
-        yield put(fetchActiveOrganizationsFailure(ex))
+        yield put(fetchActiveOrganizationsAction.failed(ex))
     }
 }
