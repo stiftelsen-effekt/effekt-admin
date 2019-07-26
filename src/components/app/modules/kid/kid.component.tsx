@@ -20,7 +20,6 @@ import Decimal from "decimal.js";
 import { KIDDonorComponent } from "./donor/donor.component";
 import { KIDControls } from "./controls/controls.component";
 import { KIDDistribution } from "./distribution/distribution.component";
-import { fetchActiveOrganizationsAction } from "../../../../store/organizations/organizations.action";
 
 interface IProps {
     donationAmount?: number,

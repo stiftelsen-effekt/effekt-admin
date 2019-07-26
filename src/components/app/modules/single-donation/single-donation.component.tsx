@@ -14,11 +14,6 @@ import { DonationInput } from './input/donation-input.component';
 import { toast } from 'react-toastify';
 import { fetchActiveOrganizationsAction } from '../../../../store/organizations/organizations.action';
 
-interface IState {
-    donationInput?: Partial<IDonation>,
-    distribution?: Array<IDistribution>
-}
-
 interface IProps {
     onIgnore?(): void,
     suggestedValues?: Partial<IDonation>
