@@ -63,7 +63,6 @@ export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, 
 
     const [distribution, setDistribution] = useState<Array<IDistribution>>(mapOrgToDIst(organizations))
     
-    console.log(distribution)
     const [distributionSum, setDistributionSum] = useState<Decimal>(calculateDistributionSum(distribution))
     //TODO: Add support for absolute values
     const distributionMax = new Decimal(100)
