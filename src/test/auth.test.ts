@@ -2,17 +2,14 @@ import { Auth, AuthUtil } from '../authenticate/auth'
 import { callback, loginSuccess } from '../authenticate/loginout.saga';
 import { LOGIN_FAILURE, LOGIN_SUCCESS, FETCH_ACCESS_KEY_SUCCESS } from '../authenticate/loginout.actions';
 import { FETCH_TOKEN_REQUEST } from '../authenticate/token.actions';
-import { Action } from 'redux';
+import 'jest-localstorage-mock';
 
 window.location.assign = jest.fn().mockImplementation((url: string): string => url);
 
 describe('authentification class', () => {
-    describe('Should setup login correctly before rederecting', () => {
-        let localStorageMock = storageMock();
-        Object.defineProperty(window, 'localStorage', { 
-            value: localStorageMock,
-        });
+    
 
+    describe('Should setup login correctly before rederecting', () => {
         let url = Auth.login();
 
         it('Should change location to a valid OAuth endpoint on login', () => {
@@ -24,7 +21,7 @@ describe('authentification class', () => {
         })
         
         it('Should set localstorage state on login', () => {
-            expect(localStorageMock.getItem(AuthUtil.AUTH_STATE_KEY)).not.toBe(null)
+            expect(localStorage.getItem(AuthUtil.AUTH_STATE_KEY)).not.toBe(null)
         })
     })
     
@@ -72,29 +69,3 @@ describe('authentification class', () => {
     })
 
 })
-
-
-//Util
-function storageMock() {
-    var storage: any = {};
-
-    return {
-        setItem: function(key: string, value: any) {
-            storage[key] = value || '';
-        },
-        getItem: function(key: string) {
-            return key in storage ? storage[key] : null;
-        },
-        removeItem: function(key: string) {
-            delete storage[key];
-        },
-        get length(): number {
-            return Object.keys(storage).length;
-        },
-        key: function(i: number) {
-            var keys = Object.keys(storage);
-            return keys[i] || null;
-        },
-        storage: storage
-    };
-}

@@ -29,7 +29,7 @@ export const DonationInput: React.FunctionComponent<IProps> = ({ paymentMethods,
         setState(state => {return {...state, ...suggestedValues}})
     }, [suggestedValues])
 
-    useEffect(() => onChange(state), [state])
+    useEffect(() => onChange(state), [state, onChange])
 
     const methodToOption = (method: IPaymentMethod) => {
         return {value: method.id, label: method.name}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { SingleDonationWrapper, InputWrapper, ControlsWrapper } from "./single-donation.style.component";
 
 import { IPaymentMethod, IDonor, IDonation } from '../../../../models/types';
@@ -24,7 +24,8 @@ interface IProps {
 }
 
 export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) => {
-    const [state, setState] = useState<IState>({})
+    const [donationInput, setDonationInput] = useState<Partial<IDonation>>({})
+    const [distribution, setDistribution] = useState<Array<IDistribution>>()
     const dispatch = useDispatch()
     
     const paymentMethods = useSelector<AppState, Array<IPaymentMethod>>((state: AppState) => state.singleDonation.paymentMethods)
@@ -37,9 +38,9 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
     }
 
     const getDonation = (input: Partial<IDonation>): IDonation | null => {
-        if (input.sum !== undefined,
-            input.paymentId !== undefined,
-            input.paymentExternalRef !== undefined,
+        if (input.sum !== undefined &&
+            input.paymentId !== undefined &&
+            input.paymentExternalRef !== undefined &&
             input.timestamp !== undefined)
             return input as IDonation
         else
@@ -49,15 +50,15 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
     const submit = () => {
         if (!selectedDonor)
             return toast.error('No donor selected')
-        if (!state.distribution || !state.donationInput) 
+        if (!distribution || !donationInput) 
             return toast.error('Error initializing distribution or input')
 
-        const donation = getDonation(state.donationInput)
+        const donation = getDonation(donationInput)
 
         if (!donation)
             return toast.error('Missing fields')
 
-        const filteredDistribution = getFilteredDistribution(state.distribution);
+        const filteredDistribution = getFilteredDistribution(distribution);
 
         const donationParams: IDonation = donation;
         const distributionParams: ICreateDistributionParams = {
@@ -71,17 +72,20 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
         }))
     }
 
+    const onDonationInputChange = useCallback((donationInput: Partial<IDonation>) => setDonationInput(donationInput), [setDonationInput])
+
+    
     return (
         <SingleDonationWrapper>
             <InputWrapper>
                 <DonationInput
-                    suggestedValues={props.suggestedValues}
-                    paymentMethods={paymentMethods}
-                    onChange={(donationInput) => setState({...state, donationInput})}></DonationInput>
+                suggestedValues={props.suggestedValues}
+                paymentMethods={paymentMethods}
+                onChange={onDonationInputChange}></DonationInput>
             </InputWrapper>
             <KIDComponent
-                donationAmount={state.donationInput && state.donationInput.sum}
-                onChange={(distribution: Array<IDistribution>) => setState({ ...state, distribution })}></KIDComponent>
+                donationAmount={donationInput && donationInput.sum}
+                onChange={(distribution: Array<IDistribution>) => setDistribution(distribution)}></KIDComponent>
             <ControlsWrapper>
                 <DonationControls 
                     onInsert={() => submit()}
