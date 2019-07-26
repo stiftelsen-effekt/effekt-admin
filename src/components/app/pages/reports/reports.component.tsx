@@ -10,6 +10,9 @@ import { EffektCheckChoice, EffektCheckForm } from '../../style/elements/effekt-
 import { API_URL } from '../../../../config/config';
 import { DateTime } from 'luxon';
 import { EffektButton } from '../../style/elements/button.style';
+import { grey30 } from '../../style/colors';
+import rightArrow from '../../../../assets/right-arrow.svg'
+import { FormSection, FormSectionHeader } from '../../style/elements/from-section';
 
 export enum ReportFileFormats {
     EXCEL,
@@ -39,7 +42,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
     const [fileFormat, setFileFormat] = useState<ReportFileFormats>(ReportFileFormats.EXCEL)
     const fileFormatChanged = useCallback((selected: SwitchSelected) => setFileFormat(selected === SwitchSelected.LEFT ? ReportFileFormats.EXCEL : ReportFileFormats.JSON ), [setFileFormat])
 
-    const reportRangeUrl = `${API_URL}/reports/range`
+    const reportRangeUrl = `${API_URL}/reports/range?pretty`
     let form = React.createRef<HTMLFormElement>()
 
     return (
@@ -48,7 +51,9 @@ export const ReportsComponent: React.FunctionComponent = () => {
             <SubHeader>Transaction reports</SubHeader>
             <form method="POST" action={reportRangeUrl} target="_blank" ref={form}>
                 {/* Consider splitting each section into subcomponents */}
-                <div>
+                <FormSection>
+                    <FormSectionHeader>Range</FormSectionHeader>
+
                     <EffektDatePicker 
                         onChange={(date) => setFrom(date)}
                         selected={from}
@@ -58,7 +63,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
                         type="hidden"
                         name="fromDate"
                         value={(from ? DateTime.fromJSDate(from).toISODate().toString() : '')} />
-                    <span>-></span>
+                    <img src={rightArrow} style={{ margin: '0 12px', height: '20px', verticalAlign: 'middle' }} />
                     <EffektDatePicker 
                         onChange={(date) => setTo(date)}
                         selected={to}
@@ -68,9 +73,13 @@ export const ReportsComponent: React.FunctionComponent = () => {
                         type="hidden"
                         name="toDate"
                         value={(to ? DateTime.fromJSDate(to).toISODate().toString()  : '')} />
-                </div>
 
-                <div>
+                    <span style={{ color: grey30, marginLeft: '14px', fontSize: '14px' }}>Date range is inclusive</span>
+                </FormSection>
+
+                <FormSection>
+                    <FormSectionHeader>Payment methods</FormSectionHeader>
+
                     <EffektCheckForm 
                         choices={paymentMethodChoices} 
                         onChange={(choices) => setPaymentMethodIds(choices)} />
@@ -78,9 +87,11 @@ export const ReportsComponent: React.FunctionComponent = () => {
                         type="hidden"
                         name="paymentMethodIDs"
                         value={paymentMethodIds.join("|")} />
-                </div>
+                </FormSection>
 
-                <div>
+                <FormSection>
+                    <FormSectionHeader>Filetype</FormSectionHeader>
+
                     <EffektSwitch 
                         left="Excel" 
                         right="JSON" 
@@ -90,7 +101,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
                         type="hidden" 
                         name="filetype"
                         value={(fileFormat === ReportFileFormats.EXCEL ? "excel" : "json")}></input>
-                </div>
+                </FormSection>
                 
                 <input type="hidden" name="token" value={(token ? token.token : '')}></input>
                 
