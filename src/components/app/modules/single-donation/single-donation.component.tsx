@@ -9,9 +9,10 @@ import { IDistribution } from '../kid/kid.models';
 import { Decimal } from 'decimal.js';
 
 import { DonationControls } from './controls/donation-controls.component';
-import KIDComponent from "../kid/kid.component";
+import { KIDComponent } from "../kid/kid.component";
 import { DonationInput } from './input/donation-input.component';
 import { toast } from 'react-toastify';
+import { fetchActiveOrganizationsAction } from '../../../../store/organizations/organizations.action';
 
 interface IState {
     donationInput?: Partial<IDonation>,
@@ -30,6 +31,9 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
     
     const paymentMethods = useSelector<AppState, Array<IPaymentMethod>>((state: AppState) => state.singleDonation.paymentMethods)
     if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started())
+
+    const organizations = useSelector((state: AppState) => state.organizations.active)
+    if (!organizations) dispatch(fetchActiveOrganizationsAction.started())
 
     const selectedDonor = useSelector<AppState, IDonor | undefined>((state: AppState) => state.donorSelector.selectedDonor)
 
@@ -73,24 +77,30 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
     }
 
     const onDonationInputChange = useCallback((donationInput: Partial<IDonation>) => setDonationInput(donationInput), [setDonationInput])
-
     
-    return (
-        <SingleDonationWrapper>
-            <InputWrapper>
-                <DonationInput
-                suggestedValues={props.suggestedValues}
-                paymentMethods={paymentMethods}
-                onChange={onDonationInputChange}></DonationInput>
-            </InputWrapper>
-            <KIDComponent
-                donationAmount={donationInput && donationInput.sum}
-                onChange={(distribution: Array<IDistribution>) => setDistribution(distribution)}></KIDComponent>
-            <ControlsWrapper>
-                <DonationControls 
-                    onInsert={() => submit()}
-                    onIgnore={props.onIgnore}></DonationControls>
-            </ControlsWrapper>
-        </SingleDonationWrapper>
-    )
+    if (organizations) {
+        return (
+            <SingleDonationWrapper>
+                <InputWrapper>
+                    <DonationInput
+                    suggestedValues={props.suggestedValues}
+                    paymentMethods={paymentMethods}
+                    onChange={onDonationInputChange}></DonationInput>
+                </InputWrapper>
+                <KIDComponent
+                    organizations={organizations}
+                    donationAmount={donationInput && donationInput.sum}
+                    onChange={(distribution: Array<IDistribution>) => setDistribution(distribution)}></KIDComponent>
+                <ControlsWrapper>
+                    <DonationControls 
+                        onInsert={() => submit()}
+                        onIgnore={props.onIgnore}></DonationControls>
+                </ControlsWrapper>
+            </SingleDonationWrapper>
+        )
+    } else {
+        return (
+            <div>Loading...</div>
+        )
+    }
 }

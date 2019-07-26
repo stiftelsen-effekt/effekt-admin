@@ -10,8 +10,7 @@ import { clearSelectedDonor } from '../../donors/selection/donor-selection.actio
 
 interface IProps {
     selectedDonor: IDonor | undefined,
-    openDonorSelectionDialog(): void,
-    onDonorIdChange(donorId: number): void 
+    openDonorSelectionDialog(): void
 }
 
 export const KIDDonorComponent: React.FunctionComponent<IProps> = (props) => {
@@ -37,8 +36,6 @@ export const KIDDonorComponent: React.FunctionComponent<IProps> = (props) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (donor !== undefined && donor.id !== parseInt(donorId)) dispatch(clearSelectedDonor())
         setDonorId(event.target.value);
-        let parsed: number = parseInt(event.target.value);
-        if (!isNaN(parsed)) props.onDonorIdChange(parsed);
     } 
 
     return (

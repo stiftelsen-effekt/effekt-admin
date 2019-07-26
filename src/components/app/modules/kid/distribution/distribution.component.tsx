@@ -1,56 +1,21 @@
 import React from 'react'
 import { EffektInput } from '../../../style/elements/input.style';
 import { DistributionWrapper, DistributionItem, DistributionRow } from './distribution.component.style';
-import { DistributionType, IDistribution } from '../kid.models';
-import { IOrganization } from '../../../../../models/types';
+import { IDistribution } from '../kid.models';
+
 import Decimal from 'decimal.js'
 
-interface IProperties {
+interface IProps {
     onChange(distribution: Array<IDistribution> ): void,
-    organizations: Array<IOrganization> | undefined
+    distribution: Array<IDistribution>
 }
 
-interface IState {
-    distribution: Array<IDistribution>,
-    type: DistributionType,
-    sumValue: 100
-}
-
-export class KIDDistribution extends React.Component<IProperties, IState> {
-    constructor(props: IProperties) {
-        super(props)
-        this.state = this.getDefaultState()
-    }
-
-    getDefaultState(): IState {
-        return {
-            distribution: [],
-            type: DistributionType.PERCENT,
-            sumValue: 100
-        }
-    }
-
-    componentDidUpdate() {
-        if (this.props.organizations && this.state.distribution.length === 0) {
-            this.setState({ 
-                distribution: this.props.organizations.map(org => { 
-                    return {
-                        organizationId: org.id,
-                        value: new Decimal(org.standardShare).dividedBy(100).mul(this.state.sumValue),
-                        abbriv: org.abbriv
-                    } as IDistribution
-                 }) 
-            }, () => {
-                this.props.onChange(this.state.distribution)
-            })
-        }
-    }
-
-    organizationValueChanged(orgId: number, value: string) {
+export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution, onChange }) => {
+    const organizationValueChanged = (orgId: number, value: string) => {
         try {
             value = (value === "" ? "0" : value)
             let parsedValue = new Decimal(value)
-            let updatedDistribution = this.state.distribution.map(dist => {
+            let updatedDistribution = distribution.map((dist: IDistribution)  => {
                 if (dist.organizationId === orgId) return {
                     ...dist,
                     value: parsedValue
@@ -58,35 +23,28 @@ export class KIDDistribution extends React.Component<IProperties, IState> {
                 else return dist
             })
 
-            this.setState({
-                distribution: updatedDistribution
-            }, () => {
-                this.props.onChange(this.state.distribution)
-            })
+            onChange(updatedDistribution)
         } catch(ex) {
             console.log("Could not parse distribution input: ", value)
         }
     }
 
-    render() {
-        if (this.props.organizations) {
-            return this.createDistribution()
-        } else {
-            return (<div>Loading...</div>)
-        }
+    const createItems = () => {
+        let distributionItems = distribution.map((dist: IDistribution, i: number) => (
+            <DistributionItem key={i}>
+                <span>{dist.abbriv}</span>
+                <EffektInput 
+                    type="number" 
+                    placeholder="sum" 
+                    defaultValue={dist.value.toString()} 
+                    style={{width: '110px'}} 
+                    onChange={(e) => { organizationValueChanged(dist.organizationId, e.target.value) }}></EffektInput>
+            </DistributionItem>));
+
+        return distributionItems;
     }
 
-    createDistribution() {
-        let distributionItems = this.createItems();
-        let distributionLines = this.createLines(distributionItems);
-        return (
-            <DistributionWrapper>
-                {distributionLines}
-            </DistributionWrapper>
-        )
-    }
-
-    createLines(distributionItems: any) {
+    const createLines = (distributionItems: any) => {
         let distributionLines = []
         for (let i = 0; i < distributionItems.length / 3; i++) {
             let startPickingAt = i*3;
@@ -101,18 +59,15 @@ export class KIDDistribution extends React.Component<IProperties, IState> {
         return distributionLines;
     }
 
-    createItems() {
-        let distributionItems = this.state.distribution.map((dist, i) => (
-            <DistributionItem key={i}>
-                <span>{dist.abbriv}</span>
-                <EffektInput 
-                    type="number" 
-                    placeholder="sum" 
-                    defaultValue={dist.value.toString()} 
-                    style={{width: '110px'}} 
-                    onChange={(e) => { this.organizationValueChanged(dist.organizationId, e.target.value) }}></EffektInput>
-            </DistributionItem>));
-
-        return distributionItems;
+    const createDistribution = () => {
+        let distributionItems = createItems();
+        let distributionLines = createLines(distributionItems);
+        return (
+            <DistributionWrapper>
+                {distributionLines}
+            </DistributionWrapper>
+        )
     }
+
+    return createDistribution()
 } 
