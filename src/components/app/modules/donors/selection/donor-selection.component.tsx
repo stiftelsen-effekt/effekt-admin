@@ -41,7 +41,6 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
     if (!searchResult) dispatch(searchDonorAction.started(""))
 
     const search = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
         setState({
             ...state,
             selected: null
@@ -70,11 +69,12 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
     ]
 
     const rowClick = (rowInfo: any) => {
-        dispatch(setSelectedDonor(rowInfo.original))
+        console.log(rowInfo)
         setState({
             ...state,
             selected: rowInfo.index
         })
+        dispatch(setSelectedDonor(rowInfo.original))
     }
 
     const rowDoubleClick = (donorID: number) => {
@@ -82,13 +82,14 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
     }
 
     const rowStyle = (rowIndex: number, selectedIndex: number) => {
+        console.log(rowIndex, selectedIndex)
         return {
             background: rowIndex === selectedIndex ? orange50 : '',
             color: rowIndex === selectedIndex ? 'white' : ''
         }
     }
 
-    const trProps = (state: any, rowInfo: any) => {
+    const trProps = (tableState: any, rowInfo: any) => {
         if (rowInfo && rowInfo.row) {
             return {
                 onClick: (e: React.MouseEvent) => rowClick(rowInfo),
