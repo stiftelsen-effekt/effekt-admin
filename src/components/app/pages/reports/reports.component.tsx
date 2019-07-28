@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { Page } from "../../style/elements/page.style";
 import { MainHeader, SubHeader } from "../../style/elements/headers.style";
-import { EffektDatePicker } from '../../style/elements/datepicker.style';
+import { EffektDatePicker } from '../../style/elements/datepicker/datepicker.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { fetchPaymentMethodsAction } from '../../modules/single-donation/single-donation.actions';

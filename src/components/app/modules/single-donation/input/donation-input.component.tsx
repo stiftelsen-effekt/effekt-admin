@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { EffektDatePicker } from "../../../style/elements/datepicker.style";
-import "react-datepicker/dist/react-datepicker.css";
+import { EffektDatePicker } from "../../../style/elements/datepicker/datepicker.style";
 
 import Select from 'react-select';
 

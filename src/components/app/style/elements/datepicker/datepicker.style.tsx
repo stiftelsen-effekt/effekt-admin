@@ -1,7 +1,7 @@
 import ReactDatePicker from "react-datepicker";
 import styled from "styled-components";
-import { grey15 } from "../colors";
-import calendar from '../../../../assets/calendar.svg'
+import { grey15 } from "../../colors";
+import calendar from '../../../../../assets/calendar.svg'
 
 export const EffektDatePicker = styled(ReactDatePicker)`
     font-family: 'Roboto';
