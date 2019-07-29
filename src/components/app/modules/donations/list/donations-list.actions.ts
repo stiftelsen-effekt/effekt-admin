@@ -8,13 +8,13 @@ export interface IFetchDonationsParams {
         id: string,
         desc: boolean
     },
-    cursor: number | string | Date | null,
+    page: number,
     limit: number
 }
 
 interface IFetchDonationsResult {
     rows: Array<IDonation>,
-    nextCursor?: string | number | Date
+    pages: number
 }
 
 export const fetchDonationsAction = actionCreator.async<IFetchDonationsParams, IFetchDonationsResult, Error>('FETCH_DONATIONS');

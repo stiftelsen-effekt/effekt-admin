@@ -3,14 +3,16 @@ import { isType, AnyAction } from "typescript-fsa";
 import { fetchDonationsAction } from "./list/donations-list.actions";
 
 const defaultState: DonationsState = {
-    donations: []
+    donations: [],
+    page: 1,
+    pages: -1
 }
 export const donationsReducer = (state = defaultState, action: AnyAction): DonationsState => {
     if(isType(action, fetchDonationsAction.done)) {
         return {
             ...state,
             donations: action.payload.result.rows,
-            cursor: action.payload.result.nextCursor
+            pages: action.payload.result.pages
         }
     }
 

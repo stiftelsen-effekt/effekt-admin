@@ -8,8 +8,9 @@ import { DateTime } from 'luxon';
 
 export const DonationsList: React.FunctionComponent = () => {
     const data = useSelector((state: AppState) => state.donations.donations)
+    const pages = useSelector((state: AppState) => state.donations.pages)
+
     const [loading, setLoading] = useState<boolean>(false)
-    const [pages, setPages] = useState<number>(-1)
 
     const dispatch = useDispatch()
 
@@ -58,11 +59,11 @@ export const DonationsList: React.FunctionComponent = () => {
                 onFetchData={(state, instance) => {
                     // show the loading overlay
                     setLoading(true)
-                    console.log(state.sorted[0])
+                    console.log(state)
                     dispatch(fetchDonationsAction.started({
                         sort: state.sorted[0],
-                        cursor: null,
-                        limit: 10
+                        page: state.page,
+                        limit: state.pageSize
                     }))
                 }}
                 />

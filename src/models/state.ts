@@ -54,6 +54,7 @@ export interface CreateDonorState {
 
 export interface DonationsState {
     currentDonation?: IDonation,
-    cursor?: string | number | Date,
+    pages: number,
+    page: number,
     donations: Array<IDonation>
 }
