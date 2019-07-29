@@ -13,8 +13,10 @@ import { uploadReportAction } from './components/app/modules/report-upload/repor
 import { uploadReport } from './components/app/modules/report-upload/report-upload.saga';
 import { createDonorAction } from './components/app/modules/donors/create/create-donor.actions';
 import { createDonor } from './components/app/modules/donors/create/create-donor.saga';
+import { fetchDonations } from './components/app/modules/donations/list/donations-list.saga';
+import { fetchDonationsAction } from './components/app/modules/donations/list/donations-list.actions';
 
-function *watchAll() {
+function* watchAll() {
     yield all([
         takeLatest(LOGIN_CACHE_CHECK, loginCacheCheck),
         takeLatest(LOGIN_BEGIN, login),
@@ -34,7 +36,9 @@ function *watchAll() {
         takeLatest(createDistribitionAndInsertDonationAction.started.type, createDistributionAndInsertDonation),
         takeLatest(uploadReportAction.started.type, uploadReport),
 
-        takeLatest(createDonorAction.started.type, createDonor)
+        takeLatest(createDonorAction.started.type, createDonor),
+
+        takeLatest(fetchDonationsAction.started.type, fetchDonations)
     ]);
 }
 

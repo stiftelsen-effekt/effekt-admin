@@ -16,6 +16,11 @@ export interface IAPIParameters {
     formData?: FormData
 }
 
+export interface Response {
+    status: number,
+    content: any
+}
+
 interface IFetchOptions {
     method?: string,
     headers?: any,

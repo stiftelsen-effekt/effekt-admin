@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction } from "./types";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -11,6 +11,8 @@ export interface AppState {
     singleDonation: SingleDonationState,
 
     reportProcessing: ReportProcessingState,
+
+    donations: DonationsState
 }
 
 export interface AuthState {
@@ -48,4 +50,10 @@ export interface ReportProcessingState {
 
 export interface CreateDonorState {
 
+}
+
+export interface DonationsState {
+    currentDonation?: IDonation,
+    cursor?: string | number | Date,
+    donations: Array<IDonation>
 }

@@ -13,13 +13,10 @@ export interface IAccessKey {
 }
 
 export interface IAccessToken {
+    //TODO: Change from "token" to "hex"?
     token: string,
     expires: Date
 }
-
-/* 
-store.dispatch(fetchTokenRequest()) !!!!
-*/
 
 export class Auth {
     static login(): any {

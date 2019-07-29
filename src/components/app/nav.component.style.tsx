@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { orange50, orange20, orange10 } from '../style/colors';
+import { orange50, orange20, orange10 } from './style/colors';
 import { NavLink } from 'react-router-dom';
 
 export const MainNav = styled.nav`
