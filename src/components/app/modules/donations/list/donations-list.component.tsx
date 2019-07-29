@@ -46,6 +46,10 @@ export const DonationsList: React.FunctionComponent = () => {
         }
     ]
 
+    const defaultSorting = [
+        {id: "timestamp", desc: true}
+    ]
+
     return (
         <div>
             <span>Donations list</span>
@@ -55,6 +59,7 @@ export const DonationsList: React.FunctionComponent = () => {
                 pages={pages} // should default to -1 (which means we don't know how many pages we have)
                 loading={loading}
                 columns={columnDefinitions}
+                defaultSorted={defaultSorting}
                 manual // informs React Table that you'll be handling sorting and pagination server-side
                 onFetchData={(state, instance) => {
                     // show the loading overlay
