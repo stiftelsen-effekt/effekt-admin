@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { orange50, orange05, brown50, red30, green02, red02, green30 } from "../colors";
+import { orange50, orange05, brown50, red30, green02, red02, green30, grey30 } from "../colors";
 
 export const MainHeader = styled.h1`
     border-left: 6px solid ${orange50};
@@ -52,4 +52,29 @@ export const GreenBox = styled(Box)`
     border-left-color: ${green30};
     background: ${green02};
     color: ${green30};
+`
+
+interface IResourceHeaderProps { hasSubHeader?: boolean }
+export const ResourceHeader = styled.h1<IResourceHeaderProps>`
+    color: black;
+    font-family: 'Georgia';
+    font-size: 36px;
+    font-weight: normal;
+    padding: 14px 25px;
+    padding-left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 1024px;
+
+    ${ (props:IResourceHeaderProps) => props.hasSubHeader ? 'margin-bottom: 0px' : '0' }
+`
+
+export const ResourceSubHeader = styled.h2`
+    color: ${grey30};
+    font-family: 'Roboto';
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 28px;
 `
