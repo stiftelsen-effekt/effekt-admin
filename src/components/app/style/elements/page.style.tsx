@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Page = styled.section`
     display: inline-block;
     vertical-align: top;
-    padding-left: 60px;
+    padding-left: 100px;
     padding-right: 30px;
     padding-bottom: 30px;
     box-sizing: border-box;
