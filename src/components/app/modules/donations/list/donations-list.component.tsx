@@ -5,12 +5,11 @@ import { fetchDonationsAction } from './donations-list.actions';
 import { AppState } from '../../../../../models/state';
 import { shortDate } from '../../../../../util/formatting';
 import { DateTime } from 'luxon';
+import { Redirect } from 'react-router';
 
 export const DonationsList: React.FunctionComponent = () => {
     const data = useSelector((state: AppState) => state.donations.donations)
     const pages = useSelector((state: AppState) => state.donations.pages)
-
-    const [loading, setLoading] = useState<boolean>(false)
 
     const dispatch = useDispatch()
 
@@ -50,27 +49,36 @@ export const DonationsList: React.FunctionComponent = () => {
         {id: "timestamp", desc: true}
     ]
 
+    let [donation, setDonation] = useState<number | null>(null);
+    const trProps = (tableState: any, rowInfo: any) => {
+        if (rowInfo && rowInfo.row) {
+            return {
+                onDoubleClick: (e: any) => {
+                    setDonation(rowInfo.original.id)
+                }
+            }
+        } 
+        return {}
+    }
+
+    if (donation !== null) return (<Redirect to={`/donations/${donation}`}></Redirect>)
     return (
         <div>
-            <span>Donations list</span>
-            
             <ReactTable
-                data={data} // should default to []
-                pages={pages} // should default to -1 (which means we don't know how many pages we have)
-                loading={loading}
+                data={data}
+                pages={pages}
+                loading={false}
                 columns={columnDefinitions}
                 defaultSorted={defaultSorting}
-                manual // informs React Table that you'll be handling sorting and pagination server-side
+                manual
                 onFetchData={(state, instance) => {
-                    // show the loading overlay
-                    setLoading(true)
-                    console.log(state)
                     dispatch(fetchDonationsAction.started({
                         sort: state.sorted[0],
                         page: state.page,
                         limit: state.pageSize
                     }))
                 }}
+                getTrProps={trProps}
                 />
         </div>
     )
