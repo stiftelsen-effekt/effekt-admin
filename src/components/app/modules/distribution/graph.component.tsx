@@ -6,9 +6,11 @@ import { GraphWrapper } from './graph.component.style';
 (defaults as any).global.defaultFontFamily = 'Roboto';
 
 interface IProps {
-    distribution: Array<IDistribution>
+    distribution: Array<IDistribution> | undefined
 }
 export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({distribution}) => {
+    if (!distribution) return (<div>No distribution</div>)
+
     const data = {
       labels: distribution.map(dist => dist.abbriv),
       datasets: [
@@ -16,22 +18,20 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({dis
           label: 'Organizations',
           backgroundColor: ['#4d342f', '#73402e', '#954f2e', '#b26231', '#cb7835', '#df913d', '#efad47', '#f9cb55', '#feeb65'],
           borderWidth: 0,
-          barHeight: '20px',
           data: distribution.map(dist => dist.share)
         }
       ]
     };
 
     const options = {
+      responsive: true,
       legend: {
         display: false
       },
       scales: {
         yAxes: [{
           beginAtZero: true,
-          barPercentage: 0.5,
-          barThickness: 40,
-          maxBarThickness: 40,
+          barThickness: 36,
           scaleLabel: {
             fontFamily: 'Roboto',
             fontSize: 24
@@ -51,7 +51,8 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({dis
         <GraphWrapper>
             <HorizontalBar 
               data={data}
-              options={options}></HorizontalBar>
+              options={options}
+              height={280}></HorizontalBar>
         </GraphWrapper>
     )
 }

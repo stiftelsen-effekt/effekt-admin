@@ -1,8 +1,9 @@
-import { DonationsState } from "../../../../models/state";
+import { DonationsState } from "../../models/state";
 import { isType, AnyAction } from "typescript-fsa";
-import { fetchDonationsAction } from "./list/donations-list.actions";
-import { fetchDonationAction, CLEAR_CURRENT_DONATION } from "../../../../store/donations/donation.actions";
-import { toastError } from "../../../../util/toasthelper";
+import { fetchDonationsAction } from "../../components/app/modules/donations/list/donations-list.actions";
+import { fetchDonationAction, CLEAR_CURRENT_DONATION } from "./donation.actions";
+import { toastError } from "../../util/toasthelper";
+import Decimal from "decimal.js";
 
 const defaultState: DonationsState = {
     donations: [],
@@ -27,7 +28,14 @@ export const donationsReducer = (state = defaultState, action: AnyAction): Donat
     if(isType(action, fetchDonationAction.done)) {
         return {
             ...state,
-            currentDonation: action.payload.result
+            currentDonation: {
+                ...action.payload.result,
+                timestamp: new Date(action.payload.result.timestamp),
+                distribution: (
+                    action.payload.result.distribution ?
+                    action.payload.result.distribution.map((dist) => ({...dist, share: new Decimal(dist.share)})) :
+                    undefined)
+            }
         }
     }
     else if (isType(action, fetchDonationAction.failed)) {

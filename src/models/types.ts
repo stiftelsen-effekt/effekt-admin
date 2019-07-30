@@ -33,6 +33,8 @@ export interface IDonation {
     paymentId: number,
     paymentExternalRef: string,
     sum: number,
+    transactionCost: number,
+    method: string,
     timestamp: Date,
     KID?: number,
     distribution?: Array<IDistribution>

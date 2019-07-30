@@ -7,6 +7,7 @@ export const brown50 = "#5D3800"
 export const brown30 = "#8D5400"
 export const brown05 = "#90836F"
 
+export const grey70 = "#2D2D2D"
 export const grey30 = "#8A8A8A"
 export const grey15 = "#B7B7B7"
 export const grey05 = "#E2E2E2"

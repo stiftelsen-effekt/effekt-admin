@@ -1,5 +1,5 @@
 import React from 'react'
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, NavLink } from 'react-router-dom';
 import { Page } from '../../style/elements/page.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
@@ -8,6 +8,7 @@ import { fetchDonationAction, clearCurrentDonation } from '../../../../store/don
 import { DistributionGraphComponent } from '../../modules/distribution/graph.component';
 import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../style/elements/headers.style';
 import { HorizontalPanel } from './donation.component.style';
+import { DonationKeyInfoComponent } from '../../modules/donations/keyinfo/keyinfo.component';
 
 interface IParams {
     id: string
@@ -27,12 +28,6 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
         dispatch(fetchDonationAction.started({ id: donationID }))
     }
 
-    const getDistributionGraph = () => {
-        if (donation && donation.distribution) {
-            return <DistributionGraphComponent distribution={donation.distribution}></DistributionGraphComponent>
-        }
-    }
-
     if (donation) {
         return (
             <Page>
@@ -42,11 +37,16 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
                 <SubHeader>Keyinfo</SubHeader>
                 <HorizontalPanel>
                     <div style={{ width: '400px', height: '380px' }}>
-                        {getDistributionGraph()}
+                        <DistributionGraphComponent distribution={donation.distribution}></DistributionGraphComponent>
                     </div>
+
+                    <DonationKeyInfoComponent donation={donation}></DonationKeyInfoComponent>
                 </HorizontalPanel>
 
                 <SubHeader>Meta</SubHeader>
+
+                <NavLink to={`/donors/${donation.donorId}`}>Go to donor</NavLink><br></br>
+                <NavLink to={`/distributions/${donation.KID}`}>Go to distribution</NavLink>
             </Page>
         )
     }
