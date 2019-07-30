@@ -4,6 +4,7 @@ import { MainNav, NavMenu, NavMenuItem, Logout, Flare, LogoHolder } from './nav.
 import { logoutRequest } from '../../authenticate/loginout.actions';
 import { connect } from 'react-redux';
 import Logo from '../../assets/logo_link.png'
+import { Home, BarChart2, Upload, Clipboard, User, List, Settings, LogOut } from "react-feather"
 
 class MainNavigation extends React.Component<IDispatchProps> {
     logout = () => {
@@ -11,22 +12,24 @@ class MainNavigation extends React.Component<IDispatchProps> {
     }
 
     render() {
+        const iconSize: number = 20;
+
         return (
             <MainNav>
                 <LogoHolder src={Logo}></LogoHolder>
 
                 <NavMenu>
-                    <NavMenuItem to={'/home'}>Home</NavMenuItem>
-                    <NavMenuItem to={'/graphing'}>Graphing</NavMenuItem>
-                    <NavMenuItem to={'/reports'}>Reports</NavMenuItem>
-                    <NavMenuItem to={'/register'}>Register</NavMenuItem>
+                    <NavMenuItem to={'/home'}><span>Home</span>          <Home size={iconSize} color={"white"}></Home></NavMenuItem>
+                    <NavMenuItem to={'/graphing'}><span>Graphing</span>  <BarChart2 size={iconSize} color={"white"}></BarChart2></NavMenuItem>
+                    <NavMenuItem to={'/reports'}><span>Reports</span>    <Clipboard size={iconSize} color={"white"}></Clipboard></NavMenuItem>
+                    <NavMenuItem to={'/register'}><span>Register</span>  <Upload size={iconSize} color={"white"}></Upload></NavMenuItem>
                     
-                    <NavMenuItem to={'/donors'}>Donors</NavMenuItem>
-                    <NavMenuItem to={'/donations'}>Donations</NavMenuItem>
-                    <NavMenuItem to={'/settings'}>Settings</NavMenuItem>
+                    <NavMenuItem to={'/donors'}><span>Donors</span>      <User size={iconSize} color={"white"}></User></NavMenuItem>
+                    <NavMenuItem to={'/donations'}><span>Donations</span><List size={iconSize} color={"white"}></List></NavMenuItem>
+                    <NavMenuItem to={'/settings'}><span>Settings</span>  <Settings size={iconSize} color={"white"}></Settings></NavMenuItem>
                 </NavMenu>
 
-                <Logout onClick={this.logout}>Logout</Logout>
+                <Logout onClick={this.logout}><span>Logout</span> <LogOut size={iconSize} color={"white"}></LogOut></Logout>
 
                 <Flare></Flare>
             </MainNav>

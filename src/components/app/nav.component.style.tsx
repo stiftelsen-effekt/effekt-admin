@@ -3,7 +3,7 @@ import { orange50, orange20, orange10 } from './style/colors';
 import { NavLink } from 'react-router-dom';
 
 export const MainNav = styled.nav`
-    width: 300px;
+    width: 240px;
     height: 100vh;
     background: black;
     flex-shrink: 0;
@@ -48,6 +48,17 @@ export const NavMenuItem = styled(NavLink)`
         border-style: solid;
         border-width: 11px 11px 11px 0;
         border-color: transparent #fff transparent transparent;
+    }
+
+    span {
+        display: inline-block;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    svg {
+        display: inline-block;
+        vertical-align: middle;
     }
 `
 
@@ -98,7 +109,7 @@ export const Flare = styled.div`
 export const LogoHolder = styled.img`
     display: block;
     margin: 0 auto;
-    width: 220px;
+    width: 180px;
     margin-top: 40px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 `
