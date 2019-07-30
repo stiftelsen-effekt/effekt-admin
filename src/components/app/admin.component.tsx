@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchActiveOrganizationsAction } from '../../store/organizations/organizations.action';
 import { AppState } from '../../models/state';
 import { DonationsPageComponent } from './pages/donations/donations.component';
+import { DonationPageComponent } from './pages/donations/donation.component';
 
 export const AdminPanel: React.FunctionComponent = () => {
     //TODO: Move someplace where it is run only once
@@ -27,11 +28,12 @@ export const AdminPanel: React.FunctionComponent = () => {
                 <Switch>
                     <Route exact path="/home" component={HomeComponent}></Route>
                     <Route exact path="/register" component={RegisterComponent}></Route>
-                    <Route exact path="/register/process" component={ProcessDonations}></Route>
+                        <Route exact path="/register/process" component={ProcessDonations}></Route>
                     <Route exact path="/graphing" render={() => <div>Graphing</div>}></Route>
                     <Route exact path="/reports" component={ReportsComponent}></Route>
                     <Route exact path="/donors" component={DonorsComponent}></Route>
                     <Route exact path="/donations" component={DonationsPageComponent}></Route>
+                        <Route exact path="/donations/:id" component={DonationPageComponent}></Route>
                     <Route exact path="/settings" render={() => <div>Settings</div>}></Route>
 
                     <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
