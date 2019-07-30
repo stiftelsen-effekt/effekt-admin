@@ -1,11 +1,10 @@
 import React, { useState, useCallback } from 'react'
 import { SingleDonationWrapper, InputWrapper, ControlsWrapper } from "./single-donation.style.component";
 
-import { IPaymentMethod, IDonor, IDonation } from '../../../../models/types';
+import { IPaymentMethod, IDonor, IDonation, IDistribution } from '../../../../models/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { createDistribitionAndInsertDonationAction, ICreateDistributionParams, fetchPaymentMethodsAction } from './single-donation.actions';
-import { IDistribution } from '../kid/kid.models';
 import { Decimal } from 'decimal.js';
 
 import { DonationControls } from './controls/donation-controls.component';
@@ -33,7 +32,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
     const selectedDonor = useSelector<AppState, IDonor | undefined>((state: AppState) => state.donorSelector.selectedDonor)
 
     const getFilteredDistribution = (distribution: Array<IDistribution>) => {
-        return distribution.filter((dist) => !dist.value.equals(new Decimal(0)));
+        return distribution.filter((dist) => !dist.share.equals(new Decimal(0)));
     }
 
     const getDonation = (input: Partial<IDonation>): IDonation | null => {

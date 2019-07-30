@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import Decimal from "decimal.js";
 
 export interface IDonor {
     id: number,
@@ -33,7 +34,15 @@ export interface IDonation {
     paymentExternalRef: string,
     sum: number,
     timestamp: Date,
-    KID?: number
+    KID?: number,
+    distribution?: Array<IDistribution>
+}
+
+export interface IDistribution {
+    organizationId: number,
+    share: Decimal,
+    value?: Decimal,
+    abbriv: string
 }
 
 export interface IInvalidTransaction {

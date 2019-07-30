@@ -1,9 +1,10 @@
 import React from 'react'
 import { EffektInput } from '../../../style/elements/input.style';
 import { DistributionWrapper, DistributionItem, DistributionRow } from './distribution.component.style';
-import { IDistribution } from '../kid.models';
+
 
 import Decimal from 'decimal.js'
+import { IDistribution } from '../../../../../models/types';
 
 interface IProps {
     onChange(distribution: Array<IDistribution> ): void,
@@ -36,7 +37,7 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
                 <EffektInput 
                     type="number" 
                     placeholder="sum" 
-                    defaultValue={dist.value.toString()} 
+                    defaultValue={dist.share.toString()} 
                     style={{width: '110px'}} 
                     onChange={(e) => { organizationValueChanged(dist.organizationId, e.target.value) }}></EffektInput>
             </DistributionItem>));

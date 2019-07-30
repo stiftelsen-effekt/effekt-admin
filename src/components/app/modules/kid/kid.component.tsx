@@ -11,8 +11,7 @@ import { showDonorSelectionComponent } from "../donors/selection/donor-selection
 import { KIDWrapper, KIDUpperBracket, KIDLowerBracket, KIDInnerContent } from "./kid.component.style";
 
 //Models
-import { IDistribution } from "./kid.models";
-import { IOrganization } from "../../../../models/types";
+import { IOrganization, IDistribution } from "../../../../models/types";
 
 import Decimal from "decimal.js";
 
@@ -44,7 +43,7 @@ export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, 
 
     const calculateDistributionSum = (distribution: Array<IDistribution>): Decimal => {
         let sum = new Decimal(0);
-        distribution.forEach(dist => sum = sum.add(dist.value))
+        distribution.forEach(dist => sum = sum.add(dist.share))
         return sum;
     }
 
@@ -53,7 +52,7 @@ export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, 
             abbriv: org.abbriv,
             organizationId: org.id,
             //TODO: Handle donation amount
-            value: new Decimal(org.standardShare)
+            share: new Decimal(org.standardShare)
         })))
     }
 
