@@ -15,6 +15,8 @@ import { createDonorAction } from './components/app/modules/donors/create/create
 import { createDonor } from './components/app/modules/donors/create/create-donor.saga';
 import { fetchDonations } from './components/app/modules/donations/list/donations-list.saga';
 import { fetchDonationsAction } from './components/app/modules/donations/list/donations-list.actions';
+import { fetchDonationAction } from './store/donations/donation.actions';
+import { fetchDonation } from './store/donations/donation.saga';
 
 function* watchAll() {
     yield all([
@@ -38,7 +40,8 @@ function* watchAll() {
 
         takeLatest(createDonorAction.started.type, createDonor),
 
-        takeLatest(fetchDonationsAction.started.type, fetchDonations)
+        takeLatest(fetchDonationsAction.started.type, fetchDonations),
+        takeLatest(fetchDonationAction.started.type, fetchDonation)
     ]);
 }
 
