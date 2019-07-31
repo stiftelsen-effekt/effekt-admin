@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { Page } from "../../style/elements/page.style";
 import { MainHeader, SubHeader } from "../../style/elements/headers.style";
-import { EffektDatePicker } from '../../style/elements/datepicker/datepicker.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { fetchPaymentMethodsAction } from '../../modules/single-donation/single-donation.actions';
@@ -11,8 +10,8 @@ import { API_URL } from '../../../../config/config';
 import { DateTime } from 'luxon';
 import { EffektButton } from '../../style/elements/button.style';
 import { grey30 } from '../../style/colors';
-import rightArrow from '../../../../assets/right-arrow.svg'
 import { FormSection, FormSectionHeader } from '../../style/elements/from-section';
+import { EffektDateRange } from '../../modules/range/date-range.component';
 
 export enum ReportFileFormats {
     EXCEL,
@@ -24,7 +23,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
 
     const token = useSelector((state:AppState) => state.auth.currentToken)
 
-    const [from, setFrom] = useState<Date | null>()
+    const [from, setFrom] = useState<Date | null>(null)
     const [to, setTo] = useState<Date | null>(new Date())
 
     //TODO: Move payment methods to different place in state
@@ -54,27 +53,21 @@ export const ReportsComponent: React.FunctionComponent = () => {
                 <FormSection>
                     <FormSectionHeader>Range</FormSectionHeader>
 
-                    <EffektDatePicker 
-                        onChange={(date) => setFrom(date)}
-                        selected={from}
-                        placeholderText="from"
-                        dateFormat="dd.MM.yyyy"></EffektDatePicker>
+                    <EffektDateRange 
+                        from={from} 
+                        onChangeFrom={(date: Date | null) => setFrom(date)} 
+                        to={to}
+                        onChangeTo={(date: Date | null) => setTo(date)}></EffektDateRange>
+                    <span style={{ color: grey30, marginLeft: '14px', fontSize: '14px' }}>Date range is inclusive</span>
+                    
                     <input
                         type="hidden"
                         name="fromDate"
                         value={(from ? DateTime.fromJSDate(from).toISODate().toString() : '')} />
-                    <img src={rightArrow} style={{ margin: '0 12px', height: '20px', verticalAlign: 'middle' }} alt="arrow" />
-                    <EffektDatePicker 
-                        onChange={(date) => setTo(date)}
-                        selected={to}
-                        placeholderText="to"
-                        dateFormat="dd.MM.yyyy"></EffektDatePicker>
                     <input
                         type="hidden"
                         name="toDate"
                         value={(to ? DateTime.fromJSDate(to).toISODate().toString()  : '')} />
-
-                    <span style={{ color: grey30, marginLeft: '14px', fontSize: '14px' }}>Date range is inclusive</span>
                 </FormSection>
 
                 <FormSection>

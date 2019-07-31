@@ -10,9 +10,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { reportProcessingReducer } from './components/app/pages/process/process.reducer';
 import { CreateDonorReducer } from './components/app/modules/donors/create/create-donor.reducer';
 import { donationsReducer } from './store/donations/donations.reducer';
+import { graphingReducer } from './components/app/pages/graphing/graphing.reducer';
 
 const rootReducer = combineReducers<AppState>({
     auth: authReducer,
+    graphing: graphingReducer,
     donorSelector: donorSelectorReducer,
     donorCreation: CreateDonorReducer,
     organizations: organizationsReducer,

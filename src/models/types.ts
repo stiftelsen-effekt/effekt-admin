@@ -61,3 +61,9 @@ export interface ITransaction {
     name: string,
     transactionID: string
 }
+
+export interface IAggregationItem {
+    id: number,
+    orgName: string,
+    sum: Decimal
+}

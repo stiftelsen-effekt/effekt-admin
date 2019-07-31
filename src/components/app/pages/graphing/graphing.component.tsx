@@ -1,0 +1,63 @@
+import React, { useState } from 'react'
+import { Page } from '../../style/elements/page.style';
+import { MainHeader, SubHeader } from '../../style/elements/headers.style';
+import { useDispatch, useSelector } from 'react-redux';
+import { EffektDateRange } from '../../modules/range/date-range.component';
+import { AppState } from '../../../../models/state';
+import { fetchTotalByPeriodAction } from './graphing.actions';
+import { Doughnut } from 'react-chartjs-2';
+import * as palette from 'google-palette'
+
+export const GraphingPageComponent: React.FunctionComponent = () => {
+    console.log(palette)
+
+    const dispatch = useDispatch()
+
+    const [from, setFrom] = useState<Date | null>(new Date("2018-01-01"))
+    const [to, setTo] = useState<Date | null>(new Date())
+
+    const total = useSelector((state: AppState) => state.graphing.total)
+
+    let data;
+    if (!total && from !== null && to !== null) dispatch(fetchTotalByPeriodAction.started({from,to}))
+    else if (total !== undefined) {
+        const colors = palette('tol-dv', total.length).map((hex:string) => "#"+hex).reverse();
+
+        data = {
+            datasets: [{
+                backgroundColor: colors,
+                data: total.map(item => item.sum.toNumber())
+            }],
+            labels: total.map(item => item.orgName)
+        }
+    }
+
+    const options = {
+        legend: {
+            position: 'right'
+        }
+    }
+
+    return (
+        <Page>
+            <MainHeader>Graphing</MainHeader>
+
+            <SubHeader>Total</SubHeader>
+            <EffektDateRange 
+                from={from}
+                to={to}
+                onChangeFrom={(date: Date | null) => {
+                    setFrom(date)
+                    if (from !== null && to !== null) dispatch(fetchTotalByPeriodAction.started({from,to}))
+                }}
+                onChangeTo={(date: Date | null) => {
+                    setTo(date)
+                    if (from !== null && to !== null) dispatch(fetchTotalByPeriodAction.started({from,to}))
+                }}></EffektDateRange>
+
+            <div style={{width: 1024, height: 550, marginTop: 30}}>
+                <Doughnut data={data} options={options}></Doughnut>
+            </div>
+        </Page>
+    )
+}
