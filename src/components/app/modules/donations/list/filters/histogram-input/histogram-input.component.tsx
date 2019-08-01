@@ -64,21 +64,27 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({histog
                 showLabels={false}><span>Cool</span>
             </Histoslider>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <FilterInput 
-                    type="number" 
-                    value={range[0]}
-                    style={{width: 80}}
-                    onChange={(e) => {
-                        onChange([parseInt(e.target.value), range[1]])
-                    }}></FilterInput>
+                <div>
+                    <FilterInput 
+                        type="number" 
+                        value={range[0]}
+                        style={{width: 80}}
+                        onChange={(e) => {
+                            onChange([parseInt(e.target.value), range[1]])
+                        }}></FilterInput>
+                        <span>&nbsp;&nbsp;kr</span>
+                </div>
                 <img src={rightArrow} style={{height: '20px'}} alt="arrow" />
-                <FilterInput 
-                    type="number" 
-                    value={range[1]} 
-                    style={{width: 80}}
-                    onChange={(e) => {
-                        onChange([range[0], parseInt(e.target.value)])
-                    }}></FilterInput>
+                <div>
+                    <FilterInput 
+                        type="number" 
+                        value={range[1]} 
+                        style={{width: 80}}
+                        onChange={(e) => {
+                            onChange([range[0], parseInt(e.target.value)])
+                        }}></FilterInput>
+                        <span>&nbsp;&nbsp;kr</span>
+                </div>
             </div>
         </div>
     )
