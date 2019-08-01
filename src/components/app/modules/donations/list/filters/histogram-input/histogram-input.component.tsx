@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import Histoslider from '../../../../../../../custom_modules/histoslider/src/components/Histoslider'
+import Histoslider from '../../../../../../../submodules/histoslider/src/components/Histoslider'
 import { azure50 } from '../../../../../style/colors';
 
 import rightArrow from '../../../../../../../assets/right-arrow.svg'
