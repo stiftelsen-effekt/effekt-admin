@@ -1,0 +1,3 @@
+[submodule "src/submodules/histoslider"]
+	path = src/submodules/histoslider
+	url = https://github.com/fellmirr/histoslider.git
