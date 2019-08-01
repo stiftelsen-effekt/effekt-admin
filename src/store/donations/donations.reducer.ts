@@ -1,7 +1,7 @@
 import { DonationsState } from "../../models/state";
 import { isType } from "typescript-fsa";
 import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from "../../components/app/modules/donations/list/donations-list.actions";
-import { fetchDonationAction, CLEAR_CURRENT_DONATION } from "./donation.actions";
+import { fetchDonationAction, CLEAR_CURRENT_DONATION, fetchHistogramAction } from "./donation.actions";
 import { toastError } from "../../util/toasthelper";
 import Decimal from "decimal.js";
 import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONATION_FILTER_KID, SET_DONATION_FILTRE_PAYMENT_METHOD_IDS } from "../../components/app/modules/donations/list/filters/filters.actions";
@@ -72,6 +72,14 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
     /**
      * FILTER ACTIONS
      */
+    if (isType(action, fetchHistogramAction.done)) {
+        return {
+            ...state,
+            histogram: action.payload.result
+        }
+    } else if (isType(action, fetchHistogramAction.failed)) {
+        toastError("Failed to fetch histogram", action.payload.error.message)
+    }
 
     switch(action.type) {
         case SET_DONATION_FILTER_DATE_RANGE:

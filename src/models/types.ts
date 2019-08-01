@@ -62,6 +62,12 @@ export interface IDonationsPagination {
     limit: number
 }
 
+export interface IHistogramBucket {
+    bucket: number,
+    items: number,
+    bar: number
+}
+
 export interface IDistribution {
     organizationId: number,
     share: Decimal,

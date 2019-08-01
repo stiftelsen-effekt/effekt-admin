@@ -15,8 +15,8 @@ import { createDonorAction } from './components/app/modules/donors/create/create
 import { createDonor } from './components/app/modules/donors/create/create-donor.saga';
 import { fetchDonations } from './components/app/modules/donations/list/donations-list.saga';
 import { fetchDonationsAction } from './components/app/modules/donations/list/donations-list.actions';
-import { fetchDonationAction } from './store/donations/donation.actions';
-import { fetchDonation } from './store/donations/donation.saga';
+import { fetchDonationAction, fetchHistogramAction } from './store/donations/donation.actions';
+import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
 import { fetchTotalByPeriod } from './components/app/pages/graphing/graphing.saga';
 import { fetchTotalByPeriodAction } from './components/app/pages/graphing/graphing.actions';
 
@@ -45,7 +45,8 @@ function* watchAll() {
         takeLatest(fetchDonationsAction.started.type, fetchDonations),
         takeLatest(fetchDonationAction.started.type, fetchDonation),
 
-        takeLatest(fetchTotalByPeriodAction.started.type, fetchTotalByPeriod)
+        takeLatest(fetchTotalByPeriodAction.started.type, fetchTotalByPeriod),
+        takeLatest(fetchHistogramAction.started.type, fetchHistogram)
     ]);
 }
 

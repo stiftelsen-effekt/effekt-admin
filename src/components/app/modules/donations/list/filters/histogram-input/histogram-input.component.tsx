@@ -5,20 +5,23 @@ import { azure50 } from '../../../../../style/colors';
 
 import rightArrow from '../../../../../../../assets/right-arrow.svg'
 import { FilterInput } from '../filters.component.style';
+import { IHistogramBucket } from '../../../../../../../models/types';
 
 interface IProps {
     range: Array<number>;
     onChange([from, to]: Array<number>): void;
 }
 
-export const HistogramInputComponent: React.FunctionComponent<IProps> = ({range, onChange}) => {
-    const bars = [552,641,525,442,318,417,256,179,208,179,318,69,69,69,0,220,0,0,0,161,69,69,0,0,0,0,0,0,0,0,0,0,69,195,0,0,0,0,0,0,0,0]
-    const buckets = [0,100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1800,1900,2000,2200,2300,2500,2700,3000,3300,3400,3500,3600,3800,4000,4400,4500,5000,7100,8000,8300,9000,10000,20000,21600,30000]
-    const histogram = useMemo(() => new Array(42).fill(1).map((element, index) => ({
+interface IProps {
+    histogram: Array<IHistogramBucket>
+}
+export const HistogramInputComponent: React.FunctionComponent<IProps> = ({histogram, range, onChange}) => {
+    const buckets = histogram.map(histogram => histogram.bucket)
+    const histogramData = useMemo(() => histogram.map((bucket, index) => ({
         x0: index,
         x: index+1,
-        y: bars[index]
-    })),[bars])
+        y: histogram[index].bar
+    })),[histogram]);
 
     const closestIndex = (input: Array<number>, goal: number) => {
         var curr = input[0];
@@ -39,7 +42,7 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({range,
         <div>
             <Histoslider
                 data={
-                    histogram
+                    histogramData
                 }
                 selection={sliderIndex}
                 onChange={([bottom, top]: Array<number>) => {

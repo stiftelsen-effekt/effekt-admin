@@ -8,6 +8,7 @@ import { AppState } from '../../../../../../models/state';
 import { fetchPaymentMethodsAction } from '../../../single-donation/single-donation.actions';
 import { setDonationFilterKid, setDonationFilterDateRange, setDonationFilterSumRange, setDonationFilterPaymentMethodIDs } from './filters.actions';
 import { fetchDonationsAction } from '../donations-list.actions';
+import { fetchHistogramAction } from '../../../../../../store/donations/donation.actions';
 
 export const FilterComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
@@ -20,11 +21,16 @@ export const FilterComponent: React.FunctionComponent = () => {
     const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods)
     if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started())
 
+    const histogram = useSelector((state: AppState) => state.donations.histogram)
+    if (!histogram) dispatch(fetchHistogramAction.started())
+
     let paymentMethodChoices: Array<EffektCheckChoice> = paymentMethods.map(method => ({
         label: method.abbriviation,
         value: method.id,
         selected: selectedPaymentMethodIDs.indexOf(method.id) !== -1
     }))
+
+    if (!histogram || !paymentMethods) return <FilterWrapper>Loading...</FilterWrapper>
 
     return (
         <FilterWrapper>
@@ -50,6 +56,7 @@ export const FilterComponent: React.FunctionComponent = () => {
                 <FilterGroupHeader>Donation sum</FilterGroupHeader>
                 <HistogramInputComponent
                     range={[donationSumRange.from, donationSumRange.to]}
+                    histogram={histogram}
                     onChange={(range) => {
                         dispatch(setDonationFilterSumRange(Math.min(...range), Math.max(...range)))
                         dispatch(fetchDonationsAction.started())
