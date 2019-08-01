@@ -40,7 +40,7 @@ export const setDonationFilterKid = (KID: string): IFilterAction<string> => {
     }
 }
 
-export const setDonationPaymentMethodIDs = (IDs: Array<number>): IFilterAction<Array<number>> => {
+export const setDonationFilterPaymentMethodIDs = (IDs: Array<number>): IFilterAction<Array<number>> => {
     return {
         type: SET_DONATION_FILTRE_PAYMENT_METHOD_IDS,
         payload: IDs

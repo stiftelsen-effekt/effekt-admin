@@ -7,6 +7,7 @@ import { shortDate } from '../../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
 import { FilterComponent } from './filters/filters.component';
+import { DonationListWrapper } from './donations-list.component.style';
 
 export const DonationsList: React.FunctionComponent = () => {
     const data = useSelector((state: AppState) => state.donations.donations)
@@ -64,7 +65,7 @@ export const DonationsList: React.FunctionComponent = () => {
 
     if (donation !== null) return (<Redirect to={`/donations/${donation}`}></Redirect>)
     return (
-        <div>
+        <DonationListWrapper>
             <ReactTable
                 data={data}
                 pages={pages}
@@ -84,6 +85,6 @@ export const DonationsList: React.FunctionComponent = () => {
                 />
 
             <FilterComponent></FilterComponent>
-        </div>
+        </DonationListWrapper>
     )
 }

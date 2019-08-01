@@ -25,7 +25,8 @@ const defaultState: DonationsState = {
         sum: {
             from: 0,
             to: 30000
-        }
+        },
+        paymentMethodIDs: [2,3,4]
     }
 }
 export const donationsReducer = (state = defaultState, action: any): DonationsState => {

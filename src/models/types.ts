@@ -49,7 +49,7 @@ export interface IDonationFilter {
         from: Date|null,
         to: Date|null
     },
-    paymentMethodIDs?: Array<number>,
+    paymentMethodIDs: Array<number>,
     KID?: string
 }
 

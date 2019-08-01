@@ -4,13 +4,14 @@ import { EffektCheckWrapper, EffektCheckBox, EffektCheckLabel } from './effekt-c
 interface IProps {
     checked: boolean,
     label: string,
+    azure: boolean,
     onChange(checked: boolean): void
 }
 
-export const EffektCheck: React.FunctionComponent<IProps> = ({label, checked, onChange}) => {
+export const EffektCheck: React.FunctionComponent<IProps> = ({label, checked, azure, onChange}) => {
     return (
         <EffektCheckWrapper onClick={() => onChange(!checked)}>
-            <EffektCheckBox checked={checked} />
+            <EffektCheckBox azure={azure} checked={checked} />
             <EffektCheckLabel>{label}</EffektCheckLabel>
         </EffektCheckWrapper>
     )

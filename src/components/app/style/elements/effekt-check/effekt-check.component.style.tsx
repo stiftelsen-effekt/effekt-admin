@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { grey15, grey02 } from "../../colors";
 import checked_inactive from '../../../../../assets/checked_inactive.svg'
 import checked_active from '../../../../../assets/checked_active.svg'
+import checked_active_azure from '../../../../../assets/checked_active_azure.svg'
 
 interface WrapperProps {
-    checked: boolean
+    checked: boolean,
+    azure: boolean
 }
 
 export const EffektCheckWrapper = styled.div`
@@ -23,7 +25,7 @@ export const EffektCheckBox = styled.div<WrapperProps>`
     width: 24px;
     height: 24px;
 
-    background-image: url('${(props) => props.checked ? checked_active : checked_inactive}');
+    background-image: url('${(props) => props.checked ? (props.azure ? checked_active_azure : checked_active) : checked_inactive}');
     background-size: 20px;
     background-position: center;
     background-repeat: no-repeat;
