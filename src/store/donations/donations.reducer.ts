@@ -1,16 +1,27 @@
 import { DonationsState } from "../../models/state";
-import { isType, AnyAction } from "typescript-fsa";
+import { isType } from "typescript-fsa";
 import { fetchDonationsAction } from "../../components/app/modules/donations/list/donations-list.actions";
 import { fetchDonationAction, CLEAR_CURRENT_DONATION } from "./donation.actions";
 import { toastError } from "../../util/toasthelper";
 import Decimal from "decimal.js";
+import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONATION_FILTER_KID, SET_DONATION_FILTRE_PAYMENT_METHOD_IDS } from "../../components/app/modules/donations/list/filters/filters.actions";
 
 const defaultState: DonationsState = {
     donations: [],
     page: 1,
-    pages: -1
+    pages: -1,
+    filter: {
+        date: {
+            from: null,
+            to: null
+        },
+        sum: {
+            from: 0,
+            to: 30000
+        }
+    }
 }
-export const donationsReducer = (state = defaultState, action: AnyAction): DonationsState => {
+export const donationsReducer = (state = defaultState, action: any): DonationsState => {
     if(isType(action, fetchDonationsAction.done)) {
         return {
             ...state,
@@ -40,6 +51,21 @@ export const donationsReducer = (state = defaultState, action: AnyAction): Donat
     }
     else if (isType(action, fetchDonationAction.failed)) {
         toastError("Failed to fetch donation", action.payload.error.message)
+    }
+
+    /**
+     * FILTER ACTIONS
+     */
+
+    switch(action.type) {
+        case SET_DONATION_FILTER_DATE_RANGE:
+            return {...state, filter: { ...state.filter, date: action.payload }}
+        case SET_DONATION_FILTER_SUM_RANGE:
+            return {...state, filter: { ...state.filter, sum: action.payload }}
+        case SET_DONATION_FILTER_KID:
+            return {...state, filter: { ...state.filter, KID: action.payload }}
+        case SET_DONATION_FILTRE_PAYMENT_METHOD_IDS:
+            return {...state, filter: { ...state.filter, paymentMethodIDs: action.payload }}
     }
 
     return state;

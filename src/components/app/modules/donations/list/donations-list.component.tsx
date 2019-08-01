@@ -6,6 +6,7 @@ import { AppState } from '../../../../../models/state';
 import { shortDate } from '../../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
+import { FilterComponent } from './filters/filters.component';
 
 export const DonationsList: React.FunctionComponent = () => {
     const data = useSelector((state: AppState) => state.donations.donations)
@@ -80,6 +81,8 @@ export const DonationsList: React.FunctionComponent = () => {
                 }}
                 getTrProps={trProps}
                 />
+
+            <FilterComponent></FilterComponent>
         </div>
     )
 }

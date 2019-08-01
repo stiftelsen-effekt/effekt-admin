@@ -26,9 +26,9 @@ export const ReportsComponent: React.FunctionComponent = () => {
     const [from, setFrom] = useState<Date | null>(null)
     const [to, setTo] = useState<Date | null>(new Date())
 
+    //TODO: CREATE GENERAL PAYMENT METHOD SELECTOR
     //TODO: Move payment methods to different place in state
     const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods)
-    //TODO: Rewrite to FSA
     if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started())
 
     const [paymentMethodIds, setPaymentMethodIds] = useState<Array<number>>([4])

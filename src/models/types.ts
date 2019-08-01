@@ -40,6 +40,19 @@ export interface IDonation {
     distribution?: Array<IDistribution>
 }
 
+export interface IDonationFilter {
+    sum: {
+        from: number,
+        to: number
+    },
+    date: {
+        from: Date|null,
+        to: Date|null
+    },
+    paymentMethodIDs?: Array<number>,
+    KID?: string
+}
+
 export interface IDistribution {
     organizationId: number,
     share: Decimal,
