@@ -34,8 +34,14 @@ export const FilterComponent: React.FunctionComponent = () => {
                 <FilterDateRangeWrapper><FilterDateRange 
                     from={donationDateRange.from}
                     to={donationDateRange.to}
-                    onChangeFrom={(date) => dispatch(setDonationFilterDateRange(date, donationDateRange.to))}
-                    onChangeTo={(date) => dispatch(setDonationFilterDateRange(donationDateRange.from, date))}></FilterDateRange>
+                    onChangeFrom={(date) => { 
+                        dispatch(setDonationFilterDateRange(date, donationDateRange.to))
+                        dispatch(fetchDonationsAction.started())
+                    }}
+                    onChangeTo={(date) => {
+                        dispatch(setDonationFilterDateRange(donationDateRange.from, date))
+                        dispatch(fetchDonationsAction.started())
+                    }}></FilterDateRange>
                 </FilterDateRangeWrapper>
             </FilterGroup>
 
