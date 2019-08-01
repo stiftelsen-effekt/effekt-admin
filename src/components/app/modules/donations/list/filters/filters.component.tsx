@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../../../models/state';
 import { fetchPaymentMethodsAction } from '../../../single-donation/single-donation.actions';
 import { setDonationFilterKid, setDonationFilterDateRange, setDonationFilterSumRange } from './filters.actions';
+import { fetchDonationsAction } from '../donations-list.actions';
 
 export const FilterComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
@@ -14,7 +15,6 @@ export const FilterComponent: React.FunctionComponent = () => {
     const donationDateRange = useSelector((state: AppState) => state.donations.filter.date)
     const donationSumRange = useSelector((state: AppState) => state.donations.filter.sum)
     const kid = useSelector((state: AppState) => state.donations.filter.KID)
-
     const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods)
     if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started())
 
@@ -24,7 +24,6 @@ export const FilterComponent: React.FunctionComponent = () => {
         value: method.id,
         selected: paymentMethodIds.indexOf(method.id) !== -1
     }))
-
 
     return (
         <FilterWrapper>
@@ -46,13 +45,21 @@ export const FilterComponent: React.FunctionComponent = () => {
                     range={[donationSumRange.from, donationSumRange.to]}
                     onChange={(range) => {
                         dispatch(setDonationFilterSumRange(Math.min(...range), Math.max(...range)))
+                        dispatch(fetchDonationsAction.started())
                     } }>
                 </HistogramInputComponent>
             </FilterGroup>
             
             <FilterGroup>
                 <FilterGroupHeader>KID like</FilterGroupHeader>
-                <FilterInput value={kid} onChange={(e) => dispatch(setDonationFilterKid(e.target.value))} style={{width: '100%'}} placeholder={"Fuzzy search"}></FilterInput>
+                <FilterInput 
+                    value={kid}
+                    placeholder={"Fuzzy search"} 
+                    style={{width: '100%'}}
+                    onChange={(e) => {
+                        dispatch(setDonationFilterKid(e.target.value))
+                        dispatch(fetchDonationsAction.started())
+                    }} ></FilterInput>
             </FilterGroup>
 
             <FilterGroup>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import Histoslider from '../../../../../../../custom_modules/histoslider/src/components/Histoslider'
 import { azure50 } from '../../../../../style/colors';
@@ -58,7 +58,6 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({range,
                         backgroundColor: "none"
                     }
                 }
-                handleLabelFormat={" "}
                 showLabels={false}><span>Cool</span>
             </Histoslider>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>

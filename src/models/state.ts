@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter } from "./types";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IDonationsPagination } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -57,9 +57,9 @@ export interface CreateDonorState {
 export interface DonationsState {
     currentDonation?: IDonation,
     pages: number,
-    page: number,
+    pagination: IDonationsPagination,
+    filter: IDonationFilter,
     donations: Array<IDonation>,
-    filter: IDonationFilter
 }
 
 export interface GraphingState {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDonationsAction } from './donations-list.actions';
+import { fetchDonationsAction, setDonationsPagination } from './donations-list.actions';
 import { AppState } from '../../../../../models/state';
 import { shortDate } from '../../../../../util/formatting';
 import { DateTime } from 'luxon';
@@ -73,11 +73,12 @@ export const DonationsList: React.FunctionComponent = () => {
                 defaultSorted={defaultSorting}
                 manual
                 onFetchData={(state, instance) => {
-                    dispatch(fetchDonationsAction.started({
+                    dispatch(setDonationsPagination({
                         sort: state.sorted[0],
                         page: state.page,
                         limit: state.pageSize
                     }))
+                    dispatch(fetchDonationsAction.started())
                 }}
                 getTrProps={trProps}
                 />

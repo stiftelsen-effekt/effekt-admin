@@ -53,6 +53,15 @@ export interface IDonationFilter {
     KID?: string
 }
 
+export interface IDonationsPagination {
+    sort: {
+        id: string,
+        desc: boolean
+    },
+    page: number,
+    limit: number
+}
+
 export interface IDistribution {
     organizationId: number,
     share: Decimal,

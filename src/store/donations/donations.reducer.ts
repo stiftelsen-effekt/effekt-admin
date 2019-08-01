@@ -1,6 +1,6 @@
 import { DonationsState } from "../../models/state";
 import { isType } from "typescript-fsa";
-import { fetchDonationsAction } from "../../components/app/modules/donations/list/donations-list.actions";
+import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from "../../components/app/modules/donations/list/donations-list.actions";
 import { fetchDonationAction, CLEAR_CURRENT_DONATION } from "./donation.actions";
 import { toastError } from "../../util/toasthelper";
 import Decimal from "decimal.js";
@@ -8,8 +8,15 @@ import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONA
 
 const defaultState: DonationsState = {
     donations: [],
-    page: 1,
     pages: -1,
+    pagination: {
+        page: 1,
+        limit: 20,
+        sort: {
+            id: 'ID',
+            desc: true
+        }
+    },
     filter: {
         date: {
             from: null,
@@ -51,6 +58,14 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
     }
     else if (isType(action, fetchDonationAction.failed)) {
         toastError("Failed to fetch donation", action.payload.error.message)
+    }
+
+    /**
+     * PAGINATION ACTIONS
+     */
+    switch(action.type) {
+        case SET_DONATIONS_PAGINATION:
+            return { ...state, pagination: action.payload }
     }
 
     /**
