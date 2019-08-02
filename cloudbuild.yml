@@ -4,7 +4,7 @@ steps:
   args:
   - '-c'
   - |
-    git config -f .gitmodules submodule.fellmirr_histoslider.url https://source.developers.google.com/p/hidden-display-243419/r/github_fellmirr_histoslider
+    git config -f .gitmodules submodule.github_fellmirr_histoslider.url https://source.developers.google.com/p/hidden-display-243419/r/github_fellmirr_histoslider
     git submodule init
     git submodule update
 - name: 'gcr.io/cloud-builders/npm'
