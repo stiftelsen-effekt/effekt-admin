@@ -1,7 +1,7 @@
 import { Auth, AuthUtil } from '../authenticate/auth'
 import { callback, loginSuccess } from '../authenticate/loginout.saga';
 import { LOGIN_FAILURE, LOGIN_SUCCESS, FETCH_ACCESS_KEY_SUCCESS } from '../authenticate/loginout.actions';
-import { FETCH_TOKEN_REQUEST } from '../authenticate/token.actions';
+import { fetchTokenAction } from '../authenticate/token.actions';
 import 'jest-localstorage-mock';
 
 window.location.assign = jest.fn().mockImplementation((url: string): string => url);
@@ -63,8 +63,8 @@ describe('authentification class', () => {
             let gen = loginSuccess(successAction)
             let setAccessKeyAction = gen.next()
             expect(setAccessKeyAction.value.payload.action.type).toEqual(FETCH_ACCESS_KEY_SUCCESS)
-            let fetchTokenAction = gen.next()
-            expect(fetchTokenAction.value.payload.action.type).toEqual(FETCH_TOKEN_REQUEST)
+            let action = gen.next()
+            expect(action.value.payload.action.type).toEqual(fetchTokenAction.started.type)
         })
     })
 
