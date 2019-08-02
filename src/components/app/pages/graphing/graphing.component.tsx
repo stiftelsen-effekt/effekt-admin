@@ -48,11 +48,11 @@ export const GraphingPageComponent: React.FunctionComponent = () => {
                 to={to}
                 onChangeFrom={(date: Date | null) => {
                     setFrom(date)
-                    if (from !== null && to !== null) dispatch(fetchTotalByPeriodAction.started({from,to}))
+                    if (date !== null && to !== null) dispatch(fetchTotalByPeriodAction.started({from: date,to}))
                 }}
                 onChangeTo={(date: Date | null) => {
                     setTo(date)
-                    if (from !== null && to !== null) dispatch(fetchTotalByPeriodAction.started({from,to}))
+                    if (from !== null && date !== null) dispatch(fetchTotalByPeriodAction.started({from,to: date}))
                 }}></EffektDateRange>
 
             <div style={{width: 1024, height: 550, marginTop: 30}}>
