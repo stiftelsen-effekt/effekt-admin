@@ -17,6 +17,7 @@ interface IProps {
 }
 export const HistogramInputComponent: React.FunctionComponent<IProps> = ({histogram, range, onChange}) => {
     const buckets = histogram.map(histogram => histogram.bucket)
+    buckets.push(Number.MAX_SAFE_INTEGER) //Upper bound
     const histogramData = useMemo(() => histogram.map((bucket, index) => ({
         x0: index,
         x: index+1,
@@ -66,22 +67,26 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({histog
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div>
                     <FilterInput 
-                        type="number" 
                         value={range[0]}
                         style={{width: 80}}
                         onChange={(e) => {
-                            onChange([parseInt(e.target.value), range[1]])
+                            try {
+                                let parsed: number = parseInt(e.target.value)
+                                onChange([parsed, range[1]])
+                            } catch(ex) {}
                         }}></FilterInput>
                         <span>&nbsp;&nbsp;kr</span>
                 </div>
                 <img src={rightArrow} style={{height: '20px'}} alt="arrow" />
                 <div>
                     <FilterInput 
-                        type="number" 
-                        value={range[1]} 
+                        value={(range[1] === Number.MAX_SAFE_INTEGER ? '∞' : range[1])} 
                         style={{width: 80}}
                         onChange={(e) => {
-                            onChange([range[0], parseInt(e.target.value)])
+                            try {
+                                let parsed: number = parseInt(e.target.value)
+                                onChange([range[0], parsed])
+                            } catch(ex) {}
                         }}></FilterInput>
                         <span>&nbsp;&nbsp;kr</span>
                 </div>
