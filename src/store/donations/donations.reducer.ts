@@ -24,7 +24,7 @@ const defaultState: DonationsState = {
         },
         sum: {
             from: 0,
-            to: 30000
+            to: Number.MAX_SAFE_INTEGER
         },
         paymentMethodIDs: [2,3,4]
     }
