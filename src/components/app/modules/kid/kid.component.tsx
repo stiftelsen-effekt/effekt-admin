@@ -74,8 +74,8 @@ export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, 
 
     const distributionChanged = (distribution: Array<IDistribution>) => {
         setDistribution(distribution)
-        onChange(distribution)
         setDistributionSum(calculateDistributionSum(distribution))
+        onChange(distribution)
     }
 
     return (

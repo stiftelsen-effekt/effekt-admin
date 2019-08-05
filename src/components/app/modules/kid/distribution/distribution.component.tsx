@@ -19,7 +19,7 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
             let updatedDistribution = distribution.map((dist: IDistribution)  => {
                 if (dist.organizationId === orgId) return {
                     ...dist,
-                    value: parsedValue
+                    share: parsedValue
                 }
                 else return dist
             })
