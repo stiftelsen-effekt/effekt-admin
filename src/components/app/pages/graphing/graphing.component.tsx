@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EffektDateRange } from '../../modules/range/date-range.component';
 import { AppState } from '../../../../models/state';
 import { fetchTotalByPeriodAction } from './graphing.actions';
-import { Doughnut } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import * as palette from 'google-palette'
 
 export const GraphingPageComponent: React.FunctionComponent = () => {
@@ -34,7 +34,7 @@ export const GraphingPageComponent: React.FunctionComponent = () => {
 
     const options = {
         legend: {
-            position: 'right'
+            display: false
         }
     }
 
@@ -56,7 +56,7 @@ export const GraphingPageComponent: React.FunctionComponent = () => {
                 }}></EffektDateRange>
 
             <div style={{width: 1024, height: 550, marginTop: 30}}>
-                <Doughnut data={data} options={options}></Doughnut>
+                <Bar data={data} options={options}></Bar>
             </div>
         </Page>
     )
