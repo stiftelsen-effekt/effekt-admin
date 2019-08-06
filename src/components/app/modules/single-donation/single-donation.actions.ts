@@ -1,4 +1,4 @@
-import { IPaymentMethod, IDonor, IDonation, IDistribution } from "../../../../models/types";
+import { IPaymentMethod, IDonor, IDonation, IDistributionShare } from "../../../../models/types";
 
 import actionCreatorFactory from 'typescript-fsa';
  
@@ -8,7 +8,7 @@ export const fetchPaymentMethodsAction = actionCreator.async<undefined, Array<IP
 
 export interface ICreateDistributionParams {
     donor: IDonor,
-    distribution: Array<IDistribution>
+    distribution: Array<IDistributionShare>
 }
 
 interface ICreateDistributionAndInsertDonationParams {

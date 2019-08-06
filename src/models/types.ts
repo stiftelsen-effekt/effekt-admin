@@ -37,7 +37,7 @@ export interface IDonation {
     method: string,
     timestamp: Date,
     KID?: number,
-    distribution?: Array<IDistribution>
+    distribution?: Array<IDistributionShare>
 }
 
 export interface IDonationFilter {
@@ -68,11 +68,17 @@ export interface IHistogramBucket {
     bar: number
 }
 
-export interface IDistribution {
+export interface IDistributionShare {
     organizationId: number,
     share: Decimal,
     value?: Decimal,
     abbriv: string
+}
+
+export interface IDistribution {
+    KID: number,
+    donor: Partial<IDonor>,
+    shares: Array<IDistributionShare>
 }
 
 export interface IInvalidTransaction {

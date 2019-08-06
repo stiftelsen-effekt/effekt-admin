@@ -4,11 +4,11 @@ import { DistributionWrapper, DistributionItem, DistributionRow } from './distri
 
 
 import Decimal from 'decimal.js'
-import { IDistribution } from '../../../../../models/types';
+import { IDistributionShare } from '../../../../../models/types';
 
 interface IProps {
-    onChange(distribution: Array<IDistribution> ): void,
-    distribution: Array<IDistribution>
+    onChange(distribution: Array<IDistributionShare> ): void,
+    distribution: Array<IDistributionShare>
 }
 
 export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution, onChange }) => {
@@ -16,7 +16,7 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
         try {
             value = (value === "" ? "0" : value)
             let parsedValue = new Decimal(value)
-            let updatedDistribution = distribution.map((dist: IDistribution)  => {
+            let updatedDistribution = distribution.map((dist: IDistributionShare)  => {
                 if (dist.organizationId === orgId) return {
                     ...dist,
                     share: parsedValue
@@ -31,7 +31,7 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
     }
 
     const createItems = () => {
-        let distributionItems = distribution.map((dist: IDistribution, i: number) => (
+        let distributionItems = distribution.map((dist: IDistributionShare, i: number) => (
             <DistributionItem key={i}>
                 <span>{dist.abbriv}</span>
                 <EffektInput 

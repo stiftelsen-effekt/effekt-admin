@@ -28,7 +28,7 @@ export function* createDistributionCall(params: ICreateDistributionParams) {
     try {
         const accessToken: IAccessToken = yield select(getApiToken);
         var data = yield call(API.call, {
-            endpoint: "/donations/distribution/",
+            endpoint: "/distributions/",
             method: API.Method.POST,
             token: accessToken.token,
             data: params

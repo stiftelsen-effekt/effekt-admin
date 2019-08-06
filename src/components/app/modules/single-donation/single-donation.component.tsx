@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { SingleDonationWrapper, InputWrapper, ControlsWrapper } from "./single-donation.style.component";
 
-import { IPaymentMethod, IDonor, IDonation, IDistribution } from '../../../../models/types';
+import { IPaymentMethod, IDonor, IDonation, IDistributionShare } from '../../../../models/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { createDistribitionAndInsertDonationAction, ICreateDistributionParams, fetchPaymentMethodsAction } from './single-donation.actions';
@@ -20,7 +20,7 @@ interface IProps {
 
 export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) => {
     const [donationInput, setDonationInput] = useState<Partial<IDonation>>({})
-    const [distribution, setDistribution] = useState<Array<IDistribution>>()
+    const [distribution, setDistribution] = useState<Array<IDistributionShare>>()
     const dispatch = useDispatch()
     
     const paymentMethods = useSelector<AppState, Array<IPaymentMethod>>((state: AppState) => state.singleDonation.paymentMethods)
@@ -31,7 +31,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
 
     const selectedDonor = useSelector<AppState, IDonor | undefined>((state: AppState) => state.donorSelector.selectedDonor)
 
-    const getFilteredDistribution = (distribution: Array<IDistribution>) => {
+    const getFilteredDistribution = (distribution: Array<IDistributionShare>) => {
         return distribution.filter((dist) => !dist.share.equals(new Decimal(0)));
     }
 
@@ -84,7 +84,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
                 <KIDComponent
                     organizations={organizations}
                     donationAmount={donationInput && donationInput.sum}
-                    onChange={(distribution: Array<IDistribution>) => setDistribution(distribution)}></KIDComponent>
+                    onChange={(distribution: Array<IDistributionShare>) => setDistribution(distribution)}></KIDComponent>
                 <ControlsWrapper>
                     <DonationControls 
                         onInsert={() => submit()}

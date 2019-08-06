@@ -1,12 +1,12 @@
 import React from 'react'
-import { IDistribution } from '../../../../models/types';
+import { IDistributionShare } from '../../../../models/types';
 import { HorizontalBar, defaults } from 'react-chartjs-2'
 import { GraphWrapper } from './graph.component.style';
 
 (defaults as any).global.defaultFontFamily = 'Roboto';
 
 interface IProps {
-    distribution: Array<IDistribution> | undefined
+    distribution: Array<IDistributionShare> | undefined
 }
 export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({distribution}) => {
     if (!distribution) return (<div>No distribution</div>)

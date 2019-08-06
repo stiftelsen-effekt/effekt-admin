@@ -11,7 +11,7 @@ import { showDonorSelectionComponent } from "../donors/selection/donor-selection
 import { KIDWrapper, KIDUpperBracket, KIDLowerBracket, KIDInnerContent } from "./kid.component.style";
 
 //Models
-import { IOrganization, IDistribution } from "../../../../models/types";
+import { IOrganization, IDistributionShare } from "../../../../models/types";
 
 import Decimal from "decimal.js";
 
@@ -24,11 +24,11 @@ interface IProps {
     donationAmount?: number,
     organizations: Array<IOrganization>,
     KID?: number,
-    onChange(distribution: Array<IDistribution> ): void
+    onChange(distribution: Array<IDistributionShare> ): void
 }
 
 interface IState {
-    distribution: Array<IDistribution>,
+    distribution: Array<IDistributionShare>,
     distributionSum: Decimal,
     distributionMax: Decimal
 }
@@ -41,14 +41,14 @@ export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, 
      * TODO: Move to seperate file
      */
 
-    const calculateDistributionSum = (distribution: Array<IDistribution>): Decimal => {
+    const calculateDistributionSum = (distribution: Array<IDistributionShare>): Decimal => {
         let sum = new Decimal(0);
         distribution.forEach(dist => sum = sum.add(dist.share))
         return sum;
     }
 
-    const mapOrgToDIst = (organizations: Array<IOrganization>): Array<IDistribution> => {
-        return organizations.map(((org: IOrganization):IDistribution => ({
+    const mapOrgToDIst = (organizations: Array<IOrganization>): Array<IDistributionShare> => {
+        return organizations.map(((org: IOrganization):IDistributionShare => ({
             abbriv: org.abbriv,
             organizationId: org.id,
             //TODO: Handle donation amount
@@ -60,7 +60,7 @@ export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, 
      * END UTIL
      */
 
-    const [distribution, setDistribution] = useState<Array<IDistribution>>(mapOrgToDIst(organizations))
+    const [distribution, setDistribution] = useState<Array<IDistributionShare>>(mapOrgToDIst(organizations))
     
     const [distributionSum, setDistributionSum] = useState<Decimal>(calculateDistributionSum(distribution))
     //TODO: Add support for absolute values
@@ -72,7 +72,7 @@ export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, 
         dispatch(showDonorSelectionComponent());
     }
 
-    const distributionChanged = (distribution: Array<IDistribution>) => {
+    const distributionChanged = (distribution: Array<IDistributionShare>) => {
         setDistribution(distribution)
         setDistributionSum(calculateDistributionSum(distribution))
         onChange(distribution)

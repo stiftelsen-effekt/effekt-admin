@@ -15,6 +15,7 @@ import { AppState } from '../../models/state';
 import { DonationsPageComponent } from './pages/donations/donations.component';
 import { DonationPageComponent } from './pages/donations/donation.component';
 import { GraphingPageComponent } from './pages/graphing/graphing.component';
+import { DistributionsPageComponent } from './pages/distributions/distributions.component';
 
 export const AdminPanel: React.FunctionComponent = () => {
     //TODO: Move someplace where it is run only once
@@ -28,6 +29,7 @@ export const AdminPanel: React.FunctionComponent = () => {
                 <MainNavigation></MainNavigation>
                 <Switch>
                     <Route exact path="/home" component={HomeComponent}></Route>
+                    <Route exact path="/distributions" component={DistributionsPageComponent}></Route>
                     <Route exact path="/register" component={RegisterComponent}></Route>
                         <Route exact path="/register/process" component={ProcessDonations}></Route>
                     <Route exact path="/graphing" component={GraphingPageComponent}></Route>

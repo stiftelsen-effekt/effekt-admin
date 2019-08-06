@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IDonationsPagination, IHistogramBucket } from "./types";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IDonationsPagination, IHistogramBucket, IDistributionShare } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -66,4 +66,14 @@ export interface DonationsState {
 
 export interface GraphingState {
     total?: Array<IAggregationItem>
+}
+
+export interface DistributionsState {
+    currentDistribution: {
+        KID: number,
+        donor: IDonor,
+        distribution: Array<IDistributionShare>,
+
+        affilitatedDonations: Array<IDonation>
+    }
 }
