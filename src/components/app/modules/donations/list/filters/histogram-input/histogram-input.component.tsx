@@ -4,7 +4,7 @@ import Histoslider from '../../../../../../../submodules/histoslider/src/compone
 import { azure50 } from '../../../../../style/colors';
 
 import rightArrow from '../../../../../../../assets/right-arrow.svg'
-import { FilterInput } from '../filters.component.style';
+import { FilterInput } from '../../../../../style/elements/filters.component.style';
 import { IHistogramBucket } from '../../../../../../../models/types';
 
 interface IProps {

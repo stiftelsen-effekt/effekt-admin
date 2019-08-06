@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FilterWrapper, FilterGroupHeader, FilterDateRange, FilterInput, FilterDateRangeWrapper, FilterGroup, FilterHeader } from "./filters.component.style";
+import { FilterWrapper, FilterGroupHeader, FilterDateRange, FilterInput, FilterDateRangeWrapper, FilterGroup, FilterHeader } from "../../../../style/elements/filters.component.style";
 import { HistogramInputComponent } from './histogram-input/histogram-input.component';
 import { EffektCheckForm, EffektCheckChoice } from '../../../../style/elements/effekt-check/effekt-check-form.component';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ import { setDonationFilterKid, setDonationFilterDateRange, setDonationFilterSumR
 import { fetchDonationsAction } from '../donations-list.actions';
 import { fetchHistogramAction } from '../../../../../../store/donations/donation.actions';
 
-export const FilterComponent: React.FunctionComponent = () => {
+export const DonationsFilterComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
 
     const donationDateRange = useSelector((state: AppState) => state.donations.filter.date)

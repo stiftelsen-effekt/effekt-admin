@@ -19,6 +19,8 @@ import { fetchDonationAction, fetchHistogramAction } from './store/donations/don
 import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
 import { fetchTotalByPeriod } from './components/app/pages/graphing/graphing.saga';
 import { fetchTotalByPeriodAction } from './components/app/pages/graphing/graphing.actions';
+import { fetchDistributions } from './components/app/modules/distribution/list/distribution-list.saga';
+import { fetchDistributionsAction } from './components/app/modules/distribution/list/distribution-list.actions';
 
 function* watchAll() {
     yield all([
@@ -46,7 +48,9 @@ function* watchAll() {
         takeLatest(fetchDonationAction.started.type, fetchDonation),
 
         takeLatest(fetchTotalByPeriodAction.started.type, fetchTotalByPeriod),
-        takeLatest(fetchHistogramAction.started.type, fetchHistogram)
+        takeLatest(fetchHistogramAction.started.type, fetchHistogram),
+
+        takeLatest(fetchDistributionsAction.started.type, fetchDistributions)
     ]);
 }
 

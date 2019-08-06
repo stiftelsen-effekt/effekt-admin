@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IDonationsPagination, IHistogramBucket, IDistributionShare } from "./types";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -14,7 +14,8 @@ export interface AppState {
 
     reportProcessing: ReportProcessingState,
 
-    donations: DonationsState
+    donations: DonationsState,
+    distributions: DistributionsState
 }
 
 export interface AuthState {
@@ -59,7 +60,7 @@ export interface DonationsState {
 
     histogram?: Array<IHistogramBucket>,
     pages: number,
-    pagination: IDonationsPagination,
+    pagination: IPagination,
     filter: IDonationFilter,
     donations: Array<IDonation>,
 }
@@ -68,12 +69,16 @@ export interface GraphingState {
     total?: Array<IAggregationItem>
 }
 
-export interface DistributionsState {
-    currentDistribution: {
-        KID: number,
-        donor: IDonor,
-        distribution: Array<IDistributionShare>,
+export interface CurrentDistributionState {
+    distribution: IDistribution,
+    affiliatedDonations: Array<IDonation>
+}
 
-        affilitatedDonations: Array<IDonation>
-    }
+export interface DistributionsState {
+    current?: CurrentDistributionState,
+
+    filter: IDistributionFilter,
+    pagination: IPagination,
+    pages: number,
+    searchResult: Array<IDistributionSearchResultItem>
 }

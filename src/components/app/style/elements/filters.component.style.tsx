@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import { azure02, azure50, grey05 } from "../../../../style/colors";
-import { EffektDateRange } from "../../../range/date-range.component";
-import { EffektInput } from "../../../../style/elements/input.style";
-
-export const koko = "asodk"
+import { azure02, azure50, grey05 } from "../colors";
+import { EffektDateRange } from "../../modules/range/date-range.component";
+import { EffektInput } from "./input.style";
 
 export const FilterHeader = styled.h2`
     font-size: 24px;

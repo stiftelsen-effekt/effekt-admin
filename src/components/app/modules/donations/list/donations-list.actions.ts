@@ -1,5 +1,5 @@
 import actionCreatorFactory from "typescript-fsa";
-import { IDonation, IDonationsPagination } from "../../../../../models/types";
+import { IDonation, IPagination } from "../../../../../models/types";
 
 export const SET_DONATIONS_PAGINATION = "SET_DONATIONS_PAGINATION"
 
@@ -11,7 +11,7 @@ interface IFetchDonationsResult {
 }
 
 export const fetchDonationsAction = actionCreator.async<undefined, IFetchDonationsResult, Error>('FETCH_DONATIONS');
-export const setDonationsPagination = (pagination: IDonationsPagination) => {
+export const setDonationsPagination = (pagination: IPagination) => {
     return {
         type: SET_DONATIONS_PAGINATION,
         payload: pagination

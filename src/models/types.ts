@@ -27,6 +27,8 @@ export interface IPaymentMethod {
     lastUpdated: DateTime
 }
 
+/** Donations */
+
 export interface IDonation {
     id?: number,
     donorId?: number,
@@ -53,20 +55,13 @@ export interface IDonationFilter {
     KID?: string
 }
 
-export interface IDonationsPagination {
-    sort: {
-        id: string,
-        desc: boolean
-    },
-    page: number,
-    limit: number
-}
-
 export interface IHistogramBucket {
     bucket: number,
     items: number,
     bar: number
 }
+
+/** Distribution */
 
 export interface IDistributionShare {
     organizationId: number,
@@ -80,6 +75,18 @@ export interface IDistribution {
     donor: Partial<IDonor>,
     shares: Array<IDistributionShare>
 }
+
+export interface IDistributionFilter {
+    KID?: string,
+    donor?: string
+}
+
+export interface IDistributionSearchResultItem extends Partial<IDistribution> {
+    sum: number,
+    count: number
+}
+
+/** Transactions */
 
 export interface IInvalidTransaction {
     reason: string,
@@ -96,8 +103,20 @@ export interface ITransaction {
     transactionID: string
 }
 
+/** Graphing */
+
 export interface IAggregationItem {
     id: number,
     orgName: string,
     sum: Decimal
+}
+
+/** Misc */
+export interface IPagination {
+    sort: {
+        id: string,
+        desc: boolean
+    },
+    page: number,
+    limit: number
 }

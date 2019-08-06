@@ -6,7 +6,7 @@ import { AppState } from '../../../../../models/state';
 import { shortDate } from '../../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
-import { FilterComponent } from './filters/filters.component';
+import { DonationsFilterComponent } from './filters/filters.component';
 import { DonationListWrapper } from './donations-list.component.style';
 
 export const DonationsList: React.FunctionComponent = () => {
@@ -84,7 +84,7 @@ export const DonationsList: React.FunctionComponent = () => {
                 getTrProps={trProps}
                 />
 
-            <FilterComponent></FilterComponent>
+            <DonationsFilterComponent></DonationsFilterComponent>
         </DonationListWrapper>
     )
 }
