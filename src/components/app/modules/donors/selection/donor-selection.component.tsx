@@ -10,6 +10,10 @@ import { IDonor } from "../../../../../models/types";
 import { EffektInput } from "../../../style/elements/input.style";
 import { orange50 } from "../../../style/colors";
 import { shortDate } from "../../../../../util/formatting";
+import { PlusSquare } from "react-feather";
+import { EffektButton } from "../../../style/elements/button.style";
+import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
+import { CreateDonor } from "../create/create-donor.component";
 
 interface IDonorTableState {
     sorted: Array<any>,
@@ -101,9 +105,21 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
         }
     }
 
+    const [showCreate, setShowCreate] = useState<boolean>(false)
+
     return (
         <div>
-            <EffektInput type="text" onChange={search} placeholder="søk" style={{ width: '100%', marginBottom: '20px' }}></EffektInput>
+            <div style={{display: 'flex', marginBottom: '20px'}}>
+                <EffektInput type="text" onChange={search} placeholder="søk" style={{ flexGrow: 1, marginRight: 18 }}></EffektInput>
+                <EffektButton onClick={() => setShowCreate(true)}><span>Create &nbsp;</span> <PlusSquare color={"white"} size={18} style={{verticalAlign: "middle"}}/></EffektButton>
+            </div>
+            
+            <EffektModal
+                visible={showCreate}
+                effect="fadeInUp"
+                onClickAway={() => setShowCreate(false)}>
+                <CreateDonor onSubmit={() => setShowCreate(false)}></CreateDonor>
+            </EffektModal>
             <ReactTable
                 data={searchResult}
                 columns={columnDefinitions}

@@ -29,6 +29,7 @@ export const FilterWrapper = styled.div<IFilterWrapperProps>`
     box-shadow: 0px 0px 6px 0 rgba(0,0,0,.4);
     box-sizing: border-box;
     transition: transform 200ms;
+    z-index: 10;
 
     @media (max-width: 1680px) {
         transform: ${props => (props.isOpen ? 'translateX(0px);' : 'translateX(100%)')};

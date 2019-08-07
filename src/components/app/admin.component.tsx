@@ -5,7 +5,7 @@ import MainNavigation from "./nav.component";
 import { AdminPanelWrapper } from './admin.component.style';
 import { RegisterComponent } from './pages/register/register.component'
 import DonorSelectionDialog from './modules/donors/selection/donor-selection-dialog.component';
-import DonorsComponent from './pages/donors/donors.component';
+import { DonorsPageComponent } from './pages/donors/donors.component';
 import { EffektToastContainer } from './style/elements/toast/toast.style';
 import { ProcessDonations } from './pages/process/process.component';
 import { ReportsComponent } from './pages/reports/reports.component';
@@ -22,7 +22,7 @@ export const AdminPanel: React.FunctionComponent = () => {
     const dispatch = useDispatch()
     const organizations = useSelector((state: AppState) => state.organizations.active)
     if (!organizations) dispatch(fetchActiveOrganizationsAction.started())
-
+    
     return (
         <div>
             <AdminPanelWrapper>
@@ -34,7 +34,7 @@ export const AdminPanel: React.FunctionComponent = () => {
                         <Route exact path="/register/process" component={ProcessDonations}></Route>
                     <Route exact path="/graphing" component={GraphingPageComponent}></Route>
                     <Route exact path="/reports" component={ReportsComponent}></Route>
-                    <Route exact path="/donors" component={DonorsComponent}></Route>
+                    <Route exact path="/donors" component={DonorsPageComponent}></Route>
                     <Route exact path="/donations" component={DonationsPageComponent}></Route>
                         <Route exact path="/donations/:id" component={DonationPageComponent}></Route>
                     <Route exact path="/settings" render={() => <div>Settings</div>}></Route>

@@ -8,20 +8,25 @@ import { CreateDonorWrapper } from './create-donor.component.style';
 
 interface IState {
     email: string,
-    name: string,
-    registered: Date | null
+    name: string
 }
 
-export const CreateDonor: React.FunctionComponent = () => {
+interface IProps {
+    onSubmit(): void
+}
+
+export const CreateDonor: React.FunctionComponent<IProps> = ({onSubmit}) => {
     const [state, setState] = useState<IState>({
         email: '',
-        name: '',
-        registered: null
+        name: ''
     })
 
     const dispatch = useDispatch()
 
-    const submit = () => dispatch(createDonorAction.started({ email: state.email, name: state.name }))
+    const submit = () => {
+        dispatch(createDonorAction.started({ email: state.email, name: state.name }))
+        onSubmit()
+    }
 
     return (
         <CreateDonorWrapper>
