@@ -16,7 +16,10 @@ export const FilterHeader = styled.h2`
     letter-spacing: 1px;
 `
 
-export const FilterWrapper = styled.div`
+interface IFilterWrapperProps {
+    isOpen: boolean
+}
+export const FilterWrapper = styled.div<IFilterWrapperProps>`
     width: 300px;
     height: 100vh;
     position: fixed;
@@ -25,6 +28,13 @@ export const FilterWrapper = styled.div`
     background: ${azure02};
     box-shadow: 0px 0px 6px 0 rgba(0,0,0,.4);
     box-sizing: border-box;
+    transition: transform 200ms;
+
+    @media (max-width: 1680px) {
+        transform: ${props => (props.isOpen ? 'translateX(0px);' : 'translateX(100%)')};
+    }
+
+    
 `
 
 export const FilterGroup = styled.div`

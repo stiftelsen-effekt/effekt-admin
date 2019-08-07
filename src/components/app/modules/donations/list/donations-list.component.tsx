@@ -12,6 +12,7 @@ import { DonationListWrapper } from './donations-list.component.style';
 export const DonationsList: React.FunctionComponent = () => {
     const data = useSelector((state: AppState) => state.donations.donations)
     const pages = useSelector((state: AppState) => state.donations.pages)
+    const loading = useSelector((state: AppState) => state.donations.loading)
 
     const dispatch = useDispatch()
 
@@ -69,7 +70,7 @@ export const DonationsList: React.FunctionComponent = () => {
             <ReactTable
                 data={data}
                 pages={pages}
-                loading={false}
+                loading={loading}
                 columns={columnDefinitions}
                 defaultSorted={defaultSorting}
                 manual

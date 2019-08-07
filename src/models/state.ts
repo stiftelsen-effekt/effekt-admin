@@ -60,6 +60,7 @@ export interface DonationsState {
 
     histogram?: Array<IHistogramBucket>,
     pages: number,
+    loading: boolean,
     pagination: IPagination,
     filter: IDonationFilter,
     donations: Array<IDonation>,
@@ -80,5 +81,6 @@ export interface DistributionsState {
     filter: IDistributionFilter,
     pagination: IPagination,
     pages: number,
+    loading: boolean,
     searchResult: Array<IDistributionSearchResultItem>
 }

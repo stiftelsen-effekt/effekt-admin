@@ -9,6 +9,7 @@ import MainRouter from './components/router/main.component'
 import "react-datepicker/dist/react-datepicker.css";
 import "./components/app/style/elements/datepicker/datepicker-effekt.css";
 import 'react-toastify/dist/ReactToastify.css';
+import "./components/app/style/elements/react-table/base.css"
 
 const App: React.FC = () => {
   return (

@@ -10,6 +10,7 @@ import { DistributionListWrapper } from './distribution-list.component.style';
 export const DistributionsList: React.FunctionComponent = () => {
     const data = useSelector((state: AppState) => state.distributions.searchResult)
     const pages = useSelector((state: AppState) => state.distributions.pages)
+    const loading = useSelector((state: AppState) => state.distributions.loading)
 
     const dispatch = useDispatch()
 
@@ -58,7 +59,7 @@ export const DistributionsList: React.FunctionComponent = () => {
             <ReactTable
                 data={data}
                 pages={pages}
-                loading={false}
+                loading={loading}
                 columns={columnDefinitions}
                 defaultSorted={defaultSorting}
                 manual

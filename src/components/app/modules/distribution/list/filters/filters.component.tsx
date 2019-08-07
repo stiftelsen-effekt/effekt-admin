@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FilterHeader, FilterWrapper, FilterGroup, FilterGroupHeader, FilterInput } from '../../../../style/elements/filters.component.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../../../models/state';
 import { setDistributionFilterKid, setDistributionFilterDonor, fetchDistributionsAction } from '../distribution-list.actions';
+import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
 
 export const DistributionsFiltersComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
@@ -10,8 +11,11 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
     const KID = useSelector((state: AppState) => state.distributions.filter.KID)
     const donor = useSelector((state: AppState) => state.distributions.filter.donor)
 
+    const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false)
+
     return (
-        <FilterWrapper>
+        <FilterWrapper isOpen={filterIsOpen}>
+            <FilterOpenButton onClick={() => setFilterIsOpen(!filterIsOpen)}></FilterOpenButton>
             <FilterHeader>Filters</FilterHeader>
             
             <FilterGroup>

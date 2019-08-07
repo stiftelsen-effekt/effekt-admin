@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { FilterWrapper, FilterGroupHeader, FilterDateRange, FilterInput, FilterDateRangeWrapper, FilterGroup, FilterHeader } from "../../../../style/elements/filters.component.style";
 import { HistogramInputComponent } from './histogram-input/histogram-input.component';
@@ -9,6 +9,7 @@ import { fetchPaymentMethodsAction } from '../../../single-donation/single-donat
 import { setDonationFilterKid, setDonationFilterDateRange, setDonationFilterSumRange, setDonationFilterPaymentMethodIDs } from './filters.actions';
 import { fetchDonationsAction } from '../donations-list.actions';
 import { fetchHistogramAction } from '../../../../../../store/donations/donation.actions';
+import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
 
 export const DonationsFilterComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
@@ -30,10 +31,12 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
         selected: selectedPaymentMethodIDs.indexOf(method.id) !== -1
     }))
 
-    if (!histogram || !paymentMethods) return <FilterWrapper>Loading...</FilterWrapper>
+    const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false)
 
+    if (!histogram || !paymentMethods) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>
     return (
-        <FilterWrapper>
+        <FilterWrapper isOpen={filterIsOpen}>
+            <FilterOpenButton onClick={() => setFilterIsOpen(!filterIsOpen)}></FilterOpenButton>
             <FilterHeader>Filters</FilterHeader>
 
             <FilterGroup>

@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
 export const DonationListWrapper = styled.div`
-    padding-right: 320px;
+    @media (min-width: 1680px) {
+        padding-right: 320px;
+    }
 `

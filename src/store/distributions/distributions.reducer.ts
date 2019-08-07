@@ -5,6 +5,7 @@ import { fetchDistributionsAction, SET_DISTRIBUTIONS_PAGINATION, SET_DISTRIBUTIO
 const defaultState: DistributionsState = {
     searchResult: [],
     pages: -1,
+    loading: false,
     pagination: {
         page: 1,
         limit: 20,
@@ -24,8 +25,15 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
         return {
             ...state,
             searchResult: action.payload.result.rows,
-            pages: action.payload.result.pages
+            pages: action.payload.result.pages,
+            loading: false
         }
+    }
+    else if (isType(action, fetchDistributionsAction.started)) {
+        return { ...state, loading: true }
+    }
+    else if (isType(action, fetchDistributionsAction.failed)) {
+        return { ...state, loading: false }
     }
 
     /**

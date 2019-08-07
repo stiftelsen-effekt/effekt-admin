@@ -8,6 +8,7 @@ import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONA
 
 const defaultState: DonationsState = {
     donations: [],
+    loading: false,
     pages: -1,
     pagination: {
         page: 1,
@@ -30,13 +31,27 @@ const defaultState: DonationsState = {
     }
 }
 export const donationsReducer = (state = defaultState, action: any): DonationsState => {
+    /** 
+     * Donations search
+     */
     if(isType(action, fetchDonationsAction.done)) {
         return {
             ...state,
+            loading: false,
             donations: action.payload.result.rows,
             pages: action.payload.result.pages
         }
     }
+    else if (isType(action, fetchDonationsAction.started)) {
+        return { ...state, loading: true }
+    }
+    else if (isType(action, fetchDonationsAction.failed)) {
+        return { ...state, loading: false }
+    }
+
+    /**
+     * Current donation
+     */
 
     if (action.type === CLEAR_CURRENT_DONATION) {
         return {
