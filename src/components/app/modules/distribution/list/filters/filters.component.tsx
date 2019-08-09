@@ -15,7 +15,9 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
 
     return (
         <FilterWrapper isOpen={filterIsOpen}>
-            <FilterOpenButton onClick={() => setFilterIsOpen(!filterIsOpen)}></FilterOpenButton>
+            <FilterOpenButton
+                isOpen={filterIsOpen}
+                onClick={() => setFilterIsOpen(!filterIsOpen)}></FilterOpenButton>
             <FilterHeader>Filters</FilterHeader>
             
             <FilterGroup>

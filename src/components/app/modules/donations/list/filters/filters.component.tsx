@@ -36,7 +36,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
     if (!histogram || !paymentMethods) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>
     return (
         <FilterWrapper isOpen={filterIsOpen}>
-            <FilterOpenButton onClick={() => setFilterIsOpen(!filterIsOpen)}></FilterOpenButton>
+            <FilterOpenButton 
+                isOpen={filterIsOpen}
+                onClick={() => setFilterIsOpen(!filterIsOpen)}></FilterOpenButton>
             <FilterHeader>Filters</FilterHeader>
 
             <FilterGroup>

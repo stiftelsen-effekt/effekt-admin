@@ -23,4 +23,8 @@ export const FilterOpenButtonContainer = styled.div`
     svg {
         vertical-align: middle;
     }
+
+    @media (min-width: 1680px) {
+        display: none;
+    }
 `
