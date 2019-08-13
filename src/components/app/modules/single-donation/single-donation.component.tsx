@@ -11,7 +11,6 @@ import { DonationControls } from './controls/donation-controls.component';
 import { KIDComponent } from "../kid/kid.component";
 import { DonationInput } from './input/donation-input.component';
 import { toast } from 'react-toastify';
-import { fetchActiveOrganizationsAction } from '../../../../store/organizations/organizations.action';
 import { mapOrgToDist } from '../kid/kid.util';
 
 interface IProps {

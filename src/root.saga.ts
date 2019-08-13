@@ -8,7 +8,7 @@ import { searchDonors } from './components/app/modules/donors/selection/donor-se
 import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';
 import { fetchActiveOrganizations } from './store/organizations/organizations.saga';
 import { fetchPaymentMethodsAction, createDistribitionAndInsertDonationAction, insertDonationAction } from './components/app/modules/single-donation/single-donation.actions';
-import { fetchPaymentMethods, createDistributionAndInsertDonation, insertDonationCall, insertDonation } from './components/app/modules/single-donation/single-donation.saga';
+import { fetchPaymentMethods, createDistributionAndInsertDonation, insertDonation } from './components/app/modules/single-donation/single-donation.saga';
 import { uploadReportAction } from './components/app/modules/report-upload/report-upload.actions';
 import { uploadReport } from './components/app/modules/report-upload/report-upload.saga';
 import { createDonorAction } from './components/app/modules/donors/create/create-donor.actions';
