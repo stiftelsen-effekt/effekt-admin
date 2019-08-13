@@ -7,8 +7,8 @@ import { searchDonorAction } from './components/app/modules/donors/selection/don
 import { searchDonors } from './components/app/modules/donors/selection/donor-selection.saga';
 import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';
 import { fetchActiveOrganizations } from './store/organizations/organizations.saga';
-import { fetchPaymentMethodsAction, createDistribitionAndInsertDonationAction } from './components/app/modules/single-donation/single-donation.actions';
-import { fetchPaymentMethods, createDistributionAndInsertDonation } from './components/app/modules/single-donation/single-donation.saga';
+import { fetchPaymentMethodsAction, createDistribitionAndInsertDonationAction, insertDonationAction } from './components/app/modules/single-donation/single-donation.actions';
+import { fetchPaymentMethods, createDistributionAndInsertDonation, insertDonationCall, insertDonation } from './components/app/modules/single-donation/single-donation.saga';
 import { uploadReportAction } from './components/app/modules/report-upload/report-upload.actions';
 import { uploadReport } from './components/app/modules/report-upload/report-upload.saga';
 import { createDonorAction } from './components/app/modules/donors/create/create-donor.actions';
@@ -40,6 +40,7 @@ function* watchAll() {
         takeLatest(fetchPaymentMethodsAction.started.type, fetchPaymentMethods),
 
         takeLatest(createDistribitionAndInsertDonationAction.started.type, createDistributionAndInsertDonation),
+        takeLatest(insertDonationAction.started.type, insertDonation),
         takeLatest(uploadReportAction.started.type, uploadReport),
 
         takeLatest(createDonorAction.started.type, createDonor),
@@ -50,7 +51,7 @@ function* watchAll() {
         takeLatest(fetchTotalByPeriodAction.started.type, fetchTotalByPeriod),
         takeLatest(fetchHistogramAction.started.type, fetchHistogram),
 
-        takeLatest(fetchDistributionsAction.started.type, fetchDistributions)
+        takeLatest(fetchDistributionsAction.started.type, fetchDistributions),
     ]);
 }
 

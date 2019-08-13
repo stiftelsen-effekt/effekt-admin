@@ -19,21 +19,18 @@ import Decimal from "decimal.js";
 import { KIDDonorComponent } from "./donor/donor.component";
 import { KIDControls } from "./controls/controls.component";
 import { KIDDistribution } from "./distribution/distribution.component";
-import { mapOrgToDIst, calculateDistributionSum } from "./kid.util";
+import { calculateDistributionSum } from "./kid.util";
 
 interface IProps {
     donationAmount?: number,
     organizations: Array<IOrganization>,
     KID?: number,
+    distribution: Array<IDistributionShare>,
     onChange(distribution: Array<IDistributionShare> ): void
 }
 
-export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, organizations, KID, onChange }) =>  {
+export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, organizations, KID, onChange, distribution }) =>  {
     const dispatch = useDispatch()
-
-    console.log(KID)
-
-    const [distribution, setDistribution] = useState<Array<IDistributionShare>>(mapOrgToDIst(organizations))
     
     const [distributionSum, setDistributionSum] = useState<Decimal>(calculateDistributionSum(distribution))
     //TODO: Add support for absolute values
@@ -46,7 +43,6 @@ export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, 
     }
 
     const distributionChanged = (distribution: Array<IDistributionShare>) => {
-        setDistribution(distribution)
         setDistributionSum(calculateDistributionSum(distribution))
         onChange(distribution)
     }

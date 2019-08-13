@@ -7,7 +7,7 @@ export const calculateDistributionSum = (distribution: Array<IDistributionShare>
     return sum;
 }
 
-export const mapOrgToDIst = (organizations: Array<IOrganization>): Array<IDistributionShare> => {
+export const mapOrgToDist = (organizations: Array<IOrganization>): Array<IDistributionShare> => {
     return organizations.map(((org: IOrganization):IDistributionShare => ({
         abbriv: org.abbriv,
         organizationId: org.id,

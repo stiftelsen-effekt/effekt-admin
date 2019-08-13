@@ -59,6 +59,16 @@ export function* insertDonationCall(params: IDonation) {
     }
 }
 
+export function* insertDonation(action: any) {
+    try {
+        yield call(insertDonationCall, action.payload)
+        //TODO: Refactor to use common "done" action for insertion of donation
+        yield put(createDistribitionAndInsertDonationAction.done({ params: action.payload, result: "OK" }))
+    } catch(ex) {
+        yield put(createDistribitionAndInsertDonationAction.failed({ params: action.payload, error: ex }))
+    }
+}
+
 export function* createDistributionAndInsertDonation(action: any) {
     try {
         let KID = yield call(createDistributionCall, action.payload.distribution);
