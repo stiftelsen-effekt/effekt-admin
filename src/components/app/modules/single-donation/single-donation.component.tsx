@@ -84,6 +84,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = (props: IProps) =
                 <KIDComponent
                     organizations={organizations}
                     donationAmount={donationInput && donationInput.sum}
+                    KID={donationInput.KID}
                     onChange={(distribution: Array<IDistributionShare>) => setDistribution(distribution)}></KIDComponent>
                 <ControlsWrapper>
                     <DonationControls 

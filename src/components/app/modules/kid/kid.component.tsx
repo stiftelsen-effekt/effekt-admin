@@ -19,6 +19,7 @@ import Decimal from "decimal.js";
 import { KIDDonorComponent } from "./donor/donor.component";
 import { KIDControls } from "./controls/controls.component";
 import { KIDDistribution } from "./distribution/distribution.component";
+import { mapOrgToDIst, calculateDistributionSum } from "./kid.util";
 
 interface IProps {
     donationAmount?: number,
@@ -27,38 +28,10 @@ interface IProps {
     onChange(distribution: Array<IDistributionShare> ): void
 }
 
-interface IState {
-    distribution: Array<IDistributionShare>,
-    distributionSum: Decimal,
-    distributionMax: Decimal
-}
-
 export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, organizations, KID, onChange }) =>  {
     const dispatch = useDispatch()
 
-    /**
-     * UTIL
-     * TODO: Move to seperate file
-     */
-
-    const calculateDistributionSum = (distribution: Array<IDistributionShare>): Decimal => {
-        let sum = new Decimal(0);
-        distribution.forEach(dist => sum = sum.add(dist.share))
-        return sum;
-    }
-
-    const mapOrgToDIst = (organizations: Array<IOrganization>): Array<IDistributionShare> => {
-        return organizations.map(((org: IOrganization):IDistributionShare => ({
-            abbriv: org.abbriv,
-            organizationId: org.id,
-            //TODO: Handle donation amount
-            share: new Decimal(org.standardShare)
-        })))
-    }
-
-    /**
-     * END UTIL
-     */
+    console.log(KID)
 
     const [distribution, setDistribution] = useState<Array<IDistributionShare>>(mapOrgToDIst(organizations))
     
