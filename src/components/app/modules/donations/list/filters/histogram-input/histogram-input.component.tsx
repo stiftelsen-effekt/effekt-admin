@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import Histoslider from '../../../../../../../submodules/histoslider/src/components/Histoslider'
+import Histoslider from 'histoslider'
 import { azure50 } from '../../../../../style/colors';
 
 import rightArrow from '../../../../../../../assets/right-arrow.svg'
@@ -37,7 +37,7 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({histog
         return curr;
     }
 
-    const sliderIndex = [closestIndex(buckets, range[0]), closestIndex(buckets, range[1])]
+    const sliderIndex: [number, number] = [closestIndex(buckets, range[0]), closestIndex(buckets, range[1])]
       
     return (
         <div>
@@ -62,7 +62,7 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({histog
                         backgroundColor: "none"
                     }
                 }
-                showLabels={false}><span>Cool</span>
+                showLabels={false}>
             </Histoslider>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div>
