@@ -54,7 +54,6 @@ class LoginComponent extends Component<IStateProps & IDispatchProps, any> {
     }
 }
 
-//TODO: Remove accessKey
 interface IStateProps {
     authStep: AuthStep,
     loginError?: string

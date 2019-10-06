@@ -13,7 +13,6 @@ export interface IAccessKey {
 }
 
 export interface IAccessToken {
-    //TODO: Change from "token" to "hex"?
     token: string,
     expires: Date
 }
@@ -74,7 +73,7 @@ export class AuthUtil {
 
     static getCallbackUrl(): string {
         if (DEV_ENVIRONMENT)
-            return `http://localhost:3000/#/callback`
+            return `http://localhost:81/#/callback`
         else
             return `https://storage.googleapis.com/static.gieffektivt.no/index.html#/callback`
     }
