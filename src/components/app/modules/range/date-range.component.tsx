@@ -23,7 +23,9 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({ from, to, onC
                         onChange={onChangeTo}//
                         selected={to}
                         placeholderText="to"
-                        dateFormat="dd.MM.yyyy"></EffektDatePicker>
+                        dateFormat="dd.MM.yyyy"
+                        popperClassName="right-aligned"
+                        popperPlacement="bottom-end"></EffektDatePicker>
         </React.Fragment>
     )
 }

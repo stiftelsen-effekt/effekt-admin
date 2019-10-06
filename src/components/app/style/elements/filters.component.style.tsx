@@ -34,8 +34,13 @@ export const FilterWrapper = styled.div<IFilterWrapperProps>`
     @media (max-width: 1680px) {
         transform: ${props => (props.isOpen ? 'translateX(0px);' : 'translateX(100%)')};
     }
+`
 
-    
+export const FilterContent = styled.div`
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-y: overlay;
 `
 
 export const FilterGroup = styled.div`
