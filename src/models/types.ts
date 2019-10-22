@@ -52,7 +52,8 @@ export interface IDonationFilter {
         to: Date|null
     },
     paymentMethodIDs: Array<number>,
-    KID?: string
+    KID?: string,
+    donor?: string
 }
 
 export interface IHistogramBucket {

@@ -6,7 +6,7 @@ import { EffektCheckForm, EffektCheckChoice } from '../../../../style/elements/e
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../../../models/state';
 import { fetchPaymentMethodsAction } from '../../../single-donation/single-donation.actions';
-import { setDonationFilterKid, setDonationFilterDateRange, setDonationFilterSumRange, setDonationFilterPaymentMethodIDs } from './filters.actions';
+import { setDonationFilterKid, setDonationFilterDonor, setDonationFilterDateRange, setDonationFilterSumRange, setDonationFilterPaymentMethodIDs } from './filters.actions';
 import { fetchDonationsAction } from '../donations-list.actions';
 import { fetchHistogramAction } from '../../../../../../store/donations/donation.actions';
 import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
@@ -17,6 +17,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
     const donationDateRange = useSelector((state: AppState) => state.donations.filter.date)
     const donationSumRange = useSelector((state: AppState) => state.donations.filter.sum)
     const kid = useSelector((state: AppState) => state.donations.filter.KID)
+    const donor = useSelector((state: AppState) => state.donations.filter.donor)
     const selectedPaymentMethodIDs = useSelector((state: AppState) => state.donations.filter.paymentMethodIDs)
 
     const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods)
@@ -70,6 +71,18 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
                     </HistogramInputComponent>
                 </FilterGroup>
                 
+                <FilterGroup>
+                    <FilterGroupHeader>Donor like</FilterGroupHeader>
+                    <FilterInput 
+                        value={donor}
+                        placeholder={"Fuzzy search"} 
+                        style={{width: '100%'}}
+                        onChange={(e) => {
+                            dispatch(setDonationFilterDonor(e.target.value))
+                            dispatch(fetchDonationsAction.started())
+                        }} ></FilterInput>
+                </FilterGroup>
+
                 <FilterGroup>
                     <FilterGroupHeader>KID like</FilterGroupHeader>
                     <FilterInput 

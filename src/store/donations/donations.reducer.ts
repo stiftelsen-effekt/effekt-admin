@@ -4,7 +4,7 @@ import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from "../../components
 import { fetchDonationAction, CLEAR_CURRENT_DONATION, fetchHistogramAction } from "./donation.actions";
 import { toastError } from "../../util/toasthelper";
 import Decimal from "decimal.js";
-import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONATION_FILTER_KID, SET_DONATION_FILTRE_PAYMENT_METHOD_IDS } from "../../components/app/modules/donations/list/filters/filters.actions";
+import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONATION_FILTER_KID, SET_DONATION_FILTRE_PAYMENT_METHOD_IDS, SET_DONATION_FILTER_DONOR } from "../../components/app/modules/donations/list/filters/filters.actions";
 
 const defaultState: DonationsState = {
     donations: [],
@@ -103,6 +103,8 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
             return {...state, filter: { ...state.filter, sum: action.payload }}
         case SET_DONATION_FILTER_KID:
             return {...state, filter: { ...state.filter, KID: action.payload }}
+        case SET_DONATION_FILTER_DONOR:
+            return {...state, filter: {...state.filter, donor: action.payload}}
         case SET_DONATION_FILTRE_PAYMENT_METHOD_IDS:
             return {...state, filter: { ...state.filter, paymentMethodIDs: action.payload }}
     }

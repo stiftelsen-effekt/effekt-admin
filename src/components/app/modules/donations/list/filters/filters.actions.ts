@@ -1,5 +1,6 @@
 export const SET_DONATION_FILTER_SUM_RANGE = "SET_DONATION_FILTER_SUM_RANGE"
 export const SET_DONATION_FILTER_DATE_RANGE = "SET_DONATION_FILTER_DATE_RANGE"
+export const SET_DONATION_FILTER_DONOR = "SET_DONATION_FILTER_DONOR"
 export const SET_DONATION_FILTER_KID ="SET_DONATION_FILTER_KID"
 export const SET_DONATION_FILTRE_PAYMENT_METHOD_IDS = "SET_DONATION_FILTRE_PAYMENT_METHOD_IDS"
 
@@ -37,6 +38,13 @@ export const setDonationFilterKid = (KID: string): IFilterAction<string> => {
     return {
         type: SET_DONATION_FILTER_KID,
         payload: KID
+    }
+}
+
+export const setDonationFilterDonor = (donor: string): IFilterAction<string> => {
+    return {
+        type: SET_DONATION_FILTER_DONOR,
+        payload: donor
     }
 }
 
