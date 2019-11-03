@@ -19,48 +19,18 @@ import Decimal from "decimal.js";
 import { KIDDonorComponent } from "./donor/donor.component";
 import { KIDControls } from "./controls/controls.component";
 import { KIDDistribution } from "./distribution/distribution.component";
+import { calculateDistributionSum } from "./kid.util";
 
 interface IProps {
     donationAmount?: number,
     organizations: Array<IOrganization>,
     KID?: number,
+    distribution: Array<IDistributionShare>,
     onChange(distribution: Array<IDistributionShare> ): void
 }
 
-interface IState {
-    distribution: Array<IDistributionShare>,
-    distributionSum: Decimal,
-    distributionMax: Decimal
-}
-
-export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, organizations, KID, onChange }) =>  {
+export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, organizations, KID, onChange, distribution }) =>  {
     const dispatch = useDispatch()
-
-    /**
-     * UTIL
-     * TODO: Move to seperate file
-     */
-
-    const calculateDistributionSum = (distribution: Array<IDistributionShare>): Decimal => {
-        let sum = new Decimal(0);
-        distribution.forEach(dist => sum = sum.add(dist.share))
-        return sum;
-    }
-
-    const mapOrgToDIst = (organizations: Array<IOrganization>): Array<IDistributionShare> => {
-        return organizations.map(((org: IOrganization):IDistributionShare => ({
-            abbriv: org.abbriv,
-            organizationId: org.id,
-            //TODO: Handle donation amount
-            share: new Decimal(org.standardShare)
-        })))
-    }
-
-    /**
-     * END UTIL
-     */
-
-    const [distribution, setDistribution] = useState<Array<IDistributionShare>>(mapOrgToDIst(organizations))
     
     const [distributionSum, setDistributionSum] = useState<Decimal>(calculateDistributionSum(distribution))
     //TODO: Add support for absolute values
@@ -73,7 +43,6 @@ export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, 
     }
 
     const distributionChanged = (distribution: Array<IDistributionShare>) => {
-        setDistribution(distribution)
         setDistributionSum(calculateDistributionSum(distribution))
         onChange(distribution)
     }

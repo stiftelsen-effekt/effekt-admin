@@ -3,8 +3,19 @@ import React from "react";
 import { Page } from "../../style/elements/page.style";
 import { SingleDonation } from "../../modules/single-donation/single-donation.component";
 import { ReportUpload } from "../../modules/report-upload/report-upload.component";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../../../models/state";
+import { fetchActiveOrganizationsAction } from "../../../../store/organizations/organizations.action";
 
 export const RegisterComponent: React.FunctionComponent = () => {
+    const dispatch = useDispatch()
+    
+    const organizations = useSelector((state: AppState) => state.organizations.active)
+    if (!organizations) {
+        dispatch(fetchActiveOrganizationsAction.started())
+        return (<div>Loading organizations</div>)
+    }
+
     return ( 
         <Page>
             <MainHeader>Register donations</MainHeader>
@@ -13,7 +24,7 @@ export const RegisterComponent: React.FunctionComponent = () => {
             <ReportUpload></ReportUpload>
 
             <SubHeader>Process single donation</SubHeader>
-            <SingleDonation></SingleDonation>
+            <SingleDonation organizations={organizations}></SingleDonation>
         </Page>
     )
 }

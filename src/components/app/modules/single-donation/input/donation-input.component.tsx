@@ -20,6 +20,7 @@ interface IState extends Partial<IDonation> {
 export const DonationInput: React.FunctionComponent<IProps> = ({ paymentMethods, onChange, suggestedValues }) => {
     const [state, setState] = useState<IState>({
         ...suggestedValues,
+        KID: undefined,
         paymentId: (suggestedValues && suggestedValues.paymentId) || 4, //Defaults to vipps
         timestamp: (suggestedValues && suggestedValues.timestamp) || new Date() //Defaults to now
     })
@@ -61,11 +62,24 @@ export const DonationInput: React.FunctionComponent<IProps> = ({ paymentMethods,
                 timeIntervals={15}
                 dateFormat="dd.MM.yyyy HH:mm"
                 timeCaption="time" />
-            <KIDTextWrapper><DonationInputElement placeholder="KID" style={{ height: '100%' }} /></KIDTextWrapper>
-            <DonationInputElement value={state.sum} placeholder="Sum"            onChange={(e) => setState({ ...state, sum: parseInt(e.target.value) })} />
+            <KIDTextWrapper>
+                <DonationInputElement 
+                    placeholder="KID"
+                    value={state.KID || ""}
+                    style={{ height: '100%' }}
+                    onChange={(e) => setState({...state, KID: parseInt(e.target.value)})} />
+            </KIDTextWrapper>
+
+            <DonationInputElement 
+                value={state.sum || ""} 
+                placeholder="Sum"            
+                onChange={(e) => setState({ ...state, sum: parseInt(e.target.value) })} />
             {/* TOOD: Handle repeat SUM */}
             <DonationInputElement placeholder="Repeat sum" />
-            <DonationInputElement value={state.paymentExternalRef} placeholder="External ref."  onChange={(e) => setState({ ...state, paymentExternalRef: e.target.value })} />
+            <DonationInputElement 
+                value={state.paymentExternalRef} 
+                placeholder="External ref."  
+                onChange={(e) => setState({ ...state, paymentExternalRef: e.target.value })} />
             {methodsSelect}
         </React.Fragment>
     )

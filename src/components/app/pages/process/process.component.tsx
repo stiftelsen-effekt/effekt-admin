@@ -9,12 +9,19 @@ import { Redirect } from "react-router";
 import { EffektDisplayTable } from '../../style/elements/display-table/display-table.component.style';
 import { SingleDonation } from '../../modules/single-donation/single-donation.component';
 import { popInvalidTransaction } from './process.actions';
+import { fetchActiveOrganizationsAction } from '../../../../store/organizations/organizations.action';
 
 export const ProcessDonations: React.FunctionComponent = (props) => {
+    const dispatch = useDispatch()
+    
+    const organizations = useSelector((state: AppState) => state.organizations.active)
     const processingState: ReportProcessingState = useSelector((state: AppState) => state.reportProcessing)
     const current: IInvalidTransaction = processingState.invalidTransactions[processingState.invalidTransactions.length-1]
 
-    const dispatch = useDispatch()
+    if (!organizations) {
+        dispatch(fetchActiveOrganizationsAction.started())
+        return (<div>Loading organizations</div>)
+    }
 
     if (processingState.invalidTransactions.length === 0) {
         return (
@@ -23,7 +30,6 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
     }
 
     const ignoreTransaction = () => {
-        console.log("ignore")
         dispatch(popInvalidTransaction())
     }
 
@@ -64,6 +70,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
                     paymentId: 4,
                     timestamp: current.transaction.date
                 }}
+                organizations={organizations}
                 onIgnore={ignoreTransaction}></SingleDonation>
         </Page>
     )
