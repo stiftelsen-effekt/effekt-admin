@@ -30,6 +30,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
     const [distribution, setDistribution] = useState<Array<IDistributionShare>>(mapOrgToDist(organizations))
 
     const selectedDonor = useSelector<AppState, IDonor | undefined>((state: AppState) => state.donorSelector.selectedDonor)
+    const currentSelectedOwner = useSelector((state: AppState) => state.dataOwner.current)
 
     const getFilteredDistribution = (distribution: Array<IDistributionShare>) => {
         return distribution.filter((dist) => !dist.share.equals(new Decimal(0)));
@@ -39,8 +40,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
         if (input.sum !== undefined &&
             input.paymentId !== undefined &&
             input.paymentExternalRef !== undefined &&
-            input.timestamp !== undefined &&
-            input.metaOwnerID !== undefined)
+            input.timestamp !== undefined)
             return input as IDonation
         else
             return null
@@ -59,7 +59,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
                 return toast.error('No donor selected')
             if (!distribution || !donationInput) 
                 return toast.error('Error initializing distribution or input')
-            if (!donation.metaOwnerID)
+            if (!currentSelectedOwner)
                 return toast.error("Missing meta owner")
 
             const filteredDistribution = getFilteredDistribution(distribution);
@@ -68,7 +68,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
             const distributionParams: ICreateDistributionParams = {
                 distribution: filteredDistribution,
                 donor: selectedDonor,
-                metaOwnerID: donation.metaOwnerID
+                metaOwnerID: currentSelectedOwner.id
             }
 
             dispatch(createDistribitionAndInsertDonationAction.started({
