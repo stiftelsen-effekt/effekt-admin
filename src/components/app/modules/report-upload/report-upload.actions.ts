@@ -8,4 +8,4 @@ export enum ReportTypes {
     BANK
 }
 
-export const uploadReportAction = actionCreator.async<{type: ReportTypes, report: File}, ReportProcessingState, Error>('REPORT_UPLOAD');
+export const uploadReportAction = actionCreator.async<{type: ReportTypes, report: File, metaOwnerID: Number}, ReportProcessingState, Error>('REPORT_UPLOAD');

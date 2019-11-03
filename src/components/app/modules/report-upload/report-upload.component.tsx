@@ -7,6 +7,7 @@ import { ReportTypes, uploadReportAction } from './report-upload.actions';
 import { toast } from 'react-toastify';
 import { AppState } from '../../../../models/state';
 import { Redirect } from 'react-router';
+import { OwnerSelect } from '../owner-select/owner-select.component';
 
 interface IState {
     vippsReport: File | null,
@@ -26,9 +27,12 @@ export const ReportUpload: React.FunctionComponent = (props) => {
     const dispatch = useDispatch()
     const [state, setState] = useState<IState>(getDefaultState())
 
+    const currentDataOwner = useSelector((state: AppState) => state.dataOwner.current)
+
     const uploadReport = (type: ReportTypes, file: File | null) => {
         if (!file) return toast.error("No file selected")
-        dispatch(uploadReportAction.started({type, report: file}));
+        if (!currentDataOwner) return toast.error("No data owner selected")
+        dispatch(uploadReportAction.started({type, report: file, metaOwnerID: currentDataOwner.id}));
     }
 
     const shouldProcess: boolean = useSelector((state: AppState) => state.reportProcessing.invalidTransactions.length !== 0)
@@ -37,6 +41,10 @@ export const ReportUpload: React.FunctionComponent = (props) => {
 
     return (<ReportTable>
         <tbody>
+            <tr>
+                <td><strong>Eier</strong></td>
+                <td><OwnerSelect></OwnerSelect></td>
+            </tr>
             <tr>
                 <td><strong>Vipps</strong></td>
                 <td><EffektFileInput onChange={(file: File) => setState({...state, vippsReport: file}) } id="vipps-upload"/></td>

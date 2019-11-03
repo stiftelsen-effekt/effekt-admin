@@ -8,7 +8,8 @@ export const fetchPaymentMethodsAction = actionCreator.async<undefined, Array<IP
 
 export interface ICreateDistributionParams {
     donor: IDonor,
-    distribution: Array<IDistributionShare>
+    distribution: Array<IDistributionShare>,
+    metaOwnerID: number
 }
 
 interface ICreateDistributionAndInsertDonationParams {

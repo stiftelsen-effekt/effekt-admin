@@ -39,7 +39,8 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
         if (input.sum !== undefined &&
             input.paymentId !== undefined &&
             input.paymentExternalRef !== undefined &&
-            input.timestamp !== undefined)
+            input.timestamp !== undefined &&
+            input.metaOwnerID !== undefined)
             return input as IDonation
         else
             return null
@@ -58,13 +59,16 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
                 return toast.error('No donor selected')
             if (!distribution || !donationInput) 
                 return toast.error('Error initializing distribution or input')
+            if (!donation.metaOwnerID)
+                return toast.error("Missing meta owner")
 
             const filteredDistribution = getFilteredDistribution(distribution);
 
             const donationParams: IDonation = donation;
             const distributionParams: ICreateDistributionParams = {
                 distribution: filteredDistribution,
-                donor: selectedDonor
+                donor: selectedDonor,
+                metaOwnerID: donation.metaOwnerID
             }
 
             dispatch(createDistribitionAndInsertDonationAction.started({

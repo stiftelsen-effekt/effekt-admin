@@ -21,6 +21,8 @@ import { fetchTotalByPeriod } from './components/app/pages/graphing/graphing.sag
 import { fetchTotalByPeriodAction } from './components/app/pages/graphing/graphing.actions';
 import { fetchDistributions } from './components/app/modules/distribution/list/distribution-list.saga';
 import { fetchDistributionsAction } from './components/app/modules/distribution/list/distribution-list.actions';
+import { fetchOwnersAction } from './store/owners/owners.actions';
+import { fetchOwners } from './store/owners/owners.saga';
 
 function* watchAll() {
     yield all([
@@ -52,6 +54,7 @@ function* watchAll() {
         takeLatest(fetchHistogramAction.started.type, fetchHistogram),
 
         takeLatest(fetchDistributionsAction.started.type, fetchDistributions),
+        takeLatest(fetchOwnersAction.started.type, fetchOwners)
     ]);
 }
 

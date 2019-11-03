@@ -12,6 +12,7 @@ import { CreateDonorReducer } from './components/app/modules/donors/create/creat
 import { donationsReducer } from './store/donations/donations.reducer';
 import { graphingReducer } from './components/app/pages/graphing/graphing.reducer';
 import { distributionsReducer } from './store/distributions/distributions.reducer';
+import { ownersReducer } from './store/owners/owners.reducer';
 
 const rootReducer = combineReducers<AppState>({
     auth: authReducer,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers<AppState>({
     singleDonation: singleDonationReducer,
     reportProcessing: reportProcessingReducer,
     donations: donationsReducer,
-    distributions: distributionsReducer
+    distributions: distributionsReducer,
+    dataOwner: ownersReducer
 })
 
 const sagaMiddleware = createSagaMiddleware();

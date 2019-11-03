@@ -7,6 +7,8 @@ import Select from 'react-select';
 import { IPaymentMethod, IDonation } from "../../../../../models/types";
 import { KIDTextWrapper, DonationInputElement } from "../single-donation.style.component";
 
+import { OwnerSelect } from "../../owner-select/owner-select.component";
+
 interface IProps {
     onChange(input: Partial<IDonation>): void,
     paymentMethods: Array<IPaymentMethod>,
@@ -22,7 +24,7 @@ export const DonationInput: React.FunctionComponent<IProps> = ({ paymentMethods,
         ...suggestedValues,
         KID: undefined,
         paymentId: (suggestedValues && suggestedValues.paymentId) || 4, //Defaults to vipps
-        timestamp: (suggestedValues && suggestedValues.timestamp) || new Date() //Defaults to now
+        timestamp: (suggestedValues && suggestedValues.timestamp) || new Date(), //Defaults to now
     })
 
     useEffect(() => {
@@ -74,12 +76,16 @@ export const DonationInput: React.FunctionComponent<IProps> = ({ paymentMethods,
                 value={state.sum || ""} 
                 placeholder="Sum"            
                 onChange={(e) => setState({ ...state, sum: parseInt(e.target.value) })} />
-            {/* TOOD: Handle repeat SUM */}
-            <DonationInputElement placeholder="Repeat sum" />
+            
             <DonationInputElement 
                 value={state.paymentExternalRef} 
                 placeholder="External ref."  
                 onChange={(e) => setState({ ...state, paymentExternalRef: e.target.value })} />
+            
+            <div style={{width: '120px'}}>
+                <OwnerSelect></OwnerSelect>
+            </div>
+
             {methodsSelect}
         </React.Fragment>
     )

@@ -27,6 +27,7 @@ export function* uploadReport(action: any) {
 
         const formData = new FormData();
         formData.append('report', action.payload.report);
+        formData.append('metaOwnerID', action.payload.metaOwnerID); 
 
         var data = yield call(API.call, {
             endpoint: `/reports/${reportType}`,

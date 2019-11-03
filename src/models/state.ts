@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem } from "./types";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -15,7 +15,8 @@ export interface AppState {
     reportProcessing: ReportProcessingState,
 
     donations: DonationsState,
-    distributions: DistributionsState
+    distributions: DistributionsState,
+    dataOwner:  DataOwnerState
 }
 
 export interface AuthState {
@@ -83,4 +84,9 @@ export interface DistributionsState {
     pages: number,
     loading: boolean,
     searchResult: Array<IDistributionSearchResultItem>
+}
+
+export interface DataOwnerState {
+    current?: IDataOwner,
+    owners?: Array<IDataOwner>
 }

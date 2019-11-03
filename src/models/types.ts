@@ -39,7 +39,8 @@ export interface IDonation {
     method: string,
     timestamp: Date,
     KID?: number,
-    distribution?: Array<IDistributionShare>
+    distribution?: Array<IDistributionShare>,
+    metaOwnerID?: number
 }
 
 export interface IDonationFilter {
@@ -120,4 +121,10 @@ export interface IPagination {
     },
     page: number,
     limit: number
+}
+
+export interface IDataOwner {
+    id: number,
+    name: string,
+    default: boolean
 }
