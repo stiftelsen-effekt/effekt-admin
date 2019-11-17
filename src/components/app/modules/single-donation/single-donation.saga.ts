@@ -2,7 +2,8 @@ import { call, put, select } from 'redux-saga/effects'
 import * as API from '../../../../util/api'
 import {    createDistribitionAndInsertDonationAction, 
             ICreateDistributionParams, 
-            fetchPaymentMethodsAction} from './single-donation.actions';
+            fetchPaymentMethodsAction,
+            ICreateDonationParams} from './single-donation.actions';
 import { AppState } from '../../../../models/state';
 import { IAccessToken } from '../../../../authenticate/auth';
 import { IDonation } from '../../../../models/types';
@@ -42,7 +43,7 @@ export function* createDistributionCall(params: ICreateDistributionParams) {
         
 }
 
-export function* insertDonationCall(params: IDonation) {
+export function* insertDonationCall(params: ICreateDonationParams) {
     try {
         const accessToken: IAccessToken = yield select(getApiToken);
         var data = yield call(API.call, {

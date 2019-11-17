@@ -4,7 +4,7 @@ import { SingleDonationWrapper, InputWrapper, ControlsWrapper } from "./single-d
 import { IPaymentMethod, IDonor, IDonation, IDistributionShare, IOrganization } from '../../../../models/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { createDistribitionAndInsertDonationAction, ICreateDistributionParams, fetchPaymentMethodsAction, insertDonationAction } from './single-donation.actions';
+import { createDistribitionAndInsertDonationAction, ICreateDistributionParams, fetchPaymentMethodsAction, insertDonationAction, ICreateDonationParams } from './single-donation.actions';
 import { Decimal } from 'decimal.js';
 
 import { DonationControls } from './controls/donation-controls.component';
@@ -46,14 +46,16 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
             return null
     }
 
-    const submit = () => {
+    const submit = (reciept: boolean) => {
         const donation = getDonation(donationInput)
-
+        
         if (!donation)
             return toast.error('Missing fields')
         
+        let donationParams: ICreateDonationParams = {...donation, reciept: reciept}
+
         if (donationInput.KID) {
-            dispatch(insertDonationAction.started(donation))
+            dispatch(insertDonationAction.started(donationParams))
         } else {
             if (!selectedDonor)
                 return toast.error('No donor selected')
@@ -64,7 +66,6 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
 
             const filteredDistribution = getFilteredDistribution(distribution);
 
-            const donationParams: IDonation = donation;
             const distributionParams: ICreateDistributionParams = {
                 distribution: filteredDistribution,
                 donor: selectedDonor,
@@ -73,7 +74,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
 
             dispatch(createDistribitionAndInsertDonationAction.started({
                 donation: donationParams,
-                distribution: distributionParams
+                distribution: distributionParams,
             }))
         }
     }
@@ -96,7 +97,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({organizations, 
                 onChange={(distribution: Array<IDistributionShare>) => setDistribution(distribution)}></KIDComponent>
             <ControlsWrapper>
                 <DonationControls 
-                    onInsert={() => submit()}
+                    onInsert={submit}
                     onIgnore={onIgnore}></DonationControls>
             </ControlsWrapper>
         </SingleDonationWrapper>

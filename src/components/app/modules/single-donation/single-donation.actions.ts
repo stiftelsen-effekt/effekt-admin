@@ -12,10 +12,14 @@ export interface ICreateDistributionParams {
     metaOwnerID: number
 }
 
+export interface ICreateDonationParams extends IDonation {
+    reciept: boolean
+}
+
 interface ICreateDistributionAndInsertDonationParams {
     distribution: ICreateDistributionParams,
-    donation: IDonation
+    donation: ICreateDonationParams
 }
 
 export const createDistribitionAndInsertDonationAction = actionCreator.async<ICreateDistributionAndInsertDonationParams, {}, Error>('CREATE_DISTRIBUTION_AND_INSERT_DONATION');
-export const insertDonationAction = actionCreator.async<IDonation, {}, Error>("INSERT_DONATION");
+export const insertDonationAction = actionCreator.async<ICreateDonationParams, {}, Error>("INSERT_DONATION");
