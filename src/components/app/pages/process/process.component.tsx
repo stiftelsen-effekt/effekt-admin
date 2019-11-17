@@ -56,8 +56,8 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
                 </thead>
                 <tbody>
                     <tr>
-                        {(current.transaction.location !== undefined ? <td>current.transaction.location</td> : '')}
-                        {(current.transaction.name !== undefined ? <td>current.transaction.name</td> : '')}
+                        {(current.transaction.location !== undefined ? <td>{current.transaction.location}</td> : '')}
+                        {(current.transaction.name !== undefined ? <td>{current.transaction.name}</td> : '')}
                         <td>{current.transaction.message}</td>
                     </tr>
                 </tbody>
