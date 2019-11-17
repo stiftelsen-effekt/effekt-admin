@@ -12,7 +12,8 @@ import { OwnerSelect } from '../owner-select/owner-select.component';
 interface IState {
     vippsReport: File | null,
     paypalReport: File | null,
-    bankReport: File | null
+    ocrReport: File | null,
+    bankReport: File | null,
 }
 
 export const ReportUpload: React.FunctionComponent = (props) => {
@@ -20,6 +21,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
         return {
             vippsReport: null,
             paypalReport: null,
+            ocrReport: null,
             bankReport: null
         }
     }
@@ -59,6 +61,12 @@ export const ReportUpload: React.FunctionComponent = (props) => {
 
             <tr>
                 <td><strong>Bank OCR</strong></td>
+                <td><EffektFileInput onChange={(file: File) => setState({...state, ocrReport: file}) } id="ocr-upload"/></td>
+                <td><EffektButton onClick={() => { uploadReport(ReportTypes.OCR, state.ocrReport) }}>Process</EffektButton></td>
+            </tr>
+
+            <tr>
+                <td><strong>Bank custom</strong></td>
                 <td><EffektFileInput onChange={(file: File) => setState({...state, bankReport: file}) } id="bank-upload"/></td>
                 <td><EffektButton onClick={() => { uploadReport(ReportTypes.BANK, state.bankReport) }}>Process</EffektButton></td>
             </tr>

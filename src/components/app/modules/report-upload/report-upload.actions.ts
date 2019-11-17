@@ -5,6 +5,7 @@ const actionCreator = actionCreatorFactory();
 export enum ReportTypes {
     VIPPS,
     PAYPAL,
+    OCR,
     BANK
 }
 

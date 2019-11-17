@@ -102,7 +102,8 @@ export interface ITransaction {
     location: string,
     message: string,
     name: string,
-    transactionID: string
+    transactionID: string,
+    paymentID?: number
 }
 
 /** Graphing */

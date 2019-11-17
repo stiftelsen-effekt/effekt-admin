@@ -12,7 +12,7 @@ export function* uploadReport(action: any) {
 
         let reportType;
         switch(action.payload.type) {
-            case ReportTypes.BANK:
+            case ReportTypes.OCR:
                 reportType = "ocr"
                 break
             case ReportTypes.PAYPAL:
@@ -20,6 +20,9 @@ export function* uploadReport(action: any) {
                 break
             case ReportTypes.VIPPS:
                 reportType = "vipps"
+                break
+            case ReportTypes.BANK:
+                reportType = "bank"
                 break
             default:
                 throw new Error("Report type not supported")

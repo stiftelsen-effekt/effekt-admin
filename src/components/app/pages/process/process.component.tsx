@@ -49,15 +49,15 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
             <EffektDisplayTable style={{ marginBottom: '40px', marginTop: '30px' }}>
                 <thead>
                     <tr>
-                        <th>Saleslocation</th>
-                        <th>Name</th>
+                        {(current.transaction.location !== undefined ? <th>Saleslocation</th> : '')}
+                        {(current.transaction.name !== undefined ? <th>Name</th> : '')}
                         <th>Message</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{current.transaction.location}</td>
-                        <td>{current.transaction.name}</td>
+                        {(current.transaction.location !== undefined ? <td>current.transaction.location</td> : '')}
+                        {(current.transaction.name !== undefined ? <td>current.transaction.name</td> : '')}
                         <td>{current.transaction.message}</td>
                     </tr>
                 </tbody>
@@ -67,7 +67,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
                 suggestedValues={{
                     sum: current.transaction.amount,
                     paymentExternalRef: current.transaction.transactionID,
-                    paymentId: 4,
+                    paymentId: current.transaction.paymentID,
                     timestamp: current.transaction.date
                 }}
                 organizations={organizations}
