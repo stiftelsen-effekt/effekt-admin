@@ -27,7 +27,7 @@ const defaultState: DonationsState = {
             from: 0,
             to: Number.MAX_SAFE_INTEGER
         },
-        paymentMethodIDs: [2,3,4]
+        paymentMethodIDs: [2,3,4,5]
     }
 }
 export const donationsReducer = (state = defaultState, action: any): DonationsState => {
