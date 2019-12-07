@@ -31,7 +31,8 @@ export const DonationsList: React.FunctionComponent = () => {
         }, 
         {
             Header: "Sum",
-            accessor: "sum"
+            id: "sum",
+            accessor: (res: any) => res.sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
         },
         {
             Header: "Transaction cost",

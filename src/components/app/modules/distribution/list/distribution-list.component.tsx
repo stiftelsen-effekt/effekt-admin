@@ -29,7 +29,11 @@ export const DistributionsList: React.FunctionComponent = () => {
         }, 
         {
             Header: "Total sum",
-            accessor: "sum"
+            id: "sum",
+            accessor: (res: any) => {
+                if (res.sum) return res.sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+                else return ""
+            }
         },
         {
             Header: "Antall donasjoner",
