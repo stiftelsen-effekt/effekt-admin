@@ -13,6 +13,7 @@ import { donationsReducer } from './store/donations/donations.reducer';
 import { graphingReducer } from './components/app/pages/graphing/graphing.reducer';
 import { distributionsReducer } from './store/distributions/distributions.reducer';
 import { ownersReducer } from './store/owners/owners.reducer';
+import { recieptReducer } from './components/app/modules/donations/reciept/reciept.reducer';
 
 const rootReducer = combineReducers<AppState>({
     auth: authReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers<AppState>({
     reportProcessing: reportProcessingReducer,
     donations: donationsReducer,
     distributions: distributionsReducer,
-    dataOwner: ownersReducer
+    dataOwner: ownersReducer,
+    reciept: recieptReducer
 })
 
 const sagaMiddleware = createSagaMiddleware();

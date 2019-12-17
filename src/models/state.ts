@@ -16,7 +16,8 @@ export interface AppState {
 
     donations: DonationsState,
     distributions: DistributionsState,
-    dataOwner:  DataOwnerState
+    dataOwner:  DataOwnerState,
+    reciept: RecieptState
 }
 
 export interface AuthState {
@@ -89,4 +90,8 @@ export interface DistributionsState {
 export interface DataOwnerState {
     current?: IDataOwner,
     owners?: Array<IDataOwner>
+}
+
+export interface RecieptState {
+    
 }

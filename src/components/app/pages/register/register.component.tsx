@@ -6,6 +6,7 @@ import { ReportUpload } from "../../modules/report-upload/report-upload.componen
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { fetchActiveOrganizationsAction } from "../../../../store/organizations/organizations.action";
+import { RegisterRecieptComponent } from "../../modules/donations/reciept/reciept.component";
 
 export const RegisterComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
@@ -25,6 +26,9 @@ export const RegisterComponent: React.FunctionComponent = () => {
 
             <SubHeader>Process single donation</SubHeader>
             <SingleDonation organizations={organizations}></SingleDonation>
+
+            <SubHeader>Resend reciept</SubHeader>
+            <RegisterRecieptComponent></RegisterRecieptComponent>
         </Page>
     )
 }

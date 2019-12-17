@@ -23,6 +23,8 @@ import { fetchDistributions } from './components/app/modules/distribution/list/d
 import { fetchDistributionsAction } from './components/app/modules/distribution/list/distribution-list.actions';
 import { fetchOwnersAction } from './store/owners/owners.actions';
 import { fetchOwners } from './store/owners/owners.saga';
+import { resendRecieptAction } from './components/app/modules/donations/reciept/reciept.actions';
+import { resendReciept } from './components/app/modules/donations/reciept/reciept.saga';
 
 function* watchAll() {
     yield all([
@@ -54,7 +56,9 @@ function* watchAll() {
         takeLatest(fetchHistogramAction.started.type, fetchHistogram),
 
         takeLatest(fetchDistributionsAction.started.type, fetchDistributions),
-        takeLatest(fetchOwnersAction.started.type, fetchOwners)
+        takeLatest(fetchOwnersAction.started.type, fetchOwners),
+
+        takeLatest(resendRecieptAction.started.type, resendReciept)
     ]);
 }
 
