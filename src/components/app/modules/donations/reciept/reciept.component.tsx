@@ -7,7 +7,7 @@ import { resendRecieptAction } from './reciept.actions'
 import { toastError } from '../../../../../util/toasthelper'
 
 export const RegisterRecieptComponent: React.FunctionComponent = () => {
-    const [donorID, setDonorID] = useState<number | undefined>()
+    const [email, setEmail] = useState<string | undefined>()
     const [donationID, setDonationID] = useState<number | undefined>()
 
     const dispatch = useDispatch()
@@ -17,7 +17,7 @@ export const RegisterRecieptComponent: React.FunctionComponent = () => {
             toastError("Failed to send","Missing donationID")
         }
         else {
-            dispatch(resendRecieptAction.started({donationID, donorID}))
+            dispatch(resendRecieptAction.started({donationID, email}))
         }
     }
 
@@ -27,8 +27,8 @@ export const RegisterRecieptComponent: React.FunctionComponent = () => {
             <EffektInput placeholder="donationID" value={donationID || ""} onChange={(e) => setDonationID(parseInt(e.target.value))}></EffektInput>
         </div>
         <div>
-            <div>Optional donor ID</div>
-            <EffektInput placeholder="donorID" value={donorID || ""} onChange={(e) => setDonorID(parseInt(e.target.value))}></EffektInput>
+            <div>Optional email</div>
+            <EffektInput placeholder="recipient" value={email || ""} onChange={(e) => setEmail(e.target.value)}></EffektInput>
         </div>
         <EffektButton onClick={(e) => resendReciept()}>Send</EffektButton>
     </ResendRecieptWrapper>

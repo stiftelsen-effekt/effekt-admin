@@ -6,7 +6,7 @@ const actionCreator = actionCreatorFactory();
 
 export interface IResendRecieptPayload {
     donationID: number,
-    donorID: number | undefined
+    email: string | undefined
 }
 
 export const resendRecieptAction = actionCreator.async<IResendRecieptPayload, boolean, Error>(RESEND_RECIEPT);
