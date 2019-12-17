@@ -24,11 +24,11 @@ export const RegisterRecieptComponent: React.FunctionComponent = () => {
     return <ResendRecieptWrapper>
         <div>
             <div>Donation ID</div>
-            <EffektInput placeholder="donationID" value={donationID} onChange={(e) => setDonationID(parseInt(e.target.value))}></EffektInput>
+            <EffektInput placeholder="donationID" value={donationID || ""} onChange={(e) => setDonationID(parseInt(e.target.value))}></EffektInput>
         </div>
         <div>
             <div>Optional donor ID</div>
-            <EffektInput placeholder="donorID" value={donorID} onChange={(e) => setDonorID(parseInt(e.target.value))}></EffektInput>
+            <EffektInput placeholder="donorID" value={donorID || ""} onChange={(e) => setDonorID(parseInt(e.target.value))}></EffektInput>
         </div>
         <EffektButton onClick={(e) => resendReciept()}>Send</EffektButton>
     </ResendRecieptWrapper>
