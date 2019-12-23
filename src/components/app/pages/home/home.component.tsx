@@ -6,6 +6,9 @@ export const HomeComponent: React.FunctionComponent = (props) => {
     return (
         <Page>
             <MainHeader>Home</MainHeader>
+            <div>
+                <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTHfRf7Zzh3YUSKs2g2Mim6GkRYR5yRUuoPQa1b61Ul4y1dxEGVempdlYpwte0yrahyvoqqWrbOxAkC/pubhtml?gid=880180721&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+            </div>
         </Page>
     )
 }
