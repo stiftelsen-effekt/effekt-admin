@@ -22,6 +22,7 @@ export const reportProcessingReducer = (state: ReportProcessingState = defaultSt
     else if (isType(action, uploadReportAction.done)) {
         if (action.payload.result.invalid > 0) {
             toast.success(`🔥 inserted ${action.payload.result.valid}, ignored ${action.payload.result.invalid}`)
+            console.log(action.payload.result.invalid)
             return {
                 ...action.payload.result,
                 invalidTransactions: action.payload.result.invalidTransactions.map((invalid) => {
