@@ -1,6 +1,6 @@
 import { DistributionsState } from "../../models/state";
 import { isType } from "typescript-fsa";
-import { fetchDistributionsAction, SET_DISTRIBUTIONS_PAGINATION, SET_DISTRIBUTIONS_FILTER_DONOR, SET_DISTRIBUTIONS_FILTER_KID } from "../../components/app/modules/distribution/list/distribution-list.actions";
+import { fetchDistributionsAction, SET_DISTRIBUTIONS_PAGINATION, SET_DISTRIBUTIONS_FILTER_DONOR, SET_DISTRIBUTIONS_FILTER_KID } from "../../components/modules/distribution/list/distribution-list.actions";
 
 const defaultState: DistributionsState = {
     searchResult: [],

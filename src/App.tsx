@@ -7,9 +7,9 @@ import MainRouter from './components/router/main.component'
 
 //TODO: Move styling somewhere else?
 import "react-datepicker/dist/react-datepicker.css";
-import "./components/app/style/elements/datepicker/datepicker-effekt.css";
+import "./components/style/elements/datepicker/datepicker-effekt.css";
 import 'react-toastify/dist/ReactToastify.css';
-import "./components/app/style/elements/react-table/base.css"
+import "./components/style/elements/react-table/base.css"
 
 const App: React.FC = () => {
   return (

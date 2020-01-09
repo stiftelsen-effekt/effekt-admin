@@ -1,6 +1,6 @@
 import React from 'react'
 
-import LoginComponent from './../app/login/login.component'
+import LoginComponent from '../login/login.component'
 import CallbackComponent from './callback.component';
 
 import { PrivateRoute } from './private.component';
@@ -9,7 +9,7 @@ import { Route } from 'react-router';
 import { AppState, AuthStep } from './../../models/state';
 import { connect } from 'react-redux';
 
-import { AdminPanel } from '../app/admin.component';
+import { AdminPanel } from '../admin.component';
 import { Switch } from 'react-router';
 import { HashRouter } from 'react-router-dom';
 import { loginCacheCheck } from '../../authenticate/loginout.actions'
