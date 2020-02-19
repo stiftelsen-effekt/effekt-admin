@@ -1,56 +1,44 @@
 import React from 'react';
-import { Component, ReactNode } from 'react'
-import { connect } from 'react-redux';
-import { AppState, AuthStep } from '../../models/state';
-import { loginBegin, loginCacheCheck } from '../../authenticate/loginout.actions';
+import { useDispatch } from 'react-redux';
+import { AuthStep } from '../../models/state';
+import { loginBegin, loginCacheCheck, loginFailure } from '../../authenticate/loginout.actions';
 import { Redirect } from 'react-router';
 import { LoginWrapper, LoginButton, LoginHeader, LoginError } from './login.component.style';
 
-class LoginComponent extends Component<IStateProps & IDispatchProps, any> {
-    constructor(props: IStateProps & IDispatchProps) {
-        super(props)
+export const LoginComponent: React.FunctionComponent<IStateProps> = (props: IStateProps) => {
+    const dispatch = useDispatch()
 
-        this.props.loginCacheCheck()
+
+    if (props.authStep === AuthStep.LOGGED_IN) {
+        return (
+            <Redirect to="/" />
+        )
+    } 
+    else if (props.authStep === AuthStep.SHOW_CONNECTION_FAILED) {
+        return (
+            <div>
+                <div>Noe gikk galt når vi forsøkte å hente din aksess-token. Er du koblet til internet? Du kan <button onClick={() => dispatch(loginCacheCheck())}>prøve igjen.</button></div>
+                <div>Du kan også forsøke å <button onClick={() => dispatch(loginFailure("Henting av token feilet"))}></button>logge inn på nytt</div>
+            </div>
+        )
     }
+    else if (props.authStep === AuthStep.SHOW_LOGIN_SCREEN) {
+        let loginError =
+            (props.loginError != null ?
+            <LoginError>{props.loginError}</LoginError> :
+            <div></div>);
 
-    cacheCheck = () => {
-        this.props.loginCacheCheck();
+        return(
+            <LoginWrapper>
+                <div>
+                    <LoginHeader>GiEffektivt administrasjon</LoginHeader>
+                    {loginError}
+                    <LoginButton onClick={() => dispatch(loginBegin())}>Autoriser</LoginButton>
+                </div>
+            </LoginWrapper>)
     }
-
-    loginClick = () => {
-        this.props.loginBegin()
-    }
-
-    render(): ReactNode {
-        if (this.props.authStep === AuthStep.LOGGED_IN) {
-            return (
-                <Redirect to="/" />
-            )
-        } 
-        else if (this.props.authStep === AuthStep.SHOW_CONNECTION_FAILED) {
-            return (
-                <div>Noe gikk galt når vi forsøkte å hente din aksess-token. Er du koblet til internet? Du kan <button onClick={this.cacheCheck}>prøve igjen.</button></div>
-            )
-        }
-        else if (this.props.authStep === AuthStep.SHOW_LOGIN_SCREEN) {
-            let loginError =
-                (this.props.loginError != null ?
-                <LoginError>{this.props.loginError}</LoginError> :
-                <div></div>);
-
-            return(
-                <LoginWrapper>
-                    <div>
-                        <LoginHeader>GiEffektivt administrasjon</LoginHeader>
-                        {loginError}
-                        <LoginButton onClick={this.loginClick}>Autoriser</LoginButton>
-                    </div>
-                </LoginWrapper>)
-        }
-        else {
-            return(<div></div>)
-        }
-        
+    else {
+        return(<div></div>)
     }
 }
 
@@ -58,20 +46,3 @@ interface IStateProps {
     authStep: AuthStep,
     loginError?: string
 }
-const mapStateToProps = (state: AppState): IStateProps => {
-    return {
-        authStep: state.auth.authStep,
-        loginError: state.auth.loginError
-    }
-}
-
-interface IDispatchProps {
-    loginBegin: Function,
-    loginCacheCheck: Function
-}
-const mapDispatchToProps: IDispatchProps = {
-    loginBegin,
-    loginCacheCheck
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginComponent)
