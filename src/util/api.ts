@@ -13,6 +13,7 @@ export interface IAPIParameters {
     token?: string,
     method: Method, 
     data?: any,
+    handleUnauthorized?: boolean,
     formData?: FormData
 }
 
@@ -49,7 +50,8 @@ export const call = async (params: IAPIParameters): Promise<any> => {
             if (params.data !== null) url += `?${queryString.stringify(params.data)}`;
 
             response = await fetch(url, options);
-            if (response.status === 401) window.location.href = loginPage;
+            if (!params.handleUnauthorized)
+                if (response.status === 401) window.location.href = loginPage
             result = await response.json();
 
             return result
@@ -83,7 +85,8 @@ export const call = async (params: IAPIParameters): Promise<any> => {
             }
 
             response = await fetch(url, options)
-            if (response.status === 401) window.location.href = loginPage
+            if (!params.handleUnauthorized)
+                if (response.status === 401) window.location.href = loginPage
             result = await response.json()
             return result;
         default:

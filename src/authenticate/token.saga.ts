@@ -13,7 +13,8 @@ export function* fetchToken(action: AnyAction) {
         const tokenResponse = yield call(API.call, {
             endpoint: '/auth/token', 
             method: API.Method.GET, 
-            data: { key: accessKey.key }
+            data: { key: accessKey.key },
+            handleUnauthorized: true
         });
         yield put(fetchTokenAction.done({params: action.payload, result: tokenResponse.content}));
     } catch(ex) {
