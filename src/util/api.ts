@@ -27,7 +27,9 @@ interface IFetchOptions {
     body?: any
 }
 
-export const call = (params: IAPIParameters): Promise<Response> => {
+const loginPage = "https://storage.googleapis.com/static.gieffektivt.no/index.html#/login";
+
+export const call = async (params: IAPIParameters): Promise<any> => {
     let url = `${API_URL}${params.endpoint}`
 
     let options: IFetchOptions = {
@@ -40,11 +42,17 @@ export const call = (params: IAPIParameters): Promise<Response> => {
         }
     }
 
+    let response;
+    let result;
     switch(params.method) {
         case Method.GET:
             if (params.data !== null) url += `?${queryString.stringify(params.data)}`;
 
-            return fetch(url, options).then(response => response.json())
+            response = await fetch(url, options);
+            if (response.status === 401) window.location.href = loginPage;
+            result = await response.json();
+
+            return result
         case Method.POST:
             options = {
                 ...options,
@@ -74,7 +82,10 @@ export const call = (params: IAPIParameters): Promise<Response> => {
                 }
             }
 
-            return fetch(url, options).then(response => response.json());
+            response = await fetch(url, options)
+            if (response.status === 401) window.location.href = loginPage
+            result = await response.json()
+            return result;
         default:
             return new Promise<Response>((success) => { success(); });
     }
