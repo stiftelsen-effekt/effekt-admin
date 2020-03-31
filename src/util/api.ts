@@ -1,4 +1,4 @@
-import { API_URL, DEV_ENVIRONMENT } from "../config/config";
+import { API_URL } from "../config/config";
 import store from './../store';
 import queryString from "querystring";
 import { sessionInvalid, LOGIN_SUCCESS } from "../authenticate/loginout.actions";
@@ -29,13 +29,6 @@ interface IFetchOptions {
     method?: string,
     headers?: any,
     body?: any
-}
-
-const loginPage = () => {
-    if (DEV_ENVIRONMENT)
-        return "http://localhost:81/#/login";
-    else
-        return "https://storage.googleapis.com/static.gieffektivt.no/index.html#/login";
 } 
 
 export const call = async (params: IAPIParameters): Promise<any> => {
@@ -110,7 +103,7 @@ async function redoCallWithNewToken(params: IAPIParameters) {
     let cachedKeyAction = Auth.tryCachedKey()
     //Possible infinite recursion, here be dragons!
     
-    if (cachedKeyAction.type == LOGIN_SUCCESS) {
+    if (cachedKeyAction.type === LOGIN_SUCCESS) {
         for(let i = 0; i < 10; i++) {
             await sleep(250)
             let token = store.getState().auth.currentToken
