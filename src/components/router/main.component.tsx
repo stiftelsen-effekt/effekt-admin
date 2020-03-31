@@ -1,6 +1,6 @@
 import React from 'react'
 
-import LoginComponent from '../login/login.component'
+import { LoginComponent } from '../login/login.component'
 import CallbackComponent from './callback.component';
 
 import { PrivateRoute } from './private.component';

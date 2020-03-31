@@ -1,5 +1,8 @@
-import { API_URL } from "../config/config";
+import { API_URL, DEV_ENVIRONMENT } from "../config/config";
+import store from './../store';
 import queryString from "querystring";
+import { sessionInvalid, LOGIN_SUCCESS } from "../authenticate/loginout.actions";
+import { Auth } from "../authenticate/auth";
 
 export enum Method {
     GET = "GET",
@@ -28,7 +31,12 @@ interface IFetchOptions {
     body?: any
 }
 
-const loginPage = "https://storage.googleapis.com/static.gieffektivt.no/index.html#/login";
+const loginPage = () => {
+    if (DEV_ENVIRONMENT)
+        return "http://localhost:81/#/login";
+    else
+        return "https://storage.googleapis.com/static.gieffektivt.no/index.html#/login";
+} 
 
 export const call = async (params: IAPIParameters): Promise<any> => {
     let url = `${API_URL}${params.endpoint}`
@@ -51,7 +59,9 @@ export const call = async (params: IAPIParameters): Promise<any> => {
 
             response = await fetch(url, options);
             if (!params.handleUnauthorized)
-                if (response.status === 401) window.location.href = loginPage
+                if (response.status === 401) {
+                    return await redoCallWithNewToken(params)
+                }
             result = await response.json();
 
             return result
@@ -86,10 +96,33 @@ export const call = async (params: IAPIParameters): Promise<any> => {
 
             response = await fetch(url, options)
             if (!params.handleUnauthorized)
-                if (response.status === 401) window.location.href = loginPage
+                if (response.status === 401) {
+                    return await redoCallWithNewToken(params)
+                }
             result = await response.json()
             return result;
         default:
             return new Promise<Response>((success) => { success(); });
     }
+}
+
+async function redoCallWithNewToken(params: IAPIParameters) {
+    let cachedKeyAction = Auth.tryCachedKey()
+    //Possible infinite recursion, here be dragons!
+    
+    if (cachedKeyAction.type == LOGIN_SUCCESS) {
+        for(let i = 0; i < 10; i++) {
+            await sleep(250)
+            let token = store.getState().auth.currentToken
+            if (typeof token !== "undefined" && token.token !== params.token) 
+                return await call({...params, token: token.token });
+        }
+    }
+    
+    store.dispatch(sessionInvalid())
+    return false
+}
+
+function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

@@ -1,7 +1,7 @@
 import { AuthState, AuthStep } from "../models/state";
 import { AnyAction } from "redux";
 import { fetchTokenAction } from "./token.actions";
-import { FETCH_ACCESS_KEY_SUCCESS, LOGOUT_SUCCESS, LOGIN_CACHE_FAILURE, LOGIN_FAILURE } from "./loginout.actions";
+import { FETCH_ACCESS_KEY_SUCCESS, LOGOUT_SUCCESS, LOGIN_CACHE_FAILURE, LOGIN_FAILURE, SESSION_INVALID } from "./loginout.actions";
 import { isType } from "typescript-fsa";
 
 const initialState: AuthState = {
@@ -16,9 +16,20 @@ export const authReducer = (state: AuthState = initialState, action: AnyAction):
             authStep: AuthStep.LOGGED_IN
         };
     } else if (isType(action, fetchTokenAction.failed)) {
-        return {
-            ...state,
-            authStep: AuthStep.SHOW_CONNECTION_FAILED
+        if (action.payload.error.message === "401") {
+            return {
+                ...state,
+                authStep: AuthStep.SHOW_LOGIN_SCREEN,
+                loginError: "Your access key is no longer valid. Please login to get a new access key.",
+                currentToken: undefined,
+                accessKey: undefined
+            }
+        }
+        else {
+            return {
+                ...state,
+                authStep: AuthStep.SHOW_CONNECTION_FAILED
+            }
         }
     }         
 
@@ -38,14 +49,23 @@ export const authReducer = (state: AuthState = initialState, action: AnyAction):
             return {
                 ...state,
                 authStep: AuthStep.SHOW_LOGIN_SCREEN,
+                loginError: undefined,
                 currentToken: undefined,
                 accessKey: undefined
             }
-        
         case LOGIN_CACHE_FAILURE:
             return {
                 ...state,
-                authStep: AuthStep.SHOW_LOGIN_SCREEN
+                authStep: AuthStep.SHOW_LOGIN_SCREEN,
+                loginError: undefined
+            }
+        case SESSION_INVALID:
+            return {
+                ...state,
+                authStep: AuthStep.SHOW_LOGIN_SCREEN,
+                loginError: "Your access key is no longer valid. Please login to get a new access key.",
+                currentToken: undefined,
+                accessKey: undefined
             }
         default:
             return state;

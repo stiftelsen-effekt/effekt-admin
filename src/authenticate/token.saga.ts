@@ -16,7 +16,10 @@ export function* fetchToken(action: AnyAction) {
             data: { key: accessKey.key },
             handleUnauthorized: true
         });
-        yield put(fetchTokenAction.done({params: action.payload, result: tokenResponse.content}));
+        if (tokenResponse.status === 200)
+            yield put(fetchTokenAction.done({params: action.payload, result: tokenResponse.content}));
+        else
+            throw new Error(tokenResponse.status)
     } catch(ex) {
         yield put(fetchTokenAction.failed({params: action.payload, error: ex}));
     }

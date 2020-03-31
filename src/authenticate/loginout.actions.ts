@@ -14,6 +14,8 @@ export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
 
+export const SESSION_INVALID = "SESSION_INVALID";
+
 export const loginBegin = () => {
     return {
         type: LOGIN_BEGIN
@@ -75,5 +77,11 @@ export const logoutFailure = (ex: Error) => {
 export const logoutSuccess = () => {
     return {
         type: LOGOUT_SUCCESS
+    }
+}
+
+export const sessionInvalid = () => {
+    return {
+        type: SESSION_INVALID
     }
 }
