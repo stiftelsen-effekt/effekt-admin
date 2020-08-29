@@ -21,7 +21,7 @@ export const LoginButton = styled.button`
     background: none;
     color: white;
     font-size: 16px;
-    font-family: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
     background: rgba(0,0,0,.5);
     cursor: pointer;
     text-transform: uppercase;
