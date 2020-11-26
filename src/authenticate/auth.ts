@@ -35,6 +35,7 @@ export class Auth {
     /* Handles the callback route, tries to parse the URL parameters and stores the accessKey */
     static handleCallback(): Action {
         let callbackVariables: ICallbackParameters = AuthUtil.parseCallback();
+
         if (callbackVariables.state === AuthUtil.authState) {
             let key: IAccessKey = {
                 key: callbackVariables.key,

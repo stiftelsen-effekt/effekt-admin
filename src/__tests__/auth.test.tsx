@@ -4,11 +4,13 @@ import { LOGIN_FAILURE, LOGIN_SUCCESS, FETCH_ACCESS_KEY_SUCCESS } from '../authe
 import { fetchTokenAction } from '../authenticate/token.actions';
 import 'jest-localstorage-mock';
 
-window.location.assign = jest.fn().mockImplementation((url: string): string => url);
+delete window.location
+
+window.location = {
+    assign: jest.fn().mockImplementation((url: string): string => url)
+}
 
 describe('authentification class', () => {
-    
-
     describe('Should setup login correctly before rederecting', () => {
         let url = Auth.login();
 
@@ -52,6 +54,7 @@ describe('authentification class', () => {
 
         it('Should handle success correctly', () => {
             setupCallbackState(state);
+            Object.defineProperty(AuthUtil, 'authState', { value: state });
             var successAction = runCallbackSaga();
             expect(successAction.value.type).toEqual(LOGIN_SUCCESS)
         })
