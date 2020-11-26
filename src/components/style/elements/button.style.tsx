@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { brown50, brown05 } from "../colors";
+import { brown50, brown05, red20 } from "../colors";
 
 export const EffektButton = styled.button`
     padding: 10px 30px;
@@ -17,5 +17,10 @@ export const EffektButton = styled.button`
 
 export const EffektSecondaryButton = styled(EffektButton)`
     background: ${brown05};
+    color: white;
+`
+
+export const EffektRedButton = styled(EffektButton)`
+    background: ${red20};
     color: white;
 `
