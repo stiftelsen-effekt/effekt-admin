@@ -17,3 +17,9 @@ export const setDonationsPagination = (pagination: IPagination) => {
         payload: pagination
     }
 }
+
+interface IFetchDonationsResult {
+
+}
+
+export const deleteDonationAction = actionCreator.async<number, IFetchDonationsResult, Error>('DELETE_DONATION');

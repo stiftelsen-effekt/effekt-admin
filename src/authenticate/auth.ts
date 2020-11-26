@@ -35,6 +35,7 @@ export class Auth {
     /* Handles the callback route, tries to parse the URL parameters and stores the accessKey */
     static handleCallback(): Action {
         let callbackVariables: ICallbackParameters = AuthUtil.parseCallback();
+
         if (callbackVariables.state === AuthUtil.authState) {
             let key: IAccessKey = {
                 key: callbackVariables.key,
@@ -73,7 +74,7 @@ export class AuthUtil {
 
     static getCallbackUrl(): string {
         if (DEV_ENVIRONMENT)
-            return `http://localhost:3000/#/callback`
+            return `http://localhost:3001/#/callback`
         else
             return `https://storage.googleapis.com/static.gieffektivt.no/index.html#/callback`
     }

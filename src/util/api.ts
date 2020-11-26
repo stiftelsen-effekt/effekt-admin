@@ -94,6 +94,20 @@ export const call = async (params: IAPIParameters): Promise<any> => {
                 }
             result = await response.json()
             return result;
+        case Method.DELETE:
+            options = {
+                ...options,
+                method: Method.DELETE,
+            }
+
+            response = await fetch(url, options);
+            if (!params.handleUnauthorized)
+                if (response.status === 401) {
+                    return await redoCallWithNewToken(params)
+                }
+            result = await response.json();
+
+            return result
         default:
             return new Promise<Response>((success) => { success(); });
     }

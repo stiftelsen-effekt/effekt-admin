@@ -13,8 +13,8 @@ import { uploadReportAction } from './components/modules/report-upload/report-up
 import { uploadReport } from './components/modules/report-upload/report-upload.saga';
 import { createDonorAction } from './components/modules/donors/create/create-donor.actions';
 import { createDonor } from './components/modules/donors/create/create-donor.saga';
-import { fetchDonations } from './components/modules/donations/list/donations-list.saga';
-import { fetchDonationsAction } from './components/modules/donations/list/donations-list.actions';
+import { deleteDonation, fetchDonations } from './components/modules/donations/list/donations-list.saga';
+import { deleteDonationAction, fetchDonationsAction } from './components/modules/donations/list/donations-list.actions';
 import { fetchDonationAction, fetchHistogramAction } from './store/donations/donation.actions';
 import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
 import { fetchTotalByPeriod } from './components/pages/graphing/graphing.saga';
@@ -51,6 +51,7 @@ function* watchAll() {
 
         takeLatest(fetchDonationsAction.started.type, fetchDonations),
         takeLatest(fetchDonationAction.started.type, fetchDonation),
+        takeLatest(deleteDonationAction.started.type, deleteDonation),
 
         takeLatest(fetchTotalByPeriodAction.started.type, fetchTotalByPeriod),
         takeLatest(fetchHistogramAction.started.type, fetchHistogram),
