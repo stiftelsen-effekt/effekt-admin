@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../../models/state';
 import { fetchPaymentMethodsAction } from '../../../single-donation/single-donation.actions';
 import { setDonationFilterKid, setDonationFilterDonor, setDonationFilterDateRange, setDonationFilterSumRange, setDonationFilterPaymentMethodIDs } from './filters.actions';
-import { fetchDonationsAction } from '../donations-list.actions';
 import { fetchHistogramAction } from '../../../../../store/donations/donation.actions';
 import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
 
@@ -50,11 +49,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
                         to={donationDateRange.to}
                         onChangeFrom={(date) => { 
                             dispatch(setDonationFilterDateRange(date, donationDateRange.to))
-                            dispatch(fetchDonationsAction.started())
                         }}
                         onChangeTo={(date) => {
                             dispatch(setDonationFilterDateRange(donationDateRange.from, date))
-                            dispatch(fetchDonationsAction.started())
                         }}></FilterDateRange>
                     </FilterDateRangeWrapper>
                 </FilterGroup>
@@ -66,7 +63,6 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
                         histogram={histogram}
                         onChange={(range) => {
                             dispatch(setDonationFilterSumRange(Math.min(...range), Math.max(...range)))
-                            dispatch(fetchDonationsAction.started())
                         } }>
                     </HistogramInputComponent>
                 </FilterGroup>
@@ -79,7 +75,6 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
                         style={{width: '100%'}}
                         onChange={(e) => {
                             dispatch(setDonationFilterDonor(e.target.value))
-                            dispatch(fetchDonationsAction.started())
                         }} ></FilterInput>
                 </FilterGroup>
 
@@ -91,7 +86,6 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
                         style={{width: '100%'}}
                         onChange={(e) => {
                             dispatch(setDonationFilterKid(e.target.value))
-                            dispatch(fetchDonationsAction.started())
                         }} ></FilterInput>
                 </FilterGroup>
 
@@ -101,8 +95,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
                         azure={true}
                         choices={paymentMethodChoices}
                         onChange={(choices: Array<number>) => {
-                        dispatch(setDonationFilterPaymentMethodIDs(choices))
-                        dispatch(fetchDonationsAction.started())
+                            dispatch(setDonationFilterPaymentMethodIDs(choices))
                         }}></EffektCheckForm>
                 </FilterGroup>
             </FilterContent>

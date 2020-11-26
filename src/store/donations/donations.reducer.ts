@@ -9,12 +9,12 @@ import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONA
 const defaultState: DonationsState = {
     donations: [],
     loading: false,
-    pages: -1,
+    pages: 1,
     pagination: {
-        page: 1,
+        page: 0,
         limit: 20,
         sort: {
-            id: 'ID',
+            id: 'id',
             desc: true
         }
     },
@@ -98,15 +98,15 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
 
     switch(action.type) {
         case SET_DONATION_FILTER_DATE_RANGE:
-            return {...state, filter: { ...state.filter, date: action.payload }}
+            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, date: action.payload }}
         case SET_DONATION_FILTER_SUM_RANGE:
-            return {...state, filter: { ...state.filter, sum: action.payload }}
+            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, sum: action.payload }}
         case SET_DONATION_FILTER_KID:
-            return {...state, filter: { ...state.filter, KID: action.payload }}
+            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, KID: action.payload }}
         case SET_DONATION_FILTER_DONOR:
-            return {...state, filter: {...state.filter, donor: action.payload}}
+            return {...state, pagination: { ...state.pagination, page: 0 }, filter: {...state.filter, donor: action.payload}}
         case SET_DONATION_FILTRE_PAYMENT_METHOD_IDS:
-            return {...state, filter: { ...state.filter, paymentMethodIDs: action.payload }}
+            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, paymentMethodIDs: action.payload }}
     }
 
     return state;
