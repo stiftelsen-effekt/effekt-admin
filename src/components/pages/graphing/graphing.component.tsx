@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Page } from '../../style/elements/page.style';
-import { MainHeader, SubHeader } from '../../style/elements/headers.style';
+import { Page } from '../../shared/elements/page.style';
+import { MainHeader, SubHeader } from '../../shared/elements/headers.style';
 import { useDispatch, useSelector } from 'react-redux';
-import { EffektDateRange } from '../../modules/range/date-range.component';
-import { AppState } from '../../../models/state';
-import { fetchTotalByPeriodAction } from './graphing.actions';
+import { EffektDateRange } from '../../shared/range/date-range.component';
+import { AppState } from '../../../store/state';
 import { Bar } from 'react-chartjs-2';
 import * as palette from 'google-palette'
+import { fetchTotalByPeriodAction } from '../../../store/graphing/graphing.actions';
 
 export const GraphingPageComponent: React.FunctionComponent = () => {
     console.log(palette)

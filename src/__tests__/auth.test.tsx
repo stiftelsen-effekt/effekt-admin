@@ -1,6 +1,6 @@
-import { Auth, AuthUtil } from '../authenticate/auth'
+import { Auth, AuthUtil } from '../auth'
 import { callback, loginSuccess } from '../authenticate/loginout.saga';
-import { LOGIN_FAILURE, LOGIN_SUCCESS, FETCH_ACCESS_KEY_SUCCESS } from '../authenticate/loginout.actions';
+import { LOGIN_FAILURE, LOGIN_SUCCESS, FETCH_ACCESS_KEY_SUCCESS } from '../store/auth/loginout.actions';
 import { fetchTokenAction } from '../authenticate/token.actions';
 import 'jest-localstorage-mock';
 

@@ -1,15 +1,15 @@
 import React from 'react'
 
-import { Page } from "../../style/elements/page.style";
-import { MainHeader, GreenBox, RedBox } from "../../style/elements/headers.style";
-import { IInvalidTransaction } from "../../../models/types";
+import { Page } from "../../shared/elements/page.style";
+import { MainHeader, GreenBox, RedBox } from "../../shared/elements/headers.style";
+import { IInvalidTransaction } from "../../../types";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState, ReportProcessingState } from "../../../models/state";
+import { AppState, ReportProcessingState } from "../../../store/state";
 import { Redirect } from "react-router";
-import { EffektDisplayTable } from '../../style/elements/display-table/display-table.component.style';
-import { SingleDonation } from '../../modules/single-donation/single-donation.component';
-import { popInvalidTransaction } from './process.actions';
+import { EffektDisplayTable } from '../../shared/elements/display-table/display-table.component.style';
+import { SingleDonation } from '../../shared/single-donation/single-donation.component';
 import { fetchActiveOrganizationsAction } from '../../../store/organizations/organizations.action';
+import { popInvalidTransaction } from '../../../store/donations/process/process.actions';
 
 export const ProcessDonations: React.FunctionComponent = (props) => {
     const dispatch = useDispatch()
@@ -19,7 +19,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
     const current: IInvalidTransaction = processingState.invalidTransactions[processingState.invalidTransactions.length-1]
 
     if (!organizations) {
-        dispatch(fetchActiveOrganizationsAction.started())
+        dispatch(fetchActiveOrganizationsAction.started(undefined))
         return (<div>Loading organizations</div>)
     }
 

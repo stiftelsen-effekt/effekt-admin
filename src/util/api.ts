@@ -1,8 +1,8 @@
 import { API_URL } from "../config/config";
-import store from './../store';
+import store from '../store/store';
 import queryString from "querystring";
-import { sessionInvalid, LOGIN_SUCCESS } from "../authenticate/loginout.actions";
-import { Auth } from "../authenticate/auth";
+import { sessionInvalid, LOGIN_SUCCESS } from "../store/auth/loginout.actions";
+import { Auth } from "../auth";
 
 export enum Method {
     GET = "GET",

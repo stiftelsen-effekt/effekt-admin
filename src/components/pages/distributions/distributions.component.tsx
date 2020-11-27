@@ -1,7 +1,7 @@
 import React from 'react'
-import { Page } from '../../style/elements/page.style';
-import { MainHeader } from '../../style/elements/headers.style';
-import { DistributionsList } from '../../modules/distribution/list/distribution-list.component';
+import { Page } from '../../shared/elements/page.style';
+import { MainHeader } from '../../shared/elements/headers.style';
+import { DistributionsList } from '../../shared/distribution/list/distribution-list.component';
 
 export const DistributionsPageComponent: React.FunctionComponent = () => (
     <Page>

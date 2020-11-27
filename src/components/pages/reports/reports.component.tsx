@@ -1,17 +1,17 @@
 import React, { useState, useCallback } from 'react'
-import { Page } from "../../style/elements/page.style";
-import { MainHeader, SubHeader } from "../../style/elements/headers.style";
+import { Page } from "../../shared/elements/page.style";
+import { MainHeader, SubHeader } from "../../shared/elements/headers.style";
 import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../../models/state';
-import { fetchPaymentMethodsAction } from '../../modules/single-donation/single-donation.actions';
-import { EffektSwitch, SwitchSelected } from '../../style/elements/effekt-switch/effekt-switch.component';
-import { EffektCheckChoice, EffektCheckForm } from '../../style/elements/effekt-check/effekt-check-form.component';
+import { AppState } from '../../../store/state';
+import { EffektSwitch, SwitchSelected } from '../../shared/elements/effekt-switch/effekt-switch.component';
+import { EffektCheckChoice, EffektCheckForm } from '../../shared/elements/effekt-check/effekt-check-form.component';
 import { API_URL } from '../../../config/config';
 import { DateTime } from 'luxon';
-import { EffektButton } from '../../style/elements/button.style';
-import { grey30 } from '../../style/colors';
-import { FormSection, FormSectionHeader } from '../../style/elements/from-section';
-import { EffektDateRange } from '../../modules/range/date-range.component';
+import { EffektButton } from '../../shared/elements/button.style';
+import { grey30 } from '../../../config/colors';
+import { FormSection, FormSectionHeader } from '../../shared/elements/from-section';
+import { EffektDateRange } from '../../shared/range/date-range.component';
+import { fetchPaymentMethodsAction } from '../../../store/donations/donation/single/single-donation.actions';
 
 export enum ReportFileFormats {
     EXCEL,
@@ -29,7 +29,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
     //TODO: CREATE GENERAL PAYMENT METHOD SELECTOR
     //TODO: Move payment methods to different place in state
     const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods)
-    if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started())
+    if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined))
 
     const [paymentMethodIds, setPaymentMethodIds] = useState<Array<number>>([4])
     let paymentMethodChoices: Array<EffektCheckChoice> = paymentMethods.map(method => ({

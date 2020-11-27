@@ -1,4 +1,4 @@
-import { IDataOwner } from "../../models/types";
+import { IDataOwner } from "../../types";
 import actionCreatorFactory from 'typescript-fsa';
 
 const actionCreator = actionCreatorFactory();

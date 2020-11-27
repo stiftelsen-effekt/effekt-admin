@@ -1,6 +1,6 @@
 import React, { ComponentType } from 'react'
 import { RouteProps, Route, Redirect } from 'react-router';
-import { AuthStep } from '../../models/state';
+import { AuthStep } from '../../store/state';
 
 interface IPrivateRouteProps {
     authStep: AuthStep,

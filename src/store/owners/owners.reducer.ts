@@ -1,4 +1,4 @@
-import { DataOwnerState } from "../../models/state";
+import { DataOwnerState } from "../state";
 import { AnyAction } from "redux";
 import { fetchOwnersAction, SET_CURRENT_OWNER } from "./owners.actions";
 import { isType } from "typescript-fsa";

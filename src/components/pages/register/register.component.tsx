@@ -1,19 +1,19 @@
-import { MainHeader, SubHeader } from "../../style/elements/headers.style";
+import { MainHeader, SubHeader } from "../../shared/elements/headers.style";
 import React from "react";
-import { Page } from "../../style/elements/page.style";
-import { SingleDonation } from "../../modules/single-donation/single-donation.component";
-import { ReportUpload } from "../../modules/report-upload/report-upload.component";
+import { Page } from "../../shared/elements/page.style";
+import { SingleDonation } from "../../shared/single-donation/single-donation.component";
+import { ReportUpload } from "../../shared/report-upload/report-upload.component";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../../models/state";
+import { AppState } from "../../../store/state";
 import { fetchActiveOrganizationsAction } from "../../../store/organizations/organizations.action";
-import { RegisterRecieptComponent } from "../../modules/donations/reciept/reciept.component";
+import { RegisterRecieptComponent } from "../../shared/donations/reciept/reciept.component";
 
 export const RegisterComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
     
     const organizations = useSelector((state: AppState) => state.organizations.active)
     if (!organizations) {
-        dispatch(fetchActiveOrganizationsAction.started())
+        dispatch(fetchActiveOrganizationsAction.started(undefined))
         return (<div>Loading organizations</div>)
     }
 

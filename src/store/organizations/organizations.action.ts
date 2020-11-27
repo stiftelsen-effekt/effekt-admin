@@ -1,4 +1,4 @@
-import { IOrganization } from "../../models/types";
+import { IOrganization } from "../../types";
 import actionCreatorFactory from 'typescript-fsa';
 
 const actionCreator = actionCreatorFactory();

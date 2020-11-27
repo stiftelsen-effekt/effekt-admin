@@ -1,7 +1,7 @@
-import { MainHeader } from "../../style/elements/headers.style";
+import { MainHeader } from "../../shared/elements/headers.style";
 import React from "react";
-import { Page } from "../../style/elements/page.style";
-import { DonorSelectionComponent } from "../../modules/donors/selection/donor-selection.component";
+import { Page } from "../../shared/elements/page.style";
+import { DonorSelectionComponent } from "../../shared/donors/selection/donor-selection.component";
 
 export const DonorsPageComponent:React.FunctionComponent = () => {
     return (

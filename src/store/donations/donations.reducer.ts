@@ -1,10 +1,10 @@
-import { DonationsState } from "../../models/state";
+import { DonationsState } from "../state";
 import { isType } from "typescript-fsa";
-import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from "../../components/modules/donations/list/donations-list.actions";
-import { fetchDonationAction, CLEAR_CURRENT_DONATION, fetchHistogramAction } from "./donation.actions";
+import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from "./list/donations-list.actions";
+import { fetchDonationAction, CLEAR_CURRENT_DONATION, fetchHistogramAction } from "./donation/donation.actions";
 import { toastError } from "../../util/toasthelper";
 import Decimal from "decimal.js";
-import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONATION_FILTER_KID, SET_DONATION_FILTRE_PAYMENT_METHOD_IDS, SET_DONATION_FILTER_DONOR } from "../../components/modules/donations/list/filters/filters.actions";
+import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONATION_FILTER_KID, SET_DONATION_FILTRE_PAYMENT_METHOD_IDS, SET_DONATION_FILTER_DONOR } from "./filter/filters.actions";
 
 const defaultState: DonationsState = {
     donations: [],

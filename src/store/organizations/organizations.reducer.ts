@@ -1,4 +1,4 @@
-import { OrganizationsState } from "../../models/state";
+import { OrganizationsState } from "../state";
 import { AnyAction } from "redux";
 import { fetchActiveOrganizationsAction } from "./organizations.action";
 import { isType } from "typescript-fsa";
