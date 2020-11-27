@@ -1,25 +1,31 @@
-import actionCreatorFactory from "typescript-fsa";
-import { IDonation, IPagination } from "../../../types";
+import actionCreatorFactory from 'typescript-fsa';
+import { IDonation, IPagination } from '../../../types';
 
-export const SET_DONATIONS_PAGINATION = "SET_DONATIONS_PAGINATION"
+export const SET_DONATIONS_PAGINATION = 'SET_DONATIONS_PAGINATION';
 
 const actionCreator = actionCreatorFactory();
 
 interface IFetchDonationsResult {
-    rows: Array<IDonation>,
-    pages: number
+  rows: Array<IDonation>;
+  pages: number;
 }
 
-export const fetchDonationsAction = actionCreator.async<undefined, IFetchDonationsResult, Error>('FETCH_DONATIONS');
+export const fetchDonationsAction = actionCreator.async<
+  undefined,
+  IFetchDonationsResult,
+  Error
+>('FETCH_DONATIONS');
 export const setDonationsPagination = (pagination: IPagination) => {
-    return {
-        type: SET_DONATIONS_PAGINATION,
-        payload: pagination
-    }
-}
+  return {
+    type: SET_DONATIONS_PAGINATION,
+    payload: pagination,
+  };
+};
 
-interface IFetchDonationsResult {
+interface IFetchDonationsResult {}
 
-}
-
-export const deleteDonationAction = actionCreator.async<number, IFetchDonationsResult, Error>('DELETE_DONATION');
+export const deleteDonationAction = actionCreator.async<
+  number,
+  IFetchDonationsResult,
+  Error
+>('DELETE_DONATION');

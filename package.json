@@ -52,7 +52,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "npm run lint:style && npm run lint:ts",
+    "lint:fix": "npm run lint:style -- --fix && npm run lint:ts -- --fix",
+    "lint:style": "stylelint src/**/*.css",
+    "lint:style:fix": "npm run lint:style -- --fix",
+    "lint:ts": "eslint . -c .eslintrc.json --ext .js,.jsx,.ts,.tsx",
+    "lint:ts:fix": "npm run lint:ts -- --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -75,6 +81,19 @@
     "@types/react-dom": "^16.9.10",
     "@types/react-redux": "^7.1.11",
     "jest-localstorage-mock": "^2.4.3",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "eslint-config-airbnb-typescript": "^11.4.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.1.2",
+    "stylelint": "^13.7.2",
+    "stylelint-a11y": "^1.2.3",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.18.0"
   }
 }

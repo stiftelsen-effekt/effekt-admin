@@ -1,32 +1,32 @@
 .ReactTable {
-    font-family: 'Roboto';
+  font-family: 'Roboto';
 }
 
 .ReactTable .rt-tr {
-    /*display: flex;*/
-    cursor: pointer;
+  /* display: flex; */
+  cursor: pointer;
 }
 
 .ReactTable .rt-tbody .rt-tr:hover {
-    background: #FFEED4;
+  background: #ffeed4;
 }
 
 .ReactTable .rt-th {
-    font-weight: 500;
-    color: #5D3800;
-    cursor: pointer;
-    outline: none;
-    padding: 10px 0;
+  font-weight: 500;
+  color: #5d3800;
+  cursor: pointer;
+  outline: none;
+  padding: 10px 0;
 }
 
 .ReactTable .rt-td {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .ReactTable .pagination-bottom {
-    padding-top: 20px;
-    padding-bottom: 10px;
-    text-align: center;
-    font-size: 14px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  text-align: center;
+  font-size: 14px;
 }

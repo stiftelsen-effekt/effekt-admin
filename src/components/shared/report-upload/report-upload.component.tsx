@@ -1,75 +1,165 @@
-import React, { useState } from 'react'
-import { EffektButton } from '../../shared/elements/button.style';
-import { EffektFileInput } from '../../shared/elements/fileinput.component';
-import { ReportTable } from './report-upload.component.style';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { AppState } from '../../../store/state';
 import { Redirect } from 'react-router';
+import { EffektButton } from '../elements/button.style';
+import { EffektFileInput } from '../elements/fileinput.component';
+import { ReportTable } from './report-upload.component.style';
+import { AppState } from '../../../store/state';
 import { OwnerSelect } from '../owner-select/owner-select.component';
-import { ReportTypes, uploadReportAction } from '../../../store/report/report-upload.actions';
+import {
+  ReportTypes,
+  uploadReportAction,
+} from '../../../store/report/report-upload.actions';
 
 interface IState {
-    vippsReport: File | null,
-    paypalReport: File | null,
-    ocrReport: File | null,
-    bankReport: File | null,
+  vippsReport: File | null;
+  paypalReport: File | null;
+  ocrReport: File | null;
+  bankReport: File | null;
 }
 
-export const ReportUpload: React.FunctionComponent = (props) => {
-    const getDefaultState = (): IState => {
-        return {
-            vippsReport: null,
-            paypalReport: null,
-            ocrReport: null,
-            bankReport: null
-        }
+export const ReportUpload: React.FunctionComponent = () => {
+  const getDefaultState = (): IState => {
+    return {
+      vippsReport: null,
+      paypalReport: null,
+      ocrReport: null,
+      bankReport: null,
+    };
+  };
+
+  const dispatch = useDispatch();
+  const [state, setState] = useState<IState>(getDefaultState());
+
+  const currentDataOwner = useSelector(
+    (appState: AppState) => appState.dataOwner.current,
+  );
+
+  const uploadReport = (type: ReportTypes, file: File | null) => {
+    if (!file || file === null) {
+      toast.error('No file selected');
+    } else if (!currentDataOwner || currentDataOwner === null) {
+      toast.error('No data owner selected');
+    } else {
+      dispatch(
+        uploadReportAction.started({
+          type,
+          report: file,
+          metaOwnerID: currentDataOwner.id,
+        }),
+      );
     }
-    
-    const dispatch = useDispatch()
-    const [state, setState] = useState<IState>(getDefaultState())
+  };
 
-    const currentDataOwner = useSelector((state: AppState) => state.dataOwner.current)
+  const shouldProcess: boolean = useSelector(
+    (appState: AppState) =>
+      appState.reportProcessing.invalidTransactions.length !== 0,
+  );
 
-    const uploadReport = (type: ReportTypes, file: File | null) => {
-        if (!file) return toast.error("No file selected")
-        if (!currentDataOwner) return toast.error("No data owner selected")
-        dispatch(uploadReportAction.started({type, report: file, metaOwnerID: currentDataOwner.id}));
-    }
+  if (shouldProcess) return <Redirect to="/register/process" />;
 
-    const shouldProcess: boolean = useSelector((state: AppState) => state.reportProcessing.invalidTransactions.length !== 0)
+  return (
+    <ReportTable>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Eier</strong>
+          </td>
+          <td>
+            <OwnerSelect />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Vipps</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) => {
+                setState({ ...state, vippsReport: file });
+              }}
+              id="vipps-upload"
+            />
+          </td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(ReportTypes.VIPPS, state.vippsReport);
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+        </tr>
 
-    if (shouldProcess) return <Redirect to="/register/process"></Redirect>
+        <tr>
+          <td>
+            <strong>Paypal</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) => {
+                setState({ ...state, paypalReport: file });
+              }}
+              id="paypal-upload"
+            />
+          </td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(ReportTypes.PAYPAL, state.paypalReport);
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+        </tr>
 
-    return (<ReportTable>
-        <tbody>
-            <tr>
-                <td><strong>Eier</strong></td>
-                <td><OwnerSelect></OwnerSelect></td>
-            </tr>
-            <tr>
-                <td><strong>Vipps</strong></td>
-                <td><EffektFileInput onChange={(file: File) => setState({...state, vippsReport: file}) } id="vipps-upload"/></td>
-                <td><EffektButton onClick={() => { uploadReport(ReportTypes.VIPPS, state.vippsReport) }}>Process</EffektButton></td>
-            </tr>
+        <tr>
+          <td>
+            <strong>Bank OCR</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) => setState({ ...state, ocrReport: file })}
+              id="ocr-upload"
+            />
+          </td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(ReportTypes.OCR, state.ocrReport);
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+        </tr>
 
-            <tr>
-                <td><strong>Paypal</strong></td>
-                <td><EffektFileInput onChange={(file: File) => setState({...state, paypalReport: file}) } id="paypal-upload"/></td>
-                <td><EffektButton onClick={() => { uploadReport(ReportTypes.PAYPAL, state.paypalReport) }}>Process</EffektButton></td>
-            </tr>
-
-            <tr>
-                <td><strong>Bank OCR</strong></td>
-                <td><EffektFileInput onChange={(file: File) => setState({...state, ocrReport: file}) } id="ocr-upload"/></td>
-                <td><EffektButton onClick={() => { uploadReport(ReportTypes.OCR, state.ocrReport) }}>Process</EffektButton></td>
-            </tr>
-
-            <tr>
-                <td><strong>Bank custom</strong></td>
-                <td><EffektFileInput onChange={(file: File) => setState({...state, bankReport: file}) } id="bank-upload"/></td>
-                <td><EffektButton onClick={() => { uploadReport(ReportTypes.BANK, state.bankReport) }}>Process</EffektButton></td>
-            </tr>
-        </tbody>
-    </ReportTable>)
-}
+        <tr>
+          <td>
+            <strong>Bank custom</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) => {
+                setState({ ...state, bankReport: file });
+              }}
+              id="bank-upload"
+            />
+          </td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(ReportTypes.BANK, state.bankReport);
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+        </tr>
+      </tbody>
+    </ReportTable>
+  );
+};
