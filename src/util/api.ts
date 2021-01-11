@@ -1,8 +1,18 @@
+/* eslint-disable import/no-cycle */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-return-await */
+
+/**
+ * TODO:
+ * This utility class is a mess,
+ * it should be rewritten
+ */
+
 import queryString from 'querystring';
 import { API_URL } from '../config/config';
 import store from '../store/store';
 import { sessionInvalid, LOGIN_SUCCESS } from '../store/auth/loginout.actions';
-import { Auth } from '../auth';
+import { Auth } from '../auth/auth';
 
 export enum Method {
   GET = 'GET',
@@ -11,27 +21,49 @@ export enum Method {
   DELETE = 'DELETE',
 }
 
-export interface IAPIParameters {
+export interface IAPIParameters<Payload> {
   endpoint: string;
   token?: string;
   method: Method;
-  data?: any;
+  data?: Payload;
   handleUnauthorized?: boolean;
   formData?: FormData;
 }
 
-export interface Response {
+export interface Response<Result> {
   status: number;
-  content: any;
+  content: Result;
 }
 
 interface IFetchOptions {
   method?: string;
-  headers?: any;
-  body?: any;
+  headers?: Record<string, unknown>;
+  body?: Record<string, unknown>;
 }
 
-export const call = async (params: IAPIParameters): Promise<any> => {
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function redoCallWithNewToken(params: IAPIParameters) {
+  const cachedKeyAction = Auth.tryCachedKey();
+  // Possible infinite recursion, here be dragons!
+
+  if (cachedKeyAction.type === LOGIN_SUCCESS) {
+    for (let i = 0; i < 10; i++) {
+      await sleep(250);
+      const token = store.getState().auth.currentToken;
+      if (typeof token !== 'undefined' && token.token !== params.token)
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        return await call({ ...params, token: token.token });
+    }
+  }
+
+  store.dispatch(sessionInvalid());
+  return false;
+}
+
+export const call = async (params: IAPIParameters): Promise<Result> => {
   let url = `${API_URL}${params.endpoint}`;
 
   let options: IFetchOptions = {
@@ -113,24 +145,3 @@ export const call = async (params: IAPIParameters): Promise<any> => {
       });
   }
 };
-
-async function redoCallWithNewToken(params: IAPIParameters) {
-  const cachedKeyAction = Auth.tryCachedKey();
-  // Possible infinite recursion, here be dragons!
-
-  if (cachedKeyAction.type === LOGIN_SUCCESS) {
-    for (let i = 0; i < 10; i++) {
-      await sleep(250);
-      const token = store.getState().auth.currentToken;
-      if (typeof token !== 'undefined' && token.token !== params.token)
-        return await call({ ...params, token: token.token });
-    }
-  }
-
-  store.dispatch(sessionInvalid());
-  return false;
-}
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}

@@ -1,4 +1,4 @@
-import { IAccessKey, IAccessToken } from '../auth';
+import { IAccessKey, IAccessToken } from '../auth/auth';
 import {
   IDonor,
   IOrganization,
@@ -67,8 +67,6 @@ export interface ReportProcessingState {
   invalidTransactions: Array<IInvalidTransaction>;
 }
 
-export interface CreateDonorState {}
-
 export interface DonationsState {
   currentDonation?: IDonation;
 
@@ -103,5 +101,3 @@ export interface DataOwnerState {
   current?: IDataOwner;
   owners?: Array<IDataOwner>;
 }
-
-export interface RecieptState {}

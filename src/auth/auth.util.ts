@@ -1,70 +1,7 @@
 import queryString from 'querystring';
 import shortid from 'shortid';
-import { Action } from 'redux';
-import { DEV_ENVIRONMENT, API_URL, API_AUTH } from './config/config';
-
-import {
-  loginSuccess,
-  loginCacheFailure,
-  loginFailure,
-} from './store/auth/loginout.actions';
-
-import store from './store/store';
-
-export interface IAccessKey {
-  key: string;
-  expires: Date;
-}
-
-export interface IAccessToken {
-  token: string;
-  expires: Date;
-}
-
-export class Auth {
-  static login(): any {
-    AuthUtil.setAuthState();
-    return window.location.assign(AuthUtil.generateLoginUrl());
-  }
-
-  static tryCachedKey(): Action {
-    const storedAccessKey = AuthUtil.getStoredAccessKey();
-    if (storedAccessKey) {
-      return store.dispatch(loginSuccess(storedAccessKey));
-    }
-    return store.dispatch(loginCacheFailure());
-  }
-
-  /* Handles the callback route, tries to parse the URL parameters and stores the accessKey */
-  static handleCallback(): Action {
-    const callbackVariables: ICallbackParameters = AuthUtil.parseCallback();
-
-    if (callbackVariables.state === AuthUtil.authState) {
-      const key: IAccessKey = {
-        key: callbackVariables.key,
-        expires: callbackVariables.expires,
-      };
-      AuthUtil.storeAccessKey(key);
-      return store.dispatch(loginSuccess(key));
-    }
-
-    return store.dispatch(
-      loginFailure(
-        `State mismatch, expected ${AuthUtil.authState} got ${callbackVariables.state}`,
-      ),
-    );
-  }
-
-  static clear() {
-    AuthUtil.clearAccessKey();
-  }
-}
-
-interface ICallbackParameters {
-  key: string;
-  expires: Date;
-  state: string;
-}
+import { DEV_ENVIRONMENT, API_URL, API_AUTH } from '../config/config';
+import { IAccessKey, ICallbackParameters } from './_types';
 
 export class AuthUtil {
   static generateLoginUrl(): string {
@@ -115,7 +52,6 @@ export class AuthUtil {
     try {
       return JSON.parse(accessKeyStr);
     } catch (ex) {
-      console.log(ex);
       return null;
     }
   }

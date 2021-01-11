@@ -64,6 +64,8 @@ export interface IHistogramBucket {
   bar: number;
 }
 
+export type Histogram = Array<IHistogramBucket>;
+
 /** Distribution */
 
 export interface IDistributionShare {

@@ -5,7 +5,7 @@ import {
   IFetchDonationActionParams,
   fetchHistogramAction,
 } from './donation.actions';
-import { IAccessToken } from '../../../auth';
+import { IAccessToken } from '../../../auth/auth';
 import { AppState } from '../../state';
 import * as API from '../../../util/api';
 

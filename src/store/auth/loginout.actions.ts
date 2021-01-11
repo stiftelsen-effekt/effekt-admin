@@ -1,4 +1,4 @@
-import { IAccessKey } from '../../auth';
+import { IAccessKey } from '../../auth/auth';
 
 export const LOGIN_BEGIN = 'LOGIN_BEGIN';
 export const LOGIN_CALLBACK = 'LOGIN_CALLBACK';

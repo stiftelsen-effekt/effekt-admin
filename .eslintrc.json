@@ -36,6 +36,13 @@
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
     "no-param-reassign": "off",
+    "import/no-cycle": "off",
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
     "no-console": [
       "error",
       {

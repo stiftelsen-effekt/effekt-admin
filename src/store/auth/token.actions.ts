@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IAccessToken } from '../../auth';
+import { IAccessToken } from '../../auth/_types';
 
 const actionCreator = actionCreatorFactory();
 

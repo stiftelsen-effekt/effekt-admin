@@ -7,7 +7,7 @@ import {
   ICreateDonationParams,
 } from './single-donation.actions';
 import { AppState } from '../../../state';
-import { IAccessToken } from '../../../../auth';
+import { IAccessToken } from '../../../../auth/auth';
 
 const getApiToken = (state: AppState) => state.auth.currentToken;
 
@@ -30,35 +30,27 @@ export function* fetchPaymentMethods(action: any) {
 }
 
 export function* createDistributionCall(params: ICreateDistributionParams) {
-  try {
-    const accessToken: IAccessToken = yield select(getApiToken);
-    const data = yield call(API.call, {
-      endpoint: '/distributions/',
-      method: API.Method.POST,
-      token: accessToken.token,
-      data: params,
-    });
-    if (data.status !== 200) throw new Error(data.content);
-    return data.content;
-  } catch (ex) {
-    throw ex;
-  }
+  const accessToken: IAccessToken = yield select(getApiToken);
+  const data = yield call(API.call, {
+    endpoint: '/distributions/',
+    method: API.Method.POST,
+    token: accessToken.token,
+    data: params,
+  });
+  if (data.status !== 200) throw new Error(data.content);
+  return data.content;
 }
 
 export function* insertDonationCall(params: ICreateDonationParams) {
-  try {
-    const accessToken: IAccessToken = yield select(getApiToken);
-    const data = yield call(API.call, {
-      endpoint: '/donations/confirm',
-      method: API.Method.POST,
-      token: accessToken.token,
-      data: params,
-    });
-    if (data.status !== 200) throw new Error(data.content);
-    return data.content;
-  } catch (ex) {
-    throw ex;
-  }
+  const accessToken: IAccessToken = yield select(getApiToken);
+  const data = yield call(API.call, {
+    endpoint: '/donations/confirm',
+    method: API.Method.POST,
+    token: accessToken.token,
+    data: params,
+  });
+  if (data.status !== 200) throw new Error(data.content);
+  return data.content;
 }
 
 export function* insertDonation(action: any) {

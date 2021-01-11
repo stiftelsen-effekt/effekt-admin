@@ -2,7 +2,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { fetchDistributionsAction } from './distribution-list.actions';
 import * as API from '../../../util/api';
 import { AppState } from '../../state';
-import { IAccessToken } from '../../../auth';
+import { IAccessToken } from '../../../auth/auth';
 import { IPagination, IDistributionFilter } from '../../../types';
 
 export function* fetchDistributions(action: any) {

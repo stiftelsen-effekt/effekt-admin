@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
 import { AnyAction } from 'redux';
-import { IAccessKey } from '../../auth';
+import { IAccessKey } from '../../auth/auth';
 import { fetchTokenAction } from './token.actions';
 import * as API from '../../util/api';
 import { AppState } from '../state';

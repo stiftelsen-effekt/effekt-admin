@@ -5,7 +5,7 @@ import {
 } from './donations-list.actions';
 import * as API from '../../../util/api';
 import { AppState } from '../../state';
-import { IAccessToken } from '../../../auth';
+import { IAccessToken } from '../../../auth/auth';
 import { IPagination, IDonationFilter } from '../../../types';
 
 export function* fetchDonations(action: any) {

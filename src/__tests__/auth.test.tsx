@@ -1,11 +1,11 @@
-import { Auth, AuthUtil } from '../auth';
-import { callback, loginSuccess } from '../authenticate/loginout.saga';
+import { Auth, AuthUtil } from '../auth/auth';
+import { callback, loginSuccess } from '../store/auth/loginout.saga';
 import {
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
   FETCH_ACCESS_KEY_SUCCESS,
 } from '../store/auth/loginout.actions';
-import { fetchTokenAction } from '../authenticate/token.actions';
+import { fetchTokenAction } from '../store/auth/token.actions';
 import 'jest-localstorage-mock';
 
 delete window.location;
@@ -35,11 +35,11 @@ describe('authentification class', () => {
     const state = AuthUtil.setAuthState();
     const wrongReturnState = `${state}xxx`;
 
-    const setupCallbackState = (state: string) => {
+    const setupCallbackState = (stateString: string) => {
       const callbackUrl =
         `?key=70771d6c362ba17fea06d051c12ed3771c29c053c798d4b0cc1a7e20bb2cf802` +
         `&expires=Fri%20Aug%2002%202019%2010%3A19%3A53%20GMT%2B0200%20(Central%20European%20Summer%20Time)` +
-        `&state=${state}`;
+        `&state=${stateString}`;
 
       Object.defineProperty(AuthUtil, 'getCurrentUrlParameters', {
         value: callbackUrl,

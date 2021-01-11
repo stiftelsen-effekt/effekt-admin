@@ -31,11 +31,13 @@ export const OwnerSelect: React.FunctionComponent = () => {
       <Select
         options={ownersOptions}
         value={mapOwnerToOption(currentOwner)}
-        onChange={(selected: any) => {
-          const selectedOwner = dataOwners.find(
-            (owner) => selected.value === owner.id,
-          );
-          if (selectedOwner) dispatch(setCurrentOwnerAction(selectedOwner));
+        onChange={(selected) => {
+          if (selected) {
+            const selectedOwner = dataOwners.find(
+              (owner) => selected.value === owner.id,
+            );
+            if (selectedOwner) dispatch(setCurrentOwnerAction(selectedOwner));
+          }
         }}
       />
     </>

@@ -1,5 +1,5 @@
 import { select, put, call } from 'redux-saga/effects';
-import { IAccessToken } from '../../auth';
+import { IAccessToken } from '../../auth/auth';
 import { AppState } from '../state';
 import { resendRecieptAction } from './reciept.actions';
 import * as API from '../../util/api';
