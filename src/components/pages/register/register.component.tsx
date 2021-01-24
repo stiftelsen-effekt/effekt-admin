@@ -3,6 +3,7 @@ import React from "react";
 import { Page } from "../../style/elements/page.style";
 import { SingleDonation } from "../../modules/single-donation/single-donation.component";
 import { ReportUpload } from "../../modules/report-upload/report-upload.component";
+import { HistoricUpload } from "../../modules/historic-upload/historic-upload.component";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../models/state";
 import { fetchActiveOrganizationsAction } from "../../../store/organizations/organizations.action";
@@ -10,7 +11,6 @@ import { RegisterRecieptComponent } from "../../modules/donations/reciept/reciep
 
 export const RegisterComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
-    
     const organizations = useSelector((state: AppState) => state.organizations.active)
     if (!organizations) {
         dispatch(fetchActiveOrganizationsAction.started())
@@ -29,6 +29,9 @@ export const RegisterComponent: React.FunctionComponent = () => {
 
             <SubHeader>Resend reciept</SubHeader>
             <RegisterRecieptComponent></RegisterRecieptComponent>
+
+            <SubHeader>Register historic donations</SubHeader>
+            <HistoricUpload></HistoricUpload>
         </Page>
     )
 }

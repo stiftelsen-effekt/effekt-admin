@@ -16,6 +16,7 @@ import { DonationsPageComponent } from './pages/donations/donations.component';
 import { DonationPageComponent } from './pages/donations/donation.component';
 import { GraphingPageComponent } from './pages/graphing/graphing.component';
 import { DistributionsPageComponent } from './pages/distributions/distributions.component';
+import { HistoricDonationsComponent } from './pages/historic/historic.component';
 
 export const AdminPanel: React.FunctionComponent = () => {
     //TODO: Move someplace where it is run only once
@@ -38,6 +39,7 @@ export const AdminPanel: React.FunctionComponent = () => {
                     <Route exact path="/donations" component={DonationsPageComponent}></Route>
                         <Route exact path="/donations/:id" component={DonationPageComponent}></Route>
                     <Route exact path="/settings" render={() => <div>Settings</div>}></Route>
+                    <Route exact path="/historic" component={HistoricDonationsComponent}></Route>
 
                     <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
                 </Switch> 
