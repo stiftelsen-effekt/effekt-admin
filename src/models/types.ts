@@ -129,3 +129,28 @@ export interface IDataOwner {
     name: string,
     default: boolean
 }
+
+export interface IHistoricDonation {
+    date: Date,
+    amount: number,
+    paymentID: number,
+    foundEmail1: string,
+    foundEmail2: string,
+    foundEmail3: string,
+    email: string,
+    externalRef: string,
+    metaOwner: string,
+    name: string,
+    transactionCost: number,
+    gw: number,
+    amf: number,
+    sci: number,
+    dwi: number,
+    end: number,
+    mc: number,
+    gd: number,
+    sight: number,
+    hki: number,
+    phc: number,
+    effekt: number
+}

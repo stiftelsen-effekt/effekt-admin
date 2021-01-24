@@ -25,6 +25,8 @@ import { fetchOwnersAction } from './store/owners/owners.actions';
 import { fetchOwners } from './store/owners/owners.saga';
 import { resendRecieptAction } from './components/modules/donations/reciept/reciept.actions';
 import { resendReciept } from './components/modules/donations/reciept/reciept.saga';
+import { registerHistoricDonationsAction } from './store/historic/historic.actions';
+import { registerDonations } from './store/historic/historic.saga';
 
 function* watchAll() {
     yield all([
@@ -59,7 +61,9 @@ function* watchAll() {
         takeLatest(fetchDistributionsAction.started.type, fetchDistributions),
         takeLatest(fetchOwnersAction.started.type, fetchOwners),
 
-        takeLatest(resendRecieptAction.started.type, resendReciept)
+        takeLatest(resendRecieptAction.started.type, resendReciept),
+
+        takeLatest(registerHistoricDonationsAction.started.type, registerDonations)
     ]);
 }
 
