@@ -32,7 +32,7 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
       <ResourceHeader hasSubHeader={true}>Log entry {entry.ID} | {entry.label}</ResourceHeader>
       <ResourceSubHeader>{longDateTime(DateTime.fromISO(entry.timestamp))}</ResourceSubHeader>
 
-      <JSONTree data={entry.result} />
+      <JSONTree data={entry.result} shouldExpandNode={(keyPath, data, level) => true}/>
     </Page>)
   }
   else {
