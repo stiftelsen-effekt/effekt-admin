@@ -25,6 +25,10 @@ import { fetchOwnersAction } from './store/owners/owners.actions';
 import { fetchOwners } from './store/owners/owners.saga';
 import { resendRecieptAction } from './components/modules/donations/reciept/reciept.actions';
 import { resendReciept } from './components/modules/donations/reciept/reciept.saga';
+import { fetchLogsAction } from './components/modules/logs/list/logs-list.actions';
+import { fetchLogs } from './components/modules/logs/list/logs-list.saga';
+import { fetchLogEntryAction } from './store/logs/logs.actions';
+import { fetchLogEntry } from './store/logs/logs.saga';
 
 function* watchAll() {
     yield all([
@@ -59,7 +63,10 @@ function* watchAll() {
         takeLatest(fetchDistributionsAction.started.type, fetchDistributions),
         takeLatest(fetchOwnersAction.started.type, fetchOwners),
 
-        takeLatest(resendRecieptAction.started.type, resendReciept)
+        takeLatest(resendRecieptAction.started.type, resendReciept),
+
+        takeLatest(fetchLogsAction.started.type, fetchLogs),
+        takeLatest(fetchLogEntryAction.started.type, fetchLogEntry)
     ]);
 }
 

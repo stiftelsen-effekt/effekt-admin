@@ -14,6 +14,7 @@ import { graphingReducer } from './components/pages/graphing/graphing.reducer';
 import { distributionsReducer } from './store/distributions/distributions.reducer';
 import { ownersReducer } from './store/owners/owners.reducer';
 import { recieptReducer } from './components/modules/donations/reciept/reciept.reducer';
+import { loggingReducer } from './store/logs/logs.reducer';
 
 const rootReducer = combineReducers<AppState>({
     auth: authReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers<AppState>({
     donations: donationsReducer,
     distributions: distributionsReducer,
     dataOwner: ownersReducer,
-    reciept: recieptReducer
+    reciept: recieptReducer,
+    logs: loggingReducer
 })
 
 const sagaMiddleware = createSagaMiddleware();

@@ -129,3 +129,11 @@ export interface IDataOwner {
     name: string,
     default: boolean
 }
+
+/** Logs */
+export interface ILogEntry {
+    ID: number,
+    label: string,
+    result: object,
+    timestamp: string
+}

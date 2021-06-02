@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner } from "./types";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner, ILogEntry } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -17,7 +17,8 @@ export interface AppState {
     donations: DonationsState,
     distributions: DistributionsState,
     dataOwner:  DataOwnerState,
-    reciept: RecieptState
+    reciept: RecieptState,
+    logs: LoggingState
 }
 
 export interface AuthState {
@@ -94,4 +95,12 @@ export interface DataOwnerState {
 
 export interface RecieptState {
     
+}
+
+export interface LoggingState {
+    currentEntry?: ILogEntry,
+    entries: Array<ILogEntry>,
+    pages: number,
+    loading: boolean,
+    pagination: IPagination,
 }

@@ -5,5 +5,5 @@ export const shortDate = (date: DateTime): string => {
 }
 
 export const longDateTime = (date: DateTime): string => {
-    return date.toFormat("dd.MM.yyyy hh:mm")
+    return date.toFormat("dd.MM.yyyy HH:mm")
 }
