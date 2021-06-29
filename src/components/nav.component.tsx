@@ -4,7 +4,7 @@ import { MainNav, NavMenu, NavMenuItem, Logout, Flare, LogoHolder } from './nav.
 import { logoutRequest } from '../authenticate/loginout.actions';
 import { connect } from 'react-redux';
 import Logo from '../assets/logo_link.png'
-import { Home, BarChart2, Upload, Clipboard, User, List, LogOut, PieChart, Activity } from "react-feather"
+import { Home, BarChart2, Upload, Clipboard, User, List, LogOut, PieChart, Activity, Smartphone } from "react-feather"
 
 class MainNavigation extends React.Component<IDispatchProps> {
     logout = () => {
@@ -30,6 +30,7 @@ class MainNavigation extends React.Component<IDispatchProps> {
 
                     <NavMenuItem to={'/graphing'}>      <span>Graphing</span>       <BarChart2 size={iconSize} color={"white"}></BarChart2></NavMenuItem>
                     <NavMenuItem to={'/logs'}>          <span>Logs</span>           <Activity size={iconSize} color={"white"}></Activity></NavMenuItem>
+                    <NavMenuItem to={'/vipps'}>         <span>Vipps</span>          <Smartphone size={iconSize} color={"white"}></Smartphone></NavMenuItem>
                 </NavMenu>
 
                 <Logout onClick={this.logout}>          <span>Logout</span>         <LogOut size={iconSize} color={"white"}></LogOut></Logout>

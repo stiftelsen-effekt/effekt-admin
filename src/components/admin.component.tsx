@@ -18,6 +18,7 @@ import { GraphingPageComponent } from './pages/graphing/graphing.component';
 import { DistributionsPageComponent } from './pages/distributions/distributions.component';
 import { LogsPageComponent } from './pages/logs/logs.component';
 import { LogEntryComponent } from './pages/logs/log-entry.component';
+import { VippsAgreementsPageComponent } from './pages/vippsagreements/vippsagreements.component';
 
 export const AdminPanel: React.FunctionComponent = () => {
     //TODO: Move someplace where it is run only once
@@ -43,6 +44,7 @@ export const AdminPanel: React.FunctionComponent = () => {
 
                     <Route exact path="/logs" component={LogsPageComponent}></Route>
                         <Route exact path="/logs/:id" component={LogEntryComponent}></Route>
+                    <Route exact path="/vipps" component={VippsAgreementsPageComponent}></Route>
 
                     <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
                 </Switch> 
