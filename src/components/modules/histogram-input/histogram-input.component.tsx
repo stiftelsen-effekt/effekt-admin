@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
 
 import Histoslider from 'histoslider'
-import { azure50 } from '../../../../../style/colors';
+import { azure50 } from '../../style/colors';
 
-import rightArrow from '../../../../../../assets/right-arrow.svg'
-import { FilterInput } from '../../../../../style/elements/filters.component.style';
-import { IHistogramBucket } from '../../../../../../models/types';
+import rightArrow from '../../../assets/right-arrow.svg'
+import { FilterInput } from '../../style/elements/filters.component.style';
+import { IHistogramBucket } from '../../../models/types';
 
 interface IProps {
     range: Array<number>;

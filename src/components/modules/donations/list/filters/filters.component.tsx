@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { FilterWrapper, FilterGroupHeader, FilterDateRange, FilterInput, FilterDateRangeWrapper, FilterGroup, FilterHeader, FilterContent } from "../../../../style/elements/filters.component.style";
-import { HistogramInputComponent } from './histogram-input/histogram-input.component';
+import { HistogramInputComponent } from '../../../histogram-input/histogram-input.component';
 import { EffektCheckForm, EffektCheckChoice } from '../../../../style/elements/effekt-check/effekt-check-form.component';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../../models/state';
