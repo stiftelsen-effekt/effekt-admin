@@ -8,6 +8,7 @@ import { fetchVippsAgreementsAction } from "./vippsagreement-list.actions";
 
 export function* fetchVippsAgreements (action: any) {
     try {
+        console.log("fetching agreements")
         const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
         
         const pagination: IPagination = yield select((state: AppState) => state.vippsAgreements.pagination)

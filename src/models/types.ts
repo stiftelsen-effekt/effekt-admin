@@ -161,8 +161,8 @@ export interface IVippsAgreementFilter {
         from: Date|null,
         to: Date|null
     },
-    monthly_charge_day: Array<number>,
+    monthly_charge_day?: Array<number>,
     KID?: string,
-    donor?: string,
-    status: string,
+    donorID?: string,
+    status?: string,
 }

@@ -29,6 +29,8 @@ import { fetchLogsAction } from './components/modules/logs/list/logs-list.action
 import { fetchLogs } from './components/modules/logs/list/logs-list.saga';
 import { fetchLogEntryAction } from './store/logs/logs.actions';
 import { fetchLogEntry } from './store/logs/logs.saga';
+import { fetchVippsAgreementsAction } from './components/modules/vippsagreements/list/vippsagreement-list.actions';
+import { fetchVippsAgreements } from './components/modules/vippsagreements/list/vippsagreement-list.saga';
 
 function* watchAll() {
     yield all([
@@ -66,7 +68,9 @@ function* watchAll() {
         takeLatest(resendRecieptAction.started.type, resendReciept),
 
         takeLatest(fetchLogsAction.started.type, fetchLogs),
-        takeLatest(fetchLogEntryAction.started.type, fetchLogEntry)
+        takeLatest(fetchLogEntryAction.started.type, fetchLogEntry),
+
+        takeLatest(fetchVippsAgreementsAction.started.type, fetchVippsAgreements),
     ]);
 }
 
