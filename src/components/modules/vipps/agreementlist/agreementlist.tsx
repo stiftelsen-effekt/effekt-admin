@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchVippsAgreementsAction, setVippsAgreementsPagination } from './vippsagreement-list.actions';
 import { AppState } from '../../../../models/state';
 import { shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
+import { fetchVippsAgreementsAction, setVippsAgreementsPagination } from '../../../../store/vipps/vipps.actions';
 // import { DonationsFilterComponent } from './filters/filters.component';
 
 export const VippsAgreementList: React.FunctionComponent = () => {
@@ -25,17 +25,21 @@ export const VippsAgreementList: React.FunctionComponent = () => {
 
     const columnDefinitions = [
         {
-            Header: "ID",
+            Header: "Agreement ID",
             accessor: "ID",
             id: "id"
         },
         {
             Header: "Donor",
-            accessor: "donorID"
+            accessor: "full_name"
         },
         {
             Header: "Status",
             accessor: "status"
+        },
+        {
+            Header: "Sum",
+            accessor: "amount"
         }, 
         {
             Header: "Charge day",
@@ -49,8 +53,8 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         },
         {
             Header: "Timestamp",
-            accessor: "timestamp_created",
-            id: "created"
+            id: "created",
+            accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp_created))
         }
     ]
 
@@ -58,7 +62,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         {id: "timestamp", desc: true}
     ]
 
-    let [agreement, setAgreement] = useState<number | null>(null);
+    let [agreement, setAgreement] = useState<string | null>(null);
     const trProps = (tableState: any, rowInfo: any) => {
         if (rowInfo && rowInfo.row) {
             return {
@@ -70,7 +74,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         return {}
     }
 
-    if (agreement !== null) return (<Redirect to={"/"}></Redirect>)
+    if (agreement !== null) return (<Redirect to={`/vipps/agreement/${agreement}`}></Redirect>)
     return (
         <div>
             <ReactTable

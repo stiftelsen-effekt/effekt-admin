@@ -29,8 +29,8 @@ import { fetchLogsAction } from './components/modules/logs/list/logs-list.action
 import { fetchLogs } from './components/modules/logs/list/logs-list.saga';
 import { fetchLogEntryAction } from './store/logs/logs.actions';
 import { fetchLogEntry } from './store/logs/logs.saga';
-import { fetchVippsAgreementsAction } from './components/modules/vippsagreements/list/vippsagreement-list.actions';
-import { fetchVippsAgreements } from './components/modules/vippsagreements/list/vippsagreement-list.saga';
+import { fetchVippsAgreements } from './store/vipps/vipps.saga';
+import { fetchVippsAgreementsAction } from './store/vipps/vipps.actions';
 
 function* watchAll() {
     yield all([

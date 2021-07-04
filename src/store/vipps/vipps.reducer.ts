@@ -1,10 +1,8 @@
 import { VippsAgreementsState } from "../../models/state";
 import { isType } from "typescript-fsa";
-import { SET_DONATIONS_PAGINATION } from "../../components/modules/donations/list/donations-list.actions";
 import { toastError } from "../../util/toasthelper";
 import Decimal from "decimal.js";
-import { SET_DONATION_FILTER_DATE_RANGE, SET_DONATION_FILTER_SUM_RANGE, SET_DONATION_FILTER_KID, SET_DONATION_FILTRE_PAYMENT_METHOD_IDS, SET_DONATION_FILTER_DONOR } from "../../components/modules/donations/list/filters/filters.actions";
-import { fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_PAGINATION } from "../../components/modules/vippsagreements/list/vippsagreement-list.actions";
+import { fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_FILTER_AMOUNT, SET_VIPPS_AGREEMENTS_FILTER_DONOR, SET_VIPPS_AGREEMENTS_FILTER_KID, SET_VIPPS_AGREEMENTS_FILTER_STATUS, SET_VIPPS_AGREEMENTS_PAGINATION } from "./vipps.actions";
 
 const defaultState: VippsAgreementsState = {
     agreements: [],
@@ -19,14 +17,13 @@ const defaultState: VippsAgreementsState = {
         }
     },
     filter: {
-        start: {
-            from: null,
-            to: null
-        },
         amount: {
             from: 0,
             to: 1000000
-        }
+        },
+        KID: "",
+        donor: "",
+        status: ["ACTIVE", "STOPPED", "EXPIRED", "PENDING"]
     }
 }
 
@@ -46,16 +43,6 @@ export const vippsAgreementReducer = (state = defaultState, action: any): VippsA
     else if (isType(action, fetchVippsAgreementsAction.failed)) {
         return { ...state, loading: false }
     }
-
-    /*
-
-    if (action.type === CLEAR_CURRENT_DONATION) {
-        return {
-            ...state,
-            currentAgreement: undefined
-        }
-    }
-    /*
 
     /*
     if(isType(action, fetchDonationAction.done)) {
@@ -78,7 +65,7 @@ export const vippsAgreementReducer = (state = defaultState, action: any): VippsA
 
     /**
      * PAGINATION ACTIONS
-     */
+    */
     switch(action.type) {
         case SET_VIPPS_AGREEMENTS_PAGINATION:
             return { ...state, pagination: action.payload }
@@ -86,31 +73,18 @@ export const vippsAgreementReducer = (state = defaultState, action: any): VippsA
 
     /**
      * FILTER ACTIONS
-     */
-
-    /*
-    if (isType(action, fetchHistogramAction.done)) {
-        return {
-            ...state,
-            histogram: action.payload.result
-        }
-    } else if (isType(action, fetchHistogramAction.failed)) {
-        toastError("Failed to fetch histogram", action.payload.error.message)
-    }
+    */
 
     switch(action.type) {
-        case SET_DONATION_FILTER_DATE_RANGE:
-            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, date: action.payload }}
-        case SET_DONATION_FILTER_SUM_RANGE:
-            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, sum: action.payload }}
-        case SET_DONATION_FILTER_KID:
+        case SET_VIPPS_AGREEMENTS_FILTER_AMOUNT:
+            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, amount: action.payload }}
+        case SET_VIPPS_AGREEMENTS_FILTER_DONOR:
+            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, donor: action.payload }}
+        case SET_VIPPS_AGREEMENTS_FILTER_STATUS:
             return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, KID: action.payload }}
-        case SET_DONATION_FILTER_DONOR:
+        case SET_VIPPS_AGREEMENTS_FILTER_KID:
             return {...state, pagination: { ...state.pagination, page: 0 }, filter: {...state.filter, donor: action.payload}}
-        case SET_DONATION_FILTRE_PAYMENT_METHOD_IDS:
-            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, paymentMethodIDs: action.payload }}
     }
-    */
 
     return state;
 }

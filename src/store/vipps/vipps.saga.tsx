@@ -1,10 +1,10 @@
 
 import { put, call, select } from "redux-saga/effects";
-import * as API from "../../../../util/api"
-import { AppState } from "../../../../models/state";
-import { IAccessToken } from "../../../../authenticate/auth";
-import { IPagination, IVippsAgreementFilter } from "../../../../models/types";
-import { fetchVippsAgreementsAction } from "./vippsagreement-list.actions";
+import { IAccessToken } from "../../authenticate/auth";
+import { AppState } from "../../models/state";
+import { IPagination, IVippsAgreementFilter } from "../../models/types";
+import * as API from "./../../util/api"
+import { fetchVippsAgreementsAction } from "./vipps.actions";
 
 export function* fetchVippsAgreements (action: any) {
     try {

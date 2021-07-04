@@ -157,12 +157,7 @@ export interface IVippsAgreementFilter {
         from: number,
         to: number
     },
-    start: {
-        from: Date|null,
-        to: Date|null
-    },
-    monthly_charge_day?: Array<number>,
     KID?: string,
-    donorID?: string,
-    status?: string,
+    donor?: string,
+    status?: Array<string>
 }
