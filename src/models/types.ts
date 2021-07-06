@@ -159,5 +159,5 @@ export interface IVippsAgreementFilter {
     },
     KID?: string,
     donor?: string,
-    status?: Array<string>
+    statuses?: Array<string>
 }

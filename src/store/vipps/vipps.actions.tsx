@@ -1,5 +1,5 @@
 import actionCreatorFactory from "typescript-fsa";
-import { IPagination, IVippsAgreement } from "../../models/types";
+import { IHistogramBucket, IPagination, IVippsAgreement } from "../../models/types";
 
 export const SET_VIPPS_AGREEMENTS_PAGINATION = "SET_VIPPS_AGREEMENTS_PAGINATION"
 export const SET_VIPPS_AGREEMENTS_FILTER_AMOUNT = "SET_VIPPS_AGREEMENTS_FILTER_AMOUNT"
@@ -15,6 +15,8 @@ interface IFetchVippsAgreementsResult {
 }
 
 export const fetchVippsAgreementsAction = actionCreator.async<undefined, IFetchVippsAgreementsResult, Error>('FETCH_VIPPS_AGREEMENTS');
+export const fetchAgreementHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket> , Error>('FETCH_VIPPS_AGREEMENT_HISTOGRAM');
+export const fetchChargeHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket> , Error>('FETCH_VIPPS_CHARGES_HISTOGRAM');
 
 export const setVippsAgreementsPagination = (pagination: IPagination) => {
     return {
@@ -49,7 +51,7 @@ export const setVippsAgreementsFilterKID = (KID: string) => {
     }
 }
 
-export const setVippsAgreementsFilterStatus = (status: string) => {
+export const setVippsAgreementsFilterStatus = (status: string[]) => {
     return {
         type: SET_VIPPS_AGREEMENTS_FILTER_STATUS,
         payload: status

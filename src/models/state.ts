@@ -73,6 +73,7 @@ export interface DonationsState {
 
 export interface VippsAgreementsState {
     currentAgreement?: IVippsAgreement,
+    histogram?: Array<IHistogramBucket>,
     pages: number,
     loading: boolean,
     pagination: IPagination,

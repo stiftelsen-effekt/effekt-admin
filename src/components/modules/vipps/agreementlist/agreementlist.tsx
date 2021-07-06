@@ -6,6 +6,8 @@ import { shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
 import { fetchVippsAgreementsAction, setVippsAgreementsPagination } from '../../../../store/vipps/vipps.actions';
+import { VippsAgreementFilter } from './agreementfilter';
+import { AgreementListWrapper } from './agreementlist.style';
 // import { DonationsFilterComponent } from './filters/filters.component';
 
 export const VippsAgreementList: React.FunctionComponent = () => {
@@ -52,7 +54,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
             id: "kid"
         },
         {
-            Header: "Timestamp",
+            Header: "Drafted",
             id: "created",
             accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp_created))
         }
@@ -76,7 +78,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
 
     if (agreement !== null) return (<Redirect to={`/vipps/agreement/${agreement}`}></Redirect>)
     return (
-        <div>
+        <AgreementListWrapper>
             <ReactTable
                 manual
                 data={data}
@@ -91,6 +93,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
                 onPageSizeChange={(pagesize) => dispatch(setVippsAgreementsPagination({ ...pagination, limit: pagesize }))}
                 getTrProps={trProps}
                 />
-        </div>
+                <VippsAgreementFilter />
+        </AgreementListWrapper>
     )
 }
