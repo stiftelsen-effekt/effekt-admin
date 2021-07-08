@@ -3,13 +3,12 @@ import { AnyAction } from "redux";
 import { put, call, select } from "redux-saga/effects";
 import { IAccessToken } from "../../authenticate/auth";
 import { AppState } from "../../models/state";
-import { IPagination, IVippsAgreementFilter } from "../../models/types";
+import { IPagination, IVippsAgreementChargeFilter, IVippsAgreementFilter } from "../../models/types";
 import * as API from "./../../util/api"
-import { fetchAgreementHistogramAction, fetchChargeHistogramAction, fetchVippsAgreementsAction } from "./vipps.actions";
+import { fetchAgreementHistogramAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction } from "./vipps.actions";
 
 export function* fetchVippsAgreements (action: any) {
     try {
-        console.log("fetching agreements")
         const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
         
         const pagination: IPagination = yield select((state: AppState) => state.vippsAgreements.pagination)
@@ -33,13 +32,12 @@ export function* fetchVippsAgreements (action: any) {
 }
 
 //TODO: this is incomplete
-export function* fetchVippsCharges (action: any) {
+export function* fetchVippsAgreementCharges (action: any) {
     try {
-        console.log("fetching agreements")
         const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
         
-        const pagination: IPagination = yield select((state: AppState) => state.vippsAgreements.pagination)
-        const filter: IVippsAgreementFilter = yield select((state: AppState) => state.vippsAgreements.filter)
+        const pagination: IPagination = yield select((state: AppState) => state.vippsAgreementCharges.pagination)
+        const filter: IVippsAgreementChargeFilter = yield select((state: AppState) => state.vippsAgreementCharges.filter)
 
         const result: API.Response = yield call(API.call, {
             endpoint: "/vipps/charges",
@@ -52,9 +50,9 @@ export function* fetchVippsCharges (action: any) {
         })
         if (result.status !== 200)
             throw new Error(result.content)
-        yield put(fetchVippsAgreementsAction.done({params: action.payload, result: result.content}))
+        yield put(fetchVippsAgreementChargesAction.done({params: action.payload, result: result.content}))
     } catch(ex) {
-        yield put(fetchVippsAgreementsAction.failed({params: action.payload, error: ex}))
+        yield put(fetchVippsAgreementChargesAction.failed({params: action.payload, error: ex}))
     }
 }
 

@@ -161,3 +161,26 @@ export interface IVippsAgreementFilter {
     donor?: string,
     statuses?: Array<string>
 }
+
+export interface IVippsAgreementCharge {
+    chargeID: string,
+    agreementID: string,
+    status: string,
+    amountNOK: number,
+    KID: string,
+    dueDate: string,
+    timestamp: string
+}
+
+export interface IVippsAgreementChargeFilter {
+    amountNOK: {
+        from: number,
+        to: number
+    },
+    dueDate: {
+        from: string,
+        to: string
+    }
+    KID?: string,
+    statuses?: Array<string>
+}

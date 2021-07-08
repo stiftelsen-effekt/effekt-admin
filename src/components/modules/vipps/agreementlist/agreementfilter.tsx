@@ -83,7 +83,7 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
                         azure={true}
                         choices={statusChoices}
                         onChange={(choices: Array<number>) => {
-                            let newChoices = []
+                            let newChoices: string[] = []
                             choices.forEach(choiceID => {
                                 newChoices.push(statusTypes[choiceID].name)
                             })
