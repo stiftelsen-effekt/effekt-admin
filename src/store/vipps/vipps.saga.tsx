@@ -1,5 +1,4 @@
 
-import { AnyAction } from "redux";
 import { put, call, select } from "redux-saga/effects";
 import { IAccessToken } from "../../authenticate/auth";
 import { AppState } from "../../models/state";

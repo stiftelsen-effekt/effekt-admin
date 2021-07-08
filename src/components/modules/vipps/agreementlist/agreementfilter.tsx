@@ -6,7 +6,6 @@ import { fetchAgreementHistogramAction, setVippsAgreementsFilterAmount, setVipps
 import { EffektCheckChoice, EffektCheckForm } from '../../../style/elements/effekt-check/effekt-check-form.component';
 import { FilterOpenButton } from '../../../style/elements/filter-buttons/filter-open-button.component';
 import { FilterWrapper, FilterContent, FilterHeader, FilterGroup, FilterGroupHeader, FilterInput } from '../../../style/elements/filters.component.style';
-import { setDonationFilterPaymentMethodIDs } from '../../donations/list/filters/filters.actions';
 import { HistogramInputComponent } from '../../histogram-input/histogram-input.component';
 
 const statusTypes = [ 

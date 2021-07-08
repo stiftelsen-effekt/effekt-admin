@@ -2,7 +2,6 @@ import React from 'react'
 
 import { Page } from "../../style/elements/page.style";
 import { MainHeader } from "../../style/elements/headers.style";
-import { VippsAgreementList } from '../../modules/vipps/agreementlist/agreementlist';
 import { VippsAgreementChargeList } from '../../modules/vipps/chargelist/chargelist';
 
 export const VippsAgreementChargesPageComponent: React.FunctionComponent = () => {

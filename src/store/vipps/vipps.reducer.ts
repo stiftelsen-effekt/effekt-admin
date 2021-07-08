@@ -2,7 +2,6 @@ import { VippsAgreementChargeState, VippsAgreementsState } from "../../models/st
 import { isType } from "typescript-fsa";
 import { toastError } from "../../util/toasthelper";
 import { fetchAgreementHistogramAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_FILTER_AMOUNT, SET_VIPPS_AGREEMENTS_FILTER_DONOR, SET_VIPPS_AGREEMENTS_FILTER_KID, SET_VIPPS_AGREEMENTS_FILTER_STATUS, SET_VIPPS_AGREEMENTS_PAGINATION } from "./vipps.actions";
-import { fetchChargeHistogram } from "./vipps.saga";
 
 const defaultAgreementState: VippsAgreementsState = {
     agreements: [],
