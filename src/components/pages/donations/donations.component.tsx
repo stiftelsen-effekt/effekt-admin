@@ -8,7 +8,7 @@ export const DonationsPageComponent: React.FunctionComponent = () => {
     return (
         <Page>
             <MainHeader>Donations</MainHeader>
-            <DonationsList></DonationsList>
+            <DonationsList />
         </Page>
     )
 }

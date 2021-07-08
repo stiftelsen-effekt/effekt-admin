@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../authenticate/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner, ILogEntry } from "./types";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner, ILogEntry, IVippsAgreement, IVippsAgreementFilter, IVippsAgreementCharge, IVippsAgreementChargeFilter } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -19,6 +19,9 @@ export interface AppState {
     dataOwner:  DataOwnerState,
     reciept: RecieptState,
     logs: LoggingState
+
+    vippsAgreements: VippsAgreementsState,
+    vippsAgreementCharges: VippsAgreementChargeState
 }
 
 export interface AuthState {
@@ -67,6 +70,26 @@ export interface DonationsState {
     pagination: IPagination,
     filter: IDonationFilter,
     donations: Array<IDonation>,
+}
+
+export interface VippsAgreementsState {
+    currentAgreement?: IVippsAgreement,
+    histogram?: Array<IHistogramBucket>,
+    pages: number,
+    loading: boolean,
+    pagination: IPagination,
+    filter: IVippsAgreementFilter,
+    agreements: Array<IVippsAgreement>,
+}
+
+export interface VippsAgreementChargeState {
+    currentCharge?: IVippsAgreementCharge,
+    histogram?: Array<IHistogramBucket>,
+    pages: number,
+    loading: boolean,
+    pagination: IPagination,
+    filter: IVippsAgreementChargeFilter,
+    charges: Array<IVippsAgreementCharge>,
 }
 
 export interface GraphingState {

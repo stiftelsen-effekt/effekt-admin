@@ -137,3 +137,50 @@ export interface ILogEntry {
     result: object,
     timestamp: string
 }
+
+/** VippsAgreements */
+
+export interface IVippsAgreement {
+    id: string,
+    start: string,
+    status: string,
+    amount: number,
+    KID: string,
+    urlCode: string,
+    donorID: number,
+    monthly_charge_day: number,
+    paused_until_date: Date
+}
+
+export interface IVippsAgreementFilter {
+    amount: {
+        from: number,
+        to: number
+    },
+    KID?: string,
+    donor?: string,
+    statuses?: Array<string>
+}
+
+export interface IVippsAgreementCharge {
+    chargeID: string,
+    agreementID: string,
+    status: string,
+    amountNOK: number,
+    KID: string,
+    dueDate: string,
+    timestamp: string
+}
+
+export interface IVippsAgreementChargeFilter {
+    amountNOK: {
+        from: number,
+        to: number
+    },
+    dueDate: {
+        from: string,
+        to: string
+    }
+    KID?: string,
+    statuses?: Array<string>
+}

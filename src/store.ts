@@ -15,6 +15,7 @@ import { distributionsReducer } from './store/distributions/distributions.reduce
 import { ownersReducer } from './store/owners/owners.reducer';
 import { recieptReducer } from './components/modules/donations/reciept/reciept.reducer';
 import { loggingReducer } from './store/logs/logs.reducer';
+import { vippsAgreementChargeReducer, vippsAgreementReducer } from './store/vipps/vipps.reducer';
 
 const rootReducer = combineReducers<AppState>({
     auth: authReducer,
@@ -28,12 +29,15 @@ const rootReducer = combineReducers<AppState>({
     distributions: distributionsReducer,
     dataOwner: ownersReducer,
     reciept: recieptReducer,
-    logs: loggingReducer
+    logs: loggingReducer,
+    vippsAgreements: vippsAgreementReducer,
+    vippsAgreementCharges: vippsAgreementChargeReducer
 })
 
 const sagaMiddleware = createSagaMiddleware();
 const Store = createStore(
-    rootReducer, 
+    rootReducer,
+    // applyMiddleware(sagaMiddleware));
     composeWithDevTools(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(watchAll);
 

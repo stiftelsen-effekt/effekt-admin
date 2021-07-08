@@ -94,7 +94,7 @@ export const DonationsList: React.FunctionComponent = () => {
                 onSortedChange={(sorted) => dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))}
                 onPageSizeChange={(pagesize) => dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))}
                 getTrProps={trProps}
-                />
+            />
 
             <DonationsFilterComponent></DonationsFilterComponent>
         </DonationListWrapper>
