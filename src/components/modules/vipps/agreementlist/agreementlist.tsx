@@ -54,7 +54,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
             id: "kid"
         },
         {
-            Header: "Drafted",
+            Header: "Draft date",
             id: "created",
             accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp_created))
         }
