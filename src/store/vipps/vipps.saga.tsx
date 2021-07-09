@@ -4,7 +4,7 @@ import { IAccessToken } from "../../authenticate/auth";
 import { AppState } from "../../models/state";
 import { IPagination, IVippsAgreementChargeFilter, IVippsAgreementFilter } from "../../models/types";
 import * as API from "./../../util/api"
-import { fetchAgreementHistogramAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction } from "./vipps.actions";
+import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction } from "./vipps.actions";
 
 export function* fetchVippsAgreements (action: any) {
     try {
@@ -30,7 +30,6 @@ export function* fetchVippsAgreements (action: any) {
     }
 }
 
-//TODO: this is incomplete
 export function* fetchVippsAgreementCharges (action: any) {
     try {
         const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
@@ -82,5 +81,23 @@ export function* fetchAgreementHistogram() {
     }
     catch(ex) {
         yield put(fetchAgreementHistogramAction.failed({error: ex}))
+    }
+}
+
+export function* fetchAgreementsReport() {
+    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+
+    try {
+        const result: API.Response = yield call(API.call, {
+            method: API.Method.GET,
+            endpoint: "/vipps/agreements/report",
+            token: token.token
+        })
+        if (result.status !== 200)
+            throw new Error(result.content)
+        yield put(fetchAgreementsReportAction.done({result: result.content[0]}))
+    }
+    catch(ex) {
+        yield put(fetchAgreementsReportAction.failed({error: ex}))
     }
 }

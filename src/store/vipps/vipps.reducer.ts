@@ -1,9 +1,13 @@
 import { VippsAgreementChargeState, VippsAgreementsState } from "../../models/state";
 import { isType } from "typescript-fsa";
 import { toastError } from "../../util/toasthelper";
-import { fetchAgreementHistogramAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_FILTER_AMOUNT, SET_VIPPS_AGREEMENTS_FILTER_DONOR, SET_VIPPS_AGREEMENTS_FILTER_KID, SET_VIPPS_AGREEMENTS_FILTER_STATUS, SET_VIPPS_AGREEMENTS_PAGINATION } from "./vipps.actions";
+import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_FILTER_AMOUNT, SET_VIPPS_AGREEMENTS_FILTER_DONOR, SET_VIPPS_AGREEMENTS_FILTER_KID, SET_VIPPS_AGREEMENTS_FILTER_STATUS, SET_VIPPS_AGREEMENTS_PAGINATION } from "./vipps.actions";
 
 const defaultAgreementState: VippsAgreementsState = {
+    activeAgreementCount: 0,
+    averageAgreementSum: 0,
+    totalAgreementSum: 0,
+    medianAgreementSum: 0,
     agreements: [],
     loading: false,
     pages: 1,
@@ -68,6 +72,23 @@ export const vippsAgreementReducer = (state = defaultAgreementState, action: any
     else if (isType(action, fetchVippsAgreementsAction.failed)) {
         return { ...state, loading: false }
     }
+
+    if(isType(action, fetchAgreementsReportAction.done)) {
+        console.log(action.payload.result)
+        return {
+            ...state,
+            loading: false,
+            ...action.payload.result
+        }
+    }
+    else if (isType(action, fetchAgreementsReportAction.started)) {
+        return { ...state, loading: true }
+    }
+    else if (isType(action, fetchAgreementsReportAction.failed)) {
+        return { ...state, loading: false }
+    }
+
+
 
     /*
     if(isType(action, fetchDonationAction.done)) {

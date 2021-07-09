@@ -21,7 +21,6 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
 
     useEffect(() => {
         dispatch(fetchVippsAgreementChargesAction.started(undefined));
-        console.log("here")
     }, [pagination, filter, dispatch])
 
     const columnDefinitions = [

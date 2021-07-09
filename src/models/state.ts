@@ -73,6 +73,10 @@ export interface DonationsState {
 }
 
 export interface VippsAgreementsState {
+    activeAgreementCount: number,
+    averageAgreementSum: number,
+    totalAgreementSum: number,
+    medianAgreementSum: number,
     currentAgreement?: IVippsAgreement,
     histogram?: Array<IHistogramBucket>,
     pages: number,
