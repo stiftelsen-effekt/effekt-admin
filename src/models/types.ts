@@ -182,5 +182,6 @@ export interface IVippsAgreementChargeFilter {
         to: string
     }
     KID?: string,
-    statuses?: Array<string>
+    statuses?: Array<string>,
+    donor: string
 }
