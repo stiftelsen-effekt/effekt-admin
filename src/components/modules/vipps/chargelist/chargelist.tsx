@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import { fetchVippsAgreementChargesAction, setVippsChargesPagination } from '../../../../store/vipps/vipps.actions';
 import { ChargeListWrapper } from './chargelist.style';
 import { VippsChargeFilter } from './chargefilter';
+import { Link } from 'react-router-dom';
 
 export const VippsAgreementChargeList: React.FunctionComponent = () => {
     const state = useSelector((state: AppState) => state.vippsAgreementCharges)
@@ -67,6 +68,9 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
 
     return (
         <ChargeListWrapper>
+            <Link to="/vipps">Back to Vipps overview</Link>
+            <br />
+            <Link to="/vipps/agreements">See all agreements</Link>
             <ReactTable
                 manual
                 data={data}

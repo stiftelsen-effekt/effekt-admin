@@ -29,8 +29,8 @@ import { fetchLogsAction } from './components/modules/logs/list/logs-list.action
 import { fetchLogs } from './components/modules/logs/list/logs-list.saga';
 import { fetchLogEntryAction } from './store/logs/logs.actions';
 import { fetchLogEntry } from './store/logs/logs.saga';
-import { fetchAgreementHistogram, fetchAgreementsReport, fetchChargeHistogram, fetchVippsAgreementCharges, fetchVippsAgreements } from './store/vipps/vipps.saga';
-import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction } from './store/vipps/vipps.actions';
+import { fetchAgreementHistogram, fetchAgreementsReport, fetchChargeHistogram, fetchVippsAgreement, fetchVippsAgreementCharge, fetchVippsAgreementCharges, fetchVippsAgreements } from './store/vipps/vipps.saga';
+import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementAction, fetchVippsAgreementChargeAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction } from './store/vipps/vipps.actions';
 
 function* watchAll() {
     yield all([
@@ -71,7 +71,9 @@ function* watchAll() {
         takeLatest(fetchLogEntryAction.started.type, fetchLogEntry),
 
         takeLatest(fetchVippsAgreementsAction.started.type, fetchVippsAgreements),
+        takeLatest(fetchVippsAgreementAction.started.type, fetchVippsAgreement),
         takeLatest(fetchVippsAgreementChargesAction.started.type, fetchVippsAgreementCharges),
+        takeLatest(fetchVippsAgreementChargeAction.started.type, fetchVippsAgreementCharge),
         takeLatest(fetchAgreementHistogramAction.started.type, fetchAgreementHistogram),
         takeLatest(fetchChargeHistogramAction.started.type, fetchChargeHistogram),
         takeLatest(fetchAgreementsReportAction.started.type, fetchAgreementsReport)

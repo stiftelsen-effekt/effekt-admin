@@ -1,10 +1,11 @@
 
 import { put, call, select } from "redux-saga/effects";
+import { Action } from "typescript-fsa";
 import { IAccessToken } from "../../authenticate/auth";
 import { AppState } from "../../models/state";
-import { IPagination, IVippsAgreementChargeFilter, IVippsAgreementFilter } from "../../models/types";
+import { IPagination, IVippsAgreement, IVippsAgreementChargeFilter, IVippsAgreementFilter } from "../../models/types";
 import * as API from "./../../util/api"
-import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction } from "./vipps.actions";
+import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, IFetchAgreementActionParams } from "./vipps.actions";
 
 export function* fetchVippsAgreements (action: any) {
     try {
@@ -99,5 +100,42 @@ export function* fetchAgreementsReport() {
     }
     catch(ex) {
         yield put(fetchAgreementsReportAction.failed({error: ex}))
+    }
+}
+
+export function* fetchVippsAgreement(action: Action<IFetchAgreementActionParams>) {
+    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+
+    try {
+        const result: IVippsAgreement = yield call(API.call, {
+            method: API.Method.GET,
+            endpoint: `/vipps/agreement/${action.payload.id}`,
+            token: token.token
+        })
+        if (result)
+            yield put(fetchVippsAgreementAction.done({params: action.payload, result}))
+    }
+    catch(ex) {
+        yield put(fetchVippsAgreementAction.failed({ params: action.payload, error: ex }))
+    }
+}
+
+export function* fetchVippsAgreementCharge() {
+    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+    const agreementId: string = yield select((state: AppState) => state.vippsAgreements.currentAgreement)
+    const chargeId: string = yield select((state: AppState) => state.vippsAgreements.currentAgreement)
+
+    try {
+        const result: API.Response = yield call(API.call, {
+            method: API.Method.GET,
+            endpoint: `/vipps/agreement/${agreementId}/charge/${chargeId}`,
+            token: token.token
+        })
+        if (result.status !== 200)
+            throw new Error(result.content)
+        yield put(fetchVippsAgreementAction.done({result: result.content}))
+    }
+    catch(ex) {
+        yield put(fetchVippsAgreementAction.failed({error: ex}))
     }
 }

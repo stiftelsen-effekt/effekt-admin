@@ -1,7 +1,7 @@
 import { VippsAgreementChargeState, VippsAgreementsState } from "../../models/state";
 import { isType } from "typescript-fsa";
 import { toastError } from "../../util/toasthelper";
-import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_FILTER_AMOUNT, SET_VIPPS_AGREEMENTS_FILTER_DONOR, SET_VIPPS_AGREEMENTS_FILTER_KID, SET_VIPPS_AGREEMENTS_FILTER_STATUS, SET_VIPPS_AGREEMENTS_PAGINATION, SET_VIPPS_CHARGES_FILTER_AMOUNT, SET_VIPPS_CHARGES_FILTER_DONOR, SET_VIPPS_CHARGES_FILTER_KID, SET_VIPPS_CHARGES_FILTER_STATUS, SET_VIPPS_CHARGES_PAGINATION } from "./vipps.actions";
+import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_FILTER_AMOUNT, SET_VIPPS_AGREEMENTS_FILTER_DONOR, SET_VIPPS_AGREEMENTS_FILTER_KID, SET_VIPPS_AGREEMENTS_FILTER_STATUS, SET_VIPPS_AGREEMENTS_PAGINATION, SET_VIPPS_CHARGES_FILTER_AMOUNT, SET_VIPPS_CHARGES_FILTER_DONOR, SET_VIPPS_CHARGES_FILTER_KID, SET_VIPPS_CHARGES_FILTER_STATUS, SET_VIPPS_CHARGES_PAGINATION } from "./vipps.actions";
 
 const defaultAgreementState: VippsAgreementsState = {
     activeAgreementCount: 0,
@@ -59,6 +59,7 @@ const defaultChargeState: VippsAgreementChargeState = {
 
 export const vippsAgreementReducer = (state = defaultAgreementState, action: any): VippsAgreementsState => {
 
+    // Fetch multiple agreements
     if(isType(action, fetchVippsAgreementsAction.done)) {
         return {
             ...state,
@@ -74,6 +75,23 @@ export const vippsAgreementReducer = (state = defaultAgreementState, action: any
         return { ...state, loading: false }
     }
 
+    // Fetch single agreement
+    if(isType(action, fetchVippsAgreementAction.done)) {
+        console.log(action.payload.result)
+        return {
+            ...state,
+            currentAgreement: action.payload.result,
+            loading: false
+        }
+    }
+    else if (isType(action, fetchVippsAgreementAction.started)) {
+        return { ...state, loading: true }
+    }
+    else if (isType(action, fetchVippsAgreementAction.failed)) {
+        return { ...state, loading: false }
+    }
+
+    // Fetch agreement report
     if(isType(action, fetchAgreementsReportAction.done)) {
         console.log(action.payload.result)
         return {
@@ -89,26 +107,6 @@ export const vippsAgreementReducer = (state = defaultAgreementState, action: any
         return { ...state, loading: false }
     }
 
-
-
-    /*
-    if(isType(action, fetchDonationAction.done)) {
-        return {
-            ...state,
-            currentDonation: {
-                ...action.payload.result,
-                timestamp: new Date(action.payload.result.timestamp),
-                distribution: (
-                    action.payload.result.distribution ?
-                    action.payload.result.distribution.map((dist) => ({...dist, share: new Decimal(dist.share)})) :
-                    undefined)
-            }
-        }
-    }
-    else if (isType(action, fetchDonationAction.failed)) {
-        toastError("Failed to fetch donation", action.payload.error.message)
-    }
-    */
 
     /**
      * PAGINATION ACTIONS
@@ -170,25 +168,6 @@ export const vippsAgreementChargeReducer = (state = defaultChargeState, action: 
     else if (isType(action, fetchVippsAgreementChargesAction.failed)) {
         return { ...state, loading: false }
     }
-
-    /*
-    if(isType(action, fetchDonationAction.done)) {
-        return {
-            ...state,
-            currentDonation: {
-                ...action.payload.result,
-                timestamp: new Date(action.payload.result.timestamp),
-                distribution: (
-                    action.payload.result.distribution ?
-                    action.payload.result.distribution.map((dist) => ({...dist, share: new Decimal(dist.share)})) :
-                    undefined)
-            }
-        }
-    }
-    else if (isType(action, fetchDonationAction.failed)) {
-        toastError("Failed to fetch donation", action.payload.error.message)
-    }
-    */
 
     /**
      * PAGINATION ACTIONS

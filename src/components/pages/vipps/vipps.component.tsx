@@ -18,9 +18,9 @@ export const VippsPage: React.FunctionComponent = () => {
         <Page>
             <MainHeader>Vipps agreements</MainHeader>
             <p>Active agreements: {agreements.activeAgreementCount}</p>
-            <p>Median agreement sum: {agreements.medianAgreementSum}</p>
-            <p>Average agreement sum: {agreements.averageAgreementSum}</p>
-            <p>Total agreement sum: {agreements.totalAgreementSum}</p>
+            <p>Median agreement sum: {agreements.medianAgreementSum} kr</p>
+            <p>Average agreement sum: {agreements.averageAgreementSum} kr</p>
+            <p>Total agreement sum: {agreements.totalAgreementSum} kr</p>
             <Link to="vipps/agreements">See all agreements</Link>
             <br />
             <Link to="vipps/charges">See all charges</Link>

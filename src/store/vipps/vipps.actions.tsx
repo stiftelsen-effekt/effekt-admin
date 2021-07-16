@@ -22,6 +22,16 @@ interface IFetchVippsAgreementsResult {
     pages: number
 }
 
+interface IFetchVippsAgreementsResult {
+    rows: Array<IVippsAgreement>,
+    pages: number
+}
+
+interface IFetchVippsAgreementChargesResult {
+    rows: Array<IVippsAgreementCharge>,
+    pages: number
+}
+
 interface IFetchVippsAgreementReportResult {
     activeAgreementCount: number,
     averageAgreementSum: number,
@@ -29,14 +39,13 @@ interface IFetchVippsAgreementReportResult {
     medianAgreementSum: number
 }
 
-
-interface IFetchVippsAgreementChargesResult {
-    rows: Array<IVippsAgreementCharge>,
-    pages: number
-}
+export interface IFetchAgreementActionParams { id: string }
+export interface IFetchAgreementChargeActionParams { agreementId: string, chargeId: string }
 
 export const fetchVippsAgreementsAction = actionCreator.async<undefined, IFetchVippsAgreementsResult, Error>('FETCH_VIPPS_AGREEMENTS');
+export const fetchVippsAgreementAction = actionCreator.async<IFetchAgreementActionParams, IVippsAgreement, Error>('FETCH_VIPPS_AGREEMENT');
 export const fetchVippsAgreementChargesAction = actionCreator.async<undefined, IFetchVippsAgreementChargesResult, Error>('FETCH_VIPPS_AGREEMENT_CHARGES');
+export const fetchVippsAgreementChargeAction = actionCreator.async<IFetchAgreementChargeActionParams, IVippsAgreementCharge, Error>('FETCH_VIPPS_AGREEMENT_CHARGE');
 export const fetchAgreementsReportAction = actionCreator.async<undefined, IFetchVippsAgreementReportResult, Error>('FETCH_VIPPS_AGREEMENTS_REPORT');
 export const fetchAgreementHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_VIPPS_AGREEMENT_HISTOGRAM');
 export const fetchChargeHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_VIPPS_CHARGES_HISTOGRAM');
