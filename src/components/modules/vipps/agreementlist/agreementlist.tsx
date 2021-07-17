@@ -70,7 +70,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         if (rowInfo && rowInfo.row) {
             return {
                 onDoubleClick: (e: any) => {
-                    setAgreement(rowInfo.original.id)
+                    setAgreement(rowInfo.original.ID)
                 }
             }
         } 
@@ -80,9 +80,11 @@ export const VippsAgreementList: React.FunctionComponent = () => {
     if (agreement !== null) return (<Redirect to={`/vipps/agreement/${agreement}`}></Redirect>)
     return (
         <AgreementListWrapper>
-            <Link to="/vipps">Back to Vipps overview</Link>
+            <Link to="/vipps">Go back</Link>
             <br />
             <Link to="/vipps/charges">See all charges</Link>
+            <br />
+            <br />
             <ReactTable
                 manual
                 data={data}

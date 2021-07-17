@@ -68,9 +68,11 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
 
     return (
         <ChargeListWrapper>
-            <Link to="/vipps">Back to Vipps overview</Link>
+            <Link to="/vipps">Go back</Link>
             <br />
             <Link to="/vipps/agreements">See all agreements</Link>
+            <br />
+            <br />
             <ReactTable
                 manual
                 data={data}
