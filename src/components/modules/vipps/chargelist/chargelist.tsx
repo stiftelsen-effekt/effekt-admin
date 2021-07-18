@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
-import { fetchVippsAgreementChargesAction, setVippsChargesPagination } from '../../../../store/vipps/vipps.actions';
+import { fetchVippsAgreementChargesAction, refundVippsAgreementChargeAction, setVippsAgreementsFilterStatus, setVippsChargesFilterStatus, setVippsChargesPagination } from '../../../../store/vipps/vipps.actions';
 import { ChargeListWrapper } from './chargelist.style';
 import { VippsChargeFilter } from './chargefilter';
 import { Link } from 'react-router-dom';
@@ -59,6 +59,11 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
             Header: "Created",
             id: "created",
             accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp_created))
+        },
+        {
+            Header: "Refund",
+            id: "refund",
+            accessor: (res: any) => <RefundButton agreementId={res.agreementID} chargeId={res.chargeID} amount={res.amountNOK} disabled={res.status !== "CHARGED"}/>
         }
     ]
 
@@ -88,5 +93,19 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
             />
             <VippsChargeFilter />
         </ChargeListWrapper>
+    )
+}
+
+const RefundButton: React.FC<{agreementId: string, chargeId: string, amount: number, disabled: boolean}> = ({ agreementId, chargeId, amount, disabled }) => {
+    const dispatch = useDispatch()
+
+    return (
+        <button disabled={disabled} onClick={() => {
+            let sure = window.confirm(`Do you really want to refund the charge with ID ${chargeId} and sum ${amount} kr?`)
+            if (sure) {
+                dispatch(refundVippsAgreementChargeAction.started({agreementId, chargeId}))
+                window.location.reload()
+            }
+        }}>Refund</button>
     )
 }

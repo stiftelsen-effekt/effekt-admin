@@ -5,7 +5,7 @@ import { IAccessToken } from "../../authenticate/auth";
 import { AppState } from "../../models/state";
 import { IPagination, IVippsAgreement, IVippsAgreementChargeFilter, IVippsAgreementFilter } from "../../models/types";
 import * as API from "./../../util/api"
-import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, IFetchAgreementActionParams } from "./vipps.actions";
+import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, IFetchAgreementActionParams, IRefundVippsChargeActionParams } from "./vipps.actions";
 
 export function* fetchVippsAgreements (action: any) {
     try {
@@ -120,22 +120,17 @@ export function* fetchVippsAgreement(action: Action<IFetchAgreementActionParams>
     }
 }
 
-export function* fetchVippsAgreementCharge() {
+export function* refundVippsAgreementCharge(action: Action<IRefundVippsChargeActionParams>) {
     const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
-    const agreementId: string = yield select((state: AppState) => state.vippsAgreements.currentAgreement)
-    const chargeId: string = yield select((state: AppState) => state.vippsAgreements.currentAgreement)
 
     try {
-        const result: API.Response = yield call(API.call, {
-            method: API.Method.GET,
-            endpoint: `/vipps/agreement/${agreementId}/charge/${chargeId}`,
+        yield call(API.call, {
+            method: API.Method.POST,
+            endpoint: `/vipps/agreement/${action.payload.agreementId}/charge/${action.payload.chargeId}/refund`,
             token: token.token
         })
-        if (result.status !== 200)
-            throw new Error(result.content)
-        yield put(fetchVippsAgreementAction.done({result: result.content}))
     }
     catch(ex) {
-        yield put(fetchVippsAgreementAction.failed({error: ex}))
+        throw new Error(ex)
     }
 }

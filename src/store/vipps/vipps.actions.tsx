@@ -41,6 +41,7 @@ interface IFetchVippsAgreementReportResult {
 
 export interface IFetchAgreementActionParams { id: string }
 export interface IFetchAgreementChargeActionParams { agreementId: string, chargeId: string }
+export interface IRefundVippsChargeActionParams { agreementId: string, chargeId: string }
 
 export const fetchVippsAgreementsAction = actionCreator.async<undefined, IFetchVippsAgreementsResult, Error>('FETCH_VIPPS_AGREEMENTS');
 export const fetchVippsAgreementAction = actionCreator.async<IFetchAgreementActionParams, IVippsAgreement, Error>('FETCH_VIPPS_AGREEMENT');
@@ -49,6 +50,7 @@ export const fetchVippsAgreementChargeAction = actionCreator.async<IFetchAgreeme
 export const fetchAgreementsReportAction = actionCreator.async<undefined, IFetchVippsAgreementReportResult, Error>('FETCH_VIPPS_AGREEMENTS_REPORT');
 export const fetchAgreementHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_VIPPS_AGREEMENT_HISTOGRAM');
 export const fetchChargeHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_VIPPS_CHARGES_HISTOGRAM');
+export const refundVippsAgreementChargeAction = actionCreator.async<IRefundVippsChargeActionParams, undefined, Error>('REFUND_VIPPS_CHARGE');
 
 export const setVippsAgreementsPagination = (pagination: IPagination) => {
     return {

@@ -25,7 +25,7 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
     }, [agreementID, dispatch])
 
 
-    if (agreement && !agreement) {
+    if (agreement && !agreement.id) {
         return (
             <Page>
                 <ResourceHeader hasSubHeader={true}>Agreement {agreementID} not found</ResourceHeader>
