@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
-import { fetchVippsAgreementChargesAction, refundVippsAgreementChargeAction, setVippsAgreementsFilterStatus, setVippsChargesFilterStatus, setVippsChargesPagination } from '../../../../store/vipps/vipps.actions';
+import { fetchVippsAgreementChargesAction, refundVippsAgreementChargeAction, setVippsChargesPagination } from '../../../../store/vipps/vipps.actions';
 import { ChargeListWrapper } from './chargelist.style';
 import { VippsChargeFilter } from './chargefilter';
 import { Link } from 'react-router-dom';
