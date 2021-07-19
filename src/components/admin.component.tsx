@@ -21,6 +21,8 @@ import { LogEntryComponent } from './pages/logs/log-entry.component';
 import { VippsAgreementsPageComponent } from './pages/vippsagreements/vippsagreements.component';
 import { VippsAgreementChargesPageComponent } from './pages/vippsagreementcharges/vippsagreementcharges.component';
 import { VippsPage } from './pages/vipps/vipps.component';
+import { VippsAgreementPageComponent } from './pages/vippsagreements/vippsagreement';
+import { VippsAgreementChargePageComponent } from './pages/vippsagreementcharges/vippsagreementcharge';
 
 export const AdminPanel: React.FunctionComponent = () => {
     //TODO: Move someplace where it is run only once
@@ -48,7 +50,9 @@ export const AdminPanel: React.FunctionComponent = () => {
                         <Route exact path="/logs/:id" component={LogEntryComponent}></Route>
                     <Route exact path="/vipps" component={VippsPage}></Route>
                         <Route exact path="/vipps/agreements" component={VippsAgreementsPageComponent}></Route>
+                        <Route exact path="/vipps/agreement/:id" component={VippsAgreementPageComponent}></Route>
                         <Route exact path="/vipps/charges" component={VippsAgreementChargesPageComponent}></Route>
+                        <Route exact path="/vipps/charge/:id" component={VippsAgreementChargePageComponent}></Route>
                     <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
                 </Switch> 
             </AdminPanelWrapper>

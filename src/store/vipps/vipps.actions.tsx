@@ -1,16 +1,34 @@
 import actionCreatorFactory from "typescript-fsa";
 import { IHistogramBucket, IPagination, IVippsAgreement, IVippsAgreementCharge } from "../../models/types";
 
+// Vipps agreement actions
 export const SET_VIPPS_AGREEMENTS_PAGINATION = "SET_VIPPS_AGREEMENTS_PAGINATION"
 export const SET_VIPPS_AGREEMENTS_FILTER_AMOUNT = "SET_VIPPS_AGREEMENTS_FILTER_AMOUNT"
 export const SET_VIPPS_AGREEMENTS_FILTER_KID = "SET_VIPPS_AGREEMENTS_FILTER_KID"
 export const SET_VIPPS_AGREEMENTS_FILTER_DONOR = "SET_VIPPS_AGREEMENTS_FILTER_DONOR"
 export const SET_VIPPS_AGREEMENTS_FILTER_STATUS = "SET_VIPPS_AGREEMENTS_FILTER_STATUS"
 
+// Vipps charge actions
+export const SET_VIPPS_CHARGES_PAGINATION = "SET_VIPPS_CHARGES_PAGINATION"
+export const SET_VIPPS_CHARGES_FILTER_AMOUNT = "SET_VIPPS_CHARGES_FILTER_AMOUNT"
+export const SET_VIPPS_CHARGES_FILTER_KID = "SET_VIPPS_CHARGES_FILTER_KID"
+export const SET_VIPPS_CHARGES_FILTER_DONOR = "SET_VIPPS_CHARGES_FILTER_DONOR"
+export const SET_VIPPS_CHARGES_FILTER_STATUS = "SET_VIPPS_CHARGES_FILTER_STATUS"
+
 const actionCreator = actionCreatorFactory();
 
 interface IFetchVippsAgreementsResult {
     rows: Array<IVippsAgreement>,
+    pages: number
+}
+
+interface IFetchVippsAgreementsResult {
+    rows: Array<IVippsAgreement>,
+    pages: number
+}
+
+interface IFetchVippsAgreementChargesResult {
+    rows: Array<IVippsAgreementCharge>,
     pages: number
 }
 
@@ -21,17 +39,18 @@ interface IFetchVippsAgreementReportResult {
     medianAgreementSum: number
 }
 
-
-interface IFetchVippsAgreementChargesResult {
-    rows: Array<IVippsAgreementCharge>,
-    pages: number
-}
+export interface IFetchAgreementActionParams { id: string }
+export interface IFetchAgreementChargeActionParams { agreementId: string, chargeId: string }
+export interface IRefundVippsChargeActionParams { agreementId: string, chargeId: string }
 
 export const fetchVippsAgreementsAction = actionCreator.async<undefined, IFetchVippsAgreementsResult, Error>('FETCH_VIPPS_AGREEMENTS');
+export const fetchVippsAgreementAction = actionCreator.async<IFetchAgreementActionParams, IVippsAgreement, Error>('FETCH_VIPPS_AGREEMENT');
 export const fetchVippsAgreementChargesAction = actionCreator.async<undefined, IFetchVippsAgreementChargesResult, Error>('FETCH_VIPPS_AGREEMENT_CHARGES');
+export const fetchVippsAgreementChargeAction = actionCreator.async<IFetchAgreementChargeActionParams, IVippsAgreementCharge, Error>('FETCH_VIPPS_AGREEMENT_CHARGE');
 export const fetchAgreementsReportAction = actionCreator.async<undefined, IFetchVippsAgreementReportResult, Error>('FETCH_VIPPS_AGREEMENTS_REPORT');
 export const fetchAgreementHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_VIPPS_AGREEMENT_HISTOGRAM');
 export const fetchChargeHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_VIPPS_CHARGES_HISTOGRAM');
+export const refundVippsAgreementChargeAction = actionCreator.async<IRefundVippsChargeActionParams, undefined, Error>('REFUND_VIPPS_CHARGE');
 
 export const setVippsAgreementsPagination = (pagination: IPagination) => {
     return {
@@ -69,6 +88,46 @@ export const setVippsAgreementsFilterKID = (KID: string) => {
 export const setVippsAgreementsFilterStatus = (status: string[]) => {
     return {
         type: SET_VIPPS_AGREEMENTS_FILTER_STATUS,
+        payload: status
+    }
+}
+
+export const setVippsChargesPagination = (pagination: IPagination) => {
+    return {
+        type: SET_VIPPS_CHARGES_PAGINATION,
+        payload: pagination
+    }
+}
+
+interface AmountRange {
+    from: number;
+    to: number;
+}
+
+export const setVippsChargesFilterAmount = (amountRange: AmountRange) => {
+    return {
+        type: SET_VIPPS_CHARGES_FILTER_AMOUNT,
+        payload: amountRange
+    }
+}
+
+export const setVippsChargesFilterDonor = (donor: string) => {
+    return {
+        type: SET_VIPPS_CHARGES_FILTER_DONOR,
+        payload: donor
+    }
+}
+
+export const setVippsChargesFilterKID = (KID: string) => {
+    return {
+        type: SET_VIPPS_CHARGES_FILTER_KID,
+        payload: KID
+    }
+}
+
+export const setVippsChargesFilterStatus = (status: string[]) => {
+    return {
+        type: SET_VIPPS_CHARGES_FILTER_STATUS,
         payload: status
     }
 }

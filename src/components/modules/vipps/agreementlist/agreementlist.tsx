@@ -8,6 +8,7 @@ import { Redirect } from 'react-router';
 import { fetchVippsAgreementsAction, setVippsAgreementsPagination } from '../../../../store/vipps/vipps.actions';
 import { VippsAgreementFilter } from './agreementfilter';
 import { AgreementListWrapper } from './agreementlist.style';
+import { Link } from 'react-router-dom';
 // import { DonationsFilterComponent } from './filters/filters.component';
 
 export const VippsAgreementList: React.FunctionComponent = () => {
@@ -69,7 +70,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         if (rowInfo && rowInfo.row) {
             return {
                 onDoubleClick: (e: any) => {
-                    setAgreement(rowInfo.original.id)
+                    setAgreement(rowInfo.original.ID)
                 }
             }
         } 
@@ -79,6 +80,11 @@ export const VippsAgreementList: React.FunctionComponent = () => {
     if (agreement !== null) return (<Redirect to={`/vipps/agreement/${agreement}`}></Redirect>)
     return (
         <AgreementListWrapper>
+            <Link to="/vipps">Go back</Link>
+            <br />
+            <Link to="/vipps/charges">See all charges</Link>
+            <br />
+            <br />
             <ReactTable
                 manual
                 data={data}

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { IDonation } from "../../../../models/types";
 import { DateTime } from "luxon";
-import { KeyInfoGroup, KeyInfoHeader, KeyInfoSum, KeyInfoTimestamp, KeyInfoValue, KeyInfoTransactionCost, KeyInfoWrapper } from "./keyinfo.component.style";
+import { KeyInfoWrapper, KeyInfoGroup, KeyInfoHeader, KeyInfoSum, KeyInfoTransactionCost, KeyInfoTimestamp, KeyInfoValue } from '../../../style/elements/keyinfo/keyinfo.style';
 
 interface IProps {
     donation: IDonation

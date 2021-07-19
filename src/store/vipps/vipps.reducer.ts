@@ -1,7 +1,7 @@
 import { VippsAgreementChargeState, VippsAgreementsState } from "../../models/state";
 import { isType } from "typescript-fsa";
 import { toastError } from "../../util/toasthelper";
-import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_FILTER_AMOUNT, SET_VIPPS_AGREEMENTS_FILTER_DONOR, SET_VIPPS_AGREEMENTS_FILTER_KID, SET_VIPPS_AGREEMENTS_FILTER_STATUS, SET_VIPPS_AGREEMENTS_PAGINATION } from "./vipps.actions";
+import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_FILTER_AMOUNT, SET_VIPPS_AGREEMENTS_FILTER_DONOR, SET_VIPPS_AGREEMENTS_FILTER_KID, SET_VIPPS_AGREEMENTS_FILTER_STATUS, SET_VIPPS_AGREEMENTS_PAGINATION, SET_VIPPS_CHARGES_FILTER_AMOUNT, SET_VIPPS_CHARGES_FILTER_DONOR, SET_VIPPS_CHARGES_FILTER_KID, SET_VIPPS_CHARGES_FILTER_STATUS, SET_VIPPS_CHARGES_PAGINATION } from "./vipps.actions";
 
 const defaultAgreementState: VippsAgreementsState = {
     activeAgreementCount: 0,
@@ -26,7 +26,7 @@ const defaultAgreementState: VippsAgreementsState = {
         },
         KID: "",
         donor: "",
-        statuses: ["ACTIVE", "STOPPED", "EXPIRED", "PENDING"]
+        statuses: []
     }
 }
 
@@ -52,12 +52,14 @@ const defaultChargeState: VippsAgreementChargeState = {
             to: ""
         },
         KID: "",
-        statuses: ["CHARGED", "REFUNDED", "RESERVED", "PENDING"]
+        statuses: [],
+        donor: ""
     }
 }
 
 export const vippsAgreementReducer = (state = defaultAgreementState, action: any): VippsAgreementsState => {
 
+    // Fetch multiple agreements
     if(isType(action, fetchVippsAgreementsAction.done)) {
         return {
             ...state,
@@ -73,6 +75,23 @@ export const vippsAgreementReducer = (state = defaultAgreementState, action: any
         return { ...state, loading: false }
     }
 
+    // Fetch single agreement
+    if(isType(action, fetchVippsAgreementAction.done)) {
+        console.log(action.payload.result)
+        return {
+            ...state,
+            currentAgreement: action.payload.result,
+            loading: false
+        }
+    }
+    else if (isType(action, fetchVippsAgreementAction.started)) {
+        return { ...state, loading: true }
+    }
+    else if (isType(action, fetchVippsAgreementAction.failed)) {
+        return { ...state, loading: false }
+    }
+
+    // Fetch agreement report
     if(isType(action, fetchAgreementsReportAction.done)) {
         console.log(action.payload.result)
         return {
@@ -88,26 +107,6 @@ export const vippsAgreementReducer = (state = defaultAgreementState, action: any
         return { ...state, loading: false }
     }
 
-
-
-    /*
-    if(isType(action, fetchDonationAction.done)) {
-        return {
-            ...state,
-            currentDonation: {
-                ...action.payload.result,
-                timestamp: new Date(action.payload.result.timestamp),
-                distribution: (
-                    action.payload.result.distribution ?
-                    action.payload.result.distribution.map((dist) => ({...dist, share: new Decimal(dist.share)})) :
-                    undefined)
-            }
-        }
-    }
-    else if (isType(action, fetchDonationAction.failed)) {
-        toastError("Failed to fetch donation", action.payload.error.message)
-    }
-    */
 
     /**
      * PAGINATION ACTIONS
@@ -170,30 +169,11 @@ export const vippsAgreementChargeReducer = (state = defaultChargeState, action: 
         return { ...state, loading: false }
     }
 
-    /*
-    if(isType(action, fetchDonationAction.done)) {
-        return {
-            ...state,
-            currentDonation: {
-                ...action.payload.result,
-                timestamp: new Date(action.payload.result.timestamp),
-                distribution: (
-                    action.payload.result.distribution ?
-                    action.payload.result.distribution.map((dist) => ({...dist, share: new Decimal(dist.share)})) :
-                    undefined)
-            }
-        }
-    }
-    else if (isType(action, fetchDonationAction.failed)) {
-        toastError("Failed to fetch donation", action.payload.error.message)
-    }
-    */
-
     /**
      * PAGINATION ACTIONS
     */
     switch(action.type) {
-        case SET_VIPPS_AGREEMENTS_PAGINATION:
+        case SET_VIPPS_CHARGES_PAGINATION:
             return { ...state, pagination: action.payload }
     }
 
@@ -201,12 +181,12 @@ export const vippsAgreementChargeReducer = (state = defaultChargeState, action: 
      * FILTER ACTIONS
     */
 
-    if (isType(action, fetchAgreementHistogramAction.done)) {
+    if (isType(action, fetchChargeHistogramAction.done)) {
         return {
             ...state,
             histogram: action.payload.result
         }
-    } else if (isType(action, fetchAgreementHistogramAction.failed)) {
+    } else if (isType(action, fetchChargeHistogramAction.failed)) {
         toastError("Failed to fetch agreement histogram", action.payload.error.message)
     }
 
@@ -220,13 +200,13 @@ export const vippsAgreementChargeReducer = (state = defaultChargeState, action: 
     }
 
     switch(action.type) {
-        case SET_VIPPS_AGREEMENTS_FILTER_AMOUNT:
-            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, amount: action.payload }}
-        case SET_VIPPS_AGREEMENTS_FILTER_DONOR:
+        case SET_VIPPS_CHARGES_FILTER_AMOUNT:
+            return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, amountNOK: action.payload }}
+        case SET_VIPPS_CHARGES_FILTER_DONOR:
             return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, donor: action.payload }}
-        case SET_VIPPS_AGREEMENTS_FILTER_STATUS:
+        case SET_VIPPS_CHARGES_FILTER_STATUS:
             return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, statuses: action.payload }}
-        case SET_VIPPS_AGREEMENTS_FILTER_KID:
+        case SET_VIPPS_CHARGES_FILTER_KID:
             return {...state, pagination: { ...state.pagination, page: 0 }, filter: {...state.filter, KID: action.payload}}
     }
 

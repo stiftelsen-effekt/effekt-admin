@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { grey15, grey30, brown50, grey70 } from "../../../style/colors";
+import { grey15, grey70, brown50, grey30 } from "../../colors";
 
 export const KeyInfoWrapper = styled.div`
     margin-left: 80px;

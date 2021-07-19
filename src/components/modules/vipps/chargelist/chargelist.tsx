@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
-import { Redirect } from 'react-router';
-import { fetchVippsAgreementChargesAction, setVippsAgreementsPagination } from '../../../../store/vipps/vipps.actions';
+import { fetchVippsAgreementChargesAction, refundVippsAgreementChargeAction, setVippsAgreementsFilterStatus, setVippsChargesFilterStatus, setVippsChargesPagination } from '../../../../store/vipps/vipps.actions';
 import { ChargeListWrapper } from './chargelist.style';
+import { VippsChargeFilter } from './chargefilter';
+import { Link } from 'react-router-dom';
 
 export const VippsAgreementChargeList: React.FunctionComponent = () => {
     const state = useSelector((state: AppState) => state.vippsAgreementCharges)
@@ -24,6 +25,11 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
     }, [pagination, filter, dispatch])
 
     const columnDefinitions = [
+        {
+            Header: "Due date",
+            id: "dueDate",
+            accessor: (res:any) => shortDate(DateTime.fromISO(res.dueDate))
+        },
         {
             Header: "Agreement ID",
             accessor: "agreementID"
@@ -50,13 +56,14 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
             id: "kid"
         },
         {
-            Header: "Due/charge date",
-            accessor: "dueDate"
-        },
-        {
             Header: "Created",
             id: "created",
             accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp_created))
+        },
+        {
+            Header: "Refund",
+            id: "refund",
+            accessor: (res: any) => <RefundButton agreementId={res.agreementID} chargeId={res.chargeID} amount={res.amountNOK} disabled={res.status !== "CHARGED"}/>
         }
     ]
 
@@ -64,21 +71,13 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
         {id: "timestamp", desc: true}
     ]
 
-    let [agreement, setAgreement] = useState<string | null>(null);
-    const trProps = (tableState: any, rowInfo: any) => {
-        if (rowInfo && rowInfo.row) {
-            return {
-                onDoubleClick: (e: any) => {
-                    setAgreement(rowInfo.original.id)
-                }
-            }
-        } 
-        return {}
-    }
-
-    if (agreement !== null) return (<Redirect to={`/vipps/agreement/${agreement}`}></Redirect>)
     return (
         <ChargeListWrapper>
+            <Link to="/vipps">Go back</Link>
+            <br />
+            <Link to="/vipps/agreements">See all agreements</Link>
+            <br />
+            <br />
             <ReactTable
                 manual
                 data={data}
@@ -88,11 +87,25 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
                 loading={loading}
                 columns={columnDefinitions}
                 defaultSorted={defaultSorting}
-                onPageChange={(page) => dispatch(setVippsAgreementsPagination({ ...pagination, page }))}
-                onSortedChange={(sorted) => dispatch(setVippsAgreementsPagination({ ...pagination, sort: sorted[0] }))}
-                onPageSizeChange={(pagesize) => dispatch(setVippsAgreementsPagination({ ...pagination, limit: pagesize }))}
-                getTrProps={trProps}
-                />
+                onPageChange={(page) => dispatch(setVippsChargesPagination({ ...pagination, page }))}
+                onSortedChange={(sorted) => dispatch(setVippsChargesPagination({ ...pagination, sort: sorted[0] }))}
+                onPageSizeChange={(pagesize) => dispatch(setVippsChargesPagination({ ...pagination, limit: pagesize }))}
+            />
+            <VippsChargeFilter />
         </ChargeListWrapper>
+    )
+}
+
+const RefundButton: React.FC<{agreementId: string, chargeId: string, amount: number, disabled: boolean}> = ({ agreementId, chargeId, amount, disabled }) => {
+    const dispatch = useDispatch()
+
+    return (
+        <button disabled={disabled} onClick={() => {
+            let sure = window.confirm(`Do you really want to refund the charge with ID ${chargeId} and sum ${amount} kr?`)
+            if (sure) {
+                dispatch(refundVippsAgreementChargeAction.started({agreementId, chargeId}))
+                window.location.reload()
+            }
+        }}>Refund</button>
     )
 }

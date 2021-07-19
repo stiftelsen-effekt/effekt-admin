@@ -5,6 +5,7 @@ import { MainHeader } from "../../style/elements/headers.style";
 import { Link } from 'react-router-dom';
 import { fetchAgreementsReportAction } from '../../../store/vipps/vipps.actions';
 import { AppState, VippsAgreementsState } from '../../../models/state';
+import { RightTD } from './vipps.component.style';
 
 export const VippsPage: React.FunctionComponent = () => {
     const agreements: VippsAgreementsState = useSelector((state: AppState) => state.vippsAgreements)
@@ -17,10 +18,33 @@ export const VippsPage: React.FunctionComponent = () => {
     return (
         <Page>
             <MainHeader>Vipps agreements</MainHeader>
-            <p>Active agreements: {agreements.activeAgreementCount}</p>
-            <p>Median agreement sum: {agreements.medianAgreementSum}</p>
-            <p>Average agreement sum: {agreements.averageAgreementSum}</p>
-            <p>Total agreement sum: {agreements.totalAgreementSum}</p>
+            <h4>There are currently {agreements.activeAgreementCount} active agreements</h4>
+            <table width="300px">
+                <tr>
+                    <td>Median agreement sum</td>
+                    <RightTD>{agreements.medianAgreementSum} kr</RightTD>
+                </tr>
+                <tr>
+                    <td>Average agreement sum</td>
+                    <RightTD>{agreements.averageAgreementSum} kr</RightTD>
+                </tr>
+                <tr>
+                    <td>Total agreement sum</td>
+                    <RightTD>{agreements.totalAgreementSum} kr</RightTD>
+                </tr>
+            </table>
+            <h4>Changes this month</h4>
+            <table width="300px">
+                <tr>
+                    <td>Agreements started</td>
+                    <RightTD>{agreements.startedThisMonth}</RightTD>
+                </tr>
+                <tr>
+                    <td>Agreements stopped</td>
+                    <RightTD>{agreements.stoppedThisMonth}</RightTD>
+                </tr>
+            </table>
+            <br />
             <Link to="vipps/agreements">See all agreements</Link>
             <br />
             <Link to="vipps/charges">See all charges</Link>

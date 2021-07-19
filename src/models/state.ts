@@ -77,6 +77,8 @@ export interface VippsAgreementsState {
     averageAgreementSum: number,
     totalAgreementSum: number,
     medianAgreementSum: number,
+    startedThisMonth: number,
+    stoppedThisMonth: number,
     currentAgreement?: IVippsAgreement,
     histogram?: Array<IHistogramBucket>,
     pages: number,

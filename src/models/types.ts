@@ -146,10 +146,11 @@ export interface IVippsAgreement {
     status: string,
     amount: number,
     KID: string,
-    urlCode: string,
+    agreement_url_code: string,
     donorID: number,
     monthly_charge_day: number,
-    paused_until_date: Date
+    paused_until_date: Date,
+    distribution: Array<IDistributionShare>,
 }
 
 export interface IVippsAgreementFilter {
@@ -182,5 +183,6 @@ export interface IVippsAgreementChargeFilter {
         to: string
     }
     KID?: string,
-    statuses?: Array<string>
+    statuses?: Array<string>,
+    donor: string
 }
