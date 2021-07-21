@@ -37,7 +37,6 @@ const rootReducer = combineReducers<AppState>({
 const sagaMiddleware = createSagaMiddleware();
 const Store = createStore(
     rootReducer,
-    // applyMiddleware(sagaMiddleware));
     composeWithDevTools(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(watchAll);
 
