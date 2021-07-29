@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Redirect, RouteProps } from 'react-router';
 import { AuthStep } from '../../models/state';
-import { loginCallback } from '../../authenticate/loginout.actions';
+import { loginCallback } from '../../store/authentication/loginout.actions';
 import { connect } from 'react-redux';
 
 interface ICallbackProps extends RouteProps {

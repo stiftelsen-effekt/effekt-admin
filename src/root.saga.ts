@@ -1,8 +1,5 @@
 import { takeEvery, all, takeLatest } from 'redux-saga/effects';
-import { fetchTokenAction } from './authenticate/token.actions';
-import { fetchToken } from './authenticate/token.saga';
-import { LOGIN_BEGIN, LOGOUT_REQUEST, LOGIN_CACHE_CHECK, LOGIN_CALLBACK, LOGIN_SUCCESS } from './authenticate/loginout.actions';
-import { login, logout, loginCacheCheck, callback, loginSuccess } from './authenticate/loginout.saga';
+import { fetchToken } from './store/authentication/token.saga';
 import { searchDonorAction } from './components/modules/donors/selection/donor-selection.actions';
 import { searchDonors } from './components/modules/donors/selection/donor-selection.saga';
 import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';
@@ -31,6 +28,9 @@ import { fetchLogEntryAction } from './store/logs/logs.actions';
 import { fetchLogEntry } from './store/logs/logs.saga';
 import { fetchAgreementHistogram, fetchAgreementsReport, fetchChargeHistogram, fetchVippsAgreement, fetchVippsAgreementCharges, fetchVippsAgreements, refundVippsAgreementCharge } from './store/vipps/vipps.saga';
 import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, refundVippsAgreementChargeAction } from './store/vipps/vipps.actions';
+import { LOGIN_CACHE_CHECK, loginCacheCheck, LOGIN_BEGIN, LOGIN_CALLBACK, LOGOUT_REQUEST, LOGIN_SUCCESS, loginSuccess } from './store/authentication/loginout.actions';
+import { login, callback, logout } from './store/authentication/loginout.saga';
+import { fetchTokenAction } from './store/authentication/token.actions';
 
 function* watchAll() {
     yield all([

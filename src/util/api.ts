@@ -1,8 +1,8 @@
 import { API_URL } from "../config/config";
 import store from './../store';
 import queryString from "querystring";
-import { sessionInvalid, LOGIN_SUCCESS } from "../authenticate/loginout.actions";
-import { Auth } from "../authenticate/auth";
+import { Auth } from "../store/authentication/auth";
+import { LOGIN_SUCCESS, sessionInvalid } from "../store/authentication/loginout.actions";
 
 export enum Method {
     GET = "GET",
@@ -109,7 +109,7 @@ export const call = async (params: IAPIParameters): Promise<any> => {
 
             return result
         default:
-            return new Promise<Response>((success) => { success(); });
+            return new Promise<Response | void>((success) => { success(); });
     }
 }
 

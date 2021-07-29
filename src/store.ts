@@ -2,7 +2,7 @@ import { AppState } from './models/state'
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga'
 import watchAll from './root.saga';
-import { authReducer } from './authenticate/auth.reducer';
+import { authReducer } from './store/authentication/auth.reducer';
 import { donorSelectorReducer } from './components/modules/donors/selection/donor-selection.reducer';
 import { organizationsReducer } from './store/organizations/organizations.reducer';
 import { singleDonationReducer } from './components/modules/single-donation/single-donation.reducer';
