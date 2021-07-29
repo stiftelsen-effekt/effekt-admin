@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { FilterHeader, FilterWrapper, FilterGroup, FilterGroupHeader, FilterInput } from '../../../../style/elements/filters.component.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../../models/state';
-import { setDistributionFilterKid, setDistributionFilterDonor, fetchDistributionsAction } from '../distribution-list.actions';
 import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
+import { setDistributionFilterKid, fetchDistributionsAction, setDistributionFilterDonor } from '../../../../../store/distributions/distribution.actions';
 
 export const DistributionsFiltersComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
@@ -28,7 +28,7 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
                     value={KID}
                     onChange={(e) => {
                         dispatch(setDistributionFilterKid(e.target.value))
-                        dispatch(fetchDistributionsAction.started())
+                        dispatch(fetchDistributionsAction.started(undefined))
                     }}></FilterInput>
             </FilterGroup>
 
@@ -40,7 +40,7 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
                     value={donor}
                     onChange={(e) => { 
                         dispatch(setDistributionFilterDonor(e.target.value))
-                        dispatch(fetchDistributionsAction.started())
+                        dispatch(fetchDistributionsAction.started(undefined))
                     }}></FilterInput>
             </FilterGroup>
         </FilterWrapper>

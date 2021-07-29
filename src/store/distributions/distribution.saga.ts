@@ -1,9 +1,9 @@
-import { fetchDistributionsAction } from "./distribution-list.actions"
+import { fetchDistributionsAction } from "./distribution.actions"
 import { put, call, select } from "redux-saga/effects";
-import * as API from "../../../../util/api"
-import { AppState } from "../../../../models/state";
+import * as API from "../../util/api"
+import { AppState } from "../../models/state";
 import { IAccessToken } from "../../../../authenticate/auth";
-import { IPagination, IDistributionFilter } from "../../../../models/types";
+import { IPagination, IDistributionFilter } from "../../models/types";
 
 export function* fetchDistributions (action: any) {
     try {
