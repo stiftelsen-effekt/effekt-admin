@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import ReactTable from 'react-table';
+import { setDistributionPagination, fetchDistributionsAction } from './distribution-list.actions';
 import { Redirect } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { DistributionsFiltersComponent } from './filters/DistributionsFilter';
 import { DistributionListWrapper } from './DistributionsList.style';
-import { setDistributionPagination, fetchDistributionsAction } from '../../../../store/distributions/distribution.actions';
 
 export const DistributionsList: React.FunctionComponent = () => {
     const data = useSelector((state: AppState) => state.distributions.searchResult)
@@ -73,7 +73,7 @@ export const DistributionsList: React.FunctionComponent = () => {
                         page: state.page,
                         limit: state.pageSize
                     }))
-                    dispatch(fetchDistributionsAction.started(undefined))
+                    dispatch(fetchDistributionsAction.started())
                 }}
                 getTrProps={trProps}
                 />

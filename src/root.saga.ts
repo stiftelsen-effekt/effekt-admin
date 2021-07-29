@@ -16,7 +16,8 @@ import { fetchDonationAction, fetchHistogramAction } from './store/donations/don
 import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
 import { fetchTotalByPeriod } from './components/pages/graphing/graphing.saga';
 import { fetchTotalByPeriodAction } from './components/pages/graphing/graphing.actions';
-import { fetchDistributions } from './store/distributions/distribution.saga';
+import { fetchDistributions } from './components/modules/distribution/list/distribution-list.saga';
+import { fetchDistributionsAction } from './components/modules/distribution/list/distribution-list.actions';
 import { fetchOwnersAction } from './store/owners/owners.actions';
 import { fetchOwners } from './store/owners/owners.saga';
 import { resendRecieptAction } from './components/modules/donations/reciept/reciept.actions';
@@ -30,7 +31,6 @@ import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchCharge
 import { LOGIN_CACHE_CHECK, loginCacheCheck, LOGIN_BEGIN, LOGIN_CALLBACK, LOGOUT_REQUEST, LOGIN_SUCCESS, loginSuccess } from './store/authentication/loginout.actions';
 import { login, callback, logout } from './store/authentication/loginout.saga';
 import { fetchTokenAction } from './store/authentication/token.actions';
-import { fetchDistributionsAction } from './store/distributions/distribution.actions';
 
 function* watchAll() {
     yield all([
