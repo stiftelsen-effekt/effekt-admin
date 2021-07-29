@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { MainNav, NavMenu, NavMenuItem, Logout, Flare, LogoHolder } from './Navigation.style'
-import { logoutRequest } from '../store/authentication/loginout.actions';
+import { logoutRequest } from '../authenticate/loginout.actions';
 import { connect } from 'react-redux';
 import Logo from '../assets/logo_link.png'
 import { Home, BarChart2, Upload, Clipboard, User, List, LogOut, PieChart, Activity, Smartphone } from "react-feather"

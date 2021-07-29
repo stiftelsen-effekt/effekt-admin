@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthStep, AppState } from '../../models/state';
+import { loginBegin, loginCacheCheck, loginFailure } from '../../authenticate/loginout.actions';
 import { Redirect } from 'react-router';
-import { LoginWrapper, LoginButton, LoginHeader, LoginError } from './Login.style';
-import { loginCacheCheck, loginFailure, loginBegin } from '../../store/authentication/loginout.actions';
+import { LoginWrapper, LoginButton, LoginHeader, LoginError } from './login.component.style';
 
 export const LoginComponent: React.FunctionComponent = () => {
     const dispatch = useDispatch()
