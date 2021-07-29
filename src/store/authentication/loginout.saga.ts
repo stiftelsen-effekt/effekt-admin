@@ -1,7 +1,7 @@
 import {  Auth, IAccessKey } from './auth'
 import { call, select, put } from 'redux-saga/effects'
-import * as API from '../util/api'
-import { AppState } from '../models/state';
+import * as API from '../../util/api'
+import { AppState } from '../../models/state';
 import { logoutSuccess, logoutFailure, fetchAccessKeySuccess } from './loginout.actions';
 import { fetchTokenAction } from './token.actions';
 

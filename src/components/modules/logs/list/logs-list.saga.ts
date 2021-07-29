@@ -2,7 +2,7 @@ import { fetchLogsAction } from "./logs-list.actions";
 import { put, call, select } from "redux-saga/effects";
 import * as API from "../../../../util/api"
 import { AppState } from "../../../../models/state";
-import { IAccessToken } from "../../../../authenticate/auth";
+import { IAccessToken } from "../../../../store/authentication/auth";
 import { IPagination } from "../../../../models/types";
 
 export function* fetchLogs (action: any) {

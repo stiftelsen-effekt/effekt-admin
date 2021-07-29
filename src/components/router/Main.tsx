@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { AdminPanel } from '../AdminPanel';
 import { Switch } from 'react-router';
 import { HashRouter } from 'react-router-dom';
-import { loginCacheCheck } from '../../authenticate/loginout.actions'
+import { loginCacheCheck } from '../../store/authentication/loginout.actions'
 
 class MainRouter extends React.Component<IStateProps & IDispatchProps> {
     render() {

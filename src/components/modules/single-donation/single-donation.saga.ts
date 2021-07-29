@@ -5,7 +5,7 @@ import {    createDistribitionAndInsertDonationAction,
             fetchPaymentMethodsAction,
             ICreateDonationParams} from './single-donation.actions';
 import { AppState } from '../../../models/state';
-import { IAccessToken } from '../../../authenticate/auth';
+import { IAccessToken } from '../../../store/authentication/auth';
 
 const getApiToken = (state: AppState) => state.auth.currentToken
 

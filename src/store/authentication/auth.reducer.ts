@@ -1,4 +1,4 @@
-import { AuthState, AuthStep } from "../models/state";
+import { AuthState, AuthStep } from "../../models/state";
 import { AnyAction } from "redux";
 import { fetchTokenAction } from "./token.actions";
 import { FETCH_ACCESS_KEY_SUCCESS, LOGOUT_SUCCESS, LOGIN_CACHE_FAILURE, LOGIN_FAILURE, SESSION_INVALID } from "./loginout.actions";

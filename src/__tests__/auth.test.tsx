@@ -1,7 +1,7 @@
-import { Auth, AuthUtil } from '../authenticate/auth'
-import { callback, loginSuccess } from '../authenticate/loginout.saga';
-import { LOGIN_FAILURE, LOGIN_SUCCESS, FETCH_ACCESS_KEY_SUCCESS } from '../authenticate/loginout.actions';
-import { fetchTokenAction } from '../authenticate/token.actions';
+import { Auth, AuthUtil } from '../store/authentication/auth'
+import { callback, loginSuccess } from '../store/authentication/loginout.saga';
+import { LOGIN_FAILURE, LOGIN_SUCCESS, FETCH_ACCESS_KEY_SUCCESS } from '../store/authentication/loginout.actions';
+import { fetchTokenAction } from '../store/authentication/token.actions';
 import 'jest-localstorage-mock';
 
 delete window.location

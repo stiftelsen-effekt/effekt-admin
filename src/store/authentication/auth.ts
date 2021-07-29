@@ -1,10 +1,10 @@
-import { DEV_ENVIRONMENT, API_URL, API_AUTH } from "../config/config";
+import { DEV_ENVIRONMENT, API_URL, API_AUTH } from "../../config/config";
 import queryString from "querystring";
 
 import shortid from 'shortid';
 import { loginSuccess, loginCacheFailure, loginFailure } from "./loginout.actions";
 
-import store from './../store';
+import store from '../../store';
 import { Action } from "redux";
 
 export interface IAccessKey {

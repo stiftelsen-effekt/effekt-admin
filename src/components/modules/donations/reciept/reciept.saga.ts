@@ -1,4 +1,4 @@
-import { IAccessToken } from "../../../../authenticate/auth";
+import { IAccessToken } from "../../../../store/authentication/auth";
 import { select, put, call } from "redux-saga/effects";
 import { AppState } from "../../../../models/state";
 import { resendRecieptAction } from "./reciept.actions";

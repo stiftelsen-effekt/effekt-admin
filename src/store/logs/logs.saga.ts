@@ -1,6 +1,6 @@
 import { put, select, call } from "redux-saga/effects";
 import { Action } from "typescript-fsa";
-import { IAccessToken } from "../../authenticate/auth";
+import { IAccessToken } from "../authentication/auth";
 import { AppState } from "../../models/state";
 import * as API from "../../util/api"
 import { fetchLogEntryAction, IFetchLogEntryActionParams } from "./logs.actions";
