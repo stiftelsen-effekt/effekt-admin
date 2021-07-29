@@ -7,16 +7,14 @@ import { IDonation } from '../../../models/types';
 import { fetchDonationAction, clearCurrentDonation } from '../../../store/donations/donation.actions';
 import { DistributionGraphComponent } from '../../modules/distribution/Graph';
 import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../style/elements/headers.style';
+import { HorizontalPanel } from './Donation.style';
 import { DonationKeyInfoComponent } from '../../modules/donations/keyinfo/KeyInfo';
-import { HorizontalPanel } from '../donations/Donation.style';
 
 interface IParams {
     id: string
 }
 
-/* This page is not finished and not currently in use */
-
-export const VippsAgreementChargePageComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({ match }: RouteComponentProps<IParams>) => {
+export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({ match }: RouteComponentProps<IParams>) => {
     const donationID = parseInt(match.params.id)
     const dispatch = useDispatch()
 

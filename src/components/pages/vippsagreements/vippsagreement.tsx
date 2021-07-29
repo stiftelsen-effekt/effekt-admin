@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../models/state';
 import { IVippsAgreement } from '../../../models/types';
 import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../style/elements/headers.style';
-import { HorizontalPanel } from '../donations/donation.component.style';
+import { HorizontalPanel } from '../donations/Donation.style';
 import { fetchVippsAgreementAction } from '../../../store/vipps/vipps.actions';
-import { AgreementKeyInfoComponent } from '../../modules/vipps/singleagreement/agreement.keyinfo';
-import { DistributionGraphComponent } from '../../modules/distribution/graph.component';
+import { AgreementKeyInfoComponent } from '../../modules/vipps/singleagreement/AgreementKeyInfo';
+import { DistributionGraphComponent } from '../../modules/distribution/Graph';
 
 interface IParams {
     id: string
