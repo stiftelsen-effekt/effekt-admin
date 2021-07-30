@@ -21,8 +21,8 @@ import { LogEntryComponent } from './pages/logs/LogEntry';
 import { VippsAgreementsPageComponent } from './pages/vippsagreements/VippsAgreements';
 import { VippsAgreementChargesPageComponent } from './pages/vippsagreementcharges/VippsAgreementCharges';
 import { VippsPage } from './pages/vipps/Vipps';
-import { VippsAgreementPageComponent } from './pages/vippsagreements/VippsAgreement';
-import { VippsAgreementChargePageComponent } from './pages/vippsagreementcharges/VippsAgreementCharge';
+import { VippsAgreementPageComponent } from './pages/vippsagreements/vippsagreement';
+import { VippsAgreementChargePageComponent } from './pages/vippsagreementcharges/vippsagreementcharge';
 
 export const AdminPanel: React.FunctionComponent = () => {
     //TODO: Move someplace where it is run only once
