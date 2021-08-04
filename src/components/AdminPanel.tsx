@@ -23,12 +23,14 @@ import { VippsAgreementChargesPageComponent } from './pages/vippsagreementcharge
 import { VippsPage } from './pages/vipps/Vipps';
 import { VippsAgreementPageComponent } from './pages/vippsagreements/vippsagreement';
 import { VippsAgreementChargePageComponent } from './pages/vippsagreementcharges/vippsagreementcharge';
+import { AvtaleGiroPage } from './pages/avtalegiro/AvtaleGiroPage';
+import { AvtaleGiroAgreementsPage } from './pages/avtalegiroagreements/AvtaleGiroAgreements';
 
 export const AdminPanel: React.FunctionComponent = () => {
     //TODO: Move someplace where it is run only once
     const dispatch = useDispatch()
     const organizations = useSelector((state: AppState) => state.organizations.active)
-    if (!organizations) dispatch(fetchActiveOrganizationsAction.started())
+    if (!organizations) dispatch(fetchActiveOrganizationsAction.started(undefined))
     
     return (
         <div>
@@ -53,8 +55,10 @@ export const AdminPanel: React.FunctionComponent = () => {
                         <Route exact path="/vipps/agreement/:id" component={VippsAgreementPageComponent}></Route>
                         <Route exact path="/vipps/charges" component={VippsAgreementChargesPageComponent}></Route>
                         <Route exact path="/vipps/charge/:id" component={VippsAgreementChargePageComponent}></Route>
+                    <Route exact path="/avtalegiro" component={AvtaleGiroPage}></Route>
+                        <Route exact path="/avtalegiro/agreements" component={AvtaleGiroAgreementsPage}></Route>
                     <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
-                </Switch> 
+                </Switch>
             </AdminPanelWrapper>
             {/* General overlay elements */}
             <EffektToastContainer />

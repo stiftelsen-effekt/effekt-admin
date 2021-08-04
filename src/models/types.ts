@@ -186,3 +186,51 @@ export interface IVippsAgreementChargeFilter {
     statuses?: Array<string>,
     donor: string
 }
+
+/** AvtaleGiro agreements */
+
+export interface IAvtaleGiro {
+    id: string,
+    created: string,
+    last_updated: string,
+    active: number,
+    amount: number,
+    KID: string,
+    donor: string,
+    payment_date: number,
+    distribution: Array<IDistributionShare>,
+}
+
+export interface IAvtaleGiroFilter {
+    amount: {
+        from: number,
+        to: number
+    },
+    KID?: string,
+    donor?: string,
+    statuses?: Array<string>
+}
+
+export interface IAvtaleGiroDonation {
+    chargeID: string,
+    agreementID: string,
+    status: string,
+    amountNOK: number,
+    KID: string,
+    dueDate: string,
+    timestamp: string
+}
+
+export interface IAvtaleGiroDonationFilter {
+    sum: {
+        from: number,
+        to: number
+    },
+    paymentDate: {
+        from: number,
+        to: number
+    }
+    kid?: string,
+    active?: number,
+    donor: string
+}
