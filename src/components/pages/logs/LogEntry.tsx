@@ -32,7 +32,10 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
       <ResourceHeader hasSubHeader={true}>Log entry {entry.ID} | {entry.label}</ResourceHeader>
       <ResourceSubHeader>{longDateTime(DateTime.fromISO(entry.timestamp, { zone: "Europe/Oslo" }))}</ResourceSubHeader>
 
-      <JSONTree data={entry.result} shouldExpandNode={(keyPath, data, level) => true}/>
+      <JSONTree
+        data={entry.result} 
+        valueRenderer={(value, valueActual, keyPath, ) => keyPath === 'file' ? <span style={{ fontFamily: 'monospace', whiteSpace: 'pre', display: 'block' }}>{value}</span> : <span>{value}</span>}
+        shouldExpandNode={(keyPath, data, level) => true}/>
     </Page>)
   }
   else {
