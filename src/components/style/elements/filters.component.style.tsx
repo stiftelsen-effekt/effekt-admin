@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { azure02, azure50, grey05 } from "../colors";
-import { EffektDateRange } from "../../modules/range/date-range.component";
+import { EffektDateRange } from "../../modules/range/DateRange";
 import { EffektInput } from "./input.style";
 
 export const FilterHeader = styled.h2`

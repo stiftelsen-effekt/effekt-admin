@@ -1,7 +1,7 @@
 
 import { put, call, select } from "redux-saga/effects";
 import { Action } from "typescript-fsa";
-import { IAccessToken } from "../../authenticate/auth";
+import { IAccessToken } from "../authentication/auth";
 import { AppState } from "../../models/state";
 import { IPagination, IVippsAgreement, IVippsAgreementChargeFilter, IVippsAgreementFilter } from "../../models/types";
 import * as API from "./../../util/api"

@@ -2,7 +2,7 @@ import { deleteDonationAction, fetchDonationsAction } from "./donations-list.act
 import { put, call, select } from "redux-saga/effects";
 import * as API from "../../../../util/api"
 import { AppState } from "../../../../models/state";
-import { IAccessToken } from "../../../../authenticate/auth";
+import { IAccessToken } from "../../../../store/authentication/auth";
 import { IPagination, IDonationFilter } from "../../../../models/types";
 
 export function* fetchDonations (action: any) {

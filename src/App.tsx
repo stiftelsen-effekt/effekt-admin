@@ -3,7 +3,7 @@ import React from 'react';
 import store from './store';
 import { Provider } from 'react-redux';
 
-import MainRouter from './components/router/main.component'
+import MainRouter from './components/router/Main'
 
 //TODO: Move styling somewhere else?
 import "react-datepicker/dist/react-datepicker.css";

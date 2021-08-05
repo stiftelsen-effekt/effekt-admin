@@ -1,7 +1,7 @@
 import { put, select, call } from "redux-saga/effects";
 import { fetchDonationAction, IFetchDonationActionParams, fetchHistogramAction } from "./donation.actions";
 import { Action, AnyAction } from "typescript-fsa";
-import { IAccessToken } from "../../authenticate/auth";
+import { IAccessToken } from "../authentication/auth";
 import { AppState } from "../../models/state";
 import * as API from "../../util/api"
 

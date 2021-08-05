@@ -1,4 +1,4 @@
-import { IAccessKey, IAccessToken } from "../authenticate/auth";
+import { IAccessKey, IAccessToken } from "../store/authentication/auth";
 import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner, ILogEntry, IVippsAgreement, IVippsAgreementFilter, IVippsAgreementCharge, IVippsAgreementChargeFilter } from "./types";
 
 export interface AppState {

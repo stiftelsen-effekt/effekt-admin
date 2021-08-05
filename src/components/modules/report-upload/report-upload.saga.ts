@@ -1,7 +1,7 @@
 import { uploadReportAction, ReportTypes } from "./report-upload.actions";
 import { put, select, call } from "redux-saga/effects";
 import { AppState } from "../../../models/state";
-import { IAccessToken } from "../../../authenticate/auth";
+import { IAccessToken } from "../../../store/authentication/auth";
 import * as API from '../../../util/api'
 
 const getApiToken = (state: AppState) => state.auth.currentToken

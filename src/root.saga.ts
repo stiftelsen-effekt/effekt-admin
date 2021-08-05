@@ -1,8 +1,8 @@
 import { takeEvery, all, takeLatest } from 'redux-saga/effects';
-import { fetchTokenAction } from './authenticate/token.actions';
-import { fetchToken } from './authenticate/token.saga';
-import { LOGIN_BEGIN, LOGOUT_REQUEST, LOGIN_CACHE_CHECK, LOGIN_CALLBACK, LOGIN_SUCCESS } from './authenticate/loginout.actions';
-import { login, logout, loginCacheCheck, callback, loginSuccess } from './authenticate/loginout.saga';
+import { fetchTokenAction } from './store/authentication/token.actions';
+import { fetchToken } from './store/authentication/token.saga';
+import { LOGIN_BEGIN, LOGOUT_REQUEST, LOGIN_CACHE_CHECK, LOGIN_CALLBACK, LOGIN_SUCCESS } from './store/authentication/loginout.actions';
+import { login, logout, loginCacheCheck, callback, loginSuccess } from './store/authentication/loginout.saga';
 import { searchDonorAction } from './components/modules/donors/selection/donor-selection.actions';
 import { searchDonors } from './components/modules/donors/selection/donor-selection.saga';
 import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';

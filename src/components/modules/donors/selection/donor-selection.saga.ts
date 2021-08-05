@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 import * as API from '../../../../util/api'
 import { searchDonorAction } from './donor-selection.actions';
 import { AppState } from '../../../../models/state';
-import { IAccessToken } from '../../../../authenticate/auth';
+import { IAccessToken } from '../../../../store/authentication/auth';
 
 export const getApiToken = (state: AppState) => state.auth.currentToken
 
