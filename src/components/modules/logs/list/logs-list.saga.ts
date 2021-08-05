@@ -9,7 +9,7 @@ export function* fetchLogs (action: any) {
     try {
         const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
         
-        const pagination: IPagination = yield select((state: AppState) => state.donations.pagination)
+        const pagination: IPagination = yield select((state: AppState) => state.logs.pagination)
 
         const result: API.Response = yield call(API.call, {
             endpoint: "/logging/",
