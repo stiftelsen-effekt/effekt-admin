@@ -231,6 +231,6 @@ export interface IAvtaleGiroDonationFilter {
         to: number
     }
     kid?: string,
-    active?: number,
+    statuses?: Array<number>,
     donor: string
 }

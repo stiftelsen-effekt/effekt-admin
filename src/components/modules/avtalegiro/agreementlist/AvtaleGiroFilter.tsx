@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
+import { setAvtaleGiroFilterActive, setAvtaleGiroFilterDonor, setAvtaleGiroFilterKID } from '../../../../store/avtalegiro/avtalegiro.actions';
 import { fetchAgreementHistogramAction, setVippsAgreementsFilterAmount, setVippsAgreementsFilterDonor, setVippsAgreementsFilterKID, setVippsAgreementsFilterStatus } from '../../../../store/vipps/vipps.actions';
 import { EffektCheckChoice, EffektCheckForm } from '../../../style/elements/effekt-check/effekt-check-form.component';
 import { FilterOpenButton } from '../../../style/elements/filter-buttons/filter-open-button.component';
@@ -9,7 +10,7 @@ import { FilterWrapper, FilterContent, FilterHeader, FilterGroup, FilterGroupHea
 import { HistogramInputComponent } from '../../histogram-input/HistogramInput';
 
 const statusTypes = [ 
-    { name: "INACTIVE", id: 0 }, 
+    { name: "STOPPED", id: 0 }, 
     { name: "ACTIVE", id: 1 }
 ];
 
@@ -17,22 +18,23 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
     const dispatch = useDispatch()
 
     const amountRange = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.amount)
-    const KID = useSelector((state: AppState) => state.vippsAgreements.filter.KID)
-    const donor = useSelector((state: AppState) => state.vippsAgreements.filter.donor)
-    const statuses = useSelector((state: AppState) => state.vippsAgreements.filter.statuses)
+    const KID = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.KID)
+    const donor = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.donor)
+    const statuses = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.statuses)
 
-    const histogram = useSelector((state: AppState) => state.vippsAgreements.histogram)
-    if (!histogram) dispatch(fetchAgreementHistogramAction.started(undefined))
+    const histogram = useSelector((state: AppState) => state.avtaleGiroAgreements.histogram)
+    //if (!histogram) dispatch(fetchAgreementHistogramAction.started(undefined))
 
     let statusChoices: Array<EffektCheckChoice> = statusTypes.map(status => ({
         label: status.name,
         value: status.id,
-        selected: statuses.indexOf(status.name) !== -1
+        // If status is not found, set box to unchecked
+        selected: statuses.indexOf(status.id) !== -1
     }))
 
     const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false)
 
-    if (!histogram) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>
+    //if (!histogram) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>
     return (
         <FilterWrapper isOpen={filterIsOpen}>
             <FilterContent>
@@ -41,16 +43,17 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
                     onClick={() => setFilterIsOpen(!filterIsOpen)}></FilterOpenButton>
                 <FilterHeader>Filters</FilterHeader>
 
-                {/* <FilterGroup>
-                    <FilterGroupHeader>Agreement sum</FilterGroupHeader>
+                <FilterGroup>
+                    {/* <FilterGroupHeader>Agreement sum</FilterGroupHeader>
                     <HistogramInputComponent
                         range={[amountRange.from, amountRange.to]}
                         histogram={histogram}
                         onChange={(range: any) => {
                             dispatch(setVippsAgreementsFilterAmount({from: Math.min(...range), to: Math.max(...range)}))
                         } }>
-                    </HistogramInputComponent>
-                </FilterGroup> */}
+                    </HistogramInputComponent> */}
+                    Amount filter coming soon!
+                </FilterGroup>
                 
                 <FilterGroup>
                     <FilterGroupHeader>Donor like</FilterGroupHeader>
@@ -59,7 +62,7 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
                         placeholder={"Fuzzy search"} 
                         style={{width: '100%'}}
                         onChange={(e: any) => {
-                            dispatch(setVippsAgreementsFilterDonor(e.target.value))
+                            dispatch(setAvtaleGiroFilterDonor(e.target.value))
                         }} ></FilterInput>
                 </FilterGroup>
 
@@ -70,7 +73,7 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
                         placeholder={"Fuzzy search"} 
                         style={{width: '100%'}}
                         onChange={(e: any) => {
-                            dispatch(setVippsAgreementsFilterKID(e.target.value))
+                            dispatch(setAvtaleGiroFilterKID(e.target.value))
                         }} ></FilterInput>
                 </FilterGroup>
 
@@ -80,11 +83,11 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
                         azure={true}
                         choices={statusChoices}
                         onChange={(choices: Array<number>) => {
-                            let newChoices: string[] = []
+                            let newChoices: number[] = []
                             choices.forEach(choiceID => {
-                                newChoices.push(statusTypes[choiceID].name)
+                                newChoices.push(statusTypes[choiceID].id)
                             })
-                            dispatch(setVippsAgreementsFilterStatus(newChoices))
+                            dispatch(setAvtaleGiroFilterActive(newChoices))
                         }}></EffektCheckForm>
                 </FilterGroup>
             </FilterContent>

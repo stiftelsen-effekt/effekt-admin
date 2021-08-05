@@ -1,6 +1,6 @@
 import { isType } from "typescript-fsa";
 import { AvtaleGiroAgreementsState } from "../../models/state";
-import { fetchAvtaleGiroAgreementsAction, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
+import { fetchAvtaleGiroAgreementsAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     activeAgreementCount: 0,
@@ -35,7 +35,6 @@ export const avtaleGiroReducer = (state = defaultAvtaleGiroAgreementState, actio
 
     // Fetch multiple agreements
     if(isType(action, fetchAvtaleGiroAgreementsAction.done)) {
-        console.log(action.payload)
         return {
             ...state,
             loading: false,
@@ -98,8 +97,8 @@ export const avtaleGiroReducer = (state = defaultAvtaleGiroAgreementState, actio
      * FILTER ACTIONS
     */
 
-    /*
 
+    /*
     if (isType(action, fetchAgreementHistogramAction.done)) {
         return {
             ...state,
@@ -117,19 +116,18 @@ export const avtaleGiroReducer = (state = defaultAvtaleGiroAgreementState, actio
     } else if (isType(action, fetchChargeHistogramAction.failed)) {
         toastError("Failed to fetch charge histogram", action.payload.error.message)
     }
+    */
 
     switch(action.type) {
-        case SET_VIPPS_AGREEMENTS_FILTER_AMOUNT:
+        case SET_AVTALEGIRO_FILTER_AMOUNT:
             return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, amount: action.payload }}
-        case SET_VIPPS_AGREEMENTS_FILTER_DONOR:
+        case SET_AVTALEGIRO_FILTER_DONOR:
             return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, donor: action.payload }}
-        case SET_VIPPS_AGREEMENTS_FILTER_STATUS:
+        case SET_AVTALEGIRO_FILTER_ACTIVE:
             return {...state, pagination: { ...state.pagination, page: 0 }, filter: { ...state.filter, statuses: action.payload }}
-        case SET_VIPPS_AGREEMENTS_FILTER_KID:
+        case SET_AVTALEGIRO_FILTER_KID:
             return {...state, pagination: { ...state.pagination, page: 0 }, filter: {...state.filter, KID: action.payload}}
     }
-    
-    */
 
     return state;
 }

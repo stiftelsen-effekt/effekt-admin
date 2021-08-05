@@ -62,7 +62,7 @@ export const setAvtaleGiroFilterKID = (KID: string) => {
     }
 }
 
-export const setAvtaleGiroFilterActive = (active: number) => {
+export const setAvtaleGiroFilterActive = (active: Array<number>) => {
     return {
         type: SET_AVTALEGIRO_FILTER_ACTIVE,
         payload: active
