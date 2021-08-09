@@ -76,8 +76,6 @@ export const DonationsList: React.FunctionComponent = () => {
         return {}
     }
 
-    console.log(pagination.page)
-
     if (donation !== null) return (<Redirect to={`/donations/${donation}`}></Redirect>)
     return (
         <DonationListWrapper>

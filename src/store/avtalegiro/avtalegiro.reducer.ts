@@ -2,7 +2,6 @@ import { isType } from "typescript-fsa";
 import { AvtaleGiroAgreementsState } from "../../models/state";
 import { toastError } from "../../util/toasthelper";
 import { fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroReportAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
-import { fetchAvtaleGiroReport } from "./avtalegiro.saga";
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     activeAgreementCount: 0,
@@ -55,7 +54,6 @@ export const avtaleGiroReducer = (state = defaultAvtaleGiroAgreementState, actio
 
     // Fetch single agreement
     if(isType(action, fetchVippsAgreementAction.done)) {
-        console.log(action.payload.result)
         return {
             ...state,
             currentAgreement: action.payload.result,
@@ -72,7 +70,6 @@ export const avtaleGiroReducer = (state = defaultAvtaleGiroAgreementState, actio
 
     // Fetch agreement report
     if(isType(action, fetchAvtaleGiroReportAction.done)) {
-        console.log(action.payload.result)
         return {
             ...state,
             loading: false,

@@ -12,7 +12,6 @@ import { fetchAvtaleGiroAgreementsAction, setAvtaleGiroPagination } from '../../
 
 export const AvtaleGiroList: React.FunctionComponent = () => {
     const state = useSelector((state: AppState) => state.avtaleGiroAgreements)
-    console.log(state)
     const data = useSelector((state: AppState) => state.avtaleGiroAgreements.agreements)
     const pages = useSelector((state: AppState) => state.avtaleGiroAgreements.pages)
     const loading = useSelector((state: AppState) => state.avtaleGiroAgreements.loading)

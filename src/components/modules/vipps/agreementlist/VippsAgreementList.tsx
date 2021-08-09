@@ -13,7 +13,6 @@ import { Link } from 'react-router-dom';
 
 export const VippsAgreementList: React.FunctionComponent = () => {
     const state = useSelector((state: AppState) => state.vippsAgreements)
-    console.log(state)
     const data = useSelector((state: AppState) => state.vippsAgreements.agreements)
     const pages = useSelector((state: AppState) => state.vippsAgreements.pages)
     const loading = useSelector((state: AppState) => state.vippsAgreements.loading)
