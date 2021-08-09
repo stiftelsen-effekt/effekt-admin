@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom';
 // import { DonationsFilterComponent } from './filters/filters.component';
 
 export const VippsAgreementList: React.FunctionComponent = () => {
-    const state = useSelector((state: AppState) => state.vippsAgreements)
     const data = useSelector((state: AppState) => state.vippsAgreements.agreements)
     const pages = useSelector((state: AppState) => state.vippsAgreements.pages)
     const loading = useSelector((state: AppState) => state.vippsAgreements.loading)
