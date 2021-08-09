@@ -11,7 +11,6 @@ import { AvtaleGiroListWrapper } from './AvtaleGiroList.style';
 import { fetchAvtaleGiroAgreementsAction, setAvtaleGiroPagination } from '../../../../store/avtalegiro/avtalegiro.actions';
 
 export const AvtaleGiroList: React.FunctionComponent = () => {
-    const state = useSelector((state: AppState) => state.avtaleGiroAgreements)
     const data = useSelector((state: AppState) => state.avtaleGiroAgreements.agreements)
     const pages = useSelector((state: AppState) => state.avtaleGiroAgreements.pages)
     const loading = useSelector((state: AppState) => state.avtaleGiroAgreements.loading)
