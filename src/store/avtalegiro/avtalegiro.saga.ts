@@ -5,7 +5,7 @@ import { IAccessToken } from "../authentication/auth";
 import { AppState } from "../../models/state";
 import { IAvtaleGiroFilter, IPagination, IVippsAgreement } from "../../models/types";
 import * as API from "./../../util/api"
-import { fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroReportAction, IFetchAgreementActionParams } from "./avtalegiro.actions";
+import { fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroReportAction, IFetchAgreementActionParams } from "./avtalegiro.actions";
 import { fetchAvtaleGiroAction } from "./avtalegiro.actions";
 
 export function* fetchAvtaleGiroAgreements (action: any) {
@@ -32,7 +32,7 @@ export function* fetchAvtaleGiroAgreements (action: any) {
     }
 }
 
-/*
+
 export function* fetchAvtaleGiroHistogram() {
     try {
         const result: API.Response = yield call(API.call, {
@@ -41,13 +41,12 @@ export function* fetchAvtaleGiroHistogram() {
         })
         if (result.status !== 200)
             throw new Error(result.content)
-        yield put(fetchAgreementHistogramAction.done({result: result.content}))
+        yield put(fetchAvtaleGiroHistogramAction.done({result: result.content}))
     }
     catch(ex) {
-        yield put(fetchAgreementHistogramAction.failed({error: ex}))
+        yield put(fetchAvtaleGiroHistogramAction.failed({error: ex}))
     }
 }
-*/
 
 export function* fetchAvtaleGiroReport() {
     const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)

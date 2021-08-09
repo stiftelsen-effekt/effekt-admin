@@ -1,6 +1,7 @@
 import { isType } from "typescript-fsa";
 import { AvtaleGiroAgreementsState } from "../../models/state";
-import { fetchAvtaleGiroAgreementsAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
+import { toastError } from "../../util/toasthelper";
+import { fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     activeAgreementCount: 0,
@@ -98,25 +99,15 @@ export const avtaleGiroReducer = (state = defaultAvtaleGiroAgreementState, actio
     */
 
 
-    /*
-    if (isType(action, fetchAgreementHistogramAction.done)) {
+    
+    if (isType(action, fetchAvtaleGiroHistogramAction.done)) {
         return {
             ...state,
             histogram: action.payload.result
         }
-    } else if (isType(action, fetchAgreementHistogramAction.failed)) {
-        toastError("Failed to fetch agreement histogram", action.payload.error.message)
+    } else if (isType(action, fetchAvtaleGiroHistogramAction.failed)) {
+        toastError("Failed to fetch AvtaleGiro histogram", action.payload.error.message)
     }
-
-    if (isType(action, fetchChargeHistogramAction.done)) {
-        return {
-            ...state,
-            histogram: action.payload.result
-        }
-    } else if (isType(action, fetchChargeHistogramAction.failed)) {
-        toastError("Failed to fetch charge histogram", action.payload.error.message)
-    }
-    */
 
     switch(action.type) {
         case SET_AVTALEGIRO_FILTER_AMOUNT:

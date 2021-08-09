@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { setAvtaleGiroFilterActive, setAvtaleGiroFilterDonor, setAvtaleGiroFilterKID } from '../../../../store/avtalegiro/avtalegiro.actions';
-import { fetchAgreementHistogramAction, setVippsAgreementsFilterAmount, setVippsAgreementsFilterDonor, setVippsAgreementsFilterKID, setVippsAgreementsFilterStatus } from '../../../../store/vipps/vipps.actions';
+import { fetchAvtaleGiroHistogramAction, setAvtaleGiroFilterActive, setAvtalegiroFilterAmount, setAvtaleGiroFilterDonor, setAvtaleGiroFilterKID } from '../../../../store/avtalegiro/avtalegiro.actions';
 import { EffektCheckChoice, EffektCheckForm } from '../../../style/elements/effekt-check/effekt-check-form.component';
 import { FilterOpenButton } from '../../../style/elements/filter-buttons/filter-open-button.component';
 import { FilterWrapper, FilterContent, FilterHeader, FilterGroup, FilterGroupHeader, FilterInput } from '../../../style/elements/filters.component.style';
@@ -23,7 +22,7 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
     const statuses = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.statuses)
 
     const histogram = useSelector((state: AppState) => state.avtaleGiroAgreements.histogram)
-    //if (!histogram) dispatch(fetchAgreementHistogramAction.started(undefined))
+    if (!histogram) dispatch(fetchAvtaleGiroHistogramAction.started(undefined))
 
     let statusChoices: Array<EffektCheckChoice> = statusTypes.map(status => ({
         label: status.name,
@@ -34,7 +33,7 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
 
     const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false)
 
-    //if (!histogram) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>
+    if (!histogram) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>
     return (
         <FilterWrapper isOpen={filterIsOpen}>
             <FilterContent>
@@ -44,15 +43,14 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
                 <FilterHeader>Filters</FilterHeader>
 
                 <FilterGroup>
-                    {/* <FilterGroupHeader>Agreement sum</FilterGroupHeader>
+                    <FilterGroupHeader>AvtaleGiro sum</FilterGroupHeader>
                     <HistogramInputComponent
                         range={[amountRange.from, amountRange.to]}
                         histogram={histogram}
                         onChange={(range: any) => {
-                            dispatch(setVippsAgreementsFilterAmount({from: Math.min(...range), to: Math.max(...range)}))
+                            dispatch(setAvtalegiroFilterAmount({from: Math.min(...range), to: Math.max(...range)}))
                         } }>
-                    </HistogramInputComponent> */}
-                    Amount filter coming soon!
+                    </HistogramInputComponent>
                 </FilterGroup>
                 
                 <FilterGroup>

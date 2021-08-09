@@ -5,7 +5,6 @@ import { AppState } from '../../../../models/state';
 import { shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
-import { setVippsAgreementsPagination } from '../../../../store/vipps/vipps.actions';
 import { AvtaleGiroFilter } from './AvtaleGiroFilter';
 import { Link } from 'react-router-dom';
 import { AvtaleGiroListWrapper } from './AvtaleGiroList.style';
@@ -38,11 +37,13 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
         },
         {
             Header: "Status",
-            accessor: "active"
+            id: "active",
+            accessor: (res:any) => res.active === 1 ? "ACTIVE" : "STOPPED"
         },
         {
-            Header: "Notice",
-            accessor: "notice"
+            Header: "Notify charge",
+            id: "notice",
+            accessor: (res:any) => res.notice === 1 ? "YES" : "NO"
         },
         {
             Header: "Sum",
@@ -61,7 +62,7 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
         {
             Header: "Draft date",
             id: "created",
-            accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp_created))
+            accessor: (res:any) => shortDate(DateTime.fromISO(res.created))
         }
     ]
 
