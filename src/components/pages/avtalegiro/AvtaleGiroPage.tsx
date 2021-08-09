@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Page } from "../../style/elements/page.style";
 import { MainHeader } from "../../style/elements/headers.style";
 import { Link } from 'react-router-dom';
-import { fetchAgreementsReportAction } from '../../../store/vipps/vipps.actions';
 import { AppState, VippsAgreementsState } from '../../../models/state';
 import { RightTD } from './AvtaleGiroPage.style';
+import { fetchAvtaleGiroReportAction } from '../../../store/avtalegiro/avtalegiro.actions';
 
 export const AvtaleGiroPage: React.FunctionComponent = () => {
-    const agreements: VippsAgreementsState = useSelector((state: AppState) => state.vippsAgreements)
+    const agreements: VippsAgreementsState = useSelector((state: AppState) => state.avtaleGiroAgreements)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(fetchAgreementsReportAction.started(undefined));
+        dispatch(fetchAvtaleGiroReportAction.started(undefined));
     }, [dispatch])
 
     return (
@@ -20,29 +20,29 @@ export const AvtaleGiroPage: React.FunctionComponent = () => {
             <MainHeader>AvtaleGiro</MainHeader>
             <h4>There are currently {agreements.activeAgreementCount} active agreements</h4>
             <table width="300px">
-                <tr>
-                    <td>Median agreement sum</td>
-                    <RightTD>{agreements.medianAgreementSum} kr</RightTD>
-                </tr>
-                <tr>
-                    <td>Average agreement sum</td>
-                    <RightTD>{agreements.averageAgreementSum} kr</RightTD>
-                </tr>
-                <tr>
-                    <td>Total agreement sum</td>
-                    <RightTD>{agreements.totalAgreementSum} kr</RightTD>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Median agreement sum</td>
+                        <RightTD>{agreements.medianAgreementSum} kr</RightTD>
+                    </tr>
+                    <tr>
+                        <td>Average agreement sum</td>
+                        <RightTD>{agreements.averageAgreementSum} kr</RightTD>
+                    </tr>
+                    <tr>
+                        <td>Total agreement sum</td>
+                        <RightTD>{agreements.totalAgreementSum} kr</RightTD>
+                    </tr>
+                </tbody>
             </table>
             <h4>Changes this month</h4>
             <table width="300px">
-                <tr>
-                    <td>Agreements started</td>
-                    <RightTD>{agreements.startedThisMonth}</RightTD>
-                </tr>
-                <tr>
-                    <td>Agreements stopped</td>
-                    <RightTD>{agreements.stoppedThisMonth}</RightTD>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Agreements started</td>
+                        <RightTD>{agreements.startedThisMonth}</RightTD>
+                    </tr>
+                </tbody>
             </table>
             <br />
             <Link to="avtalegiro/agreements">See all agreements</Link>

@@ -20,29 +20,33 @@ export const VippsPage: React.FunctionComponent = () => {
             <MainHeader>Vipps agreements</MainHeader>
             <h4>There are currently {agreements.activeAgreementCount} active agreements</h4>
             <table width="300px">
-                <tr>
-                    <td>Median agreement sum</td>
-                    <RightTD>{agreements.medianAgreementSum} kr</RightTD>
-                </tr>
-                <tr>
-                    <td>Average agreement sum</td>
-                    <RightTD>{agreements.averageAgreementSum} kr</RightTD>
-                </tr>
-                <tr>
-                    <td>Total agreement sum</td>
-                    <RightTD>{agreements.totalAgreementSum} kr</RightTD>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Median agreement sum</td>
+                        <RightTD>{agreements.medianAgreementSum} kr</RightTD>
+                    </tr>
+                    <tr>
+                        <td>Average agreement sum</td>
+                        <RightTD>{agreements.averageAgreementSum} kr</RightTD>
+                    </tr>
+                    <tr>
+                        <td>Total agreement sum</td>
+                        <RightTD>{agreements.totalAgreementSum} kr</RightTD>
+                    </tr>
+                </tbody>
             </table>
             <h4>Changes this month</h4>
             <table width="300px">
-                <tr>
-                    <td>Agreements started</td>
-                    <RightTD>{agreements.startedThisMonth}</RightTD>
-                </tr>
-                <tr>
-                    <td>Agreements stopped</td>
-                    <RightTD>{agreements.stoppedThisMonth}</RightTD>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Agreements started</td>
+                        <RightTD>{agreements.startedThisMonth}</RightTD>
+                    </tr>
+                    <tr>
+                        <td>Agreements stopped</td>
+                        <RightTD>{agreements.stoppedThisMonth}</RightTD>
+                    </tr>
+                </tbody>
             </table>
             <br />
             <Link to="vipps/agreements">See all agreements</Link>

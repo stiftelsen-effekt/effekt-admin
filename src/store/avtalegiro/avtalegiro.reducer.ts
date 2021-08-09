@@ -1,7 +1,8 @@
 import { isType } from "typescript-fsa";
 import { AvtaleGiroAgreementsState } from "../../models/state";
 import { toastError } from "../../util/toasthelper";
-import { fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
+import { fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroReportAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
+import { fetchAvtaleGiroReport } from "./avtalegiro.saga";
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     activeAgreementCount: 0,
@@ -67,9 +68,10 @@ export const avtaleGiroReducer = (state = defaultAvtaleGiroAgreementState, actio
     else if (isType(action, fetchVippsAgreementAction.failed)) {
         return { ...state, loading: false }
     }
+    */
 
     // Fetch agreement report
-    if(isType(action, fetchAgreementsReportAction.done)) {
+    if(isType(action, fetchAvtaleGiroReportAction.done)) {
         console.log(action.payload.result)
         return {
             ...state,
@@ -77,13 +79,12 @@ export const avtaleGiroReducer = (state = defaultAvtaleGiroAgreementState, actio
             ...action.payload.result
         }
     }
-    else if (isType(action, fetchAgreementsReportAction.started)) {
+    else if (isType(action, fetchAvtaleGiroReportAction.started)) {
         return { ...state, loading: true }
     }
-    else if (isType(action, fetchAgreementsReportAction.failed)) {
+    else if (isType(action, fetchAvtaleGiroReportAction.failed)) {
         return { ...state, loading: false }
     }
-    */
 
 
     /**
