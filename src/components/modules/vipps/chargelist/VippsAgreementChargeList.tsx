@@ -10,8 +10,6 @@ import { VippsChargeFilter } from './VippsAgreementChargeFilter';
 import { Link } from 'react-router-dom';
 
 export const VippsAgreementChargeList: React.FunctionComponent = () => {
-    const state = useSelector((state: AppState) => state.vippsAgreementCharges)
-    console.log(state)
     const data = useSelector((state: AppState) => state.vippsAgreementCharges.charges)
     const pages = useSelector((state: AppState) => state.vippsAgreementCharges.pages)
     const loading = useSelector((state: AppState) => state.vippsAgreementCharges.loading)

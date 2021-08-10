@@ -3,21 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Page } from "../../style/elements/page.style";
 import { MainHeader } from "../../style/elements/headers.style";
 import { Link } from 'react-router-dom';
-import { fetchAgreementsReportAction } from '../../../store/vipps/vipps.actions';
 import { AppState, VippsAgreementsState } from '../../../models/state';
-import { RightTD } from './Vipps.style';
+import { RightTD } from './AvtaleGiroPage.style';
+import { fetchAvtaleGiroReportAction } from '../../../store/avtalegiro/avtalegiro.actions';
 
-export const VippsPage: React.FunctionComponent = () => {
-    const agreements: VippsAgreementsState = useSelector((state: AppState) => state.vippsAgreements)
+export const AvtaleGiroPage: React.FunctionComponent = () => {
+    const agreements: VippsAgreementsState = useSelector((state: AppState) => state.avtaleGiroAgreements)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(fetchAgreementsReportAction.started(undefined));
+        dispatch(fetchAvtaleGiroReportAction.started(undefined));
     }, [dispatch])
 
     return (
         <Page>
-            <MainHeader>Vipps agreements</MainHeader>
+            <MainHeader>AvtaleGiro</MainHeader>
             <h4>There are currently {agreements.activeAgreementCount} active agreements</h4>
             <table width="300px">
                 <tbody>
@@ -42,16 +42,10 @@ export const VippsPage: React.FunctionComponent = () => {
                         <td>Agreements started</td>
                         <RightTD>{agreements.startedThisMonth}</RightTD>
                     </tr>
-                    <tr>
-                        <td>Agreements stopped</td>
-                        <RightTD>{agreements.stoppedThisMonth}</RightTD>
-                    </tr>
                 </tbody>
             </table>
             <br />
-            <Link to="vipps/agreements">See all agreements</Link>
-            <br />
-            <Link to="vipps/charges">See all charges</Link>
+            <Link to="avtalegiro/agreements">See all agreements</Link>
         </Page>
     )
 }

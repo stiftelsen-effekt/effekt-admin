@@ -5,28 +5,27 @@ import { AppState } from '../../../../models/state';
 import { shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
-import { fetchVippsAgreementsAction, setVippsAgreementsPagination } from '../../../../store/vipps/vipps.actions';
-import { VippsAgreementFilter } from './VippsAgreementFilter';
-import { AgreementListWrapper } from './VippsAgreementList.style';
+import { AvtaleGiroFilter } from './AvtaleGiroFilter';
 import { Link } from 'react-router-dom';
-// import { DonationsFilterComponent } from './filters/filters.component';
+import { AvtaleGiroListWrapper } from './AvtaleGiroList.style';
+import { fetchAvtaleGiroAgreementsAction, setAvtaleGiroPagination } from '../../../../store/avtalegiro/avtalegiro.actions';
 
-export const VippsAgreementList: React.FunctionComponent = () => {
-    const data = useSelector((state: AppState) => state.vippsAgreements.agreements)
-    const pages = useSelector((state: AppState) => state.vippsAgreements.pages)
-    const loading = useSelector((state: AppState) => state.vippsAgreements.loading)
-    const pagination = useSelector((state: AppState) => state.vippsAgreements.pagination)
-    const filter = useSelector((state: AppState) => state.vippsAgreements.filter)
+export const AvtaleGiroList: React.FunctionComponent = () => {
+    const data = useSelector((state: AppState) => state.avtaleGiroAgreements.agreements)
+    const pages = useSelector((state: AppState) => state.avtaleGiroAgreements.pages)
+    const loading = useSelector((state: AppState) => state.avtaleGiroAgreements.loading)
+    const pagination = useSelector((state: AppState) => state.avtaleGiroAgreements.pagination)
+    const filter = useSelector((state: AppState) => state.avtaleGiroAgreements.filter)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(fetchVippsAgreementsAction.started(undefined));
+        dispatch(fetchAvtaleGiroAgreementsAction.started(undefined));
     }, [pagination, filter, dispatch])
 
     const columnDefinitions = [
         {
-            Header: "Agreement ID",
+            Header: "AvtaleGiro ID",
             accessor: "ID",
             id: "id"
         },
@@ -36,7 +35,13 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         },
         {
             Header: "Status",
-            accessor: "status"
+            id: "active",
+            accessor: (res:any) => res.active === 1 ? "ACTIVE" : "STOPPED"
+        },
+        {
+            Header: "Notify charge",
+            id: "notice",
+            accessor: (res:any) => res.notice === 1 ? "YES" : "NO"
         },
         {
             Header: "Sum",
@@ -44,8 +49,8 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         }, 
         {
             Header: "Charge day",
-            accessor: "monthly_charge_day",
-            id: "chargeDay"
+            accessor: "payment_date",
+            id: "paymentDate"
         },
         {
             Header: "KID",
@@ -55,7 +60,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         {
             Header: "Draft date",
             id: "created",
-            accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp_created))
+            accessor: (res:any) => shortDate(DateTime.fromISO(res.created))
         }
     ]
 
@@ -75,12 +80,10 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         return {}
     }
 
-    if (agreement !== null) return (<Redirect to={`/vipps/agreement/${agreement}`}></Redirect>)
+    if (agreement !== null) return (<Redirect to={`/avtalegiro`}></Redirect>)
     return (
-        <AgreementListWrapper>
-            <Link to="/vipps">Go back</Link>
-            <br />
-            <Link to="/vipps/charges">See all charges</Link>
+        <AvtaleGiroListWrapper>
+            <Link to="/avtalegiro">Go back</Link>
             <br />
             <br />
             <ReactTable
@@ -92,12 +95,12 @@ export const VippsAgreementList: React.FunctionComponent = () => {
                 loading={loading}
                 columns={columnDefinitions}
                 defaultSorted={defaultSorting}
-                onPageChange={(page) => dispatch(setVippsAgreementsPagination({ ...pagination, page }))}
-                onSortedChange={(sorted) => dispatch(setVippsAgreementsPagination({ ...pagination, sort: sorted[0] }))}
-                onPageSizeChange={(pagesize) => dispatch(setVippsAgreementsPagination({ ...pagination, limit: pagesize }))}
+                onPageChange={(page) => dispatch(setAvtaleGiroPagination({ ...pagination, page }))}
+                onSortedChange={(sorted) => dispatch(setAvtaleGiroPagination({ ...pagination, sort: sorted[0] }))}
+                onPageSizeChange={(pagesize) => dispatch(setAvtaleGiroPagination({ ...pagination, limit: pagesize }))}
                 getTrProps={trProps}
                 />
-                <VippsAgreementFilter />
-        </AgreementListWrapper>
+                <AvtaleGiroFilter />
+        </AvtaleGiroListWrapper>
     )
 }

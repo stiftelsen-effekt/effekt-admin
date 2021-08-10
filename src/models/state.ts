@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../store/authentication/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner, ILogEntry, IVippsAgreement, IVippsAgreementFilter, IVippsAgreementCharge, IVippsAgreementChargeFilter } from "./types";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner, ILogEntry, IVippsAgreement, IVippsAgreementFilter, IVippsAgreementCharge, IVippsAgreementChargeFilter, IAvtaleGiro, IAvtaleGiroFilter } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -18,10 +18,12 @@ export interface AppState {
     distributions: DistributionsState,
     dataOwner:  DataOwnerState,
     reciept: RecieptState,
-    logs: LoggingState
+    logs: LoggingState,
 
     vippsAgreements: VippsAgreementsState,
-    vippsAgreementCharges: VippsAgreementChargeState
+    vippsAgreementCharges: VippsAgreementChargeState,
+
+    avtaleGiroAgreements: AvtaleGiroAgreementsState,
 }
 
 export interface AuthState {
@@ -96,6 +98,22 @@ export interface VippsAgreementChargeState {
     pagination: IPagination,
     filter: IVippsAgreementChargeFilter,
     charges: Array<IVippsAgreementCharge>,
+}
+
+export interface AvtaleGiroAgreementsState {
+    activeAgreementCount: number,
+    averageAgreementSum: number,
+    totalAgreementSum: number,
+    medianAgreementSum: number,
+    startedThisMonth: number,
+    stoppedThisMonth: number,
+    currentAgreement?: IAvtaleGiro,
+    histogram?: Array<IHistogramBucket>,
+    pages: number,
+    loading: boolean,
+    pagination: IPagination,
+    filter: IAvtaleGiroFilter,
+    agreements: Array<IAvtaleGiro>,
 }
 
 export interface GraphingState {

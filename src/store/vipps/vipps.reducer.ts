@@ -77,7 +77,6 @@ export const vippsAgreementReducer = (state = defaultAgreementState, action: any
 
     // Fetch single agreement
     if(isType(action, fetchVippsAgreementAction.done)) {
-        console.log(action.payload.result)
         return {
             ...state,
             currentAgreement: action.payload.result,
@@ -93,7 +92,6 @@ export const vippsAgreementReducer = (state = defaultAgreementState, action: any
 
     // Fetch agreement report
     if(isType(action, fetchAgreementsReportAction.done)) {
-        console.log(action.payload.result)
         return {
             ...state,
             loading: false,

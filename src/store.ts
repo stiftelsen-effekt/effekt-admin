@@ -16,6 +16,7 @@ import { ownersReducer } from './store/owners/owners.reducer';
 import { recieptReducer } from './components/modules/donations/reciept/reciept.reducer';
 import { loggingReducer } from './store/logs/logs.reducer';
 import { vippsAgreementChargeReducer, vippsAgreementReducer } from './store/vipps/vipps.reducer';
+import { avtaleGiroReducer } from './store/avtalegiro/avtalegiro.reducer';
 
 const rootReducer = combineReducers<AppState>({
     auth: authReducer,
@@ -31,7 +32,8 @@ const rootReducer = combineReducers<AppState>({
     reciept: recieptReducer,
     logs: loggingReducer,
     vippsAgreements: vippsAgreementReducer,
-    vippsAgreementCharges: vippsAgreementChargeReducer
+    vippsAgreementCharges: vippsAgreementChargeReducer,
+    avtaleGiroAgreements: avtaleGiroReducer,
 })
 
 const sagaMiddleware = createSagaMiddleware();
