@@ -36,7 +36,11 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
         {
             Header: "Status",
             id: "active",
-            accessor: (res:any) => res.active === 1 ? "ACTIVE" : "STOPPED"
+            accessor: (res:any) => {
+                if (res.active === 1) return "ACTIVE";
+                if (res.active === 0 && res.cancelled) return "STOPPED";
+                return "INACTIVE"
+            }
         },
         {
             Header: "Notify charge",
@@ -61,6 +65,11 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
             Header: "Draft date",
             id: "created",
             accessor: (res:any) => shortDate(DateTime.fromISO(res.created))
+        },
+        {
+            Header: "Cancellation date",
+            id: "cancelled",
+            accessor: (res:any) => res.cancelled && shortDate(DateTime.fromISO(res.cancelled))
         }
     ]
 
