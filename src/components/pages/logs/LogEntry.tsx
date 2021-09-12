@@ -30,7 +30,7 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
   if (entry) {
     return (<Page>
       <ResourceHeader hasSubHeader={true}>Log entry {entry.ID} | {entry.label}</ResourceHeader>
-      <ResourceSubHeader>{longDateTime(DateTime.fromISO(entry.timestamp, { zone: "Europe/Oslo" }))}</ResourceSubHeader>
+      <ResourceSubHeader>{longDateTime(DateTime.fromISO(entry.timestamp))}</ResourceSubHeader>
 
       <JSONTree
         data={entry.result} 

@@ -31,7 +31,7 @@ export const LogsList: React.FunctionComponent = () => {
         {
             Header: "Timestamp",
             id: "timestamp",
-            accessor: (res:any) => longDateTime(DateTime.fromISO(res.timestamp, { zone: "Europe/Oslo" }))
+            accessor: (res:any) => longDateTime(DateTime.fromISO(res.timestamp))
         }
     ]
 
