@@ -24,14 +24,14 @@ class MainNavigation extends React.Component<IDispatchProps> {
                     <NavMenuItem to={'/donors'}>        <span>Donors</span>         <User size={iconSize} color={"white"}></User></NavMenuItem>
                     <NavMenuItem to={'/distributions'}> <span>Distributions</span>  <PieChart size={iconSize} color={"white"}></PieChart></NavMenuItem>
                     <NavMenuItem to={'/donations'}>     <span>Donations</span>      <List size={iconSize} color={"white"}></List></NavMenuItem>
+                    <NavMenuItem to={'/vipps/agreements'}> <span>Vipps</span>       <Smartphone size={iconSize} color={"white"}></Smartphone></NavMenuItem>
+                    <NavMenuItem to={'/avtalegiro'}>    <span>AvtaleGiro</span>     <FileText size={iconSize} color={"white"}></FileText></NavMenuItem>
 
                     <NavMenuItem to={'/register'}>      <span>Register</span>       <Upload size={iconSize} color={"white"}></Upload></NavMenuItem>
                     <NavMenuItem to={'/reports'}>       <span>Reports</span>        <Clipboard size={iconSize} color={"white"}></Clipboard></NavMenuItem>
 
-                    <NavMenuItem to={'/graphing'}>      <span>Graphing</span>       <BarChart2 size={iconSize} color={"white"}></BarChart2></NavMenuItem>
                     <NavMenuItem to={'/logs'}>          <span>Logs</span>           <Activity size={iconSize} color={"white"}></Activity></NavMenuItem>
-                    <NavMenuItem to={'/vipps'}>         <span>Vipps</span>          <Smartphone size={iconSize} color={"white"}></Smartphone></NavMenuItem>
-                    <NavMenuItem to={'/avtalegiro'}>    <span>AvtaleGiro</span>     <FileText size={iconSize} color={"white"}></FileText></NavMenuItem>
+
                 </NavMenu>
 
                 <Logout onClick={this.logout}>          <span>Logout</span>         <LogOut size={iconSize} color={"white"}></LogOut></Logout>

@@ -92,9 +92,6 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
     if (agreement !== null) return (<Redirect to={`/avtalegiro`}></Redirect>)
     return (
         <AvtaleGiroListWrapper>
-            <Link to="/avtalegiro">Go back</Link>
-            <br />
-            <br />
             <ReactTable
                 manual
                 data={data}

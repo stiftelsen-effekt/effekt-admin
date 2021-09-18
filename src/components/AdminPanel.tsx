@@ -20,10 +20,8 @@ import { LogsPageComponent } from './pages/logs/Logs';
 import { LogEntryComponent } from './pages/logs/LogEntry';
 import { VippsAgreementsPageComponent } from './pages/vippsagreements/VippsAgreements';
 import { VippsAgreementChargesPageComponent } from './pages/vippsagreementcharges/VippsAgreementCharges';
-import { VippsPage } from './pages/vipps/Vipps';
 import { VippsAgreementPageComponent } from './pages/vippsagreements/vippsagreement';
 import { VippsAgreementChargePageComponent } from './pages/vippsagreementcharges/vippsagreementcharge';
-import { AvtaleGiroPage } from './pages/avtalegiro/AvtaleGiroPage';
 import { AvtaleGiroAgreementsPage } from './pages/avtalegiroagreements/AvtaleGiroAgreements';
 
 export const AdminPanel: React.FunctionComponent = () => {
@@ -50,13 +48,11 @@ export const AdminPanel: React.FunctionComponent = () => {
 
                     <Route exact path="/logs" component={LogsPageComponent}></Route>
                         <Route exact path="/logs/:id" component={LogEntryComponent}></Route>
-                    <Route exact path="/vipps" component={VippsPage}></Route>
-                        <Route exact path="/vipps/agreements" component={VippsAgreementsPageComponent}></Route>
+                    <Route exact path="/vipps/agreements" component={VippsAgreementsPageComponent}></Route>
                         <Route exact path="/vipps/agreement/:id" component={VippsAgreementPageComponent}></Route>
-                        <Route exact path="/vipps/charges" component={VippsAgreementChargesPageComponent}></Route>
-                        <Route exact path="/vipps/charge/:id" component={VippsAgreementChargePageComponent}></Route>
-                    <Route exact path="/avtalegiro" component={AvtaleGiroPage}></Route>
-                        <Route exact path="/avtalegiro/agreements" component={AvtaleGiroAgreementsPage}></Route>
+                        <Route exact path="/vipps/agreements/charges" component={VippsAgreementChargesPageComponent}></Route>
+                        <Route exact path="/vipps/agreements/charge/:id" component={VippsAgreementChargePageComponent}></Route>
+                    <Route exact path="/avtalegiro" component={AvtaleGiroAgreementsPage}></Route>
                     <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
                 </Switch>
             </AdminPanelWrapper>
