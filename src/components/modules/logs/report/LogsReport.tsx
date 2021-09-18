@@ -11,6 +11,7 @@ export const LogsReport = () => {
   const pagination = useSelector((state: AppState) => state.logs.pagination)
   useEffect(() => {
     dispatch(setLogsPaginationAction({ ...pagination, limit: 10 }))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
   
   return (

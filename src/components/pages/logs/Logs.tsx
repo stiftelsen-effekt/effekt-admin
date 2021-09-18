@@ -12,6 +12,7 @@ export const LogsPageComponent: React.FunctionComponent = (props) => {
     const pagination = useSelector((state: AppState) => state.logs.pagination)
     useEffect(() => {
       dispatch(setLogsPaginationAction({ ...pagination, limit: 20 }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch])
 
     return (

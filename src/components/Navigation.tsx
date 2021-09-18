@@ -4,7 +4,7 @@ import { MainNav, NavMenu, NavMenuItem, Logout, Flare, LogoHolder } from './Navi
 import { logoutRequest } from '../store/authentication/loginout.actions';
 import { connect } from 'react-redux';
 import Logo from '../assets/logo_link.png'
-import { Home, BarChart2, Upload, Clipboard, User, List, LogOut, PieChart, Activity, Smartphone, FileText } from "react-feather"
+import { Home, Upload, Clipboard, User, List, LogOut, PieChart, Activity, Smartphone, FileText } from "react-feather"
 
 class MainNavigation extends React.Component<IDispatchProps> {
     logout = () => {
