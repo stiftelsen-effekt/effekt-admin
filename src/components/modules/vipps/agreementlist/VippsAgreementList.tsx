@@ -78,9 +78,7 @@ export const VippsAgreementList: React.FunctionComponent = () => {
     if (agreement !== null) return (<Redirect to={`/vipps/agreement/${agreement}`}></Redirect>)
     return (
         <AgreementListWrapper>
-            <Link to="/vipps">Go back</Link>
-            <br />
-            <Link to="/vipps/charges">See all charges</Link>
+            <Link to="/vipps/agreements/charges">See all charges</Link>
             <br />
             <br />
             <ReactTable

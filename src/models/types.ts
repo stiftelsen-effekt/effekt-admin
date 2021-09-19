@@ -114,6 +114,12 @@ export interface IAggregationItem {
     sum: Decimal
 }
 
+export interface IAggregationMonthlyItem {
+    year: number,
+    month: number,
+    sum: number
+}
+
 /** Misc */
 export interface IPagination {
     sort: {

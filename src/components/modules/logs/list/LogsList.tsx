@@ -7,7 +7,10 @@ import { longDateTime } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
 
-export const LogsList: React.FunctionComponent = () => {
+interface LogsListProps {
+  showPagination?: boolean
+}
+export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showItems }) => {
     const data = useSelector((state: AppState) => state.logs.entries)
     const pages = useSelector((state: AppState) => state.logs.pages)
     const loading = useSelector((state: AppState) => state.logs.loading)
@@ -51,8 +54,6 @@ export const LogsList: React.FunctionComponent = () => {
       return {}
     }
 
-    console.log(pagination.page)
-
     if (entry !== null) return (<Redirect to={`/logs/${entry}`}></Redirect>)
     return (
       <div>
@@ -65,6 +66,7 @@ export const LogsList: React.FunctionComponent = () => {
             loading={loading}
             columns={columnDefinitions}
             defaultSorted={defaultSorting}
+            showPagination={showPagination}
             onPageChange={(page) => dispatch(setLogsPaginationAction({ ...pagination, page }))}
             onSortedChange={(sorted) => dispatch(setLogsPaginationAction({ ...pagination, sort: sorted[0] }))}
             onPageSizeChange={(pagesize) => dispatch(setLogsPaginationAction({ ...pagination, limit: pagesize }))}
