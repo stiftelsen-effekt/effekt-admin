@@ -2,6 +2,7 @@ import { VippsAgreementChargeState, VippsAgreementsState } from "../../models/st
 import { isType } from "typescript-fsa";
 import { toastError } from "../../util/toasthelper";
 import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, SET_VIPPS_AGREEMENTS_FILTER_AMOUNT, SET_VIPPS_AGREEMENTS_FILTER_DONOR, SET_VIPPS_AGREEMENTS_FILTER_KID, SET_VIPPS_AGREEMENTS_FILTER_STATUS, SET_VIPPS_AGREEMENTS_PAGINATION, SET_VIPPS_CHARGES_FILTER_AMOUNT, SET_VIPPS_CHARGES_FILTER_DONOR, SET_VIPPS_CHARGES_FILTER_KID, SET_VIPPS_CHARGES_FILTER_STATUS, SET_VIPPS_CHARGES_PAGINATION } from "./vipps.actions";
+import Decimal from "decimal.js";
 
 const defaultAgreementState: VippsAgreementsState = {
     activeAgreementCount: 0,
@@ -79,7 +80,10 @@ export const vippsAgreementReducer = (state = defaultAgreementState, action: any
     if(isType(action, fetchVippsAgreementAction.done)) {
         return {
             ...state,
-            currentAgreement: action.payload.result,
+            currentAgreement: {
+                ...action.payload.result,
+                distribution: (action.payload.result.distribution.map((dist) => ({...dist, share: new Decimal(dist.share)})))
+            },
             loading: false
         }
     }
