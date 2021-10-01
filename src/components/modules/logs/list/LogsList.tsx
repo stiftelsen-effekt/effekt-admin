@@ -34,7 +34,7 @@ export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showI
         {
             Header: "Timestamp",
             id: "timestamp",
-            accessor: (res:any) => longDateTime(DateTime.fromISO(res.timestamp))
+            accessor: (res:any) => longDateTime(DateTime.fromISO(res.timestamp, { setZone: true }))
         }
     ]
 

@@ -51,7 +51,7 @@ export const DonationsList: React.FunctionComponent = () => {
         {
             Header: "Timestamp",
             id: "timestamp",
-            accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp))
+            accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp, { setZone: true }))
         },
         {
             Header: "Slett",
