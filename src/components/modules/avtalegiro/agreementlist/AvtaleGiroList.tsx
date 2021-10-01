@@ -63,12 +63,12 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
         {
             Header: "Draft date",
             id: "created",
-            accessor: (res:any) => shortDate(DateTime.fromISO(res.created))
+            accessor: (res:any) => shortDate(DateTime.fromISO(res.created, { setZone: true }))
         },
         {
             Header: "Cancellation date",
             id: "cancelled",
-            accessor: (res:any) => res.cancelled && shortDate(DateTime.fromISO(res.cancelled))
+            accessor: (res:any) => res.cancelled && shortDate(DateTime.fromISO(res.cancelled, { setZone: true }))
         }
     ]
 

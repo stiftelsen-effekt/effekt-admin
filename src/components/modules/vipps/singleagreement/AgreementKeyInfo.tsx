@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const AgreementKeyInfoComponent: React.FunctionComponent<IProps> = ({ agreement }) => {
-    let formatedTimestamp = shortDate(DateTime.fromISO(agreement.start))
+    let formatedTimestamp = shortDate(DateTime.fromISO(agreement.start, { setZone: true }))
 
     return (
         <KeyInfoWrapper>

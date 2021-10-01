@@ -14,7 +14,7 @@ export const donorSelectorReducer = (state: DonorSelectorState = initialState, a
     if (isType(action, searchDonorAction.done)) {
         return {
             ...state,
-            searchResult: action.payload.result.map((donor: IDonor) => { return {...donor, registered: DateTime.fromISO(donor.registered.toString())}})
+            searchResult: action.payload.result.map((donor: IDonor) => { return {...donor, registered: DateTime.fromISO(donor.registered.toString(), { setZone: true })}})
         }
     } else if (isType(action, searchDonorAction.failed)) {
         return {
