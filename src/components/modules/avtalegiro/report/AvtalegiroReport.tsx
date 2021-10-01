@@ -46,7 +46,7 @@ export const AvtaleGiroReport = () => {
             </tbody>
         </table>
         <br />
-        <Link to="avtalegiro/agreements">See all agreements</Link>
+        <Link to="/avtalegiro">See all agreements</Link>
       </ReportContent>
     </ReportWrapper>
   )
