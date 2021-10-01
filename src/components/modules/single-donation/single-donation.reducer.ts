@@ -24,7 +24,7 @@ export const singleDonationReducer = (state: SingleDonationState = initialState,
     if (isType(action, fetchPaymentMethodsAction.done)) {
         return {
             ...state,
-            paymentMethods: action.payload.result.map((method: IPaymentMethod) => { return {...method, lastUpdated: DateTime.fromISO(method.lastUpdated.toString())}})
+            paymentMethods: action.payload.result.map((method: IPaymentMethod) => { return {...method, lastUpdated: DateTime.fromISO(method.lastUpdated.toString(), { setZone: true })}})
         }
     }
     else if(isType(action, fetchPaymentMethodsAction.failed)) {

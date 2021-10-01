@@ -26,7 +26,7 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
         {
             Header: "Due date",
             id: "dueDate",
-            accessor: (res:any) => shortDate(DateTime.fromISO(res.dueDate))
+            accessor: (res:any) => shortDate(DateTime.fromISO(res.dueDate, { setZone: true }))
         },
         {
             Header: "Agreement ID",
@@ -56,7 +56,7 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
         {
             Header: "Created",
             id: "created",
-            accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp_created))
+            accessor: (res:any) => shortDate(DateTime.fromISO(res.timestamp_created, { setZone: true }))
         },
         {
             Header: "Refund",
@@ -71,8 +71,6 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
 
     return (
         <ChargeListWrapper>
-            <Link to="/vipps">Go back</Link>
-            <br />
             <Link to="/vipps/agreements">See all agreements</Link>
             <br />
             <br />

@@ -1,5 +1,5 @@
 import { IAccessKey, IAccessToken } from "../store/authentication/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner, ILogEntry, IVippsAgreement, IVippsAgreementFilter, IVippsAgreementCharge, IVippsAgreementChargeFilter, IAvtaleGiro, IAvtaleGiroFilter } from "./types";
+import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner, ILogEntry, IVippsAgreement, IVippsAgreementFilter, IVippsAgreementCharge, IVippsAgreementChargeFilter, IAvtaleGiro, IAvtaleGiroFilter, IAggregationMonthlyItem } from "./types";
 
 export interface AppState {
     auth: AuthState,
@@ -117,7 +117,8 @@ export interface AvtaleGiroAgreementsState {
 }
 
 export interface GraphingState {
-    total?: Array<IAggregationItem>
+    total?: Array<IAggregationItem>,
+    monthly?: Array<IAggregationMonthlyItem>
 }
 
 export interface CurrentDistributionState {

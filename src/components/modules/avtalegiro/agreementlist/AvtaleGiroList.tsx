@@ -6,7 +6,6 @@ import { longDateTime, shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
 import { AvtaleGiroFilter } from './AvtaleGiroFilter';
-import { Link } from 'react-router-dom';
 import { AvtaleGiroListWrapper } from './AvtaleGiroList.style';
 import { fetchAvtaleGiroAgreementsAction, setAvtaleGiroPagination } from '../../../../store/avtalegiro/avtalegiro.actions';
 
@@ -64,7 +63,7 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
         {
             Header: "Draft date",
             id: "created",
-            accessor: (res:any) => shortDate(DateTime.fromISO(res.created))
+            accessor: (res:any) => shortDate(DateTime.fromISO(res.created, { setZone: true }))
         },
         {
             Header: "Last updated",
@@ -74,7 +73,7 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
         {
             Header: "Cancellation date",
             id: "cancelled",
-            accessor: (res:any) => res.cancelled && shortDate(DateTime.fromISO(res.cancelled))
+            accessor: (res:any) => res.cancelled && shortDate(DateTime.fromISO(res.cancelled, { setZone: true }))
         }
     ]
 
@@ -97,9 +96,6 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
     if (agreement !== null) return (<Redirect to={`/avtalegiro`}></Redirect>)
     return (
         <AvtaleGiroListWrapper>
-            <Link to="/avtalegiro">Go back</Link>
-            <br />
-            <br />
             <ReactTable
                 manual
                 data={data}
