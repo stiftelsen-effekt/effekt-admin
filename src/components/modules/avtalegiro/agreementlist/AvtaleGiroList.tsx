@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { shortDate } from '../../../../util/formatting';
+import { longDateTime, shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
 import { AvtaleGiroFilter } from './AvtaleGiroFilter';
@@ -65,6 +65,11 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
             Header: "Draft date",
             id: "created",
             accessor: (res:any) => shortDate(DateTime.fromISO(res.created))
+        },
+        {
+            Header: "Last updated",
+            id: "lastUpdated",
+            accessor: (res: any) => longDateTime(DateTime.fromISO(res.last_updated, { setZone: true }))
         },
         {
             Header: "Cancellation date",
