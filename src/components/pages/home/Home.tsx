@@ -8,15 +8,15 @@ import { LogsReport } from '../../modules/logs/report/LogsReport';
 import { MonthlyDonationsReport } from '../graphing/MonthlyDonationsReport';
 
 export const HomeComponent: React.FunctionComponent = (props) => {
-    return (
-        <Page>
-            <MainHeader>Home</MainHeader>
-            <HomeGrid>
-                <AvtaleGiroReport />
-                <VippsReport />
-                <MonthlyDonationsReport />
-                <LogsReport />
-            </HomeGrid>
-        </Page>
-    )
-}
+  return (
+    <Page>
+      <MainHeader>Home</MainHeader>
+      <HomeGrid>
+        <AvtaleGiroReport />
+        <VippsReport />
+        <MonthlyDonationsReport />
+        <LogsReport />
+      </HomeGrid>
+    </Page>
+  );
+};

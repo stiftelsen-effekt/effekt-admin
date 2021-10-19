@@ -1,6 +1,10 @@
-import React from "react";
-import { ReportContent, ReportHeader, ReportWrapper } from "../../modules/shared/report/Report.style";
-import { MonthlyDonationsGraph } from "./MonthlyDonationsGraph";
+import React from 'react';
+import {
+  ReportContent,
+  ReportHeader,
+  ReportWrapper,
+} from '../../modules/shared/report/Report.style';
+import { MonthlyDonationsGraph } from './MonthlyDonationsGraph';
 
 export const MonthlyDonationsReport: React.FC = () => {
   return (
@@ -10,5 +14,5 @@ export const MonthlyDonationsReport: React.FC = () => {
         <MonthlyDonationsGraph />
       </ReportContent>
     </ReportWrapper>
-  )
-}
+  );
+};

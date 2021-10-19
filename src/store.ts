@@ -1,6 +1,6 @@
-import { AppState } from './models/state'
+import { AppState } from './models/state';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import createSagaMiddleware from 'redux-saga'
+import createSagaMiddleware from 'redux-saga';
 import watchAll from './root.saga';
 import { authReducer } from './store/authentication/auth.reducer';
 import { donorSelectorReducer } from './components/modules/donors/selection/donor-selection.reducer';
@@ -19,27 +19,25 @@ import { vippsAgreementChargeReducer, vippsAgreementReducer } from './store/vipp
 import { avtaleGiroReducer } from './store/avtalegiro/avtalegiro.reducer';
 
 const rootReducer = combineReducers<AppState>({
-    auth: authReducer,
-    graphing: graphingReducer,
-    donorSelector: donorSelectorReducer,
-    donorCreation: CreateDonorReducer,
-    organizations: organizationsReducer,
-    singleDonation: singleDonationReducer,
-    reportProcessing: reportProcessingReducer,
-    donations: donationsReducer,
-    distributions: distributionsReducer,
-    dataOwner: ownersReducer,
-    reciept: recieptReducer,
-    logs: loggingReducer,
-    vippsAgreements: vippsAgreementReducer,
-    vippsAgreementCharges: vippsAgreementChargeReducer,
-    avtaleGiroAgreements: avtaleGiroReducer,
-})
+  auth: authReducer,
+  graphing: graphingReducer,
+  donorSelector: donorSelectorReducer,
+  donorCreation: CreateDonorReducer,
+  organizations: organizationsReducer,
+  singleDonation: singleDonationReducer,
+  reportProcessing: reportProcessingReducer,
+  donations: donationsReducer,
+  distributions: distributionsReducer,
+  dataOwner: ownersReducer,
+  reciept: recieptReducer,
+  logs: loggingReducer,
+  vippsAgreements: vippsAgreementReducer,
+  vippsAgreementCharges: vippsAgreementChargeReducer,
+  avtaleGiroAgreements: avtaleGiroReducer,
+});
 
 const sagaMiddleware = createSagaMiddleware();
-const Store = createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(sagaMiddleware)));
+const Store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(watchAll);
 
 export default Store;
