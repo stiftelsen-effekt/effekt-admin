@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { ILogEntry, IPagination } from '../../../../models/types';
+import { ILogEntry, IPagination } from '../../models/types';
 
 export const SET_LOGS_PAGINATION = 'SET_LOGS_PAGINATION';
 

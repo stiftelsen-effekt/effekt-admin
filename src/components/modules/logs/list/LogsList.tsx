@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchLogsAction, setLogsPaginationAction } from './logs-list.actions';
+import { fetchLogsAction, setLogsPaginationAction } from '../../../../store/logs/logs-list.actions';
 import { AppState } from '../../../../models/state';
 import { longDateTime } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
