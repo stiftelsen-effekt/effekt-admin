@@ -5,7 +5,7 @@ import {
   SET_DISTRIBUTIONS_PAGINATION,
   SET_DISTRIBUTIONS_FILTER_DONOR,
   SET_DISTRIBUTIONS_FILTER_KID,
-} from '../../components/modules/distribution/list/distribution-list.actions';
+} from './distribution-list.actions';
 
 const defaultState: DistributionsState = {
   searchResult: [],

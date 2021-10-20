@@ -12,7 +12,7 @@ import {
   setDistributionFilterKid,
   setDistributionFilterDonor,
   fetchDistributionsAction,
-} from '../distribution-list.actions';
+} from '../../../../../store/distributions/distribution-list.actions';
 import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
 
 export const DistributionsFiltersComponent: React.FunctionComponent = () => {

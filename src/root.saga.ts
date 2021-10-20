@@ -48,8 +48,8 @@ import {
   fetchSumByMonthAction,
   fetchTotalByPeriodAction,
 } from './components/pages/graphing/graphing.actions';
-import { fetchDistributions } from './components/modules/distribution/list/distribution-list.saga';
-import { fetchDistributionsAction } from './components/modules/distribution/list/distribution-list.actions';
+import { fetchDistributions } from './store/distributions/distribution-list.saga';
+import { fetchDistributionsAction } from './store/distributions/distribution-list.actions';
 import { fetchOwnersAction } from './store/owners/owners.actions';
 import { fetchOwners } from './store/owners/owners.saga';
 import { resendRecieptAction } from './components/modules/donations/reciept/reciept.actions';

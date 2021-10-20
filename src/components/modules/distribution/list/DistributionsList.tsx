@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import ReactTable from 'react-table';
-import { setDistributionPagination, fetchDistributionsAction } from './distribution-list.actions';
+import {
+  setDistributionPagination,
+  fetchDistributionsAction,
+} from '../../../../store/distributions/distribution-list.actions';
 import { Redirect } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
