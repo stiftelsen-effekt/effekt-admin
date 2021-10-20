@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IAggregationItem, IAggregationMonthlyItem } from '../../../models/types';
+import { IAggregationItem, IAggregationMonthlyItem } from '../../models/types';
 
 const actionCreator = actionCreatorFactory();
 

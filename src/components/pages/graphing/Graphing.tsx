@@ -4,7 +4,7 @@ import { MainHeader, SubHeader } from '../../style/elements/headers.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { EffektDateRange } from '../../modules/range/DateRange';
 import { AppState } from '../../../models/state';
-import { fetchTotalByPeriodAction } from './graphing.actions';
+import { fetchTotalByPeriodAction } from '../../../store/graphing/graphing.actions';
 import { Bar } from 'react-chartjs-2';
 import * as palette from 'google-palette';
 

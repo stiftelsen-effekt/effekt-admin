@@ -40,11 +40,8 @@ import {
 } from './store/donations/donations-list.actions';
 import { fetchDonationAction, fetchHistogramAction } from './store/donations/donation.actions';
 import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
-import { fetchSumByMonth, fetchTotalByPeriod } from './components/pages/graphing/graphing.saga';
-import {
-  fetchSumByMonthAction,
-  fetchTotalByPeriodAction,
-} from './components/pages/graphing/graphing.actions';
+import { fetchSumByMonth, fetchTotalByPeriod } from './store/graphing/graphing.saga';
+import { fetchSumByMonthAction, fetchTotalByPeriodAction } from './store/graphing/graphing.actions';
 import { fetchDistributions } from './store/distributions/distribution-list.saga';
 import { fetchDistributionsAction } from './store/distributions/distribution-list.actions';
 import { fetchOwnersAction } from './store/owners/owners.actions';
