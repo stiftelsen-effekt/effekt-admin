@@ -8,7 +8,7 @@ import { AppState, ReportProcessingState } from '../../../models/state';
 import { Redirect } from 'react-router';
 import { EffektDisplayTable } from '../../style/elements/display-table/display-table.component.style';
 import { SingleDonation } from '../../modules/single-donation/SingleDonation';
-import { popInvalidTransaction } from './process.actions';
+import { popInvalidTransaction } from '../../../store/process/process.actions';
 import { fetchActiveOrganizationsAction } from '../../../store/organizations/organizations.action';
 
 export const ProcessDonations: React.FunctionComponent = (props) => {
