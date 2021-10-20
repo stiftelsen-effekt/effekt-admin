@@ -15,8 +15,8 @@ import {
   callback,
   loginSuccess,
 } from './store/authentication/loginout.saga';
-import { searchDonorAction } from './components/modules/donors/selection/donor-selection.actions';
-import { searchDonors } from './components/modules/donors/selection/donor-selection.saga';
+import { searchDonorAction } from './store/donors/donor-selection.actions';
+import { searchDonors } from './store/donors/donor-selection.saga';
 import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';
 import { fetchActiveOrganizations } from './store/organizations/organizations.saga';
 import {
@@ -31,8 +31,8 @@ import {
 } from './components/modules/single-donation/single-donation.saga';
 import { uploadReportAction } from './components/modules/report-upload/report-upload.actions';
 import { uploadReport } from './components/modules/report-upload/report-upload.saga';
-import { createDonorAction } from './components/modules/donors/create/create-donor.actions';
-import { createDonor } from './components/modules/donors/create/create-donor.saga';
+import { createDonorAction } from './store/donors/create-donor.actions';
+import { createDonor } from './store/donors/create-donor.saga';
 import { deleteDonation, fetchDonations } from './store/donations/donations-list.saga';
 import {
   deleteDonationAction,

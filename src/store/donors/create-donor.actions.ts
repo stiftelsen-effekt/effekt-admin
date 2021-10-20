@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IDonor } from '../../../../models/types';
+import { IDonor } from '../../models/types';
 
 const actionCreator = actionCreatorFactory();
 
