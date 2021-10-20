@@ -24,7 +24,7 @@ import {
   setDonationFilterDateRange,
   setDonationFilterSumRange,
   setDonationFilterPaymentMethodIDs,
-} from './filters.actions';
+} from '../../../../../store/donations/donation-filters.actions';
 import { fetchHistogramAction } from '../../../../../store/donations/donation.actions';
 import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
 

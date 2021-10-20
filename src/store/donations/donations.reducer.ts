@@ -14,7 +14,7 @@ import {
   SET_DONATION_FILTER_KID,
   SET_DONATION_FILTRE_PAYMENT_METHOD_IDS,
   SET_DONATION_FILTER_DONOR,
-} from '../../components/modules/donations/list/filters/filters.actions';
+} from './donation-filters.actions';
 
 const defaultState: DonationsState = {
   donations: [],
