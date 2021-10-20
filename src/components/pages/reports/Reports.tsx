@@ -3,7 +3,7 @@ import { Page } from '../../style/elements/page.style';
 import { MainHeader, SubHeader } from '../../style/elements/headers.style';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../models/state';
-import { fetchPaymentMethodsAction } from '../../modules/single-donation/single-donation.actions';
+import { fetchPaymentMethodsAction } from '../../../store/single-donation/single-donation.actions';
 import {
   EffektSwitch,
   SwitchSelected,

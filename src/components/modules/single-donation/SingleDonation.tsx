@@ -16,7 +16,7 @@ import {
   fetchPaymentMethodsAction,
   insertDonationAction,
   ICreateDonationParams,
-} from './single-donation.actions';
+} from '../../../store/single-donation/single-donation.actions';
 import { Decimal } from 'decimal.js';
 
 import { DonationControls } from './controls/DonationControls';

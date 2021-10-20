@@ -1,4 +1,4 @@
-import { IPaymentMethod, IDonor, IDonation, IDistributionShare } from '../../../models/types';
+import { IPaymentMethod, IDonor, IDonation, IDistributionShare } from '../../models/types';
 
 import actionCreatorFactory from 'typescript-fsa';
 

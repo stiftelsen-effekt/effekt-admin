@@ -23,12 +23,12 @@ import {
   fetchPaymentMethodsAction,
   createDistribitionAndInsertDonationAction,
   insertDonationAction,
-} from './components/modules/single-donation/single-donation.actions';
+} from './store/single-donation/single-donation.actions';
 import {
   fetchPaymentMethods,
   createDistributionAndInsertDonation,
   insertDonation,
-} from './components/modules/single-donation/single-donation.saga';
+} from './store/single-donation/single-donation.saga';
 import { uploadReportAction } from './store/report/report-upload.actions';
 import { uploadReport } from './store/report/report-upload.saga';
 import { createDonorAction } from './store/donors/create-donor.actions';

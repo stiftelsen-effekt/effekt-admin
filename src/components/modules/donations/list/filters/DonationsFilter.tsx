@@ -17,7 +17,7 @@ import {
 } from '../../../../style/elements/effekt-check/effekt-check-form.component';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../../models/state';
-import { fetchPaymentMethodsAction } from '../../../single-donation/single-donation.actions';
+import { fetchPaymentMethodsAction } from '../../../../../store/single-donation/single-donation.actions';
 import {
   setDonationFilterKid,
   setDonationFilterDonor,
