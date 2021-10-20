@@ -3,7 +3,7 @@ import { EffektButton } from '../../style/elements/button.style';
 import { EffektFileInput } from '../../style/elements/fileinput.component';
 import { ReportTable } from './ReportUpload.style';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReportTypes, uploadReportAction } from './report-upload.actions';
+import { ReportTypes, uploadReportAction } from '../../../store/report/report-upload.actions';
 import { toast } from 'react-toastify';
 import { AppState } from '../../../models/state';
 import { Redirect } from 'react-router';

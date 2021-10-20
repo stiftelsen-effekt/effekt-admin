@@ -29,8 +29,8 @@ import {
   createDistributionAndInsertDonation,
   insertDonation,
 } from './components/modules/single-donation/single-donation.saga';
-import { uploadReportAction } from './components/modules/report-upload/report-upload.actions';
-import { uploadReport } from './components/modules/report-upload/report-upload.saga';
+import { uploadReportAction } from './store/report/report-upload.actions';
+import { uploadReport } from './store/report/report-upload.saga';
 import { createDonorAction } from './store/donors/create-donor.actions';
 import { createDonor } from './store/donors/create-donor.saga';
 import { deleteDonation, fetchDonations } from './store/donations/donations-list.saga';
