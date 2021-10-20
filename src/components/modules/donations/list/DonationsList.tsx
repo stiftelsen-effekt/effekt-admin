@@ -5,7 +5,7 @@ import {
   deleteDonationAction,
   fetchDonationsAction,
   setDonationsPagination,
-} from './donations-list.actions';
+} from '../../../../store/donations/donations-list.actions';
 import { AppState } from '../../../../models/state';
 import { shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';

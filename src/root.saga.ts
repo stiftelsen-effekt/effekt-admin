@@ -33,14 +33,11 @@ import { uploadReportAction } from './components/modules/report-upload/report-up
 import { uploadReport } from './components/modules/report-upload/report-upload.saga';
 import { createDonorAction } from './components/modules/donors/create/create-donor.actions';
 import { createDonor } from './components/modules/donors/create/create-donor.saga';
-import {
-  deleteDonation,
-  fetchDonations,
-} from './components/modules/donations/list/donations-list.saga';
+import { deleteDonation, fetchDonations } from './store/donations/donations-list.saga';
 import {
   deleteDonationAction,
   fetchDonationsAction,
-} from './components/modules/donations/list/donations-list.actions';
+} from './store/donations/donations-list.actions';
 import { fetchDonationAction, fetchHistogramAction } from './store/donations/donation.actions';
 import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
 import { fetchSumByMonth, fetchTotalByPeriod } from './components/pages/graphing/graphing.saga';

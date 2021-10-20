@@ -1,9 +1,6 @@
 import { DonationsState } from '../../models/state';
 import { isType } from 'typescript-fsa';
-import {
-  fetchDonationsAction,
-  SET_DONATIONS_PAGINATION,
-} from '../../components/modules/donations/list/donations-list.actions';
+import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from './donations-list.actions';
 import {
   fetchDonationAction,
   CLEAR_CURRENT_DONATION,
