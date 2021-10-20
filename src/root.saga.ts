@@ -46,8 +46,8 @@ import { fetchDistributions } from './store/distributions/distribution-list.saga
 import { fetchDistributionsAction } from './store/distributions/distribution-list.actions';
 import { fetchOwnersAction } from './store/owners/owners.actions';
 import { fetchOwners } from './store/owners/owners.saga';
-import { resendRecieptAction } from './components/modules/donations/reciept/reciept.actions';
-import { resendReciept } from './components/modules/donations/reciept/reciept.saga';
+import { resendReceiptAction } from './store/donations/receipt.actions';
+import { resendReceipt } from './store/donations/receipt.saga';
 import { fetchLogsAction } from './store/logs/logs-list.actions';
 import { fetchLogs } from './store/logs/logs-list.saga';
 import { fetchLogEntryAction } from './store/logs/logs.actions';
@@ -120,7 +120,7 @@ function* watchAll() {
     takeLatest(fetchDistributionsAction.started.type, fetchDistributions),
     takeLatest(fetchOwnersAction.started.type, fetchOwners),
 
-    takeLatest(resendRecieptAction.started.type, resendReciept),
+    takeLatest(resendReceiptAction.started.type, resendReceipt),
 
     takeLatest(fetchLogsAction.started.type, fetchLogs),
     takeLatest(fetchLogEntryAction.started.type, fetchLogEntry),

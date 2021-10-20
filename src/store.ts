@@ -13,7 +13,7 @@ import { donationsReducer } from './store/donations/donations.reducer';
 import { graphingReducer } from './components/pages/graphing/graphing.reducer';
 import { distributionsReducer } from './store/distributions/distributions.reducer';
 import { ownersReducer } from './store/owners/owners.reducer';
-import { recieptReducer } from './components/modules/donations/reciept/reciept.reducer';
+import { receiptReducer } from './store/donations/receipt.reducer';
 import { loggingReducer } from './store/logs/logs.reducer';
 import { vippsAgreementChargeReducer, vippsAgreementReducer } from './store/vipps/vipps.reducer';
 import { avtaleGiroReducer } from './store/avtalegiro/avtalegiro.reducer';

@@ -17,7 +17,7 @@ export interface ICreateDistributionParams {
 }
 
 export interface ICreateDonationParams extends IDonation {
-  reciept: boolean;
+  receipt: boolean;
 }
 
 interface ICreateDistributionAndInsertDonationParams {

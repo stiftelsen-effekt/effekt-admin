@@ -3,7 +3,7 @@ import { EffektButton, EffektSecondaryButton } from '../../../style/elements/but
 import { EffektCheck } from '../../../style/elements/effekt-check/effekt-check.component';
 
 interface IProps {
-  onInsert(reciept: boolean): void;
+  onInsert(receipt: boolean): void;
   onIgnore?(): void;
 }
 
@@ -17,21 +17,21 @@ export const DonationControls: React.FunctionComponent<IProps> = (props: IProps)
     );
   }
 
-  const [reciept, setReciept] = useState<boolean>(false);
+  const [receipt, setReceipt] = useState<boolean>(false);
 
   return (
     <React.Fragment>
       {ignoreButton}
       <EffektCheck
         label={'Kvittering'}
-        checked={reciept}
+        checked={receipt}
         onChange={(checked) => {
-          setReciept(checked);
+          setReceipt(checked);
         }}
         azure={false}
       ></EffektCheck>
       <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-      <EffektButton onClick={() => props.onInsert(reciept)}>Insert</EffektButton>
+      <EffektButton onClick={() => props.onInsert(receipt)}>Insert</EffektButton>
     </React.Fragment>
   );
 };
