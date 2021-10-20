@@ -1,6 +1,6 @@
-import { SingleDonationState } from '../../../models/state';
+import { SingleDonationState } from '../../models/state';
 import { AnyAction } from 'redux';
-import { IPaymentMethod } from '../../../models/types';
+import { IPaymentMethod } from '../../models/types';
 import { DateTime } from 'luxon';
 import {
   createDistribitionAndInsertDonationAction,
@@ -8,7 +8,7 @@ import {
 } from './single-donation.actions';
 import { isType } from 'typescript-fsa';
 import { toast } from 'react-toastify';
-import { toastError } from '../../../util/toasthelper';
+import { toastError } from '../../util/toasthelper';
 
 const initialState: SingleDonationState = {
   paymentMethods: [],

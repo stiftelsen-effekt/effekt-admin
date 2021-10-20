@@ -1,10 +1,10 @@
 import { createDonorAction } from './create-donor.actions';
 import { put, call } from 'redux-saga/effects';
-import * as API from '../../../../util/api';
+import * as API from '../../util/api';
 
 export function* createDonor(action: any) {
   try {
-    var data = yield call(API.call, {
+    var data: API.Response = yield call(API.call, {
       endpoint: `/donors/`,
       method: API.Method.POST,
       data: action.payload,

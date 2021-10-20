@@ -5,7 +5,7 @@ import {
   IFetchTotalByPeriodActionParams,
 } from './graphing.actions';
 import { Action } from 'typescript-fsa';
-import * as API from '../../../util/api';
+import * as API from '../../util/api';
 import { DateTime } from 'luxon';
 
 export function* fetchTotalByPeriod(action: Action<IFetchTotalByPeriodActionParams>) {

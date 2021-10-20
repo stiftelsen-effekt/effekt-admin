@@ -1,19 +1,19 @@
 import { call, put, select } from 'redux-saga/effects';
-import * as API from '../../../util/api';
+import * as API from '../../util/api';
 import {
   createDistribitionAndInsertDonationAction,
   ICreateDistributionParams,
   fetchPaymentMethodsAction,
   ICreateDonationParams,
 } from './single-donation.actions';
-import { AppState } from '../../../models/state';
-import { IAccessToken } from '../../../store/authentication/auth';
+import { AppState } from '../../models/state';
+import { IAccessToken } from '../authentication/auth';
 
 const getApiToken = (state: AppState) => state.auth.currentToken;
 
 export function* fetchPaymentMethods(action: any) {
   try {
-    var data = yield call(API.call, {
+    var data: API.Response = yield call(API.call, {
       endpoint: '/payment/methods/',
       method: API.Method.GET,
     });
@@ -27,7 +27,7 @@ export function* fetchPaymentMethods(action: any) {
 export function* createDistributionCall(params: ICreateDistributionParams) {
   try {
     const accessToken: IAccessToken = yield select(getApiToken);
-    var data = yield call(API.call, {
+    var data: API.Response = yield call(API.call, {
       endpoint: '/distributions/',
       method: API.Method.POST,
       token: accessToken.token,
@@ -43,7 +43,7 @@ export function* createDistributionCall(params: ICreateDistributionParams) {
 export function* insertDonationCall(params: ICreateDonationParams) {
   try {
     const accessToken: IAccessToken = yield select(getApiToken);
-    var data = yield call(API.call, {
+    var data: API.Response = yield call(API.call, {
       endpoint: '/donations/confirm',
       method: API.Method.POST,
       token: accessToken.token,

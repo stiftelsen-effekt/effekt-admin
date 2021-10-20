@@ -1,7 +1,7 @@
-import { GraphingState } from '../../../models/state';
+import { GraphingState } from '../../models/state';
 import { AnyAction, isType } from 'typescript-fsa';
 import { fetchSumByMonthAction, fetchTotalByPeriodAction } from './graphing.actions';
-import { toastError } from '../../../util/toasthelper';
+import { toastError } from '../../util/toasthelper';
 import Decimal from 'decimal.js';
 
 export const graphingReducer = (state: GraphingState = {}, action: AnyAction): GraphingState => {
