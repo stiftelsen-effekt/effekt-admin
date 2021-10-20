@@ -1,7 +1,7 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const ReportWrapper = styled.div`
-  border-left: 4px solid #006A82;
+  border-left: 4px solid #006a82;
   display: flex;
   flex-direction: column;
 
@@ -10,7 +10,7 @@ export const ReportWrapper = styled.div`
       text-align: right;
     }
   }
-`
+`;
 
 export const ReportHeader = styled.h3`
   margin-top: 0;
@@ -20,11 +20,11 @@ export const ReportHeader = styled.h3`
   padding: 15px 20px;
   font-family: 'Georgia';
   font-weight: 400;
-`
+`;
 
 export const ReportContent = styled.div`
   padding-left: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
   height: 100%;
-`
+`;

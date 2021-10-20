@@ -1,9 +1,9 @@
 export enum DistributionType {
-    PERCENT,
-    ABSOLUTE
+  PERCENT,
+  ABSOLUTE,
 }
 
 export enum KIDModuleMode {
-    CREATE,
-    READ
+  CREATE,
+  READ,
 }

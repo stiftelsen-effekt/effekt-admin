@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const AdminPanelWrapper = styled.div`
-    display: flex;
-    width: 100wv;
-`
+  display: flex;
+  width: 100wv;
+`;
