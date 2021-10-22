@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { EffektInput } from '../../../style/elements/input.style';
 import { EffektButton } from '../../../style/elements/button.style';
 import { useDispatch } from 'react-redux';
-import { createDonorAction } from './create-donor.actions';
+import { createDonorAction } from '../../../../store/donors/create-donor.actions';
 import { CreateDonorWrapper } from './CreateDonor.style';
 
 interface IState {

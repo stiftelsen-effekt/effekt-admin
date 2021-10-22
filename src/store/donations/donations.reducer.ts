@@ -1,9 +1,6 @@
 import { DonationsState } from '../../models/state';
 import { isType } from 'typescript-fsa';
-import {
-  fetchDonationsAction,
-  SET_DONATIONS_PAGINATION,
-} from '../../components/modules/donations/list/donations-list.actions';
+import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from './donations-list.actions';
 import {
   fetchDonationAction,
   CLEAR_CURRENT_DONATION,
@@ -17,7 +14,7 @@ import {
   SET_DONATION_FILTER_KID,
   SET_DONATION_FILTRE_PAYMENT_METHOD_IDS,
   SET_DONATION_FILTER_DONOR,
-} from '../../components/modules/donations/list/filters/filters.actions';
+} from './donation-filters.actions';
 
 const defaultState: DonationsState = {
   donations: [],

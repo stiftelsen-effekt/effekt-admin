@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../models/state';
-import { fetchSumByMonthAction } from './graphing.actions';
+import { fetchSumByMonthAction } from '../../../store/graphing/graphing.actions';
 
 export const MonthlyDonationsGraph: React.FC = () => {
   const dispatch = useDispatch();

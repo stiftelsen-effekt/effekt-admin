@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IPagination, IDistributionSearchResultItem } from '../../../../models/types';
+import { IPagination, IDistributionSearchResultItem } from '../../models/types';
 
 export const SET_DISTRIBUTIONS_PAGINATION = 'SET_DISTRIBUTIONS_PAGINATION';
 

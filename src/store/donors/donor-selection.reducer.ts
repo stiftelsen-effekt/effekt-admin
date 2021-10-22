@@ -1,4 +1,4 @@
-import { DonorSelectorState } from '../../../../models/state';
+import { DonorSelectorState } from '../../models/state';
 import { AnyAction } from 'redux';
 import {
   SHOW_DONOR_SELECTION_COMPONENT,
@@ -7,7 +7,7 @@ import {
   SET_SELECTED_DONOR,
   searchDonorAction,
 } from './donor-selection.actions';
-import { IDonor } from '../../../../models/types';
+import { IDonor } from '../../models/types';
 import { DateTime } from 'luxon';
 import { isType } from 'typescript-fsa';
 

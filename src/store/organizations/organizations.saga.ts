@@ -4,7 +4,7 @@ import { fetchActiveOrganizationsAction } from './organizations.action';
 
 export function* fetchActiveOrganizations(action: any) {
   try {
-    var data = yield call(API.call, {
+    var data: API.Response = yield call(API.call, {
       endpoint: '/organizations/active/',
       method: API.Method.GET,
     });

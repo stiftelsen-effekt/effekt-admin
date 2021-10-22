@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 
 import { SelectorWrapper, DonorDialog, Controls } from './DonorSelectionDialog.style';
 
-import { hideDonorSelectionComponent, clearSelectedDonor } from './donor-selection.actions';
+import {
+  hideDonorSelectionComponent,
+  clearSelectedDonor,
+} from '../../../../store/donors/donor-selection.actions';
 import { AppState } from '../../../../models/state';
 import { EffektButton, EffektSecondaryButton } from '../../../style/elements/button.style';
 import { DonorSelectionComponent } from './DonorSelection';

@@ -1,11 +1,11 @@
-import { ReportProcessingState } from '../../../models/state';
+import { ReportProcessingState } from '../../models/state';
 import { AnyAction } from 'redux';
 import { isType } from 'typescript-fsa';
-import { uploadReportAction } from '../../modules/report-upload/report-upload.actions';
+import { uploadReportAction } from '../report/report-upload.actions';
 import { toast } from 'react-toastify';
 import { POP_INVALID_TRANSACTION } from './process.actions';
-import { createDistribitionAndInsertDonationAction } from '../../modules/single-donation/single-donation.actions';
-import { toastError } from '../../../util/toasthelper';
+import { createDistribitionAndInsertDonationAction } from '../single-donation/single-donation.actions';
+import { toastError } from '../../util/toasthelper';
 
 const defaultState: ReportProcessingState = {
   valid: 0,

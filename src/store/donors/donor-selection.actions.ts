@@ -1,4 +1,4 @@
-import { IDonor } from '../../../../models/types';
+import { IDonor } from '../../models/types';
 import actionCreatorFactory from 'typescript-fsa';
 
 export const SHOW_DONOR_SELECTION_COMPONENT = 'SHOW_DONOR_SELECTION_COMPONENT';

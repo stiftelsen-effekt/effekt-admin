@@ -1,4 +1,4 @@
-import { IPaymentMethod, IDonor, IDonation, IDistributionShare } from '../../../models/types';
+import { IPaymentMethod, IDonor, IDonation, IDistributionShare } from '../../models/types';
 
 import actionCreatorFactory from 'typescript-fsa';
 
@@ -17,7 +17,7 @@ export interface ICreateDistributionParams {
 }
 
 export interface ICreateDonationParams extends IDonation {
-  reciept: boolean;
+  receipt: boolean;
 }
 
 interface ICreateDistributionAndInsertDonationParams {

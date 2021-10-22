@@ -1,9 +1,9 @@
 import { deleteDonationAction, fetchDonationsAction } from './donations-list.actions';
 import { put, call, select } from 'redux-saga/effects';
-import * as API from '../../../../util/api';
-import { AppState } from '../../../../models/state';
-import { IAccessToken } from '../../../../store/authentication/auth';
-import { IPagination, IDonationFilter } from '../../../../models/types';
+import * as API from '../../util/api';
+import { AppState } from '../../models/state';
+import { IAccessToken } from '../authentication/auth';
+import { IPagination, IDonationFilter } from '../../models/types';
 
 export function* fetchDonations(action: any) {
   try {

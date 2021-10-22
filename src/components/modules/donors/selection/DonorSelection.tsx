@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import '../../../style/elements/react-table/table.css';
 import ReactTable from 'react-table';
-import { searchDonorAction, setSelectedDonor } from './donor-selection.actions';
+import {
+  searchDonorAction,
+  setSelectedDonor,
+} from '../../../../store/donors/donor-selection.actions';
 import { IDonor } from '../../../../models/types';
 import { EffektInput } from '../../../style/elements/input.style';
 import { orange50 } from '../../../style/colors';

@@ -39,7 +39,7 @@ export interface AppState {
   donations: DonationsState;
   distributions: DistributionsState;
   dataOwner: DataOwnerState;
-  reciept: RecieptState;
+  receipt: ReceiptState;
   logs: LoggingState;
 
   vippsAgreements: VippsAgreementsState;
@@ -161,7 +161,7 @@ export interface DataOwnerState {
   owners?: Array<IDataOwner>;
 }
 
-export interface RecieptState {}
+export interface ReceiptState {}
 
 export interface LoggingState {
   currentEntry?: ILogEntry;

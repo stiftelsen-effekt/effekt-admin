@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IDonation, IPagination } from '../../../../models/types';
+import { IDonation, IPagination } from '../../models/types';
 
 export const SET_DONATIONS_PAGINATION = 'SET_DONATIONS_PAGINATION';
 

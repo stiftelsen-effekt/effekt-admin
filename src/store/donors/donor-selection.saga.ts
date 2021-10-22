@@ -1,15 +1,15 @@
 import { call, put, select } from 'redux-saga/effects';
-import * as API from '../../../../util/api';
+import * as API from '../../util/api';
 import { searchDonorAction } from './donor-selection.actions';
-import { AppState } from '../../../../models/state';
-import { IAccessToken } from '../../../../store/authentication/auth';
+import { AppState } from '../../models/state';
+import { IAccessToken } from '../authentication/auth';
 
 export const getApiToken = (state: AppState) => state.auth.currentToken;
 
 export function* searchDonors(action: any) {
   try {
     const accessToken: IAccessToken = yield select(getApiToken);
-    var data = yield call(API.call, {
+    var data: API.Response = yield call(API.call, {
       endpoint: '/donors/search/',
       method: API.Method.GET,
       token: accessToken.token,

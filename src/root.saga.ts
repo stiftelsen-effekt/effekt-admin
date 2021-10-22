@@ -15,47 +15,41 @@ import {
   callback,
   loginSuccess,
 } from './store/authentication/loginout.saga';
-import { searchDonorAction } from './components/modules/donors/selection/donor-selection.actions';
-import { searchDonors } from './components/modules/donors/selection/donor-selection.saga';
+import { searchDonorAction } from './store/donors/donor-selection.actions';
+import { searchDonors } from './store/donors/donor-selection.saga';
 import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';
 import { fetchActiveOrganizations } from './store/organizations/organizations.saga';
 import {
   fetchPaymentMethodsAction,
   createDistribitionAndInsertDonationAction,
   insertDonationAction,
-} from './components/modules/single-donation/single-donation.actions';
+} from './store/single-donation/single-donation.actions';
 import {
   fetchPaymentMethods,
   createDistributionAndInsertDonation,
   insertDonation,
-} from './components/modules/single-donation/single-donation.saga';
-import { uploadReportAction } from './components/modules/report-upload/report-upload.actions';
-import { uploadReport } from './components/modules/report-upload/report-upload.saga';
-import { createDonorAction } from './components/modules/donors/create/create-donor.actions';
-import { createDonor } from './components/modules/donors/create/create-donor.saga';
-import {
-  deleteDonation,
-  fetchDonations,
-} from './components/modules/donations/list/donations-list.saga';
+} from './store/single-donation/single-donation.saga';
+import { uploadReportAction } from './store/report/report-upload.actions';
+import { uploadReport } from './store/report/report-upload.saga';
+import { createDonorAction } from './store/donors/create-donor.actions';
+import { createDonor } from './store/donors/create-donor.saga';
+import { deleteDonation, fetchDonations } from './store/donations/donations-list.saga';
 import {
   deleteDonationAction,
   fetchDonationsAction,
-} from './components/modules/donations/list/donations-list.actions';
+} from './store/donations/donations-list.actions';
 import { fetchDonationAction, fetchHistogramAction } from './store/donations/donation.actions';
 import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
-import { fetchSumByMonth, fetchTotalByPeriod } from './components/pages/graphing/graphing.saga';
-import {
-  fetchSumByMonthAction,
-  fetchTotalByPeriodAction,
-} from './components/pages/graphing/graphing.actions';
-import { fetchDistributions } from './components/modules/distribution/list/distribution-list.saga';
-import { fetchDistributionsAction } from './components/modules/distribution/list/distribution-list.actions';
+import { fetchSumByMonth, fetchTotalByPeriod } from './store/graphing/graphing.saga';
+import { fetchSumByMonthAction, fetchTotalByPeriodAction } from './store/graphing/graphing.actions';
+import { fetchDistributions } from './store/distributions/distribution-list.saga';
+import { fetchDistributionsAction } from './store/distributions/distribution-list.actions';
 import { fetchOwnersAction } from './store/owners/owners.actions';
 import { fetchOwners } from './store/owners/owners.saga';
-import { resendRecieptAction } from './components/modules/donations/reciept/reciept.actions';
-import { resendReciept } from './components/modules/donations/reciept/reciept.saga';
-import { fetchLogsAction } from './components/modules/logs/list/logs-list.actions';
-import { fetchLogs } from './components/modules/logs/list/logs-list.saga';
+import { resendReceiptAction } from './store/donations/receipt.actions';
+import { resendReceipt } from './store/donations/receipt.saga';
+import { fetchLogsAction } from './store/logs/logs-list.actions';
+import { fetchLogs } from './store/logs/logs-list.saga';
 import { fetchLogEntryAction } from './store/logs/logs.actions';
 import { fetchLogEntry } from './store/logs/logs.saga';
 import {
@@ -126,7 +120,7 @@ function* watchAll() {
     takeLatest(fetchDistributionsAction.started.type, fetchDistributions),
     takeLatest(fetchOwnersAction.started.type, fetchOwners),
 
-    takeLatest(resendRecieptAction.started.type, resendReciept),
+    takeLatest(resendReceiptAction.started.type, resendReceipt),
 
     takeLatest(fetchLogsAction.started.type, fetchLogs),
     takeLatest(fetchLogEntryAction.started.type, fetchLogEntry),

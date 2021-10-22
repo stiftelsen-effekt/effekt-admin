@@ -16,7 +16,7 @@ import {
   fetchPaymentMethodsAction,
   insertDonationAction,
   ICreateDonationParams,
-} from './single-donation.actions';
+} from '../../../store/single-donation/single-donation.actions';
 import { Decimal } from 'decimal.js';
 
 import { DonationControls } from './controls/DonationControls';
@@ -69,12 +69,12 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
     else return null;
   };
 
-  const submit = (reciept: boolean) => {
+  const submit = (receipt: boolean) => {
     const donation = getDonation(donationInput);
 
     if (!donation) return toast.error('Missing fields');
 
-    let donationParams: ICreateDonationParams = { ...donation, reciept: reciept };
+    let donationParams: ICreateDonationParams = { ...donation, receipt: receipt };
 
     if (donationInput.KID) {
       dispatch(insertDonationAction.started(donationParams));

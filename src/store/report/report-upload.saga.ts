@@ -1,8 +1,8 @@
 import { uploadReportAction, ReportTypes } from './report-upload.actions';
 import { put, select, call } from 'redux-saga/effects';
-import { AppState } from '../../../models/state';
-import { IAccessToken } from '../../../store/authentication/auth';
-import * as API from '../../../util/api';
+import { AppState } from '../../models/state';
+import { IAccessToken } from '../authentication/auth';
+import * as API from '../../util/api';
 
 const getApiToken = (state: AppState) => state.auth.currentToken;
 
@@ -32,7 +32,7 @@ export function* uploadReport(action: any) {
     formData.append('report', action.payload.report);
     formData.append('metaOwnerID', action.payload.metaOwnerID);
 
-    var data = yield call(API.call, {
+    var data: API.Response = yield call(API.call, {
       endpoint: `/reports/${reportType}`,
       method: API.Method.POST,
       token: token.token,

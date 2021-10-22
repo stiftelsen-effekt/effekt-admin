@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import { EffektButton } from '../../../style/elements/button.style';
 import { EffektInput } from '../../../style/elements/input.style';
-import { ResendRecieptWrapper } from './reciept.component.style';
+import { ResendReceiptWrapper } from './Receipt.style';
 import { useDispatch } from 'react-redux';
-import { resendRecieptAction } from './reciept.actions';
+import { resendReceiptAction } from '../../../../store/donations/receipt.actions';
 import { toastError } from '../../../../util/toasthelper';
 
-export const RegisterRecieptComponent: React.FunctionComponent = () => {
+export const RegisterReceiptComponent: React.FunctionComponent = () => {
   const [email, setEmail] = useState<string | undefined>();
   const [donationID, setDonationID] = useState<number | undefined>();
 
   const dispatch = useDispatch();
 
-  function resendReciept() {
+  function resendReceipt() {
     if (!donationID) {
       toastError('Failed to send', 'Missing donationID');
     } else {
-      dispatch(resendRecieptAction.started({ donationID, email }));
+      dispatch(resendReceiptAction.started({ donationID, email }));
     }
   }
 
   return (
-    <ResendRecieptWrapper>
+    <ResendReceiptWrapper>
       <div>
         <div>Donation ID</div>
         <EffektInput
@@ -38,7 +38,7 @@ export const RegisterRecieptComponent: React.FunctionComponent = () => {
           onChange={(e) => setEmail(e.target.value)}
         ></EffektInput>
       </div>
-      <EffektButton onClick={(e) => resendReciept()}>Send</EffektButton>
-    </ResendRecieptWrapper>
+      <EffektButton onClick={(e) => resendReceipt()}>Send</EffektButton>
+    </ResendReceiptWrapper>
   );
 };

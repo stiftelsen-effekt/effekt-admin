@@ -1,8 +1,5 @@
 import { isType } from 'typescript-fsa';
-import {
-  fetchLogsAction,
-  SET_LOGS_PAGINATION,
-} from '../../components/modules/logs/list/logs-list.actions';
+import { fetchLogsAction, SET_LOGS_PAGINATION } from './logs-list.actions';
 import { LoggingState } from '../../models/state';
 import { toastError } from '../../util/toasthelper';
 import { CLEAR_CURRENT_LOG_ENTRY, fetchLogEntryAction } from './logs.actions';

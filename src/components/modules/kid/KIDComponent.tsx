@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../models/state';
 
-import { showDonorSelectionComponent } from '../donors/selection/donor-selection.actions';
+import { showDonorSelectionComponent } from '../../../store/donors/donor-selection.actions';
 
 //Styling
 import {
