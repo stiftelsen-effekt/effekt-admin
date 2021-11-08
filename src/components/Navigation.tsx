@@ -69,12 +69,6 @@ class MainNavigation extends React.Component<IDispatchProps> {
             {' '}
             <span>Logs</span> <Activity size={iconSize} color={'white'}></Activity>
           </NavMenuItem>
-
-          <NavMenuItem to={'/avtalegiro'}>
-            <span>AvtaleGiro</span>
-            <FileText size={iconSize} color={"white"}>
-            </FileText>
-          </NavMenuItem>
         </NavMenu>
 
         <Logout onClick={this.logout}>
