@@ -2,7 +2,7 @@ import { put, call, select } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import { IAccessToken } from '../authentication/auth';
 import { AppState } from '../../models/state';
-import { IAvtaleGiroFilter, IPagination, IVippsAgreement } from '../../models/types';
+import { IAvtaleGiroFilter, IPagination } from '../../models/types';
 import * as API from './../../util/api';
 import {
   fetchAvtaleGiroAgreementsAction,
