@@ -75,12 +75,18 @@ import {
   fetchAvtaleGiroAgreements,
   fetchAvtaleGiroHistogram,
   fetchAvtaleGiroReport,
+  updateAvtaleGiroAmount,
+  updateAvtaleGiroPaymentDate,
+  updateAvtaleGiroStatus,
 } from './store/avtalegiro/avtalegiro.saga';
 import {
   fetchAvtaleGiroAction,
   fetchAvtaleGiroAgreementsAction,
   fetchAvtaleGiroHistogramAction,
   fetchAvtaleGiroReportAction,
+  updateAvtaleGiroAmountAction,
+  updateAvtaleGiroPaymentDateAction,
+  updateAvtaleGiroStatusAction,
 } from './store/avtalegiro/avtalegiro.actions';
 
 function* watchAll() {
@@ -137,7 +143,10 @@ function* watchAll() {
     takeLatest(fetchAvtaleGiroAction.started.type, fetchAvtaleGiro),
     takeLatest(fetchAvtaleGiroHistogramAction.started.type, fetchAvtaleGiroHistogram),
     takeLatest(fetchAvtaleGiroReportAction.started.type, fetchAvtaleGiroReport),
-  ]);
+    takeLatest(updateAvtaleGiroAmountAction.started.type, updateAvtaleGiroAmount),
+    takeLatest(updateAvtaleGiroStatusAction.started.type, updateAvtaleGiroStatus),
+    takeLatest(updateAvtaleGiroPaymentDateAction.started.type, updateAvtaleGiroPaymentDate),
+    ]);
 }
 
 export default watchAll;

@@ -2,13 +2,19 @@ import { put, call, select } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import { IAccessToken } from '../authentication/auth';
 import { AppState } from '../../models/state';
-import { IAvtaleGiroFilter, IPagination, IVippsAgreement } from '../../models/types';
+import { IAvtaleGiroFilter, IPagination } from '../../models/types';
 import * as API from './../../util/api';
 import {
   fetchAvtaleGiroAgreementsAction,
   fetchAvtaleGiroHistogramAction,
   fetchAvtaleGiroReportAction,
   IFetchAgreementActionParams,
+  IUpdateAvtaleGiroAmountActionParams,
+  IUpdateAvtaleGiroPaymentDateActionParams,
+  IUpdateAvtaleGiroStatusActionParams,
+  updateAvtaleGiroAmountAction,
+  updateAvtaleGiroPaymentDateAction,
+  updateAvtaleGiroStatusAction,
 } from './avtalegiro.actions';
 import { fetchAvtaleGiroAction } from './avtalegiro.actions';
 
@@ -73,14 +79,85 @@ export function* fetchAvtaleGiroReport() {
 export function* fetchAvtaleGiro(action: Action<IFetchAgreementActionParams>) {
   const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
 
-  try {
-    const result: IVippsAgreement = yield call(API.call, {
-      method: API.Method.GET,
-      endpoint: `/avtalegiro/agreement/${action.payload.id}`,
-      token: token.token,
-    });
-    if (result) yield put(fetchAvtaleGiroAction.done({ params: action.payload, result }));
-  } catch (ex) {
-    yield put(fetchAvtaleGiroAction.failed({ params: action.payload, error: ex }));
-  }
+    try {
+        const result: API.Response = yield call(API.call, {
+            method: API.Method.GET,
+            endpoint: `/avtalegiro/agreement/${action.payload.id}`,
+            token: token.token
+        })
+        if (result)
+            yield put(fetchAvtaleGiroAction.done({params: action.payload, result: result.content}))
+    }
+    catch(ex) {
+        yield put(fetchAvtaleGiroAction.failed({ params: action.payload, error: ex }))
+    }
+}
+
+export function* updateAvtaleGiroAmount(action: Action<IUpdateAvtaleGiroAmountActionParams>) {
+    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+    const KID = action.payload.KID
+    const amount = action.payload.amount
+
+    try {
+        const result: API.Response = yield call(API.call, {
+            method: API.Method.POST,
+            endpoint: `/avtalegiro/${action.payload.KID}/amount`,
+            token: token.token,
+            data: {
+                KID,
+                amount
+            }
+        })
+        if (result)
+            yield put(updateAvtaleGiroAmountAction.done({params: action.payload, result: amount}))
+    }
+    catch(ex) {
+        yield put(updateAvtaleGiroAmountAction.failed({ params: action.payload, error: ex }))
+    }
+}
+
+export function* updateAvtaleGiroStatus(action: Action<IUpdateAvtaleGiroStatusActionParams>) {
+    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+    const KID = action.payload.KID
+    const status = action.payload.status
+
+    try {
+        const result: API.Response = yield call(API.call, {
+            method: API.Method.POST,
+            endpoint: `/avtalegiro/${action.payload.KID}/status`,
+            token: token.token,
+            data: {
+                KID,
+                active: status
+            }
+        })
+        if (result)
+            yield put(updateAvtaleGiroStatusAction.done({params: action.payload, result: status}))
+    }
+    catch(ex) {
+        yield put(updateAvtaleGiroStatusAction.failed({ params: action.payload, error: ex }))
+    }
+}
+
+export function* updateAvtaleGiroPaymentDate(action: Action<IUpdateAvtaleGiroPaymentDateActionParams>) {
+    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+    const KID = action.payload.KID
+    const paymentDate = action.payload.paymentDate
+
+    try {
+        const result: API.Response = yield call(API.call, {
+            method: API.Method.POST,
+            endpoint: `/avtalegiro/${action.payload.KID}/paymentdate`,
+            token: token.token,
+            data: {
+                KID,
+                paymentDate
+            }
+        })
+        if (result)
+            yield put(updateAvtaleGiroPaymentDateAction.done({params: action.payload, result: paymentDate}))
+    }
+    catch(ex) {
+        yield put(updateAvtaleGiroPaymentDateAction.failed({ params: action.payload, error: ex }))
+    }
 }

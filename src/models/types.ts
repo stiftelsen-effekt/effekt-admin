@@ -196,15 +196,16 @@ export interface IVippsAgreementChargeFilter {
 /** AvtaleGiro agreements */
 
 export interface IAvtaleGiro {
-  id: string;
-  created: string;
-  last_updated: string;
-  active: number;
-  amount: number;
-  KID: string;
-  donor: string;
-  payment_date: number;
-  distribution: Array<IDistributionShare>;
+    id: string,
+    created: string,
+    last_updated: string,
+    active: number,
+    amount: number,
+    KID: string,
+    donor: string,
+    payment_date: number,
+    cancelled: string,
+    distribution: Array<IDistributionShare>,
 }
 
 export interface IAvtaleGiroFilter {

@@ -23,6 +23,8 @@ import { VippsAgreementChargesPageComponent } from './pages/vippsagreementcharge
 import { VippsAgreementPageComponent } from './pages/vippsagreements/vippsagreement';
 import { VippsAgreementChargePageComponent } from './pages/vippsagreementcharges/vippsagreementcharge';
 import { AvtaleGiroAgreementsPage } from './pages/avtalegiroagreements/AvtaleGiroAgreements';
+import { AvtaleGiroPage } from './pages/avtalegiro/AvtaleGiroPage';
+import { AvtaleGiroAgreement } from './pages/avtalegiroagreements/AvtaleGiroAgreement/AvtaleGiroAgreement';
 
 export const AdminPanel: React.FunctionComponent = () => {
   //TODO: Move someplace where it is run only once
@@ -60,7 +62,9 @@ export const AdminPanel: React.FunctionComponent = () => {
             path="/vipps/agreements/charge/:id"
             component={VippsAgreementChargePageComponent}
           ></Route>
-          <Route exact path="/avtalegiro" component={AvtaleGiroAgreementsPage}></Route>
+          <Route exact path="/avtalegiro" component={AvtaleGiroPage}></Route>
+              <Route exact path="/avtalegiro/agreements" component={AvtaleGiroAgreementsPage}></Route>
+              <Route exact path="/avtalegiro/:id" component={AvtaleGiroAgreement}></Route>
           <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
         </Switch>
       </AdminPanelWrapper>

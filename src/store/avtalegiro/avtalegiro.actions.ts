@@ -2,11 +2,12 @@ import actionCreatorFactory from 'typescript-fsa';
 import { IAvtaleGiro, IHistogramBucket, IPagination } from '../../models/types';
 
 // AvtaleGiro agreements actions
-export const SET_AVTALEGIRO_PAGINATION = 'SET_AVTALEGIRO_PAGINATION';
-export const SET_AVTALEGIRO_FILTER_AMOUNT = 'SET_AVTALEGIRO_FILTER_AMOUNT';
-export const SET_AVTALEGIRO_FILTER_KID = 'SET_AVTALEGIRO_FILTER_KID';
-export const SET_AVTALEGIRO_FILTER_DONOR = 'SET_AVTALEGIRO_FILTER_DONOR';
-export const SET_AVTALEGIRO_FILTER_ACTIVE = 'SET_AVTALEGIRO_FILTER_ACTIVE';
+export const SET_AVTALEGIRO_PAGINATION = "SET_AVTALEGIRO_PAGINATION"
+export const SET_AVTALEGIRO_FILTER_AMOUNT = "SET_AVTALEGIRO_FILTER_AMOUNT"
+export const SET_AVTALEGIRO_FILTER_KID = "SET_AVTALEGIRO_FILTER_KID"
+export const SET_AVTALEGIRO_FILTER_DONOR = "SET_AVTALEGIRO_FILTER_DONOR"
+export const SET_AVTALEGIRO_FILTER_ACTIVE = "SET_AVTALEGIRO_FILTER_ACTIVE"
+export const CLEAR_CURRENT_AVTALEGIRO = "CLEAR_CURRENT_DONATION"
 
 const actionCreator = actionCreatorFactory();
 
@@ -22,30 +23,18 @@ interface IFetchAvtaleGiroReportResult {
   medianAgreementSum: number;
 }
 
-export interface IFetchAgreementActionParams {
-  id: string;
-}
+export interface IFetchAgreementActionParams { id: string }
+export interface IUpdateAvtaleGiroAmountActionParams { KID: string, amount: number }
+export interface IUpdateAvtaleGiroStatusActionParams { KID: string, status: number }
+export interface IUpdateAvtaleGiroPaymentDateActionParams { KID: string, paymentDate: number }
 
-export const fetchAvtaleGiroAgreementsAction = actionCreator.async<
-  undefined,
-  IFetchAvtaleGirosResults,
-  Error
->('FETCH_AVTALEGIRO_AGREEMENTS');
-export const fetchAvtaleGiroAction = actionCreator.async<
-  IFetchAgreementActionParams,
-  IAvtaleGiro,
-  Error
->('FETCH_AVTALEGIRO');
-export const fetchAvtaleGiroReportAction = actionCreator.async<
-  undefined,
-  IFetchAvtaleGiroReportResult,
-  Error
->('FETCH_AVTALEGIRO_REPORT');
-export const fetchAvtaleGiroHistogramAction = actionCreator.async<
-  undefined,
-  Array<IHistogramBucket>,
-  Error
->('FETCH_AVTALEGIRO_HISTOGRAM');
+export const fetchAvtaleGiroAgreementsAction = actionCreator.async<undefined, IFetchAvtaleGirosResults, Error>('FETCH_AVTALEGIRO_AGREEMENTS');
+export const fetchAvtaleGiroAction = actionCreator.async<IFetchAgreementActionParams, IAvtaleGiro, Error>('FETCH_AVTALEGIRO');
+export const updateAvtaleGiroAmountAction = actionCreator.async<IUpdateAvtaleGiroAmountActionParams, number, Error>('UPDATE_AVTALEGIRO_AMOUNT');
+export const updateAvtaleGiroStatusAction = actionCreator.async<IUpdateAvtaleGiroStatusActionParams, number, Error>('UPDATE_AVTALEGIRO_STATUS');
+export const updateAvtaleGiroPaymentDateAction = actionCreator.async<IUpdateAvtaleGiroPaymentDateActionParams, number, Error>('UPDATE_AVTALEGIRO_PAYMENTDATE');
+export const fetchAvtaleGiroReportAction = actionCreator.async<undefined, IFetchAvtaleGiroReportResult, Error>('FETCH_AVTALEGIRO_REPORT');
+export const fetchAvtaleGiroHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_AVTALEGIRO_HISTOGRAM');
 
 export const setAvtaleGiroPagination = (pagination: IPagination) => {
   return {
@@ -81,8 +70,10 @@ export const setAvtaleGiroFilterKID = (KID: string) => {
 };
 
 export const setAvtaleGiroFilterActive = (active: Array<number>) => {
-  return {
-    type: SET_AVTALEGIRO_FILTER_ACTIVE,
-    payload: active,
-  };
-};
+    return {
+        type: SET_AVTALEGIRO_FILTER_ACTIVE,
+        payload: active
+    }
+}
+
+export const clearCurrentAvtaleGiro = () => ({ type: CLEAR_CURRENT_AVTALEGIRO })

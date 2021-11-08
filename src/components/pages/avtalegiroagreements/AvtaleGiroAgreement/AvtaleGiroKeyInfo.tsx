@@ -6,30 +6,32 @@ import { shortDate } from '../../../../util/formatting';
 
 interface AgreementInfo {
     amount: number;
-    status: string;
-    timestamp_created: string;
-    monthly_charge_day: number;
+    created: string;
+    cancelled: string;
+    payment_date: number;
+    active: number;
     KID: string;
 }
 interface IProps {
     agreement: AgreementInfo;
 }
 
-export const AgreementKeyInfoComponent: React.FunctionComponent<IProps> = ({ agreement }) => {
-    const formattedTimestamp = shortDate(DateTime.fromISO(agreement.timestamp_created))
-    const status = agreement.status
-    const chargeDay = agreement.monthly_charge_day
+export const AvtaleGiroKeyInfo: React.FunctionComponent<IProps> = ({ agreement }) => {
+    const formattedTimestamp = shortDate(DateTime.fromISO(agreement.created))
+    const chargeDay = agreement.payment_date === 0 ? "End of month" : agreement.payment_date
+    let formattedStatus = agreement.active ? "Active" : "Inactive"
+    if (agreement.cancelled) formattedStatus = "Cancelled"
 
-  return (
-    <KeyInfoWrapper>
-      <KeyInfoGroup>
-        <KeyInfoHeader>Monthly sum</KeyInfoHeader>
-        <KeyInfoSum>{agreement.amount} kr</KeyInfoSum>
-      </KeyInfoGroup>
+    return (
+        <KeyInfoWrapper>
+            <KeyInfoGroup>
+                <KeyInfoHeader>Monthly amount</KeyInfoHeader>
+                <KeyInfoSum>{agreement.amount} kr</KeyInfoSum>
+            </KeyInfoGroup>
 
             <KeyInfoGroup>
                 <KeyInfoHeader>Status</KeyInfoHeader>
-                <KeyInfoTimestamp>{status}</KeyInfoTimestamp>
+                <KeyInfoTimestamp>{formattedStatus}</KeyInfoTimestamp>
             </KeyInfoGroup>
 
             <KeyInfoGroup>

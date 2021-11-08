@@ -11,6 +11,7 @@ import {
   fetchAvtaleGiroAgreementsAction,
   setAvtaleGiroPagination,
 } from '../../../../store/avtalegiro/avtalegiro.actions';
+import { Link } from 'react-router-dom';
 
 export const AvtaleGiroList: React.FunctionComponent = () => {
   const data = useSelector((state: AppState) => state.avtaleGiroAgreements.agreements);
@@ -95,28 +96,27 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
     return {};
   };
 
-  if (agreement !== null) return <Redirect to={`/avtalegiro`}></Redirect>;
-  return (
-    <AvtaleGiroListWrapper>
-      <ReactTable
-        manual
-        data={data}
-        page={pagination.page}
-        pages={pages}
-        pageSize={pagination.limit}
-        loading={loading}
-        columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        onPageChange={(page) => dispatch(setAvtaleGiroPagination({ ...pagination, page }))}
-        onSortedChange={(sorted) =>
-          dispatch(setAvtaleGiroPagination({ ...pagination, sort: sorted[0] }))
-        }
-        onPageSizeChange={(pagesize) =>
-          dispatch(setAvtaleGiroPagination({ ...pagination, limit: pagesize }))
-        }
-        getTrProps={trProps}
-      />
-      <AvtaleGiroFilter />
-    </AvtaleGiroListWrapper>
-  );
-};
+    if (agreement !== null) return (<Redirect to={`/avtalegiro/${agreement}`}></Redirect>)
+    return (
+        <AvtaleGiroListWrapper>
+            <Link to="/avtalegiro">Go back</Link>
+            <br />
+            <br />
+            <ReactTable
+                manual
+                data={data}
+                page={pagination.page}
+                pages={pages}
+                pageSize={pagination.limit}
+                loading={loading}
+                columns={columnDefinitions}
+                defaultSorted={defaultSorting}
+                onPageChange={(page) => dispatch(setAvtaleGiroPagination({ ...pagination, page }))}
+                onSortedChange={(sorted) => dispatch(setAvtaleGiroPagination({ ...pagination, sort: sorted[0] }))}
+                onPageSizeChange={(pagesize) => dispatch(setAvtaleGiroPagination({ ...pagination, limit: pagesize }))}
+                getTrProps={trProps}
+                />
+                <AvtaleGiroFilter />
+        </AvtaleGiroListWrapper>
+    )
+}
