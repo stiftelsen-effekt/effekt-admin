@@ -1,34 +1,34 @@
-import { MainHeader, SubHeader } from "../../style/elements/headers.style";
-import React from "react";
-import { Page } from "../../style/elements/page.style";
-import { SingleDonation } from "../../modules/single-donation/SingleDonation";
-import { ReportUpload } from "../../modules/report-upload/ReportUpload";
-import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../../models/state";
-import { fetchActiveOrganizationsAction } from "../../../store/organizations/organizations.action";
-import { RegisterRecieptComponent } from "../../modules/donations/reciept/reciept.component";
+import { MainHeader, SubHeader } from '../../style/elements/headers.style';
+import React from 'react';
+import { Page } from '../../style/elements/page.style';
+import { SingleDonation } from '../../modules/single-donation/SingleDonation';
+import { ReportUpload } from '../../modules/report-upload/ReportUpload';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppState } from '../../../models/state';
+import { fetchActiveOrganizationsAction } from '../../../store/organizations/organizations.action';
+import { RegisterReceiptComponent } from '../../modules/donations/receipt/Receipt';
 
 export const RegisterComponent: React.FunctionComponent = () => {
-    const dispatch = useDispatch()
-    
-    const organizations = useSelector((state: AppState) => state.organizations.active)
-    if (!organizations) {
-        dispatch(fetchActiveOrganizationsAction.started())
-        return (<div>Loading organizations</div>)
-    }
+  const dispatch = useDispatch();
 
-    return ( 
-        <Page>
-            <MainHeader>Register donations</MainHeader>
+  const organizations = useSelector((state: AppState) => state.organizations.active);
+  if (!organizations) {
+    dispatch(fetchActiveOrganizationsAction.started());
+    return <div>Loading organizations</div>;
+  }
 
-            <SubHeader>Upload report</SubHeader>
-            <ReportUpload></ReportUpload>
+  return (
+    <Page>
+      <MainHeader>Register donations</MainHeader>
 
-            <SubHeader>Process single donation</SubHeader>
-            <SingleDonation organizations={organizations}></SingleDonation>
+      <SubHeader>Upload report</SubHeader>
+      <ReportUpload></ReportUpload>
 
-            <SubHeader>Resend reciept</SubHeader>
-            <RegisterRecieptComponent></RegisterRecieptComponent>
-        </Page>
-    )
-}
+      <SubHeader>Process single donation</SubHeader>
+      <SingleDonation organizations={organizations}></SingleDonation>
+
+      <SubHeader>Resend receipt</SubHeader>
+      <RegisterReceiptComponent></RegisterReceiptComponent>
+    </Page>
+  );
+};

@@ -75,7 +75,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
                                 onClick={() => {
                                     if (confirm(`Press OK to update status to ${newStatus === 0 ? "Inactive" : "Active"}`)) {
                                         dispatch(updateAvtaleGiroStatusAction.started({KID: avtaleGiro.KID, status: newStatus}))
-                                        //location.reload()
+                                        location.reload()
                                     }
                                 }}
                             >Set new status</button>

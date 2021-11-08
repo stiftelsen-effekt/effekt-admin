@@ -1,63 +1,71 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Page } from '../../style/elements/page.style';
 import { MainHeader, SubHeader } from '../../style/elements/headers.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { EffektDateRange } from '../../modules/range/DateRange';
 import { AppState } from '../../../models/state';
-import { fetchTotalByPeriodAction } from './graphing.actions';
+import { fetchTotalByPeriodAction } from '../../../store/graphing/graphing.actions';
 import { Bar } from 'react-chartjs-2';
-import * as palette from 'google-palette'
+import * as palette from 'google-palette';
 
 export const GraphingPageComponent: React.FunctionComponent = () => {
-    console.log(palette)
+  console.log(palette);
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    const [from, setFrom] = useState<Date | null>(new Date("2018-01-01"))
-    const [to, setTo] = useState<Date | null>(new Date())
+  const [from, setFrom] = useState<Date | null>(new Date('2018-01-01'));
+  const [to, setTo] = useState<Date | null>(new Date());
 
-    const total = useSelector((state: AppState) => state.graphing.total)
+  const total = useSelector((state: AppState) => state.graphing.total);
 
-    let data;
-    if (!total && from !== null && to !== null) dispatch(fetchTotalByPeriodAction.started({from,to}))
-    else if (total !== undefined) {
-        const colors = palette('tol-dv', total.length).map((hex:string) => "#"+hex).reverse();
+  let data;
+  if (!total && from !== null && to !== null)
+    dispatch(fetchTotalByPeriodAction.started({ from, to }));
+  else if (total !== undefined) {
+    const colors = palette('tol-dv', total.length)
+      .map((hex: string) => '#' + hex)
+      .reverse();
 
-        data = {
-            datasets: [{
-                backgroundColor: colors,
-                data: total.map(item => item.sum.toNumber())
-            }],
-            labels: total.map(item => item.orgName)
-        }
-    }
+    data = {
+      datasets: [
+        {
+          backgroundColor: colors,
+          data: total.map((item) => item.sum.toNumber()),
+        },
+      ],
+      labels: total.map((item) => item.orgName),
+    };
+  }
 
-    const options = {
-        legend: {
-            display: false
-        }
-    }
+  const options = {
+    legend: {
+      display: false,
+    },
+  };
 
-    return (
-        <Page>
-            <MainHeader>Graphing</MainHeader>
+  return (
+    <Page>
+      <MainHeader>Graphing</MainHeader>
 
-            <SubHeader>Total</SubHeader>
-            <EffektDateRange 
-                from={from}
-                to={to}
-                onChangeFrom={(date: Date | null) => {
-                    setFrom(date)
-                    if (date !== null && to !== null) dispatch(fetchTotalByPeriodAction.started({from: date,to}))
-                }}
-                onChangeTo={(date: Date | null) => {
-                    setTo(date)
-                    if (from !== null && date !== null) dispatch(fetchTotalByPeriodAction.started({from,to: date}))
-                }}></EffektDateRange>
+      <SubHeader>Total</SubHeader>
+      <EffektDateRange
+        from={from}
+        to={to}
+        onChangeFrom={(date: Date | null) => {
+          setFrom(date);
+          if (date !== null && to !== null)
+            dispatch(fetchTotalByPeriodAction.started({ from: date, to }));
+        }}
+        onChangeTo={(date: Date | null) => {
+          setTo(date);
+          if (from !== null && date !== null)
+            dispatch(fetchTotalByPeriodAction.started({ from, to: date }));
+        }}
+      ></EffektDateRange>
 
-            <div style={{width: 1024, height: 550, marginTop: 30}}>
-                <Bar data={data} options={options}></Bar>
-            </div>
-        </Page>
-    )
-}
+      <div style={{ width: 1024, height: 550, marginTop: 30 }}>
+        <Bar data={data} options={options}></Bar>
+      </div>
+    </Page>
+  );
+};

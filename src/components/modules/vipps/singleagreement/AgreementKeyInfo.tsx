@@ -20,12 +20,12 @@ export const AgreementKeyInfoComponent: React.FunctionComponent<IProps> = ({ agr
     const status = agreement.status
     const chargeDay = agreement.monthly_charge_day
 
-    return (
-        <KeyInfoWrapper>
-            <KeyInfoGroup>
-                <KeyInfoHeader>Monthly sum</KeyInfoHeader>
-                <KeyInfoSum>{agreement.amount} kr</KeyInfoSum>
-            </KeyInfoGroup>
+  return (
+    <KeyInfoWrapper>
+      <KeyInfoGroup>
+        <KeyInfoHeader>Monthly sum</KeyInfoHeader>
+        <KeyInfoSum>{agreement.amount} kr</KeyInfoSum>
+      </KeyInfoGroup>
 
             <KeyInfoGroup>
                 <KeyInfoHeader>Status</KeyInfoHeader>

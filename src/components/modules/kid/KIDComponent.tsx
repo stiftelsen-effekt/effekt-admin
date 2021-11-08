@@ -1,77 +1,92 @@
-
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 //Redux
-import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../../models/state";
+import { useSelector, useDispatch } from 'react-redux';
+import { AppState } from '../../../models/state';
 
-import { showDonorSelectionComponent } from "../donors/selection/donor-selection.actions";
+import { showDonorSelectionComponent } from '../../../store/donors/donor-selection.actions';
 
 //Styling
-import { KIDWrapper, KIDUpperBracket, KIDLowerBracket, KIDInnerContent } from "./KIDComponent.style";
+import {
+  KIDWrapper,
+  KIDUpperBracket,
+  KIDLowerBracket,
+  KIDInnerContent,
+} from './KIDComponent.style';
 
 //Models
-import { IOrganization, IDistributionShare } from "../../../models/types";
+import { IOrganization, IDistributionShare } from '../../../models/types';
 
-import Decimal from "decimal.js";
+import Decimal from 'decimal.js';
 
 //SubComponents
-import { KIDDonorComponent } from "./donor/Donor";
-import { KIDControls } from "./controls/KIDControls";
-import { KIDDistribution } from "./distribution/Distribution";
-import { calculateDistributionSum } from "./kid.util";
+import { KIDDonorComponent } from './donor/Donor';
+import { KIDControls } from './controls/KIDControls';
+import { KIDDistribution } from './distribution/Distribution';
+import { calculateDistributionSum } from './kid.util';
 
 interface IProps {
-    donationAmount?: number,
-    organizations: Array<IOrganization>,
-    KID?: number,
-    distribution: Array<IDistributionShare>,
-    onChange(distribution: Array<IDistributionShare> ): void
+  donationAmount?: number;
+  organizations: Array<IOrganization>;
+  KID?: number;
+  distribution: Array<IDistributionShare>;
+  onChange(distribution: Array<IDistributionShare>): void;
 }
 
-export const KIDComponent:React.FunctionComponent<IProps> =  ({ donationAmount, organizations, KID, onChange, distribution }) =>  {
-    const dispatch = useDispatch()
-    
-    const [distributionSum, setDistributionSum] = useState<Decimal>(calculateDistributionSum(distribution))
-    //TODO: Add support for absolute values
-    const distributionMax = new Decimal(100)
+export const KIDComponent: React.FunctionComponent<IProps> = ({
+  donationAmount,
+  organizations,
+  KID,
+  onChange,
+  distribution,
+}) => {
+  const dispatch = useDispatch();
 
-    const donor = useSelector((state: AppState) => state.donorSelector.selectedDonor)
+  const [distributionSum, setDistributionSum] = useState<Decimal>(
+    calculateDistributionSum(distribution)
+  );
+  //TODO: Add support for absolute values
+  const distributionMax = new Decimal(100);
 
-    const openDonorSelectionDialog = () => {
-        dispatch(showDonorSelectionComponent());
-    }
+  const donor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
 
-    const distributionChanged = (distribution: Array<IDistributionShare>) => {
-        setDistributionSum(calculateDistributionSum(distribution))
-        onChange(distribution)
-    }
+  const openDonorSelectionDialog = () => {
+    dispatch(showDonorSelectionComponent());
+  };
 
-    return (
-        <KIDWrapper>
-            <KIDUpperBracket></KIDUpperBracket>
-                <KIDInnerContent>
-                    {/* Donor */}
-                    <div>
-                        <KIDDonorComponent 
-                            selectedDonor={donor} 
-                            openDonorSelectionDialog={openDonorSelectionDialog}></KIDDonorComponent>
-                    </div>
-                    {/* Split */}
-                    <div>
-                        <KIDDistribution 
-                            distribution={distribution}
-                            onChange={distributionChanged}></KIDDistribution>
-                    </div>
+  const distributionChanged = (distribution: Array<IDistributionShare>) => {
+    setDistributionSum(calculateDistributionSum(distribution));
+    onChange(distribution);
+  };
 
-                    {/* Controls */}
-                    <div>
-                        <KIDControls
-                            distributionMax={distributionMax}
-                            distributionSum={distributionSum} ></KIDControls>
-                    </div>
-                </KIDInnerContent>
-            <KIDLowerBracket></KIDLowerBracket>
-        </KIDWrapper>
-    )
-}
+  return (
+    <KIDWrapper>
+      <KIDUpperBracket></KIDUpperBracket>
+      <KIDInnerContent>
+        {/* Donor */}
+        <div>
+          <KIDDonorComponent
+            selectedDonor={donor}
+            openDonorSelectionDialog={openDonorSelectionDialog}
+          ></KIDDonorComponent>
+        </div>
+        {/* Split */}
+        <div>
+          <KIDDistribution
+            distribution={distribution}
+            onChange={distributionChanged}
+          ></KIDDistribution>
+        </div>
+
+        {/* Controls */}
+        <div>
+          <KIDControls
+            distributionMax={distributionMax}
+            distributionSum={distributionSum}
+          ></KIDControls>
+        </div>
+      </KIDInnerContent>
+      <KIDLowerBracket></KIDLowerBracket>
+    </KIDWrapper>
+  );
+};
