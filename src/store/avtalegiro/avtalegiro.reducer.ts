@@ -1,7 +1,7 @@
 import { isType } from "typescript-fsa";
 import { AvtaleGiroAgreementsState } from "../../models/state";
 import { toastError } from "../../util/toasthelper";
-import { fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroReportAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
+import { CLEAR_CURRENT_AVTALEGIRO, fetchAvtaleGiroAction, fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroReportAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     activeAgreementCount: 0,
@@ -50,23 +50,30 @@ export const avtaleGiroReducer = (state = defaultAvtaleGiroAgreementState, actio
         return { ...state, loading: false }
     }
 
-    /*
-
     // Fetch single agreement
-    if(isType(action, fetchVippsAgreementAction.done)) {
+    if(isType(action, fetchAvtaleGiroAction.done)) {
         return {
             ...state,
-            currentAgreement: action.payload.result,
+            currentAgreement: {
+                ...action.payload.result
+            },
             loading: false
         }
     }
-    else if (isType(action, fetchVippsAgreementAction.started)) {
+    else if (isType(action, fetchAvtaleGiroAction.started)) {
         return { ...state, loading: true }
     }
-    else if (isType(action, fetchVippsAgreementAction.failed)) {
+    else if (isType(action, fetchAvtaleGiroAction.failed)) {
         return { ...state, loading: false }
     }
-    */
+
+    // Clear current AvtaleGiro
+    if (action.type === CLEAR_CURRENT_AVTALEGIRO) {
+        return {
+            ...state,
+            currentAgreement: undefined
+        }
+    }
 
     // Fetch agreement report
     if(isType(action, fetchAvtaleGiroReportAction.done)) {

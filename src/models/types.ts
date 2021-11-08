@@ -198,6 +198,7 @@ export interface IAvtaleGiro {
     KID: string,
     donor: string,
     payment_date: number,
+    cancelled: string,
     distribution: Array<IDistributionShare>,
 }
 

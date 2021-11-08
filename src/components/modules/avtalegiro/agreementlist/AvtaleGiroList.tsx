@@ -80,7 +80,7 @@ export const AvtaleGiroList: React.FunctionComponent = () => {
         return {}
     }
 
-    if (agreement !== null) return (<Redirect to={`/avtalegiro`}></Redirect>)
+    if (agreement !== null) return (<Redirect to={`/avtalegiro/${agreement}`}></Redirect>)
     return (
         <AvtaleGiroListWrapper>
             <Link to="/avtalegiro">Go back</Link>

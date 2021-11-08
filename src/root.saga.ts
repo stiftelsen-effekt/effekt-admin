@@ -31,8 +31,8 @@ import { fetchLogEntryAction } from './store/logs/logs.actions';
 import { fetchLogEntry } from './store/logs/logs.saga';
 import { fetchAgreementHistogram, fetchAgreementsReport, fetchChargeHistogram, fetchVippsAgreement, fetchVippsAgreementCharges, fetchVippsAgreements, refundVippsAgreementCharge } from './store/vipps/vipps.saga';
 import { fetchAgreementHistogramAction, fetchAgreementsReportAction, fetchChargeHistogramAction, fetchVippsAgreementAction, fetchVippsAgreementChargesAction, fetchVippsAgreementsAction, refundVippsAgreementChargeAction } from './store/vipps/vipps.actions';
-import { fetchAvtaleGiro, fetchAvtaleGiroAgreements, fetchAvtaleGiroHistogram, fetchAvtaleGiroReport } from './store/avtalegiro/avtalegiro.saga';
-import { fetchAvtaleGiroAction, fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroReportAction } from './store/avtalegiro/avtalegiro.actions';
+import { fetchAvtaleGiro, fetchAvtaleGiroAgreements, fetchAvtaleGiroHistogram, fetchAvtaleGiroReport, updateAvtaleGiroAmount, updateAvtaleGiroPaymentDate, updateAvtaleGiroStatus } from './store/avtalegiro/avtalegiro.saga';
+import { fetchAvtaleGiroAction, fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroReportAction, updateAvtaleGiroAmountAction, updateAvtaleGiroPaymentDateAction, updateAvtaleGiroStatusAction } from './store/avtalegiro/avtalegiro.actions';
 
 function* watchAll() {
     yield all([
@@ -84,6 +84,9 @@ function* watchAll() {
         takeLatest(fetchAvtaleGiroAction.started.type, fetchAvtaleGiro),
         takeLatest(fetchAvtaleGiroHistogramAction.started.type, fetchAvtaleGiroHistogram),
         takeLatest(fetchAvtaleGiroReportAction.started.type, fetchAvtaleGiroReport),
+        takeLatest(updateAvtaleGiroAmountAction.started.type, updateAvtaleGiroAmount),
+        takeLatest(updateAvtaleGiroStatusAction.started.type, updateAvtaleGiroStatus),
+        takeLatest(updateAvtaleGiroPaymentDateAction.started.type, updateAvtaleGiroPaymentDate),
     ]);
 }
 
