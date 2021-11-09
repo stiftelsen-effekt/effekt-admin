@@ -1,12 +1,30 @@
 # The Effect foundation Admin panel
 
-## Motivation
-
 The Effect foundation admin panel is a tool used internally in the effect foundation for donation processing and analysis. It aims to make the data in our database accessible and editable by non-technical users. You can view and edit users, view and filter donation distributions, view and filter donations, add new donations and distributions, resend donation reciepts, view and edit recurring donation agreements (Vipps and AvtaleGiro), download reports, view some basic donation statistics and view logs for the automated daily rutines.
 
 Currently, the admin panel is not the source of truth for our donation data. Our google sheet still holds some data not in our database (primarily facebook donations, and historical donations before 2018). It is our goal to eventually retire google sheets, and have all the donation data in the database.
 
 ![Admin panel homepage](docs/homepage.png)
+
+---
+
+**Table of Contents**
+
+* [The Effect foundation Admin panel](#the-effect-foundation-admin-panel)
+   * [Getting started](#getting-started)
+      * [API](#api)
+         * [Permissions](#permissions)
+            * [Give your user a password](#give-your-user-a-password)
+            * [Make sure your user has access to restricted permissions](#make-sure-your-user-has-access-to-restricted-permissions)
+         * [Login](#login)
+   * [Code structure and dependencies](#code-structure-and-dependencies)
+      * [Components](#components)
+      * [Types](#types)
+      * [Redux](#redux)
+      * [Redux-saga](#redux-saga)
+         * [Typescript-fsa](#typescript-fsa)
+
+---
 
 ## Getting started
 
