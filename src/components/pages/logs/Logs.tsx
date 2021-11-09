@@ -4,21 +4,21 @@ import { MainHeader } from '../../style/elements/headers.style';
 import { LogsList } from '../../modules/logs/list/LogsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../models/state';
-import { setLogsPaginationAction } from '../../modules/logs/list/logs-list.actions';
+import { setLogsPaginationAction } from '../../../store/logs/logs-list.actions';
 
 export const LogsPageComponent: React.FunctionComponent = (props) => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    const pagination = useSelector((state: AppState) => state.logs.pagination)
-    useEffect(() => {
-      dispatch(setLogsPaginationAction({ ...pagination, limit: 20 }))
+  const pagination = useSelector((state: AppState) => state.logs.pagination);
+  useEffect(() => {
+    dispatch(setLogsPaginationAction({ ...pagination, limit: 20 }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch])
+  }, [dispatch]);
 
-    return (
-        <Page>
-            <MainHeader>Import logs</MainHeader>
-            <LogsList></LogsList>
-        </Page>
-    )
-}
+  return (
+    <Page>
+      <MainHeader>Import logs</MainHeader>
+      <LogsList></LogsList>
+    </Page>
+  );
+};

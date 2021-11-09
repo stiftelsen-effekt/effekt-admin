@@ -1,154 +1,172 @@
-import { IAccessKey, IAccessToken } from "../store/authentication/auth";
-import { IDonor, IOrganization, IPaymentMethod, IInvalidTransaction, IDonation, IAggregationItem, IDonationFilter, IHistogramBucket, IDistributionFilter, IDistribution, IPagination, IDistributionSearchResultItem, IDataOwner, ILogEntry, IVippsAgreement, IVippsAgreementFilter, IVippsAgreementCharge, IVippsAgreementChargeFilter, IAvtaleGiro, IAvtaleGiroFilter, IAggregationMonthlyItem } from "./types";
+import { IAccessKey, IAccessToken } from '../store/authentication/auth';
+import {
+  IDonor,
+  IOrganization,
+  IPaymentMethod,
+  IInvalidTransaction,
+  IDonation,
+  IAggregationItem,
+  IDonationFilter,
+  IHistogramBucket,
+  IDistributionFilter,
+  IDistribution,
+  IPagination,
+  IDistributionSearchResultItem,
+  IDataOwner,
+  ILogEntry,
+  IVippsAgreement,
+  IVippsAgreementFilter,
+  IVippsAgreementCharge,
+  IVippsAgreementChargeFilter,
+  IAvtaleGiro,
+  IAvtaleGiroFilter,
+  IAggregationMonthlyItem,
+} from './types';
 
 export interface AppState {
-    auth: AuthState,
+  auth: AuthState;
 
-    graphing: GraphingState,
+  graphing: GraphingState;
 
-    donorSelector: DonorSelectorState,
-    donorCreation: CreateDonorState,
+  donorSelector: DonorSelectorState;
+  donorCreation: CreateDonorState;
 
-    organizations: OrganizationsState
-    singleDonation: SingleDonationState,
+  organizations: OrganizationsState;
+  singleDonation: SingleDonationState;
 
-    reportProcessing: ReportProcessingState,
+  reportProcessing: ReportProcessingState;
 
-    donations: DonationsState,
-    distributions: DistributionsState,
-    dataOwner:  DataOwnerState,
-    reciept: RecieptState,
-    logs: LoggingState,
+  donations: DonationsState;
+  distributions: DistributionsState;
+  dataOwner: DataOwnerState;
+  receipt: ReceiptState;
+  logs: LoggingState;
 
-    vippsAgreements: VippsAgreementsState,
-    vippsAgreementCharges: VippsAgreementChargeState,
+  vippsAgreements: VippsAgreementsState;
+  vippsAgreementCharges: VippsAgreementChargeState;
 
-    avtaleGiroAgreements: AvtaleGiroAgreementsState,
+  avtaleGiroAgreements: AvtaleGiroAgreementsState;
 }
 
 export interface AuthState {
-    currentToken?: IAccessToken,
-    accessKey?: IAccessKey,
-    authStep: AuthStep,
-    loginError?: string
+  currentToken?: IAccessToken;
+  accessKey?: IAccessKey;
+  authStep: AuthStep;
+  loginError?: string;
 }
 export enum AuthStep {
-    INITIAL,
-    SHOW_CONNECTION_FAILED,
-    SHOW_LOGIN_SCREEN,
-    LOGGED_IN
+  INITIAL,
+  SHOW_CONNECTION_FAILED,
+  SHOW_LOGIN_SCREEN,
+  LOGGED_IN,
 }
 
 export interface DonorSelectorState {
-    selectedDonor?: IDonor,
-    searchResult?: Array<IDonor>,
-    visible: boolean
+  selectedDonor?: IDonor;
+  searchResult?: Array<IDonor>;
+  visible: boolean;
 }
 
 export interface OrganizationsState {
-    active?: Array<IOrganization>
+  active?: Array<IOrganization>;
 }
 
 export interface SingleDonationState {
-    paymentMethods: Array<IPaymentMethod>
+  paymentMethods: Array<IPaymentMethod>;
 }
 
 export interface ReportProcessingState {
-    valid: number,
-    invalid: number,
-    invalidTransactions: Array<IInvalidTransaction>
+  valid: number;
+  invalid: number;
+  invalidTransactions: Array<IInvalidTransaction>;
 }
 
-export interface CreateDonorState {
-
-}
+export interface CreateDonorState {}
 
 export interface DonationsState {
-    currentDonation?: IDonation,
+  currentDonation?: IDonation;
 
-    histogram?: Array<IHistogramBucket>,
-    pages: number,
-    loading: boolean,
-    pagination: IPagination,
-    filter: IDonationFilter,
-    donations: Array<IDonation>,
+  histogram?: Array<IHistogramBucket>;
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
+  filter: IDonationFilter;
+  donations: Array<IDonation>;
 }
 
 export interface VippsAgreementsState {
-    activeAgreementCount: number,
-    averageAgreementSum: number,
-    totalAgreementSum: number,
-    medianAgreementSum: number,
-    startedThisMonth: number,
-    stoppedThisMonth: number,
-    currentAgreement?: IVippsAgreement,
-    histogram?: Array<IHistogramBucket>,
-    pages: number,
-    loading: boolean,
-    pagination: IPagination,
-    filter: IVippsAgreementFilter,
-    agreements: Array<IVippsAgreement>,
+  activeAgreementCount: number;
+  averageAgreementSum: number;
+  totalAgreementSum: number;
+  medianAgreementSum: number;
+  startedThisMonth: number;
+  stoppedThisMonth: number;
+  currentAgreement?: IVippsAgreement;
+  histogram?: Array<IHistogramBucket>;
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
+  filter: IVippsAgreementFilter;
+  agreements: Array<IVippsAgreement>;
 }
 
 export interface VippsAgreementChargeState {
-    currentCharge?: IVippsAgreementCharge,
-    histogram?: Array<IHistogramBucket>,
-    pages: number,
-    loading: boolean,
-    pagination: IPagination,
-    filter: IVippsAgreementChargeFilter,
-    charges: Array<IVippsAgreementCharge>,
+  currentCharge?: IVippsAgreementCharge;
+  histogram?: Array<IHistogramBucket>;
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
+  filter: IVippsAgreementChargeFilter;
+  charges: Array<IVippsAgreementCharge>;
 }
 
 export interface AvtaleGiroAgreementsState {
-    activeAgreementCount: number,
-    averageAgreementSum: number,
-    totalAgreementSum: number,
-    medianAgreementSum: number,
-    startedThisMonth: number,
-    stoppedThisMonth: number,
-    currentAgreement?: IAvtaleGiro,
-    histogram?: Array<IHistogramBucket>,
-    pages: number,
-    loading: boolean,
-    pagination: IPagination,
-    filter: IAvtaleGiroFilter,
-    agreements: Array<IAvtaleGiro>,
+  activeAgreementCount: number;
+  averageAgreementSum: number;
+  totalAgreementSum: number;
+  medianAgreementSum: number;
+  startedThisMonth: number;
+  stoppedThisMonth: number;
+  currentAgreement?: IAvtaleGiro;
+  histogram?: Array<IHistogramBucket>;
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
+  filter: IAvtaleGiroFilter;
+  agreements: Array<IAvtaleGiro>;
 }
 
 export interface GraphingState {
-    total?: Array<IAggregationItem>,
-    monthly?: Array<IAggregationMonthlyItem>
+  total?: Array<IAggregationItem>;
+  monthly?: Array<IAggregationMonthlyItem>;
 }
 
 export interface CurrentDistributionState {
-    distribution: IDistribution,
-    affiliatedDonations: Array<IDonation>
+  distribution: IDistribution;
+  affiliatedDonations: Array<IDonation>;
 }
 
 export interface DistributionsState {
-    current?: CurrentDistributionState,
+  current?: CurrentDistributionState;
 
-    filter: IDistributionFilter,
-    pagination: IPagination,
-    pages: number,
-    loading: boolean,
-    searchResult: Array<IDistributionSearchResultItem>
+  filter: IDistributionFilter;
+  pagination: IPagination;
+  pages: number;
+  loading: boolean;
+  searchResult: Array<IDistributionSearchResultItem>;
 }
 
 export interface DataOwnerState {
-    current?: IDataOwner,
-    owners?: Array<IDataOwner>
+  current?: IDataOwner;
+  owners?: Array<IDataOwner>;
 }
 
-export interface RecieptState {
-    
-}
+export interface ReceiptState {}
 
 export interface LoggingState {
-    currentEntry?: ILogEntry,
-    entries: Array<ILogEntry>,
-    pages: number,
-    loading: boolean,
-    pagination: IPagination,
+  currentEntry?: ILogEntry;
+  entries: Array<ILogEntry>;
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
 }

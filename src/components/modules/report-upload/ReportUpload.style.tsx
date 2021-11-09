@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ReportTable = styled.table`
-    td {
-        padding: 4px 10px;
-    }
-`
+  td {
+    padding: 4px 10px;
+  }
+`;

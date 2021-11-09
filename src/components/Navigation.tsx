@@ -1,52 +1,92 @@
-import React from 'react'
+import React from 'react';
 
-import { MainNav, NavMenu, NavMenuItem, Logout, Flare, LogoHolder } from './Navigation.style'
+import { MainNav, NavMenu, NavMenuItem, Logout, Flare, LogoHolder } from './Navigation.style';
 import { logoutRequest } from '../store/authentication/loginout.actions';
 import { connect } from 'react-redux';
-import Logo from '../assets/logo_link.png'
-import { Home, Upload, Clipboard, User, List, LogOut, PieChart, Activity, Smartphone, FileText } from "react-feather"
+import Logo from '../assets/logo_link.png';
+import {
+  Home,
+  Upload,
+  Clipboard,
+  User,
+  List,
+  LogOut,
+  PieChart,
+  Activity,
+  Smartphone,
+  FileText,
+} from 'react-feather';
 
 class MainNavigation extends React.Component<IDispatchProps> {
-    logout = () => {
-        this.props.logoutRequest();
-    }
+  logout = () => {
+    this.props.logoutRequest();
+  };
 
-    render() {
-        const iconSize: number = 20;
+  render() {
+    const iconSize: number = 20;
 
-        return (
-            <MainNav>
-                <LogoHolder src={Logo}></LogoHolder>
+    return (
+      <MainNav>
+        <LogoHolder src={Logo}></LogoHolder>
 
-                <NavMenu>
-                    <NavMenuItem to={'/home'}>          <span>Home</span>           <Home size={iconSize} color={"white"}></Home></NavMenuItem>
+        <NavMenu>
+          <NavMenuItem to={'/home'}>
+            {' '}
+            <span>Home</span> <Home size={iconSize} color={'white'}></Home>
+          </NavMenuItem>
 
-                    <NavMenuItem to={'/donors'}>        <span>Donors</span>         <User size={iconSize} color={"white"}></User></NavMenuItem>
-                    <NavMenuItem to={'/distributions'}> <span>Distributions</span>  <PieChart size={iconSize} color={"white"}></PieChart></NavMenuItem>
-                    <NavMenuItem to={'/donations'}>     <span>Donations</span>      <List size={iconSize} color={"white"}></List></NavMenuItem>
-                    <NavMenuItem to={'/vipps/agreements'}> <span>Vipps</span>       <Smartphone size={iconSize} color={"white"}></Smartphone></NavMenuItem>
-                    <NavMenuItem to={'/avtalegiro'}>    <span>AvtaleGiro</span>     <FileText size={iconSize} color={"white"}></FileText></NavMenuItem>
+          <NavMenuItem to={'/donors'}>
+            {' '}
+            <span>Donors</span> <User size={iconSize} color={'white'}></User>
+          </NavMenuItem>
+          <NavMenuItem to={'/distributions'}>
+            {' '}
+            <span>Distributions</span> <PieChart size={iconSize} color={'white'}></PieChart>
+          </NavMenuItem>
+          <NavMenuItem to={'/donations'}>
+            {' '}
+            <span>Donations</span> <List size={iconSize} color={'white'}></List>
+          </NavMenuItem>
+          <NavMenuItem to={'/vipps/agreements'}>
+            {' '}
+            <span>Vipps</span> <Smartphone size={iconSize} color={'white'}></Smartphone>
+          </NavMenuItem>
+          <NavMenuItem to={'/avtalegiro'}>
+            {' '}
+            <span>AvtaleGiro</span> <FileText size={iconSize} color={'white'}></FileText>
+          </NavMenuItem>
 
-                    <NavMenuItem to={'/register'}>      <span>Register</span>       <Upload size={iconSize} color={"white"}></Upload></NavMenuItem>
-                    <NavMenuItem to={'/reports'}>       <span>Reports</span>        <Clipboard size={iconSize} color={"white"}></Clipboard></NavMenuItem>
+          <NavMenuItem to={'/register'}>
+            {' '}
+            <span>Register</span> <Upload size={iconSize} color={'white'}></Upload>
+          </NavMenuItem>
+          <NavMenuItem to={'/reports'}>
+            {' '}
+            <span>Reports</span> <Clipboard size={iconSize} color={'white'}></Clipboard>
+          </NavMenuItem>
 
-                    <NavMenuItem to={'/logs'}>          <span>Logs</span>           <Activity size={iconSize} color={"white"}></Activity></NavMenuItem>
+          <NavMenuItem to={'/logs'}>
+            {' '}
+            <span>Logs</span> <Activity size={iconSize} color={'white'}></Activity>
+          </NavMenuItem>
+        </NavMenu>
 
-                </NavMenu>
+        <Logout onClick={this.logout}>
+          {' '}
+          <span>Logout</span> <LogOut size={iconSize} color={'white'}></LogOut>
+        </Logout>
 
-                <Logout onClick={this.logout}>          <span>Logout</span>         <LogOut size={iconSize} color={"white"}></LogOut></Logout>
-
-                <Flare></Flare>
-            </MainNav>
-        )
-    }
+        <Flare></Flare>
+      </MainNav>
+    );
+  }
 }
 
 interface IDispatchProps {
-    logoutRequest: Function
+  logoutRequest: Function;
 }
 const mapDispatchToProps: IDispatchProps = {
-    logoutRequest
-}
+  logoutRequest,
+};
 
-export default connect(null, mapDispatchToProps)(MainNavigation)
+export default connect(null, mapDispatchToProps)(MainNavigation);
