@@ -10,6 +10,7 @@ import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../../style/ele
 import { fetchAvtaleGiroAction, updateAvtaleGiroAmountAction, updateAvtaleGiroPaymentDateAction, updateAvtaleGiroStatusAction } from '../../../../store/avtalegiro/avtalegiro.actions';
 import { HorizontalPanel } from '../../donations/Donation.style';
 import { AvtaleGiroKeyInfo } from './AvtaleGiroKeyInfo';
+import { SharesSelection } from './ShareSelection/ShareSelection';
 
 interface IParams {
     id: string
@@ -56,13 +57,14 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
                             <button 
                                 disabled={newAmount < 1}
                                 onClick={() => {
-                                    if (confirm(`Press OK to update amount to ${newAmount}`)) {
+                                    if (confirm(`Press OK to update amount to ${newAmount} kr`)) {
                                         dispatch(updateAvtaleGiroAmountAction.started({KID: avtaleGiro.KID, amount: newAmount*100}))
                                         location.reload()
                                     }
                                 }}
                             >Set new sum</button>
                         </div>
+                        <br />
 
                         <div>
                             <label>Status</label>
@@ -80,6 +82,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
                                 }}
                             >Set new status</button>
                         </div>
+                        <br />
 
                         <div>
                             <label>Charge day</label>
@@ -90,18 +93,17 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
                                 onClick={() => {
                                     if(confirm(`Press OK to update payment date to ${newPaymentDate}`)) {
                                         dispatch(updateAvtaleGiroPaymentDateAction.started({KID: avtaleGiro.KID, paymentDate: newPaymentDate}))
-                                        location.reload()
+                                        //location.reload()
                                     }
                                 }}
                             >Set new charge day</button>
                         </div>
+                        <br />
 
-                        {/* <div>
-                            <label>KID</label>
-                            <br/>
-                            <input type="text"></input>
-                            <button>Set new KID</button>
-                        </div> */}
+                        <div>
+                            <label>Distribution</label>
+                            <SharesSelection KID={avtaleGiro.KID} />
+                        </div>
                     </div>
                 }
                 <SubHeader>Meta</SubHeader>

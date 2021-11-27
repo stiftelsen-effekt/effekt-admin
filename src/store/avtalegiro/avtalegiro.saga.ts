@@ -10,9 +10,11 @@ import {
   fetchAvtaleGiroReportAction,
   IFetchAgreementActionParams,
   IUpdateAvtaleGiroAmountActionParams,
+  IUpdateAvtaleGiroDistributionActionParams,
   IUpdateAvtaleGiroPaymentDateActionParams,
   IUpdateAvtaleGiroStatusActionParams,
   updateAvtaleGiroAmountAction,
+  updateAvtaleGiroDistributionAction,
   updateAvtaleGiroPaymentDateAction,
   updateAvtaleGiroStatusAction,
 } from './avtalegiro.actions';
@@ -160,4 +162,26 @@ export function* updateAvtaleGiroPaymentDate(action: Action<IUpdateAvtaleGiroPay
     catch(ex) {
         yield put(updateAvtaleGiroPaymentDateAction.failed({ params: action.payload, error: ex }))
     }
+}
+
+export function* updateAvtaleGiroDistribution(action: Action<IUpdateAvtaleGiroDistributionActionParams>) {
+  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+  const KID = action.payload.KID
+  const distribution = action.payload.distribution
+
+  try {
+      const result: API.Response = yield call(API.call, {
+          method: API.Method.POST,
+          endpoint: `/avtalegiro/${KID}/distribution`,
+          token: token.token,
+          data: {
+              distribution
+          }
+      })
+      if (result)
+          yield put(updateAvtaleGiroDistributionAction.done({params: action.payload, result: true}))
+  }
+  catch(ex) {
+      yield put(updateAvtaleGiroDistributionAction.failed({ params: action.payload, error: ex }))
+  }
 }
