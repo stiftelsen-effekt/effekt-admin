@@ -19,8 +19,8 @@ interface IParams {
 export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IParams>> = ({ match }: RouteComponentProps<IParams>) => {
     const avtaleGiro: IAvtaleGiro | undefined = useSelector((state: AppState) => state.avtaleGiroAgreements.currentAgreement)
     const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false)
-    const [newAmount, setNewAmount] = useState<number>(avtaleGiro.amount ? avtaleGiro.amount : 0)
-    const [newPaymentDate, setNewPaymentDate] = useState<number>(avtaleGiro.payment_date ? avtaleGiro.payment_date : 0)
+    const [newAmount, setNewAmount] = useState<number>(avtaleGiro ? avtaleGiro.amount : 0)
+    const [newPaymentDate, setNewPaymentDate] = useState<number>(avtaleGiro ? avtaleGiro.payment_date : 0)
     const [newStatus, setNewStatus] = useState<number>(0)
     const avtaleGiroID = match.params.id
     const dispatch = useDispatch()
