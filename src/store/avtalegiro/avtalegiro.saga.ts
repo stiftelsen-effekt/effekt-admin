@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { put, call, select } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import { IAccessToken } from '../authentication/auth';
@@ -178,8 +179,10 @@ export function* updateAvtaleGiroDistribution(action: Action<IUpdateAvtaleGiroDi
               distribution
           }
       })
-      if (result)
+      if (result) {
           yield put(updateAvtaleGiroDistributionAction.done({params: action.payload, result: true}))
+          location.reload()
+      }
   }
   catch(ex) {
       yield put(updateAvtaleGiroDistributionAction.failed({ params: action.payload, error: ex }))

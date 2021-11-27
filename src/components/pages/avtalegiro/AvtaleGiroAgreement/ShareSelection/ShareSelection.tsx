@@ -127,7 +127,6 @@ export const SharesSelection: React.FC<Props> = ({KID}) => {
 							setLoading(true)
 							const filteredShares = shares.filter(share => share.share > 0)
 							dispatch(updateAvtaleGiroDistributionAction.started({KID, distribution: filteredShares}))
-							location.reload()
 						}
 					}
 				}}>

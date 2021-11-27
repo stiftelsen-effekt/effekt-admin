@@ -17,14 +17,13 @@ interface IParams {
 }
 
 export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IParams>> = ({ match }: RouteComponentProps<IParams>) => {
+    const avtaleGiro: IAvtaleGiro | undefined = useSelector((state: AppState) => state.avtaleGiroAgreements.currentAgreement)
     const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false)
-    const [newAmount, setNewAmount] = useState<number>(0)
-    const [newPaymentDate, setNewPaymentDate] = useState<number>(0)
+    const [newAmount, setNewAmount] = useState<number>(avtaleGiro.amount ? avtaleGiro.amount : 0)
+    const [newPaymentDate, setNewPaymentDate] = useState<number>(avtaleGiro.payment_date ? avtaleGiro.payment_date : 0)
     const [newStatus, setNewStatus] = useState<number>(0)
     const avtaleGiroID = match.params.id
     const dispatch = useDispatch()
-
-    const avtaleGiro: IAvtaleGiro | undefined = useSelector((state: AppState) => state.avtaleGiroAgreements.currentAgreement)
     
     useEffect(() => {
         dispatch(fetchAvtaleGiroAction.started({ id: avtaleGiroID }))
@@ -51,15 +50,14 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
                 {editMenuVisible && 
                     <div>
                         <div>
-                            <label>Sum</label>
+                            <label>Amount</label>
                             <br/>
-                            <input defaultValue="0" type="number" onChange={(e) => setNewAmount(parseInt(e.currentTarget.value))}></input>
+                            <input defaultValue={avtaleGiro.amount} type="number" onChange={(e) => setNewAmount(parseInt(e.currentTarget.value))}></input>
                             <button 
                                 disabled={newAmount < 1}
                                 onClick={() => {
                                     if (confirm(`Press OK to update amount to ${newAmount} kr`)) {
                                         dispatch(updateAvtaleGiroAmountAction.started({KID: avtaleGiro.KID, amount: newAmount*100}))
-                                        location.reload()
                                     }
                                 }}
                             >Set new sum</button>
@@ -77,7 +75,6 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
                                 onClick={() => {
                                     if (confirm(`Press OK to update status to ${newStatus === 0 ? "Inactive" : "Active"}`)) {
                                         dispatch(updateAvtaleGiroStatusAction.started({KID: avtaleGiro.KID, status: newStatus}))
-                                        location.reload()
                                     }
                                 }}
                             >Set new status</button>
@@ -87,13 +84,12 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
                         <div>
                             <label>Charge day</label>
                             <br/>
-                            <input defaultValue="0" type="number" onChange={(e) => setNewPaymentDate(parseInt(e.currentTarget.value))}></input>
+                            <input defaultValue={avtaleGiro.payment_date} type="number" onChange={(e) => setNewPaymentDate(parseInt(e.currentTarget.value))}></input>
                             <button 
                                 disabled={newPaymentDate < 0 || newPaymentDate > 28} 
                                 onClick={() => {
                                     if(confirm(`Press OK to update payment date to ${newPaymentDate}`)) {
                                         dispatch(updateAvtaleGiroPaymentDateAction.started({KID: avtaleGiro.KID, paymentDate: newPaymentDate}))
-                                        //location.reload()
                                     }
                                 }}
                             >Set new charge day</button>
