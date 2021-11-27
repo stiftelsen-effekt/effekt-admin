@@ -111,8 +111,10 @@ export function* updateAvtaleGiroAmount(action: Action<IUpdateAvtaleGiroAmountAc
                 amount
             }
         })
-        if (result)
-            yield put(updateAvtaleGiroAmountAction.done({params: action.payload, result: amount}))
+        if (result) {
+          yield put(updateAvtaleGiroAmountAction.done({params: action.payload, result: amount}))
+          location.reload()
+        }
     }
     catch(ex) {
         yield put(updateAvtaleGiroAmountAction.failed({ params: action.payload, error: ex }))
@@ -134,8 +136,10 @@ export function* updateAvtaleGiroStatus(action: Action<IUpdateAvtaleGiroStatusAc
                 active: status
             }
         })
-        if (result)
-            yield put(updateAvtaleGiroStatusAction.done({params: action.payload, result: status}))
+        if (result) {
+          yield put(updateAvtaleGiroStatusAction.done({params: action.payload, result: status}))
+          location.reload()
+        }
     }
     catch(ex) {
         yield put(updateAvtaleGiroStatusAction.failed({ params: action.payload, error: ex }))
@@ -148,17 +152,19 @@ export function* updateAvtaleGiroPaymentDate(action: Action<IUpdateAvtaleGiroPay
     const paymentDate = action.payload.paymentDate
 
     try {
-        const result: API.Response = yield call(API.call, {
-            method: API.Method.POST,
-            endpoint: `/avtalegiro/${action.payload.KID}/paymentdate`,
-            token: token.token,
-            data: {
-                KID,
-                paymentDate
-            }
-        })
-        if (result)
-            yield put(updateAvtaleGiroPaymentDateAction.done({params: action.payload, result: paymentDate}))
+      const result: API.Response = yield call(API.call, {
+          method: API.Method.POST,
+          endpoint: `/avtalegiro/${action.payload.KID}/paymentdate`,
+          token: token.token,
+          data: {
+              KID,
+              paymentDate
+          }
+      })
+      if (result) {
+        yield put(updateAvtaleGiroPaymentDateAction.done({params: action.payload, result: paymentDate}))
+        location.reload()
+      }
     }
     catch(ex) {
         yield put(updateAvtaleGiroPaymentDateAction.failed({ params: action.payload, error: ex }))
