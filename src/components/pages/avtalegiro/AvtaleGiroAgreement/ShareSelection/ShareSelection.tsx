@@ -121,7 +121,7 @@ export const SharesSelection: React.FC<Props> = ({KID}) => {
 			</div>
 			{sumPercentage === 100 ? null :<RedFont>{`Du har fordelt ${sumPercentage} av 100 prosent`}</RedFont>}
 			<div>
-				<button onClick={async () => {
+				<button disabled={sumPercentage !== 100} onClick={async () => {
 					if (sumPercentage === 100) {
 						if(confirm(`Press OK to set new AvtaleGiro distribution`)) {
 							setLoading(true)
