@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import { put, call, select } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import { IAccessToken } from '../authentication/auth';
@@ -10,9 +11,11 @@ import {
   fetchAvtaleGiroReportAction,
   IFetchAgreementActionParams,
   IUpdateAvtaleGiroAmountActionParams,
+  IUpdateAvtaleGiroDistributionActionParams,
   IUpdateAvtaleGiroPaymentDateActionParams,
   IUpdateAvtaleGiroStatusActionParams,
   updateAvtaleGiroAmountAction,
+  updateAvtaleGiroDistributionAction,
   updateAvtaleGiroPaymentDateAction,
   updateAvtaleGiroStatusAction,
 } from './avtalegiro.actions';
@@ -108,8 +111,10 @@ export function* updateAvtaleGiroAmount(action: Action<IUpdateAvtaleGiroAmountAc
                 amount
             }
         })
-        if (result)
-            yield put(updateAvtaleGiroAmountAction.done({params: action.payload, result: amount}))
+        if (result) {
+          yield put(updateAvtaleGiroAmountAction.done({params: action.payload, result: amount}))
+          location.reload()
+        }
     }
     catch(ex) {
         yield put(updateAvtaleGiroAmountAction.failed({ params: action.payload, error: ex }))
@@ -131,8 +136,10 @@ export function* updateAvtaleGiroStatus(action: Action<IUpdateAvtaleGiroStatusAc
                 active: status
             }
         })
-        if (result)
-            yield put(updateAvtaleGiroStatusAction.done({params: action.payload, result: status}))
+        if (result) {
+          yield put(updateAvtaleGiroStatusAction.done({params: action.payload, result: status}))
+          location.reload()
+        }
     }
     catch(ex) {
         yield put(updateAvtaleGiroStatusAction.failed({ params: action.payload, error: ex }))
@@ -145,19 +152,45 @@ export function* updateAvtaleGiroPaymentDate(action: Action<IUpdateAvtaleGiroPay
     const paymentDate = action.payload.paymentDate
 
     try {
-        const result: API.Response = yield call(API.call, {
-            method: API.Method.POST,
-            endpoint: `/avtalegiro/${action.payload.KID}/paymentdate`,
-            token: token.token,
-            data: {
-                KID,
-                paymentDate
-            }
-        })
-        if (result)
-            yield put(updateAvtaleGiroPaymentDateAction.done({params: action.payload, result: paymentDate}))
+      const result: API.Response = yield call(API.call, {
+          method: API.Method.POST,
+          endpoint: `/avtalegiro/${action.payload.KID}/paymentdate`,
+          token: token.token,
+          data: {
+              KID,
+              paymentDate
+          }
+      })
+      if (result) {
+        yield put(updateAvtaleGiroPaymentDateAction.done({params: action.payload, result: paymentDate}))
+        location.reload()
+      }
     }
     catch(ex) {
         yield put(updateAvtaleGiroPaymentDateAction.failed({ params: action.payload, error: ex }))
     }
+}
+
+export function* updateAvtaleGiroDistribution(action: Action<IUpdateAvtaleGiroDistributionActionParams>) {
+  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+  const KID = action.payload.KID
+  const distribution = action.payload.distribution
+
+  try {
+      const result: API.Response = yield call(API.call, {
+          method: API.Method.POST,
+          endpoint: `/avtalegiro/${KID}/distribution`,
+          token: token.token,
+          data: {
+              distribution
+          }
+      })
+      if (result) {
+          yield put(updateAvtaleGiroDistributionAction.done({params: action.payload, result: true}))
+          location.reload()
+      }
+  }
+  catch(ex) {
+      yield put(updateAvtaleGiroDistributionAction.failed({ params: action.payload, error: ex }))
+  }
 }

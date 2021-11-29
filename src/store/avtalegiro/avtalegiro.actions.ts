@@ -1,4 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
+import { Share } from '../../components/pages/avtalegiro/AvtaleGiroAgreement/ShareSelection/ShareSelection';
 import { IAvtaleGiro, IHistogramBucket, IPagination } from '../../models/types';
 
 // AvtaleGiro agreements actions
@@ -27,12 +28,14 @@ export interface IFetchAgreementActionParams { id: string }
 export interface IUpdateAvtaleGiroAmountActionParams { KID: string, amount: number }
 export interface IUpdateAvtaleGiroStatusActionParams { KID: string, status: number }
 export interface IUpdateAvtaleGiroPaymentDateActionParams { KID: string, paymentDate: number }
+export interface IUpdateAvtaleGiroDistributionActionParams { KID: string, distribution: Array<Share>}
 
 export const fetchAvtaleGiroAgreementsAction = actionCreator.async<undefined, IFetchAvtaleGirosResults, Error>('FETCH_AVTALEGIRO_AGREEMENTS');
 export const fetchAvtaleGiroAction = actionCreator.async<IFetchAgreementActionParams, IAvtaleGiro, Error>('FETCH_AVTALEGIRO');
 export const updateAvtaleGiroAmountAction = actionCreator.async<IUpdateAvtaleGiroAmountActionParams, number, Error>('UPDATE_AVTALEGIRO_AMOUNT');
 export const updateAvtaleGiroStatusAction = actionCreator.async<IUpdateAvtaleGiroStatusActionParams, number, Error>('UPDATE_AVTALEGIRO_STATUS');
 export const updateAvtaleGiroPaymentDateAction = actionCreator.async<IUpdateAvtaleGiroPaymentDateActionParams, number, Error>('UPDATE_AVTALEGIRO_PAYMENTDATE');
+export const updateAvtaleGiroDistributionAction = actionCreator.async<IUpdateAvtaleGiroDistributionActionParams, boolean, Error>('UPDATE_AVTALEGIRO_DISTRIBUTION');
 export const fetchAvtaleGiroReportAction = actionCreator.async<undefined, IFetchAvtaleGiroReportResult, Error>('FETCH_AVTALEGIRO_REPORT');
 export const fetchAvtaleGiroHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_AVTALEGIRO_HISTOGRAM');
 
