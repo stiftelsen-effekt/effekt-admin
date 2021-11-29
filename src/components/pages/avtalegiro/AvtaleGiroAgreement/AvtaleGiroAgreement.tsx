@@ -103,7 +103,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
                     </div>
                 }
                 <SubHeader>Meta</SubHeader>
-                <NavLink to={`/avtalegiro/agreements`}>See all agreements</NavLink>
+                <NavLink to={`/avtalegiro`}>See all agreements</NavLink>
             </Page>
         )
     }
