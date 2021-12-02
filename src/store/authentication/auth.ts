@@ -77,7 +77,7 @@ export class AuthUtil {
 
   static getCallbackUrl(): string {
     if (DEV_ENVIRONMENT) return `http://localhost:3000/#/callback`;
-    else return `https://storage.googleapis.com/static.gieffektivt.no/index.html#/callback`;
+    else return `https://admin.gieffektivt.no/#/callback`;
   }
 
   /*
