@@ -21,6 +21,7 @@ import {
   IAvtaleGiro,
   IAvtaleGiroFilter,
   IAggregationMonthlyItem,
+  IAvtaleGiroValidationTableRow,
 } from './types';
 
 export interface AppState {
@@ -127,6 +128,7 @@ export interface AvtaleGiroAgreementsState {
   medianAgreementSum: number;
   startedThisMonth: number;
   stoppedThisMonth: number;
+  validationTable: Array<IAvtaleGiroValidationTableRow>;
   currentAgreement?: IAvtaleGiro;
   histogram?: Array<IHistogramBucket>;
   pages: number;

@@ -241,3 +241,10 @@ export interface IAvtaleGiroDonationFilter {
   statuses?: Array<number>;
   donor: string;
 }
+
+export interface IAvtaleGiroValidationTableRow {
+  date: number;
+  expected: number;
+  actual: number;
+  diff: number;
+}
