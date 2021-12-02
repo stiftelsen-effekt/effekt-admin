@@ -1,6 +1,6 @@
 import actionCreatorFactory from 'typescript-fsa';
 import { Share } from '../../components/pages/avtalegiro/AvtaleGiroAgreement/ShareSelection/ShareSelection';
-import { IAvtaleGiro, IHistogramBucket, IPagination } from '../../models/types';
+import { IAvtaleGiro, IAvtaleGiroValidationTableRow, IHistogramBucket, IPagination } from '../../models/types';
 
 // AvtaleGiro agreements actions
 export const SET_AVTALEGIRO_PAGINATION = "SET_AVTALEGIRO_PAGINATION"
@@ -37,6 +37,7 @@ export const updateAvtaleGiroStatusAction = actionCreator.async<IUpdateAvtaleGir
 export const updateAvtaleGiroPaymentDateAction = actionCreator.async<IUpdateAvtaleGiroPaymentDateActionParams, number, Error>('UPDATE_AVTALEGIRO_PAYMENTDATE');
 export const updateAvtaleGiroDistributionAction = actionCreator.async<IUpdateAvtaleGiroDistributionActionParams, boolean, Error>('UPDATE_AVTALEGIRO_DISTRIBUTION');
 export const fetchAvtaleGiroReportAction = actionCreator.async<undefined, IFetchAvtaleGiroReportResult, Error>('FETCH_AVTALEGIRO_REPORT');
+export const fetchAvtaleGiroValidationTableAction = actionCreator.async<undefined, Array<IAvtaleGiroValidationTableRow>, Error>('FETCH_AVTALEGIRO_VALIDATIONTABLE');
 export const fetchAvtaleGiroHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_AVTALEGIRO_HISTOGRAM');
 
 export const setAvtaleGiroPagination = (pagination: IPagination) => {

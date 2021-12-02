@@ -6,6 +6,7 @@ import { HomeGrid } from './Home.style';
 import { VippsReport } from '../../modules/vipps/report/VippsReport';
 import { LogsReport } from '../../modules/logs/report/LogsReport';
 import { MonthlyDonationsReport } from '../graphing/MonthlyDonationsReport';
+import { AvtaleGiroValidationTable } from '../../modules/avtalegiro/validationtable/AvtalegiroValidationTable';
 
 export const HomeComponent: React.FunctionComponent = (props) => {
   return (
@@ -13,6 +14,7 @@ export const HomeComponent: React.FunctionComponent = (props) => {
       <MainHeader>Home</MainHeader>
       <HomeGrid>
         <AvtaleGiroReport />
+        <AvtaleGiroValidationTable />
         <VippsReport />
         <MonthlyDonationsReport />
         <LogsReport />
