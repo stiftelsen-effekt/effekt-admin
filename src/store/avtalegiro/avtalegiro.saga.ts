@@ -9,6 +9,7 @@ import {
   fetchAvtaleGiroAgreementsAction,
   fetchAvtaleGiroHistogramAction,
   fetchAvtaleGiroReportAction,
+  fetchAvtaleGiroValidationTableAction,
   IFetchAgreementActionParams,
   IUpdateAvtaleGiroAmountActionParams,
   IUpdateAvtaleGiroDistributionActionParams,
@@ -76,6 +77,22 @@ export function* fetchAvtaleGiroReport() {
     yield put(fetchAvtaleGiroReportAction.done({ result: result.content[0] }));
   } catch (ex) {
     yield put(fetchAvtaleGiroReportAction.failed({ error: ex }));
+  }
+}
+
+export function* fetchAvtaleGiroValidationTable() {
+  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
+
+  try {
+    const result: API.Response = yield call(API.call, {
+      method: API.Method.GET,
+      endpoint: '/avtalegiro/validation',
+      token: token.token,
+    });
+    if (result.status !== 200) throw new Error(result.content);
+    yield put(fetchAvtaleGiroValidationTableAction.done({ result: result.content }));
+  } catch (ex) {
+    yield put(fetchAvtaleGiroValidationTableAction.failed({ error: ex }));
   }
 }
 
