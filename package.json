@@ -2,7 +2,7 @@
   "name": "effekt-admin",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://storage.googleapis.com/static.gieffektivt.no/",
+  "homepage": "https://admin.gieffektivt.no/",
   "resolutions": {
     "browserslist": "4.6.2",
     "caniuse-lite": "1.0.30000974"
