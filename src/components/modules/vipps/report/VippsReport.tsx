@@ -1,26 +1,32 @@
 import React, { useEffect } from 'react';
+import { List } from 'react-feather';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { AppState, VippsAgreementsState } from '../../../../models/state';
 import { fetchAgreementsReportAction } from '../../../../store/vipps/vipps.actions';
-import { ReportContent, ReportHeader, ReportWrapper } from '../../shared/report/Report.style';
+import { thousandize } from '../../../../util/formatting';
+import { EffektBlueButton } from '../../../style/elements/button.style';
+import { ReportActions, ReportContent, ReportHeader, ReportWrapper } from '../../shared/report/Report.style';
 
 export const VippsReport = () => {
   const agreements: VippsAgreementsState = useSelector((state: AppState) => state.vippsAgreements);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleAgreementListButtonClick = () => history.push('vipps/agreements');
+  const handleChargesListButtonClick = () => history.push('vipps/agreements/charges');
 
   useEffect(() => {
     dispatch(fetchAgreementsReportAction.started(undefined));
   }, [dispatch]);
-
-  const thousandize = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
   return (
     <ReportWrapper>
       <ReportHeader>Vipps</ReportHeader>
       <ReportContent>
         <h4>There are currently {agreements.activeAgreementCount} active agreements</h4>
-        <table width="300px">
+        <table width="100%">
           <tbody>
             <tr>
               <td>Median agreement sum</td>
@@ -37,23 +43,41 @@ export const VippsReport = () => {
           </tbody>
         </table>
         <h4>Changes this month</h4>
-        <table width="300px">
+        <table width="100%">
           <tbody>
             <tr>
-              <td>Agreements started</td>
-              <td>{agreements.startedThisMonth}</td>
+              <td>Agreements activated</td>
+              <td>{agreements.activatedThisMonth}</td>
+              <td style={{textAlign: 'right'}}>({thousandize(agreements.sumActivatedThisMonth)} kr)</td>
             </tr>
             <tr>
               <td>Agreements stopped</td>
               <td>{agreements.stoppedThisMonth}</td>
+              <td style={{textAlign: 'right'}}>({thousandize(agreements.sumStoppedThisMonth)} kr)</td>
+            </tr>
+            <tr>
+              <td>Agreements pending</td>
+              <td>{agreements.pendingThisMonth}</td>
+              <td style={{textAlign: 'right'}}>({thousandize(agreements.sumPendingThisMonth)} kr)</td>
+            </tr>
+            <tr>
+              <td>Agreements expired</td>
+              <td>{agreements.expiredThisMonth}</td>
+              <td style={{textAlign: 'right'}}>({thousandize(agreements.sumExpiredThisMonth)} kr)</td>
             </tr>
           </tbody>
         </table>
-        <br />
-        <Link to="vipps/agreements">See all agreements</Link>
-        <br />
-        <Link to="vipps/charges">See all charges</Link>
       </ReportContent>
+      <ReportActions>
+        <EffektBlueButton onClick={handleChargesListButtonClick} style={{ marginRight: 12 }}>
+          <List size={16} color={'white'}></List>
+          <span>Charges</span>
+        </EffektBlueButton>
+        <EffektBlueButton onClick={handleAgreementListButtonClick}>
+          <List size={16} color={'white'}></List>
+          <span>Agreements</span>
+        </EffektBlueButton>
+      </ReportActions>
     </ReportWrapper>
   );
 };
