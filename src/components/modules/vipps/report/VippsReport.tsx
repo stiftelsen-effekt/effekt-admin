@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { List } from 'react-feather';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Link } from 'react-router-dom';
 import { AppState, VippsAgreementsState } from '../../../../models/state';
 import { fetchAgreementsReportAction } from '../../../../store/vipps/vipps.actions';
 import { thousandize } from '../../../../util/formatting';
