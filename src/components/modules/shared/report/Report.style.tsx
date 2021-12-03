@@ -28,3 +28,14 @@ export const ReportContent = styled.div`
   padding-bottom: 10px;
   height: 100%;
 `;
+
+export const ReportActions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  width: 100%;
+  border-width: 1px 0px 1px 0px;
+  border-style: solid;
+  border-color: #eee;
+  background: #f6f6f6;
+`

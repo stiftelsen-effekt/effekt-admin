@@ -22,6 +22,12 @@ interface IFetchAvtaleGiroReportResult {
   averageAgreementSum: number;
   totalAgreementSum: number;
   medianAgreementSum: number;
+  draftedThisMonth: number,
+  sumDraftedThisMonth: number | null,
+  activatedThisMonth: number,
+  sumActivatedThisMonth: number | null,
+  stoppedThisMonth: number,
+  sumStoppedThisMonth: number | null
 }
 
 export interface IFetchAgreementActionParams { id: string }
