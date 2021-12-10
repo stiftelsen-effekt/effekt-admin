@@ -22,6 +22,8 @@ import {
   IAvtaleGiroFilter,
   IAggregationMonthlyItem,
   IAvtaleGiroValidationTableRow,
+  IAvtalegiroReport,
+  IAvtaleGiroValidation,
 } from './types';
 
 export interface AppState {
@@ -128,17 +130,8 @@ export interface VippsAgreementChargeState {
 }
 
 export interface AvtaleGiroAgreementsState {
-  activeAgreementCount: number;
-  averageAgreementSum: number;
-  totalAgreementSum: number;
-  medianAgreementSum: number;
-  draftedThisMonth: number;
-  sumDraftedThisMonth: number | null;
-  activatedThisMonth: number;
-  sumActivatedThisMonth: number | null;
-  stoppedThisMonth: number;
-  sumStoppedThisMonth: number | null;
-  validationTable: Array<IAvtaleGiroValidationTableRow>;
+  report: IAvtalegiroReport;
+  validation: IAvtaleGiroValidation;
   currentAgreement?: IAvtaleGiro;
   histogram?: Array<IHistogramBucket>;
   pages: number;

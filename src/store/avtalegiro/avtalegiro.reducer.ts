@@ -1,21 +1,10 @@
 import { isType } from "typescript-fsa";
 import { AvtaleGiroAgreementsState } from "../../models/state";
 import { toastError } from "../../util/toasthelper";
-import { CLEAR_CURRENT_AVTALEGIRO, fetchAvtaleGiroAction, fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroReportAction, fetchAvtaleGiroValidationTableAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
+import { CLEAR_CURRENT_AVTALEGIRO, fetchAvtaleGiroAction, fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroMissingByDateAction, fetchAvtaleGiroReportAction, fetchAvtaleGiroValidationTableAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
-  activeAgreementCount: 0,
-  averageAgreementSum: 0,
-  totalAgreementSum: 0,
-  medianAgreementSum: 0,
-  draftedThisMonth: 0,
-  sumDraftedThisMonth: null,
-  activatedThisMonth: 0,
-  sumActivatedThisMonth: null,
-  stoppedThisMonth: 0,
-  sumStoppedThisMonth: null,
   agreements: [],
-  validationTable: [],
   loading: false,
   pages: 1,
   pagination: {
@@ -35,6 +24,24 @@ const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     donor: '',
     statuses: [],
   },
+  report: {
+    activeAgreementCount: 0,
+    averageAgreementSum: 0,
+    totalAgreementSum: 0,
+    medianAgreementSum: 0,
+    draftedThisMonth: 0,
+    sumDraftedThisMonth: null,
+    activatedThisMonth: 0,
+    sumActivatedThisMonth: null,
+    stoppedThisMonth: 0,
+    sumStoppedThisMonth: null,
+  },
+  validation: {
+    validationTable: [],
+    missing: [],
+    recieved: [],
+    expected: []
+  }
 };
 
 export const avtaleGiroReducer = (
@@ -101,7 +108,9 @@ export const avtaleGiroReducer = (
     return {
       ...state,
       loading: false,
-      ...action.payload.result,
+      report: {
+        ...action.payload.result
+      }
     };
   } else if (isType(action, fetchAvtaleGiroReportAction.started)) {
     return { ...state, loading: true };
@@ -114,11 +123,30 @@ export const avtaleGiroReducer = (
     return {
       ...state,
       loading: false,
-      validationTable: action.payload.result
+      validation: {
+        ...state.validation,
+        validationTable: action.payload.result
+      }
     };
   } else if (isType(action, fetchAvtaleGiroValidationTableAction.started)) {
     return { ...state, loading: true };
   } else if (isType(action, fetchAvtaleGiroValidationTableAction.failed)) {
+    return { ...state, loading: false };
+  }
+
+  // Fetch validation table
+  if (isType(action, fetchAvtaleGiroMissingByDateAction.done)) {
+    return {
+      ...state,
+      loading: false,
+      validation: {
+        ...state.validation,
+        missing: action.payload.result
+      }
+    };
+  } else if (isType(action, fetchAvtaleGiroMissingByDateAction.started)) {
+    return { ...state, loading: true };
+  } else if (isType(action, fetchAvtaleGiroMissingByDateAction.failed)) {
     return { ...state, loading: false };
   }
 

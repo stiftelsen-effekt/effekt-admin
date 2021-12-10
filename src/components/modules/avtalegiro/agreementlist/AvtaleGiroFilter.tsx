@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import {
+  fetchAvtaleGiroAgreementsAction,
   fetchAvtaleGiroHistogramAction,
   setAvtaleGiroFilterActive,
   setAvtalegiroFilterAmount,
@@ -32,13 +33,19 @@ const statusTypes = [
 export const AvtaleGiroFilter: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
-  const amountRange = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.amount);
-  const KID = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.KID);
-  const donor = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.donor);
-  const statuses = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.statuses);
+  const filter = useSelector((state: AppState) => state.avtaleGiroAgreements.filter);
+  const amountRange = filter.amount;
+  const KID = filter.KID;
+  const donor = filter.donor;
+  const statuses = filter.statuses;
 
   const histogram = useSelector((state: AppState) => state.avtaleGiroAgreements.histogram);
+
   if (!histogram) dispatch(fetchAvtaleGiroHistogramAction.started(undefined));
+
+  useEffect(() => {
+    dispatch(fetchAvtaleGiroAgreementsAction.started(undefined));
+  }, [filter, dispatch]);
 
   let statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
     label: status.name,

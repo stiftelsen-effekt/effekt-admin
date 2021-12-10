@@ -25,6 +25,11 @@ export interface Response {
   content: any;
 }
 
+export interface TypedResponse<T> {
+  status: number;
+  content: T | string;
+}
+
 interface IFetchOptions {
   method?: string;
   headers?: any;
@@ -108,7 +113,7 @@ export const call = async (params: IAPIParameters): Promise<any> => {
 
       return result;
     default:
-      return new Promise<Response>((success) => {
+      return new Promise<void>((success) => {
         success();
       });
   }
