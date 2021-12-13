@@ -24,7 +24,7 @@ const defaultState: DonationsState = {
     page: 0,
     limit: 20,
     sort: {
-      id: 'id',
+      id: 'timestamp',
       desc: true,
     },
   },
