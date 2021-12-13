@@ -21,7 +21,6 @@ import {
   IAvtaleGiro,
   IAvtaleGiroFilter,
   IAggregationMonthlyItem,
-  IAvtaleGiroValidationTableRow,
   IAvtalegiroReport,
   IAvtaleGiroValidation,
 } from './types';

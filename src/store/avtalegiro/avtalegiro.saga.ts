@@ -3,16 +3,18 @@ import { put, call, select } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import { IAccessToken } from '../authentication/auth';
 import { AppState } from '../../models/state';
-import { IAvtaleGiro, IAvtaleGiroFilter, IPagination } from '../../models/types';
+import { IAvtaleGiro, IAvtaleGiroFilter, IDonation, IPagination } from '../../models/types';
 import * as API from './../../util/api';
 import {
   fetchAvtaleGiroAgreementsAction,
+  fetchAvtaleGiroExpectedByDateAction,
   fetchAvtaleGiroHistogramAction,
   fetchAvtaleGiroMissingByDateAction,
+  fetchAvtaleGiroRecievedByDateAction,
   fetchAvtaleGiroReportAction,
   fetchAvtaleGiroValidationTableAction,
   IFetchAgreementActionParams,
-  IFetchAvtaleGiroMissingByDateParams,
+  IFetchAvtaleGiroDateValidationParams,
   IUpdateAvtaleGiroAmountActionParams,
   IUpdateAvtaleGiroDistributionActionParams,
   IUpdateAvtaleGiroPaymentDateActionParams,
@@ -98,7 +100,7 @@ export function* fetchAvtaleGiroValidationTable() {
   }
 }
 
-export function* fetchAvtaleGiroMissingByDate(action: Action<IFetchAvtaleGiroMissingByDateParams>) {
+export function* fetchAvtaleGiroMissingByDate(action: Action<IFetchAvtaleGiroDateValidationParams>) {
   const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
 
   try {
@@ -115,6 +117,46 @@ export function* fetchAvtaleGiroMissingByDate(action: Action<IFetchAvtaleGiroMis
     }));
   } catch (ex) {
     yield put(fetchAvtaleGiroMissingByDateAction.failed({ error: ex }));
+  }
+}
+
+export function* fetchAvtaleGiroRecievedByDate(action: Action<IFetchAvtaleGiroDateValidationParams>) {
+  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
+
+  try {
+    const result: API.TypedResponse<Array<IDonation>> = yield call(API.call, {
+      method: API.Method.GET,
+      endpoint: '/avtalegiro/recieved/',
+      data: { date: action.payload.date.toISO() },
+      token: token.token,
+    });
+    if (result.status !== 200) throw new Error(result.content as string);
+    yield put(fetchAvtaleGiroRecievedByDateAction.done({ 
+      params: action.payload,
+      result: (result.content as Array<IDonation>) 
+    }));
+  } catch (ex) {
+    yield put(fetchAvtaleGiroRecievedByDateAction.failed({ error: ex }));
+  }
+}
+
+export function* fetchAvtaleGiroExpectedByDate(action: Action<IFetchAvtaleGiroDateValidationParams>) {
+  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
+
+  try {
+    const result: API.TypedResponse<Array<IAvtaleGiro>> = yield call(API.call, {
+      method: API.Method.GET,
+      endpoint: '/avtalegiro/expected/',
+      data: { date: action.payload.date.toISO() },
+      token: token.token,
+    });
+    if (result.status !== 200) throw new Error(result.content as string);
+    yield put(fetchAvtaleGiroExpectedByDateAction.done({ 
+      params: action.payload,
+      result: (result.content as Array<IAvtaleGiro>) 
+    }));
+  } catch (ex) {
+    yield put(fetchAvtaleGiroExpectedByDateAction.failed({ error: ex }));
   }
 }
 

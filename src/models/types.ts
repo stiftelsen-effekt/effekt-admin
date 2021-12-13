@@ -265,6 +265,6 @@ export interface IAvtalegiroReport {
 export interface IAvtaleGiroValidation {
   validationTable: Array<IAvtaleGiroValidationTableRow>;
   missing: Array<IAvtaleGiro>;
-  recieved: Array<IAvtaleGiro>;
+  recieved: Array<IDonation>;
   expected: Array<IAvtaleGiro>;
 }

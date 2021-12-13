@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { longDateTime, shortDate } from '../../../../util/formatting';
+import { longDateTime, shortDate, thousandize } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { useHistory } from 'react-router';
 import { AvtaleGiroListWrapper } from './AvtaleGiroList.style';
@@ -26,9 +26,10 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
 
   const columnDefinitions = [
     {
-      Header: 'AvtaleGiro ID',
+      Header: 'ID',
       accessor: 'ID',
       id: 'id',
+      width: 60
     },
     {
       Header: 'Donor',
@@ -42,20 +43,18 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
         if (res.active === 0 && res.cancelled) return 'STOPPED';
         return 'INACTIVE';
       },
-    },
-    {
-      Header: 'Notify charge',
-      id: 'notice',
-      accessor: (res: any) => (res.notice === 1 ? 'YES' : 'NO'),
+      width: 80
     },
     {
       Header: 'Sum',
-      accessor: 'amount',
+      id: 'amount',
+      accessor: (res: any) => thousandize(res.amount),
     },
     {
-      Header: 'Charge day',
+      Header: 'Day',
       accessor: 'payment_date',
       id: 'paymentDate',
+      width: 60
     },
     {
       Header: 'KID',
@@ -78,9 +77,15 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
       accessor: (res: any) =>
         res.cancelled && shortDate(DateTime.fromISO(res.cancelled, { setZone: true })),
     },
+    {
+      Header: 'Notify',
+      id: 'notice',
+      accessor: (res: any) => (res.notice === 1 ? 'YES' : 'NO'),
+      width: 60
+    },
   ];
 
-  const defaultSorting = [{ id: 'timestamp', desc: true }];
+  const defaultSorting = [{ id: 'created', desc: true }];
 
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {
@@ -117,6 +122,7 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
       <AvtaleGiroListWrapper>
         <ReactTable
           data={agreements}
+          loading={loading}
           columns={columnDefinitions}
           defaultPageSize={defaultPageSize}
           defaultSorted={defaultSorting}
