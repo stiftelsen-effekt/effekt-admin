@@ -18,17 +18,18 @@ export const AvtaleGiroValidationPage: React.FunctionComponent = () => {
   const missing = useSelector((state: AppState) => state.avtaleGiroAgreements.validation.missing)
   const recieved = useSelector((state: AppState) => state.avtaleGiroAgreements.validation.recieved)
 
+  useEffect(() => {
+    if (params.date) {
+      const query = DateTime.fromISO(params.date, { zone: 'Europe/Oslo' }) 
+      dispatch(fetchAvtaleGiroMissingByDateAction.started({ date: query }))
+      dispatch(fetchAvtaleGiroRecievedByDateAction.started({ date: query }))
+    }
+  }, [dispatch, params])
+
   let parsedDate: DateTime | null = null
   if (params.date) {
     parsedDate = DateTime.fromISO(params.date, { zone: 'Europe/Oslo' }) 
   }
-  
-  useEffect(() => {
-    if (parsedDate) {
-      dispatch(fetchAvtaleGiroMissingByDateAction.started({ date: parsedDate }))
-      dispatch(fetchAvtaleGiroRecievedByDateAction.started({ date: parsedDate }))
-    }
-  }, [dispatch, parsedDate])
 
   if (parsedDate) {
     return (
