@@ -1,6 +1,7 @@
+import { DateTime } from 'luxon';
 import actionCreatorFactory from 'typescript-fsa';
 import { Share } from '../../components/pages/avtalegiro/AvtaleGiroAgreement/ShareSelection/ShareSelection';
-import { IAvtaleGiro, IAvtaleGiroValidationTableRow, IHistogramBucket, IPagination } from '../../models/types';
+import { IAvtaleGiro, IAvtaleGiroValidationTableRow, IDonation, IHistogramBucket, IPagination } from '../../models/types';
 
 // AvtaleGiro agreements actions
 export const SET_AVTALEGIRO_PAGINATION = "SET_AVTALEGIRO_PAGINATION"
@@ -35,6 +36,7 @@ export interface IUpdateAvtaleGiroAmountActionParams { KID: string, amount: numb
 export interface IUpdateAvtaleGiroStatusActionParams { KID: string, status: number }
 export interface IUpdateAvtaleGiroPaymentDateActionParams { KID: string, paymentDate: number }
 export interface IUpdateAvtaleGiroDistributionActionParams { KID: string, distribution: Array<Share>}
+export interface IFetchAvtaleGiroDateValidationParams { date: DateTime }
 
 export const fetchAvtaleGiroAgreementsAction = actionCreator.async<undefined, IFetchAvtaleGirosResults, Error>('FETCH_AVTALEGIRO_AGREEMENTS');
 export const fetchAvtaleGiroAction = actionCreator.async<IFetchAgreementActionParams, IAvtaleGiro, Error>('FETCH_AVTALEGIRO');
@@ -44,6 +46,9 @@ export const updateAvtaleGiroPaymentDateAction = actionCreator.async<IUpdateAvta
 export const updateAvtaleGiroDistributionAction = actionCreator.async<IUpdateAvtaleGiroDistributionActionParams, boolean, Error>('UPDATE_AVTALEGIRO_DISTRIBUTION');
 export const fetchAvtaleGiroReportAction = actionCreator.async<undefined, IFetchAvtaleGiroReportResult, Error>('FETCH_AVTALEGIRO_REPORT');
 export const fetchAvtaleGiroValidationTableAction = actionCreator.async<undefined, Array<IAvtaleGiroValidationTableRow>, Error>('FETCH_AVTALEGIRO_VALIDATIONTABLE');
+export const fetchAvtaleGiroMissingByDateAction = actionCreator.async<IFetchAvtaleGiroDateValidationParams, Array<IAvtaleGiro>, Error>('FETCH_AVTALEGIRO_MISSING_BY_DATE');
+export const fetchAvtaleGiroRecievedByDateAction = actionCreator.async<IFetchAvtaleGiroDateValidationParams, Array<IDonation>, Error>('FETCH_AVTALEGIRO_RECIEVED_BY_DATE');
+export const fetchAvtaleGiroExpectedByDateAction = actionCreator.async<IFetchAvtaleGiroDateValidationParams, Array<IAvtaleGiro>, Error>('FETCH_AVTALEGIRO_EXPECTED_BY_DATE');
 export const fetchAvtaleGiroHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_AVTALEGIRO_HISTOGRAM');
 
 export const setAvtaleGiroPagination = (pagination: IPagination) => {

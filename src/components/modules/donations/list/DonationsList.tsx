@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,27 +9,27 @@ import {
 import { AppState } from '../../../../models/state';
 import { shortDate } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
-import { Redirect } from 'react-router';
-import { DonationsFilterComponent } from './filters/DonationsFilter';
 import { DonationListWrapper, StyledDeleteButton } from './DonationsList.style';
+import { useHistory } from 'react-router';
+import { IDonation } from '../../../../models/types';
 
-export const DonationsList: React.FunctionComponent = () => {
-  const data = useSelector((state: AppState) => state.donations.donations);
+export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation>, manual?: boolean, defaultPageSize?: number }> = ({ donations, manual, defaultPageSize }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const pages = useSelector((state: AppState) => state.donations.pages);
   const loading = useSelector((state: AppState) => state.donations.loading);
   const pagination = useSelector((state: AppState) => state.donations.pagination);
-  const filter = useSelector((state: AppState) => state.donations.filter);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchDonationsAction.started());
-  }, [pagination, filter, dispatch]);
+    dispatch(fetchDonationsAction.started(undefined));
+  }, [pagination, dispatch]);
 
   const columnDefinitions = [
     {
       Header: 'ID',
       accessor: 'id',
+      width: 60
     },
     {
       Header: 'Donor',
@@ -61,48 +61,60 @@ export const DonationsList: React.FunctionComponent = () => {
       Header: 'Slett',
       id: 'delete',
       accessor: (res: any) => <DeleteButton id={res.id} sum={res.sum} donor={res.donor} />,
+      width: 80
     },
   ];
 
   const defaultSorting = [{ id: 'timestamp', desc: true }];
 
-  let [donation, setDonation] = useState<number | null>(null);
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          setDonation(rowInfo.original.id);
+          history.push(`/donations/${rowInfo.original.id}`);
         },
       };
     }
     return {};
   };
 
-  if (donation !== null) return <Redirect to={`/donations/${donation}`}></Redirect>;
-  return (
-    <DonationListWrapper>
-      <ReactTable
-        manual
-        data={data}
-        page={pagination.page}
-        pages={pages}
-        pageSize={pagination.limit}
-        loading={loading}
-        columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        onPageChange={(page) => dispatch(setDonationsPagination({ ...pagination, page }))}
-        onSortedChange={(sorted) =>
-          dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))
-        }
-        onPageSizeChange={(pagesize) =>
-          dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))
-        }
-        getTrProps={trProps}
-      />
-
-      <DonationsFilterComponent></DonationsFilterComponent>
-    </DonationListWrapper>
-  );
+  if (manual) {
+    return (
+      <DonationListWrapper>
+        <ReactTable
+          manual
+          data={donations}
+          page={pagination.page}
+          pages={pages}
+          pageSize={pagination.limit}
+          loading={loading}
+          columns={columnDefinitions}
+          defaultSorted={defaultSorting}
+          onPageChange={(page) => dispatch(setDonationsPagination({ ...pagination, page }))}
+          onSortedChange={(sorted) =>
+            dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))
+          }
+          onPageSizeChange={(pagesize) =>
+            dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))
+          }
+          getTrProps={trProps}
+        />
+      </DonationListWrapper>
+    );
+  } else {
+    return (
+      <DonationListWrapper>
+        <ReactTable
+          data={donations}
+          defaultPageSize={defaultPageSize}
+          loading={loading}
+          columns={columnDefinitions}
+          defaultSorted={defaultSorting}
+          getTrProps={trProps}
+        />
+      </DonationListWrapper>
+    );
+  }
 };
 
 const DeleteButton: React.FC<{ id: number; donor: string; sum: number }> = ({ id, donor, sum }) => {
