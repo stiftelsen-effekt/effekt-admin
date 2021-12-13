@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { List } from 'react-feather';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import { AppState, AvtaleGiroAgreementsState } from '../../../../models/state';
+import { AppState } from '../../../../models/state';
 import { IAvtalegiroReport } from '../../../../models/types';
 import { fetchAvtaleGiroReportAction } from '../../../../store/avtalegiro/avtalegiro.actions';
 import { thousandize } from '../../../../util/formatting';

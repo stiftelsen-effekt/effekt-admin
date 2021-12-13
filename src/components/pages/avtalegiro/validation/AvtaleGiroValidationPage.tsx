@@ -28,7 +28,7 @@ export const AvtaleGiroValidationPage: React.FunctionComponent = () => {
       dispatch(fetchAvtaleGiroMissingByDateAction.started({ date: parsedDate }))
       dispatch(fetchAvtaleGiroRecievedByDateAction.started({ date: parsedDate }))
     }
-  }, [dispatch, params])
+  }, [dispatch, parsedDate])
 
   if (parsedDate) {
     return (
