@@ -5,31 +5,30 @@ import { EffektButton } from '../../../style/elements/button.style';
 import { useDispatch } from 'react-redux';
 import { createDonorAction } from '../../../../store/donors/create-donor.actions';
 import { CreateDonorWrapper } from './CreateDonor.style';
-
-interface IState {
-  email: string;
-  name: string;
-}
+import { IDonor } from '../../../../models/types';
+import { Plus } from 'react-feather';
 
 interface IProps {
   onSubmit(): void;
 }
 
 export const CreateDonor: React.FunctionComponent<IProps> = ({ onSubmit }) => {
-  const [state, setState] = useState<IState>({
+  const [state, setState] = useState<Partial<IDonor>>({
     email: '',
     name: '',
+    ssn: ''
   });
 
   const dispatch = useDispatch();
 
   const submit = () => {
-    dispatch(createDonorAction.started({ email: state.email, name: state.name }));
+    dispatch(createDonorAction.started({ email: state.email, name: state.name, ssn: state.ssn }));
     onSubmit();
   };
 
   return (
     <CreateDonorWrapper>
+      <h3>New donor</h3>
       <EffektInput
         value={state.email}
         placeholder="email"
@@ -37,11 +36,17 @@ export const CreateDonor: React.FunctionComponent<IProps> = ({ onSubmit }) => {
       ></EffektInput>
       <EffektInput
         value={state.name}
-        placeholder="navn"
+        placeholder="name"
         onKeyDown={(e) => e.key === 'Enter' && submit()}
         onChange={(e: any) => setState({ ...state, name: e.target.value })}
       ></EffektInput>
-      <EffektButton onClick={submit}>Create</EffektButton>
+      <EffektInput
+        value={state.ssn}
+        placeholder="ssn / orgnr"
+        onKeyDown={(e) => e.key === 'Enter' && submit()}
+        onChange={(e: any) => setState({ ...state, ssn: e.target.value })}
+      ></EffektInput>
+      <EffektButton onClick={submit}>Create <Plus size={16}/></EffektButton>
     </CreateDonorWrapper>
   );
 };

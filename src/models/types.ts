@@ -6,6 +6,7 @@ export interface IDonor {
   name: string;
   email: string;
   registered: DateTime;
+  ssn: string;
 }
 
 export interface IOrganization {
