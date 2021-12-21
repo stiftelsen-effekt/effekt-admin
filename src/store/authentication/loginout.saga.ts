@@ -31,7 +31,7 @@ export function* logout() {
 
 export function* loginSuccess(action: any) {
   yield put(fetchAccessKeySuccess(action.payload));
-  yield put(fetchTokenAction.started());
+  yield put(fetchTokenAction.started(undefined));
 }
 
 export function* callback() {

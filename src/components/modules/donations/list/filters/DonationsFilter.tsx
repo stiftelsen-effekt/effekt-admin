@@ -40,10 +40,10 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   );
 
   const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods);
-  if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started());
+  if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined));
 
   const histogram = useSelector((state: AppState) => state.donations.histogram);
-  if (!histogram) dispatch(fetchHistogramAction.started());
+  if (!histogram) dispatch(fetchHistogramAction.started(undefined));
 
   let paymentMethodChoices: Array<EffektCheckChoice> = paymentMethods.map((method) => ({
     label: method.abbriviation,

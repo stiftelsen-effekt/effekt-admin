@@ -47,7 +47,7 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
   const statuses = useSelector((state: AppState) => state.vippsAgreementCharges.filter.statuses);
 
   const histogram = useSelector((state: AppState) => state.vippsAgreements.histogram);
-  if (!histogram) dispatch(fetchChargeHistogramAction.started());
+  if (!histogram) dispatch(fetchChargeHistogramAction.started(undefined));
 
   let statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
     label: status.name,

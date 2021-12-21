@@ -145,6 +145,10 @@ export interface ILogEntry {
   timestamp: string;
 }
 
+export interface ILogFilter {
+  filesearch?: string;
+}
+
 /** VippsAgreements */
 
 export interface IVippsAgreement {

@@ -13,7 +13,7 @@ export const RegisterComponent: React.FunctionComponent = () => {
 
   const organizations = useSelector((state: AppState) => state.organizations.active);
   if (!organizations) {
-    dispatch(fetchActiveOrganizationsAction.started());
+    dispatch(fetchActiveOrganizationsAction.started(undefined));
     return <div>Loading organizations</div>;
   }
 

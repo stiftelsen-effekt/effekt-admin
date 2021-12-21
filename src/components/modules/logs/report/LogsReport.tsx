@@ -18,7 +18,7 @@ export const LogsReport = () => {
     <ReportWrapper>
       <ReportHeader>Import logs</ReportHeader>
       <ReportContent>
-        <LogsList showPagination={false} />
+        <LogsList showPagination={false} showMeta={false} />
       </ReportContent>
     </ReportWrapper>
   );

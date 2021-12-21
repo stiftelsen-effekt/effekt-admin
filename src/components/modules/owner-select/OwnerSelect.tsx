@@ -11,7 +11,7 @@ export const OwnerSelect: React.FunctionComponent = () => {
   const dataOwners = useSelector((state: AppState) => state.dataOwner.owners);
   const currentOwner = useSelector((state: AppState) => state.dataOwner.current);
   if (!dataOwners || !currentOwner) {
-    dispatch(fetchOwnersAction.started());
+    dispatch(fetchOwnersAction.started(undefined));
     return <div>Fetching data owners...</div>;
   }
 

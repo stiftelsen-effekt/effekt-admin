@@ -22,7 +22,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
     processingState.invalidTransactions[processingState.invalidTransactions.length - 1];
 
   if (!organizations) {
-    dispatch(fetchActiveOrganizationsAction.started());
+    dispatch(fetchActiveOrganizationsAction.started(undefined));
     return <div>Loading organizations</div>;
   }
 

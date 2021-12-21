@@ -3,6 +3,7 @@ import { fetchLogsAction, SET_LOGS_PAGINATION } from './logs-list.actions';
 import { LoggingState } from '../../models/state';
 import { toastError } from '../../util/toasthelper';
 import { CLEAR_CURRENT_LOG_ENTRY, fetchLogEntryAction } from './logs.actions';
+import { SET_LOG_FILTER_FILESEARCH } from './logs-filter.actions';
 
 const defaultState: LoggingState = {
   entries: [],
@@ -16,6 +17,9 @@ const defaultState: LoggingState = {
       desc: true,
     },
   },
+  filter: {
+
+  }
 };
 
 export const loggingReducer = (state = defaultState, action: any): LoggingState => {
@@ -60,6 +64,21 @@ export const loggingReducer = (state = defaultState, action: any): LoggingState 
   switch (action.type) {
     case SET_LOGS_PAGINATION:
       return { ...state, pagination: action.payload };
+  }
+
+  /**
+   * FILTER ACTIONS
+   */
+  switch (action.type) {
+    case SET_LOG_FILTER_FILESEARCH:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: {
+          ...state.filter,
+          filesearch: action.payload
+        }
+      }
   }
 
   return state;

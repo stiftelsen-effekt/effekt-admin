@@ -23,6 +23,7 @@ import {
   IAggregationMonthlyItem,
   IAvtalegiroReport,
   IAvtaleGiroValidation,
+  ILogFilter,
 } from './types';
 
 export interface AppState {
@@ -173,4 +174,5 @@ export interface LoggingState {
   pages: number;
   loading: boolean;
   pagination: IPagination;
+  filter: ILogFilter;
 }

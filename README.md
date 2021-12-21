@@ -154,7 +154,7 @@ Similarily, actions can be dispatched using a hook as well
 ```typescript
 const dispatch = useDispatch()
 (...)
-dispatch(fetchDonationsAction.started())
+dispatch(fetchDonationsAction.started(undefined))
 ```
 
 Actions, reducers and sagas are all defined in the `/src/store` folder.
