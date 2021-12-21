@@ -76,7 +76,7 @@ export const DistributionsList: React.FunctionComponent = () => {
               limit: state.pageSize,
             })
           );
-          dispatch(fetchDistributionsAction.started());
+          dispatch(fetchDistributionsAction.started(undefined));
         }}
         getTrProps={trProps}
       />

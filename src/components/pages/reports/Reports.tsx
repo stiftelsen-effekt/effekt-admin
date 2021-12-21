@@ -35,7 +35,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
   //TODO: CREATE GENERAL PAYMENT METHOD SELECTOR
   //TODO: Move payment methods to different place in state
   const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods);
-  if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started());
+  if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined));
 
   const [paymentMethodIds, setPaymentMethodIds] = useState<Array<number>>([4]);
   let paymentMethodChoices: Array<EffektCheckChoice> = paymentMethods.map((method) => ({

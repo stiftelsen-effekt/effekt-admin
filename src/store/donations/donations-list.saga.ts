@@ -39,7 +39,7 @@ export function* deleteDonation(action: any) {
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(deleteDonationAction.done({ params: action.payload, result: result.content }));
-    yield put(fetchDonationsAction.started());
+    yield put(fetchDonationsAction.started(undefined));
   } catch (ex) {
     yield put(deleteDonationAction.failed({ params: action.payload, error: ex }));
   }

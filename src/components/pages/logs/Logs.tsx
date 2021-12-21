@@ -5,6 +5,8 @@ import { LogsList } from '../../modules/logs/list/LogsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../models/state';
 import { setLogsPaginationAction } from '../../../store/logs/logs-list.actions';
+import { LogsFilter } from '../../modules/logs/list/filters/LogsFilter';
+import { LogsListWrapper } from '../../modules/logs/list/LogsList.style';
 
 export const LogsPageComponent: React.FunctionComponent = (props) => {
   const dispatch = useDispatch();
@@ -18,7 +20,10 @@ export const LogsPageComponent: React.FunctionComponent = (props) => {
   return (
     <Page>
       <MainHeader>Import logs</MainHeader>
-      <LogsList></LogsList>
+      <LogsFilter></LogsFilter>
+      <LogsListWrapper>
+        <LogsList></LogsList>
+      </LogsListWrapper>
     </Page>
   );
 };

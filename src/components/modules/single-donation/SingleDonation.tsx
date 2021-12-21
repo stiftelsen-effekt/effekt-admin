@@ -43,7 +43,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
   const paymentMethods = useSelector<AppState, Array<IPaymentMethod>>(
     (state: AppState) => state.singleDonation.paymentMethods
   );
-  if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started());
+  if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined));
 
   const [distribution, setDistribution] = useState<Array<IDistributionShare>>(
     mapOrgToDist(organizations)

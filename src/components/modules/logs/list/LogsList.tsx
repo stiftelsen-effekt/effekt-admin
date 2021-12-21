@@ -9,8 +9,9 @@ import { Redirect } from 'react-router';
 
 interface LogsListProps {
   showPagination?: boolean;
+  showMeta?: boolean;
 }
-export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showItems }) => {
+export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showMeta = true }) => {
   const data = useSelector((state: AppState) => state.logs.entries);
   const pages = useSelector((state: AppState) => state.logs.pages);
   const loading = useSelector((state: AppState) => state.logs.loading);
@@ -19,24 +20,34 @@ export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showI
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchLogsAction.started());
+    dispatch(fetchLogsAction.started(undefined));
   }, [pagination, dispatch]);
 
-  const columnDefinitions = [
+  const columnDefinitions: any = [
     {
       Header: 'ID',
       accessor: 'ID',
+      width: 100
     },
     {
       Header: 'Label',
       accessor: 'label',
+      width: 150
     },
     {
       Header: 'Timestamp',
       id: 'timestamp',
       accessor: (res: any) => longDateTime(DateTime.fromISO(res.timestamp, { setZone: true })),
-    },
+      width: showMeta ? 200 : undefined
+    }
   ];
+
+  if (showMeta) {
+    columnDefinitions.push({
+      Header: 'Meta',
+      accessor: 'meta'
+    })
+  }
 
   const defaultSorting = [{ id: 'timestamp', desc: true }];
 
@@ -54,26 +65,24 @@ export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showI
 
   if (entry !== null) return <Redirect to={`/logs/${entry}`}></Redirect>;
   return (
-    <div>
-      <ReactTable
-        manual
-        data={data}
-        page={pagination.page}
-        pages={pages}
-        pageSize={pagination.limit}
-        loading={loading}
-        columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        showPagination={showPagination}
-        onPageChange={(page) => dispatch(setLogsPaginationAction({ ...pagination, page }))}
-        onSortedChange={(sorted) =>
-          dispatch(setLogsPaginationAction({ ...pagination, sort: sorted[0] }))
-        }
-        onPageSizeChange={(pagesize) =>
-          dispatch(setLogsPaginationAction({ ...pagination, limit: pagesize }))
-        }
-        getTrProps={trProps}
-      />
-    </div>
+    <ReactTable
+      manual
+      data={data}
+      page={pagination.page}
+      pages={pages}
+      pageSize={pagination.limit}
+      loading={loading}
+      columns={columnDefinitions}
+      defaultSorted={defaultSorting}
+      showPagination={showPagination}
+      onPageChange={(page) => dispatch(setLogsPaginationAction({ ...pagination, page }))}
+      onSortedChange={(sorted) =>
+        dispatch(setLogsPaginationAction({ ...pagination, sort: sorted[0] }))
+      }
+      onPageSizeChange={(pagesize) =>
+        dispatch(setLogsPaginationAction({ ...pagination, limit: pagesize }))
+      }
+      getTrProps={trProps}
+    />
   );
 };

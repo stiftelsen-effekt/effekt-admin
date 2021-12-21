@@ -10,7 +10,7 @@ export const MonthlyDonationsGraph: React.FC = () => {
   const monthly = useSelector((state: AppState) => state.graphing.monthly);
 
   useEffect(() => {
-    dispatch(fetchSumByMonthAction.started());
+    dispatch(fetchSumByMonthAction.started(undefined));
   }, [dispatch]);
 
   if (!monthly || monthly.length === 0) return <div>Loading...</div>;
