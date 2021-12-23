@@ -39,7 +39,7 @@ export interface IDonation {
   transactionCost: number;
   method: string;
   timestamp: Date;
-  KID?: number;
+  KID?: string;
   distribution?: Array<IDistributionShare>;
   metaOwnerID?: number;
 }
@@ -74,7 +74,7 @@ export interface IDistributionShare {
 }
 
 export interface IDistribution {
-  KID: number;
+  KID: string;
   donor: Partial<IDonor>;
   shares: Array<IDistributionShare>;
 }
@@ -97,7 +97,7 @@ export interface IInvalidTransaction {
 }
 
 export interface ITransaction {
-  KID: number;
+  KID: string;
   amount: number;
   date: Date;
   location: string;

@@ -28,7 +28,7 @@ import { calculateDistributionSum } from './kid.util';
 interface IProps {
   donationAmount?: number;
   organizations: Array<IOrganization>;
-  KID?: number;
+  KID?: string;
   distribution: Array<IDistributionShare>;
   onChange(distribution: Array<IDistributionShare>): void;
 }
