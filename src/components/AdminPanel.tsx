@@ -25,6 +25,7 @@ import { VippsAgreementChargePageComponent } from './pages/vippsagreementcharges
 import { AvtaleGiroPage } from './pages/avtalegiro/AvtaleGiroPage';
 import { AvtaleGiroAgreement } from './pages/avtalegiro/AvtaleGiroAgreement/AvtaleGiroAgreement';
 import { AvtaleGiroValidationPage } from './pages/avtalegiro/validation/AvtaleGiroValidationPage';
+import { DonorPage } from './pages/donors/Donor';
 
 export const AdminPanel: React.FunctionComponent = () => {
   //TODO: Move someplace where it is run only once
@@ -44,6 +45,7 @@ export const AdminPanel: React.FunctionComponent = () => {
           <Route exact path="/graphing" component={GraphingPageComponent}></Route>
           <Route exact path="/reports" component={ReportsComponent}></Route>
           <Route exact path="/donors" component={DonorsPageComponent}></Route>
+          <Route exact path="/donors/:id" component={DonorPage}></Route>
           <Route exact path="/donations" component={DonationsPageComponent}></Route>
           <Route exact path="/donations/:id" component={DonationPageComponent}></Route>
           <Route exact path="/settings" render={() => <div>Settings</div>}></Route>

@@ -100,35 +100,31 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
 
   if (manual) {
     return (
-      <AvtaleGiroListWrapper>
-        <ReactTable
-            manual
-            data={agreements}
-            page={pagination.page}
-            pages={pages}
-            pageSize={pagination.limit}
-            loading={loading}
-            columns={columnDefinitions}
-            defaultSorted={defaultSorting}
-            onPageChange={(page) => dispatch(setAvtaleGiroPagination({ ...pagination, page }))}
-            onSortedChange={(sorted) => dispatch(setAvtaleGiroPagination({ ...pagination, sort: sorted[0] }))}
-            onPageSizeChange={(pagesize) => dispatch(setAvtaleGiroPagination({ ...pagination, limit: pagesize }))}
-            getTrProps={trProps}
-            />
-      </AvtaleGiroListWrapper>
+      <ReactTable
+          manual
+          data={agreements}
+          page={pagination.page}
+          pages={pages}
+          pageSize={pagination.limit}
+          loading={loading}
+          columns={columnDefinitions}
+          defaultSorted={defaultSorting}
+          onPageChange={(page) => dispatch(setAvtaleGiroPagination({ ...pagination, page }))}
+          onSortedChange={(sorted) => dispatch(setAvtaleGiroPagination({ ...pagination, sort: sorted[0] }))}
+          onPageSizeChange={(pagesize) => dispatch(setAvtaleGiroPagination({ ...pagination, limit: pagesize }))}
+          getTrProps={trProps}
+          />
     )
   } else {
     return (
-      <AvtaleGiroListWrapper>
-        <ReactTable
-          data={agreements}
-          loading={loading}
-          columns={columnDefinitions}
-          defaultPageSize={defaultPageSize}
-          defaultSorted={defaultSorting}
-          getTrProps={trProps}
-          />
-      </AvtaleGiroListWrapper>
+      <ReactTable
+        data={agreements}
+        loading={loading}
+        columns={columnDefinitions}
+        defaultPageSize={defaultPageSize}
+        defaultSorted={defaultSorting}
+        getTrProps={trProps}
+        />
     )
   }
 }

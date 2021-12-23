@@ -9,6 +9,20 @@ export interface IDonor {
   ssn: string;
 }
 
+export interface IDonorStats {
+  countTotalDonations: number;
+  sumTotalDonations: number;
+  countYearlyDonations: Array<{
+    year: string,
+    count: number
+  }>;
+  sumYearlyDonations: Array<{
+    year: string,
+    sum: number
+  }>;
+  sumTotalShares: Array<IDistributionShare>;
+}
+
 export interface IOrganization {
   id: number;
   name: string;

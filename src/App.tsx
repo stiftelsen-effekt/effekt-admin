@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './components/style/elements/datepicker/datepicker-effekt.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './components/style/elements/react-table/base.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const App: React.FC = () => {
   return (

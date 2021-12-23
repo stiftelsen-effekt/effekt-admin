@@ -80,39 +80,35 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
 
   if (manual) {
     return (
-      <DonationListWrapper>
-        <ReactTable
-          manual
-          data={donations}
-          page={pagination.page}
-          pages={pages}
-          pageSize={pagination.limit}
-          loading={loading}
-          columns={columnDefinitions}
-          defaultSorted={defaultSorting}
-          onPageChange={(page) => dispatch(setDonationsPagination({ ...pagination, page }))}
-          onSortedChange={(sorted) =>
-            dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))
-          }
-          onPageSizeChange={(pagesize) =>
-            dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))
-          }
-          getTrProps={trProps}
-        />
-      </DonationListWrapper>
+      <ReactTable
+        manual
+        data={donations}
+        page={pagination.page}
+        pages={pages}
+        pageSize={pagination.limit}
+        loading={loading}
+        columns={columnDefinitions}
+        defaultSorted={defaultSorting}
+        onPageChange={(page) => dispatch(setDonationsPagination({ ...pagination, page }))}
+        onSortedChange={(sorted) =>
+          dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))
+        }
+        onPageSizeChange={(pagesize) =>
+          dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))
+        }
+        getTrProps={trProps}
+      />
     );
   } else {
     return (
-      <DonationListWrapper>
-        <ReactTable
-          data={donations}
-          defaultPageSize={defaultPageSize}
-          loading={loading}
-          columns={columnDefinitions}
-          defaultSorted={defaultSorting}
-          getTrProps={trProps}
-        />
-      </DonationListWrapper>
+      <ReactTable
+        data={donations}
+        defaultPageSize={defaultPageSize}
+        loading={loading}
+        columns={columnDefinitions}
+        defaultSorted={defaultSorting}
+        getTrProps={trProps}
+      />
     );
   }
 };
