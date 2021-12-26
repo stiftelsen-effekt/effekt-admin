@@ -78,7 +78,7 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
           placeholder="KID"
           value={state.KID || ''}
           style={{ height: '100%' }}
-          onChange={(e) => setState({ ...state, KID: parseInt(e.target.value) })}
+          onChange={(e) => setState({ ...state, KID: e.target.value })}
         />
       </KIDTextWrapper>
 
