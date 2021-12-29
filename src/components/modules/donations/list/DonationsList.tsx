@@ -66,7 +66,9 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
       id: 'timestamp',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp, { setZone: true })),
       sortMethod: (a: any, b: any) => {
-        return DateTime.fromISO(a.timestamp).toUTC() > DateTime.fromISO(b.timestamp).toUTC() ? -1 : 1
+        return (DateTime.fromFormat(a, "dd.MM.yyyy") > 
+          DateTime.fromFormat(b, "dd.MM.yyyy") ? 
+          -1 : 1)
       }
     },
     {

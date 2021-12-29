@@ -64,11 +64,16 @@ export const VippsAgreementList: React.FunctionComponent<{ agreements: Array<IVi
       Header: 'Draft date',
       id: 'created',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created, { setZone: true })),
+      sortMethod: (a: any, b: any) => {
+        return (DateTime.fromFormat(a, "dd.MM.yyyy") > 
+          DateTime.fromFormat(b, "dd.MM.yyyy") ? 
+          -1 : 1)
+      },
       width: 120
     },
   ];
 
-  const defaultSorting = [{ id: 'timestamp', desc: true }];
+  const defaultSorting = [{ id: 'created', desc: true }];
 
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {
