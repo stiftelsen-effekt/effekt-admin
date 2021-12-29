@@ -17,7 +17,7 @@ import { receiptReducer } from './store/donations/receipt.reducer';
 import { loggingReducer } from './store/logs/logs.reducer';
 import { vippsAgreementChargeReducer, vippsAgreementReducer } from './store/vipps/vipps.reducer';
 import { avtaleGiroReducer } from './store/avtalegiro/avtalegiro.reducer';
-import { donorPageReducer } from './store/donors/donor-page.reduser';
+import { donorPageReducer } from './store/donors/donor-page.reducer';
 
 const rootReducer = combineReducers<AppState>({
   auth: authReducer,

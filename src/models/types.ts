@@ -7,20 +7,14 @@ export interface IDonor {
   email: string;
   registered: DateTime;
   ssn: string;
+  newsletter?: boolean;
+  trash?: boolean;
 }
 
 export interface IDonorStats {
-  countTotalDonations: number;
-  sumTotalDonations: number;
-  countYearlyDonations: Array<{
-    year: string,
-    count: number
-  }>;
-  sumYearlyDonations: Array<{
-    year: string,
-    sum: number
-  }>;
-  sumTotalShares: Array<IDistributionShare>;
+  countTotalDonations?: number;
+  sumTotalDonations?: number;
+  sumYearlyAggregates?: Array<IDistributionShare & { year: number }>;
 }
 
 export interface IOrganization {

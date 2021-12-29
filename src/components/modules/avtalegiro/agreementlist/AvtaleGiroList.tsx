@@ -5,14 +5,13 @@ import { AppState } from '../../../../models/state';
 import { longDateTime, shortDate, thousandize } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { useHistory } from 'react-router';
-import { AvtaleGiroListWrapper } from './AvtaleGiroList.style';
 import {
   fetchAvtaleGiroAgreementsAction,
   setAvtaleGiroPagination,
 } from '../../../../store/avtalegiro/avtalegiro.actions';
 import { IAvtaleGiro } from '../../../../models/types';
 
-export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtaleGiro>, manual?: boolean, defaultPageSize?: number }> = ({ agreements, manual, defaultPageSize }) => {
+export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtaleGiro> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ agreements, manual, defaultPageSize }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -21,8 +20,10 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
   const pagination = useSelector((state: AppState) => state.avtaleGiroAgreements.pagination);
 
   useEffect(() => {
-    dispatch(fetchAvtaleGiroAgreementsAction.started(undefined));
-  }, [pagination, dispatch]);
+    if (manual) {
+      dispatch(fetchAvtaleGiroAgreementsAction.started(undefined))
+    }
+  }, [pagination, manual, dispatch]);
 
   const columnDefinitions = [
     {

@@ -79,7 +79,6 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
   ];
 
   const rowClick = (rowInfo: any) => {
-    console.log(rowInfo);
     setState({
       ...state,
       selected: rowInfo.index,
@@ -92,7 +91,6 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
   };
 
   const rowStyle = (rowIndex: number, selectedIndex: number) => {
-    console.log(rowIndex, selectedIndex);
     return {
       background: rowIndex === selectedIndex ? orange50 : '',
       color: rowIndex === selectedIndex ? 'white' : '',

@@ -76,8 +76,9 @@ export interface DonorPageState {
   donor?: IDonor;
   stats?: IDonorStats;
   donations?: Array<IDonation>;
-  distributions?: Array<IDistribution>;
+  distributions?: Array<IDistributionSearchResultItem>;
   avtalegiroAgreements?: Array<IAvtaleGiro>;
+  vippsAgreements?: Array<IVippsAgreement>;
 }
 
 export interface OrganizationsState {

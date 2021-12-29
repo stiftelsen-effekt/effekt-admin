@@ -13,6 +13,6 @@ export function* createDonor(action: any) {
 
     yield put(createDonorAction.done({ params: action.payload, result: true }));
   } catch (ex) {
-    yield put(createDonorAction.failed({ params: action.payload, error: ex }));
+    yield put(createDonorAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

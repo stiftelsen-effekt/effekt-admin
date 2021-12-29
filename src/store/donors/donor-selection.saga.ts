@@ -20,6 +20,6 @@ export function* searchDonors(action: any) {
     if (data.status !== 200) throw new Error(data.content);
     yield put(searchDonorAction.done({ params: action.payload, result: data.content }));
   } catch (ex) {
-    yield put(searchDonorAction.failed({ params: action.payload, error: ex }));
+    yield put(searchDonorAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

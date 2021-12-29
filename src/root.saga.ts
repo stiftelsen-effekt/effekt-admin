@@ -98,6 +98,8 @@ import {
   updateAvtaleGiroPaymentDateAction,
   updateAvtaleGiroStatusAction,
 } from './store/avtalegiro/avtalegiro.actions';
+import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction } from './store/donors/donor-page.actions';
+import { getDonor, getDonorAvtalegiroAgreements, getDonorDistributions, getDonorDonations, getDonorVippsAgreements, getDonorYearlyAggregates } from './store/donors/donor-page.saga';
 
 function* watchAll() {
   yield all([
@@ -124,6 +126,12 @@ function* watchAll() {
     takeLatest(uploadReportAction.started.type, uploadReport),
 
     takeLatest(createDonorAction.started.type, createDonor),
+    takeLatest(getDonorAction.started.type, getDonor),
+    takeLatest(getDonorDonationsAction.started.type, getDonorDonations),
+    takeLatest(getDonorDistributionsAction.started.type, getDonorDistributions),
+    takeLatest(getDonorAvtalegiroAgreementsAction.started.type, getDonorAvtalegiroAgreements),
+    takeLatest(getDonorVippsAgreementsAction.started.type, getDonorVippsAgreements),
+    takeLatest(getDonorYearlyAggregatesAction.started.type, getDonorYearlyAggregates),
 
     takeLatest(fetchDonationsAction.started.type, fetchDonations),
     takeLatest(fetchDonationAction.started.type, fetchDonation),
@@ -161,7 +169,7 @@ function* watchAll() {
     takeLatest(updateAvtaleGiroStatusAction.started.type, updateAvtaleGiroStatus),
     takeLatest(updateAvtaleGiroPaymentDateAction.started.type, updateAvtaleGiroPaymentDate),
     takeLatest(updateAvtaleGiroDistributionAction.started.type, updateAvtaleGiroDistribution),
-    ]);
+  ]);
 }
 
 export default watchAll;

@@ -18,7 +18,7 @@ export const DonorKeyInfo: React.FunctionComponent<{ donor?: IDonor }> = ({ dono
             <td>{donor ? donor.email : <Skeleton />}</td>
           </tr>
           <tr>
-            <td>SSN</td>
+            <td>SSN / OrgNr.</td>
             <td>{donor ? donor.ssn : <Skeleton />}</td>
           </tr>
           <tr>
