@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { shortDate } from '../../../../util/formatting';
+import { shortDate, thousandize } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { useHistory } from 'react-router';
 import {
@@ -41,8 +41,12 @@ export const VippsAgreementList: React.FunctionComponent<{ agreements: Array<IVi
     },
     {
       Header: 'Sum',
-      accessor: 'amount',
+      id: 'amount',
       width: 110,
+      accessor: (res: any) => thousandize(res.amount),
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
     {
       Header: 'Charge day',

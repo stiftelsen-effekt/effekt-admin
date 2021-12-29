@@ -7,6 +7,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { IDistributionSearchResultItem } from '../../../../models/types';
+import { thousandize } from '../../../../util/formatting';
 
 export const DistributionsList: React.FunctionComponent<{ distributions: Array<IDistributionSearchResultItem> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ distributions, manual, defaultPageSize }) => {
   const pages = useSelector((state: AppState) => state.distributions.pages)
@@ -32,13 +33,23 @@ export const DistributionsList: React.FunctionComponent<{ distributions: Array<I
       Header: 'Total sum',
       id: 'sum',
       accessor: (res: any) => {
-        if (res.sum) return res.sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-        else return '';
+        if (res.sum) return thousandize(res.sum)
+        else return '0'
       },
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
     {
       Header: 'Antall donasjoner',
-      accessor: 'count',
+      id: 'count',
+      accessor: (res: any) => {
+        if (res.count) return thousandize(res.count)
+        else return '0'
+      },
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
   ];
 

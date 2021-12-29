@@ -7,7 +7,7 @@ import {
   setDonationsPagination,
 } from '../../../../store/donations/donations-list.actions';
 import { AppState } from '../../../../models/state';
-import { shortDate } from '../../../../util/formatting';
+import { shortDate, thousandize } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { StyledDeleteButton } from './DonationsList.style';
 import { useHistory } from 'react-router';
@@ -44,11 +44,18 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
     {
       Header: 'Sum',
       id: 'sum',
-      accessor: (res: any) => res.sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '),
+      accessor: (res: any) => thousandize(res.sum),
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
     {
       Header: 'Transaction cost',
-      accessor: 'transactionCost',
+      id: 'transactionCost',
+      accessor: (res: any) => thousandize(res.transactionCost),
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
     {
       Header: 'KID',
