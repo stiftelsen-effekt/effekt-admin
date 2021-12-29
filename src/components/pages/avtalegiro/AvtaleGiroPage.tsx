@@ -5,6 +5,7 @@ import { AvtaleGiroList } from '../../modules/avtalegiro/agreementlist/AvtaleGir
 import { AvtaleGiroFilter } from '../../modules/avtalegiro/agreementlist/AvtaleGiroFilter';
 import { AppState } from '../../../models/state';
 import { useSelector } from 'react-redux';
+import { AvtaleGiroListWrapper } from '../../modules/avtalegiro/agreementlist/AvtaleGiroList.style';
 
 export const AvtaleGiroPage: React.FunctionComponent = () => {
   const allAgreements = useSelector((state: AppState) => state.avtaleGiroAgreements.agreements)
@@ -12,7 +13,9 @@ export const AvtaleGiroPage: React.FunctionComponent = () => {
   return (
     <Page>
       <MainHeader>AvtaleGiro</MainHeader>
-      <AvtaleGiroList agreements={allAgreements} manual/>
+      <AvtaleGiroListWrapper>
+        <AvtaleGiroList agreements={allAgreements} manual/>
+      </AvtaleGiroListWrapper>
       <AvtaleGiroFilter />
     </Page>
   );

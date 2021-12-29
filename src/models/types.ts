@@ -7,6 +7,14 @@ export interface IDonor {
   email: string;
   registered: DateTime;
   ssn: string;
+  newsletter?: boolean;
+  trash?: boolean;
+}
+
+export interface IDonorStats {
+  countTotalDonations?: number;
+  sumTotalDonations?: number;
+  sumYearlyAggregates?: Array<IDistributionShare & { year: number }>;
 }
 
 export interface IOrganization {
@@ -37,7 +45,7 @@ export interface IDonation {
   paymentExternalRef: string;
   sum: number;
   transactionCost: number;
-  method: string;
+  paymentMethod: string;
   timestamp: Date;
   KID?: string;
   distribution?: Array<IDistributionShare>;

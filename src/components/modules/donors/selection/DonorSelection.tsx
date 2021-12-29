@@ -17,6 +17,7 @@ import { PlusSquare } from 'react-feather';
 import { EffektButton } from '../../../style/elements/button.style';
 import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
 import { CreateDonor } from '../create/CreateDonor';
+import { useHistory } from 'react-router';
 
 interface IDonorTableState {
   sorted: Array<any>;
@@ -29,6 +30,8 @@ interface IDonorTableState {
 }
 
 export const DonorSelectionComponent: React.FunctionComponent = (props) => {
+  const history = useHistory();
+
   const getDefaultState = (): IDonorTableState => {
     return {
       sorted: [],
@@ -76,7 +79,6 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
   ];
 
   const rowClick = (rowInfo: any) => {
-    console.log(rowInfo);
     setState({
       ...state,
       selected: rowInfo.index,
@@ -85,11 +87,10 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
   };
 
   const rowDoubleClick = (donorID: number) => {
-    console.log('GOTO DONOR:', donorID);
+    history.push(`donors/${donorID}`)
   };
 
   const rowStyle = (rowIndex: number, selectedIndex: number) => {
-    console.log(rowIndex, selectedIndex);
     return {
       background: rowIndex === selectedIndex ? orange50 : '',
       color: rowIndex === selectedIndex ? 'white' : '',

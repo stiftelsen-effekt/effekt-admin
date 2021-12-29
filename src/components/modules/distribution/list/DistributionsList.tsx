@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactTable from 'react-table';
 import {
   setDistributionPagination,
   fetchDistributionsAction,
 } from '../../../../store/distributions/distribution-list.actions';
-import { Redirect } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { DistributionsFiltersComponent } from './filters/DistributionsFilter';
-import { DistributionListWrapper } from './DistributionsList.style';
+import { IDistributionSearchResultItem } from '../../../../models/types';
+import { thousandize } from '../../../../util/formatting';
 
-export const DistributionsList: React.FunctionComponent = () => {
-  const data = useSelector((state: AppState) => state.distributions.searchResult);
-  const pages = useSelector((state: AppState) => state.distributions.pages);
-  const loading = useSelector((state: AppState) => state.distributions.loading);
+export const DistributionsList: React.FunctionComponent<{ distributions: Array<IDistributionSearchResultItem> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ distributions, manual, defaultPageSize }) => {
+  const pages = useSelector((state: AppState) => state.distributions.pages)
+  const loading = useSelector((state: AppState) => state.distributions.loading)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const columnDefinitions = [
     {
       Header: 'KID',
       accessor: 'KID',
+      width: 150,
     },
     {
       Header: 'Name',
@@ -34,40 +33,37 @@ export const DistributionsList: React.FunctionComponent = () => {
       Header: 'Total sum',
       id: 'sum',
       accessor: (res: any) => {
-        if (res.sum) return res.sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-        else return '';
+        if (res.sum) return thousandize(res.sum)
+        else return '0'
       },
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
     {
       Header: 'Antall donasjoner',
-      accessor: 'count',
+      id: 'count',
+      accessor: (res: any) => {
+        if (res.count) return thousandize(res.count)
+        else return '0'
+      },
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
   ];
 
   const defaultSorting = [{ id: 'KID', desc: true }];
 
-  let [distribution, setDistribution] = useState<number | null>(null);
-  const trProps = (tableState: any, rowInfo: any) => {
-    if (rowInfo && rowInfo.row) {
-      return {
-        onDoubleClick: (e: any) => {
-          setDistribution(rowInfo.original.KID);
-        },
-      };
-    }
-    return {};
-  };
-
-  if (distribution !== null) return <Redirect to={`/distributions/${distribution}`}></Redirect>;
-  return (
-    <DistributionListWrapper>
+  if (manual) {
+    return (
       <ReactTable
-        data={data}
+        manual
+        data={distributions}
         pages={pages}
         loading={loading}
         columns={columnDefinitions}
         defaultSorted={defaultSorting}
-        manual
         onFetchData={(state, instance) => {
           dispatch(
             setDistributionPagination({
@@ -78,10 +74,16 @@ export const DistributionsList: React.FunctionComponent = () => {
           );
           dispatch(fetchDistributionsAction.started(undefined));
         }}
-        getTrProps={trProps}
       />
-
-      <DistributionsFiltersComponent></DistributionsFiltersComponent>
-    </DistributionListWrapper>
-  );
+    )
+  } else {
+    return (
+      <ReactTable
+        data={distributions}
+        columns={columnDefinitions}
+        defaultSorted={defaultSorting}
+        defaultPageSize={defaultPageSize}
+      />
+    )
+  }
 };

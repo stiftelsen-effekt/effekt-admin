@@ -27,7 +27,7 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ di
           '#feeb65',
         ],
         borderWidth: 0,
-        data: distribution.map((dist) => dist.share),
+        data: distribution.map((dist) => dist.share.toNumber()),
       },
     ],
   };

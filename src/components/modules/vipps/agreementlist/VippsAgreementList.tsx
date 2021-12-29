@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { shortDate } from '../../../../util/formatting';
+import { shortDate, thousandize } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
-import { Redirect } from 'react-router';
+import { useHistory } from 'react-router';
 import {
   fetchVippsAgreementsAction,
   setVippsAgreementsPagination,
 } from '../../../../store/vipps/vipps.actions';
-import { VippsAgreementFilter } from './VippsAgreementFilter';
-import { AgreementListWrapper } from './VippsAgreementList.style';
-import { Link } from 'react-router-dom';
-// import { DonationsFilterComponent } from './filters/filters.component';
+import { IVippsAgreement } from '../../../../models/types';
 
-export const VippsAgreementList: React.FunctionComponent = () => {
-  const data = useSelector((state: AppState) => state.vippsAgreements.agreements);
+export const VippsAgreementList: React.FunctionComponent<{ agreements: Array<IVippsAgreement> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ agreements, manual, defaultPageSize }) => {
   const pages = useSelector((state: AppState) => state.vippsAgreements.pages);
   const loading = useSelector((state: AppState) => state.vippsAgreements.loading);
   const pagination = useSelector((state: AppState) => state.vippsAgreements.pagination);
-  const filter = useSelector((state: AppState) => state.vippsAgreements.filter);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(fetchVippsAgreementsAction.started(undefined));
-  }, [pagination, filter, dispatch]);
+  }, [pagination, dispatch]);
 
   const columnDefinitions = [
     {
       Header: 'Agreement ID',
       accessor: 'ID',
       id: 'id',
+      width: 140
     },
     {
       Header: 'Donor',
@@ -40,51 +37,60 @@ export const VippsAgreementList: React.FunctionComponent = () => {
     {
       Header: 'Status',
       accessor: 'status',
+      width: 110,
     },
     {
       Header: 'Sum',
-      accessor: 'amount',
+      id: 'amount',
+      width: 110,
+      accessor: (res: any) => thousandize(res.amount),
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
     {
       Header: 'Charge day',
       accessor: 'monthly_charge_day',
       id: 'chargeDay',
+      width: 120
     },
     {
       Header: 'KID',
       accessor: 'KID',
       id: 'kid',
+      width: 120
     },
     {
       Header: 'Draft date',
       id: 'created',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created, { setZone: true })),
+      sortMethod: (a: any, b: any) => {
+        return (DateTime.fromFormat(a, "dd.MM.yyyy") > 
+          DateTime.fromFormat(b, "dd.MM.yyyy") ? 
+          -1 : 1)
+      },
+      width: 120
     },
   ];
 
-  const defaultSorting = [{ id: 'timestamp', desc: true }];
+  const defaultSorting = [{ id: 'created', desc: true }];
 
-  let [agreement, setAgreement] = useState<string | null>(null);
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          setAgreement(rowInfo.original.ID);
+          history.push(`/vipps/agreement/${rowInfo.original.ID}`);
         },
       };
     }
     return {};
   };
 
-  if (agreement !== null) return <Redirect to={`/vipps/agreement/${agreement}`}></Redirect>;
-  return (
-    <AgreementListWrapper>
-      <Link to="/vipps/agreements/charges">See all charges</Link>
-      <br />
-      <br />
+  if (manual) {
+    return (
       <ReactTable
         manual
-        data={data}
+        data={agreements}
         page={pagination.page}
         pages={pages}
         pageSize={pagination.limit}
@@ -100,7 +106,16 @@ export const VippsAgreementList: React.FunctionComponent = () => {
         }
         getTrProps={trProps}
       />
-      <VippsAgreementFilter />
-    </AgreementListWrapper>
-  );
+    );
+  } else {
+    return (
+      <ReactTable
+        data={agreements}
+        defaultPageSize={defaultPageSize}
+        columns={columnDefinitions}
+        defaultSorted={defaultSorting}
+        getTrProps={trProps}
+      />
+    );
+  }
 };

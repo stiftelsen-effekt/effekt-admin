@@ -24,6 +24,7 @@ import {
   IAvtalegiroReport,
   IAvtaleGiroValidation,
   ILogFilter,
+  IDonorStats,
 } from './types';
 
 export interface AppState {
@@ -33,6 +34,7 @@ export interface AppState {
 
   donorSelector: DonorSelectorState;
   donorCreation: CreateDonorState;
+  donorPage: DonorPageState;
 
   organizations: OrganizationsState;
   singleDonation: SingleDonationState;
@@ -68,6 +70,15 @@ export interface DonorSelectorState {
   selectedDonor?: IDonor;
   searchResult?: Array<IDonor>;
   visible: boolean;
+}
+
+export interface DonorPageState {
+  donor?: IDonor;
+  stats?: IDonorStats;
+  donations?: Array<IDonation>;
+  distributions?: Array<IDistributionSearchResultItem>;
+  avtalegiroAgreements?: Array<IAvtaleGiro>;
+  vippsAgreements?: Array<IVippsAgreement>;
 }
 
 export interface OrganizationsState {

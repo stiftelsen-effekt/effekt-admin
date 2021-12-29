@@ -7,13 +7,13 @@ import {
   setDonationsPagination,
 } from '../../../../store/donations/donations-list.actions';
 import { AppState } from '../../../../models/state';
-import { shortDate } from '../../../../util/formatting';
+import { shortDate, thousandize } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
-import { DonationListWrapper, StyledDeleteButton } from './DonationsList.style';
+import { StyledDeleteButton } from './DonationsList.style';
 import { useHistory } from 'react-router';
 import { IDonation } from '../../../../models/types';
 
-export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation>, manual?: boolean, defaultPageSize?: number }> = ({ donations, manual, defaultPageSize }) => {
+export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ donations, manual, defaultPageSize }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -22,8 +22,10 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
   const pagination = useSelector((state: AppState) => state.donations.pagination);
 
   useEffect(() => {
-    dispatch(fetchDonationsAction.started(undefined));
-  }, [pagination, dispatch]);
+    if (manual) {
+      dispatch(fetchDonationsAction.started(undefined))
+    }
+  }, [pagination, manual, dispatch]);
 
   const columnDefinitions = [
     {
@@ -42,11 +44,18 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
     {
       Header: 'Sum',
       id: 'sum',
-      accessor: (res: any) => res.sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '),
+      accessor: (res: any) => thousandize(res.sum),
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
     {
       Header: 'Transaction cost',
-      accessor: 'transactionCost',
+      id: 'transactionCost',
+      accessor: (res: any) => thousandize(res.transactionCost),
+      sortMethod: (a: any, b: any) => {
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
+      }
     },
     {
       Header: 'KID',
@@ -56,6 +65,11 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
       Header: 'Timestamp',
       id: 'timestamp',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp, { setZone: true })),
+      sortMethod: (a: any, b: any) => {
+        return (DateTime.fromFormat(a, "dd.MM.yyyy") > 
+          DateTime.fromFormat(b, "dd.MM.yyyy") ? 
+          -1 : 1)
+      }
     },
     {
       Header: 'Slett',
@@ -80,39 +94,35 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
 
   if (manual) {
     return (
-      <DonationListWrapper>
-        <ReactTable
-          manual
-          data={donations}
-          page={pagination.page}
-          pages={pages}
-          pageSize={pagination.limit}
-          loading={loading}
-          columns={columnDefinitions}
-          defaultSorted={defaultSorting}
-          onPageChange={(page) => dispatch(setDonationsPagination({ ...pagination, page }))}
-          onSortedChange={(sorted) =>
-            dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))
-          }
-          onPageSizeChange={(pagesize) =>
-            dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))
-          }
-          getTrProps={trProps}
-        />
-      </DonationListWrapper>
+      <ReactTable
+        manual
+        data={donations}
+        page={pagination.page}
+        pages={pages}
+        pageSize={pagination.limit}
+        loading={loading}
+        columns={columnDefinitions}
+        defaultSorted={defaultSorting}
+        onPageChange={(page) => dispatch(setDonationsPagination({ ...pagination, page }))}
+        onSortedChange={(sorted) =>
+          dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))
+        }
+        onPageSizeChange={(pagesize) =>
+          dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))
+        }
+        getTrProps={trProps}
+      />
     );
   } else {
     return (
-      <DonationListWrapper>
-        <ReactTable
-          data={donations}
-          defaultPageSize={defaultPageSize}
-          loading={loading}
-          columns={columnDefinitions}
-          defaultSorted={defaultSorting}
-          getTrProps={trProps}
-        />
-      </DonationListWrapper>
+      <ReactTable
+        data={donations}
+        defaultPageSize={defaultPageSize}
+        loading={loading}
+        columns={columnDefinitions}
+        defaultSorted={defaultSorting}
+        getTrProps={trProps}
+      />
     );
   }
 };
