@@ -1,4 +1,4 @@
-import { MainHeader, SubHeader } from '../../style/elements/headers.style';
+import { MainHeader } from '../../style/elements/headers.style';
 import React, { useEffect } from 'react';
 import { Page } from '../../style/elements/page.style';
 import { RouteComponentProps } from 'react-router-dom';

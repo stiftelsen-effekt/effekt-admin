@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IAvtaleGiro, IDistribution, IDistributionSearchResultItem, IDistributionShare, IDonation, IDonor, IVippsAgreement } from '../../models/types';
+import { IAvtaleGiro, IDistributionSearchResultItem, IDistributionShare, IDonation, IDonor, IVippsAgreement } from '../../models/types';
 
 const actionCreator = actionCreatorFactory();
 

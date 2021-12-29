@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useState } from "react"
+import React, { ReactElement, useState } from "react"
 import { TabHeaders } from "./EffektTabs.style"
 
 export const EffektTabs: React.FC<{ children: ReactElement[] }> = ({ children }) => {

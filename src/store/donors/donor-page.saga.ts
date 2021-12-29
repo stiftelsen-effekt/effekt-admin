@@ -1,6 +1,6 @@
 import { put, call, select } from 'redux-saga/effects';
 import * as API from '../../util/api';
-import { IAvtaleGiro, IDistribution, IDistributionSearchResultItem, IDistributionShare, IDonation, IDonor, IVippsAgreement } from '../../models/types';
+import { IAvtaleGiro, IDistributionSearchResultItem, IDistributionShare, IDonation, IDonor, IVippsAgreement } from '../../models/types';
 import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction } from './donor-page.actions';
 import { IAccessToken } from '../authentication/auth';
 import { getApiToken } from './donor-selection.saga';
