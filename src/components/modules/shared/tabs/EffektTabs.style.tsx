@@ -5,3 +5,6 @@ export const TabHeaders = styled.div`
   border-bottom: 1px solid #ddd;
   margin-bottom: 10px;
 `;
+
+export const TabContents = styled.div`
+`;
