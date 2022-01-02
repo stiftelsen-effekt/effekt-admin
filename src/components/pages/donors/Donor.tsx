@@ -47,37 +47,38 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
       </OverviewLine>
 
       <EffektTabs>
-        <EffektTabHeader 
-          label='Donations' 
-          counter={data.donations ? data.donations.length : 0} 
-          />
-        <EffektTab>
-          <DonationsList donations={data.donations} defaultPageSize={10} />
-        </EffektTab>
-
-        <EffektTabHeader 
-          label='Distributions' 
-          counter={data.distributions ? data.distributions.length : 0} 
-          />
-        <EffektTab>
-          <DistributionsList distributions={data.distributions} defaultPageSize={10} />
-        </EffektTab>
-
-        <EffektTabHeader 
-          label='AvtaleGiro' 
-          counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : 0} 
-          />
-        <EffektTab>
-          <AvtaleGiroList agreements={data.avtalegiroAgreements} defaultPageSize={10} />
-        </EffektTab>
-
-        <EffektTabHeader 
-          label='Vipps' 
-          counter={data.vippsAgreements ? data.vippsAgreements.length : 0} 
-          />
-        <EffektTab>
-          <VippsAgreementList agreements={data.vippsAgreements} defaultPageSize={10} />
-        </EffektTab>
+        <div>
+          <EffektTabHeader 
+            label='Donations' 
+            counter={data.donations ? data.donations.length : 0} 
+            />
+          <EffektTabHeader 
+            label='Distributions' 
+            counter={data.distributions ? data.distributions.length : 0} 
+            />
+          <EffektTabHeader 
+            label='AvtaleGiro' 
+            counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : 0} 
+            />
+          <EffektTabHeader 
+            label='Vipps' 
+            counter={data.vippsAgreements ? data.vippsAgreements.length : 0} 
+            />
+        </div>
+        <div>
+          <EffektTab>
+            <DonationsList donations={data.donations} defaultPageSize={10} />
+          </EffektTab>
+          <EffektTab>
+            <DistributionsList distributions={data.distributions} defaultPageSize={10} />
+          </EffektTab>
+          <EffektTab>
+            <AvtaleGiroList agreements={data.avtalegiroAgreements} defaultPageSize={10} />
+          </EffektTab>
+          <EffektTab>
+            <VippsAgreementList agreements={data.vippsAgreements} defaultPageSize={10} />
+          </EffektTab>
+        </div>
       </EffektTabs>
     </Page>
   );

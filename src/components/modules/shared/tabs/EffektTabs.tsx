@@ -1,19 +1,21 @@
 import React, { ReactElement, useState } from "react"
-import { TabHeaders } from "./EffektTabs.style"
+import { TabContents, TabHeaders } from "./EffektTabs.style"
 
-export const EffektTabs: React.FC<{ children: ReactElement[] }> = ({ children }) => {
+export const EffektTabs: React.FC<{ children: [ReactElement<{ children: ReactElement[] }>, ReactElement<{ children: ReactElement[] }>] }> = ({ children }) => {
   let [selectedTab, setSelectedTab] = useState(0)
 
-  const renderedTab = children
-    .filter(child => (child as any).type.name === "EffektTab")
+  const renderedTab = children[1]
+    .props
+    .children
     .filter((child, i) => i === selectedTab)
 
   if (renderedTab.length !== 1) {
     return <div>Could not find tab with index {selectedTab}</div>
   }
 
-  const headers = children
-    .filter(child => (child as any).type.name === "EffektTabHeader")
+  const headers = children[0]
+    .props
+    .children
     .map((child, i) => React.cloneElement(child, { 
       ...child.props,
       key: i,
@@ -28,9 +30,9 @@ export const EffektTabs: React.FC<{ children: ReactElement[] }> = ({ children })
       <TabHeaders>
         {headers}
       </TabHeaders>
-      <div>
+      <TabContents>
         {renderedTab}
-      </div>
+      </TabContents>
     </div>
   )
 }
