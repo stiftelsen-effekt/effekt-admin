@@ -100,6 +100,8 @@ import {
 } from './store/avtalegiro/avtalegiro.actions';
 import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction } from './store/donors/donor-page.actions';
 import { getDonor, getDonorAvtalegiroAgreements, getDonorDistributions, getDonorDonations, getDonorVippsAgreements, getDonorYearlyAggregates } from './store/donors/donor-page.saga';
+import { createDistribution } from './store/distributions/distribution-input.saga';
+import { createDistributionAction } from './store/distributions/distribution-input.actions';
 
 function* watchAll() {
   yield all([
@@ -122,6 +124,7 @@ function* watchAll() {
       createDistribitionAndInsertDonationAction.started.type,
       createDistributionAndInsertDonation
     ),
+    takeLatest(createDistributionAction.started.type, createDistribution),
     takeLatest(insertDonationAction.started.type, insertDonation),
     takeLatest(uploadReportAction.started.type, uploadReport),
 

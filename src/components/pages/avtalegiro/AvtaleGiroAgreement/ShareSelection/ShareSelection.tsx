@@ -33,7 +33,7 @@ interface Split {
 }
 
 interface Props {
-	KID: string;
+	KID?: string;
 }
 
 export const SharesSelection: React.FC<Props> = ({KID}) => {

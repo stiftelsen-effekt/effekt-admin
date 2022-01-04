@@ -23,6 +23,13 @@ export const EffektButton = styled.button`
     vertical-align: middle;
     text-decoration: none;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    &:hover {
+      cursor: auto;
+    }
+  }
 `;
 
 export const EffektSecondaryButton = styled(EffektButton)`

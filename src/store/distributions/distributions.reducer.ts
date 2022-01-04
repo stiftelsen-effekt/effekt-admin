@@ -6,6 +6,7 @@ import {
   SET_DISTRIBUTIONS_FILTER_DONOR,
   SET_DISTRIBUTIONS_FILTER_KID,
 } from './distribution-list.actions';
+import { SET_DISTRIBUTION_INPUT } from './distribution-input.actions';
 
 const defaultState: DistributionsState = {
   searchResult: [],
@@ -23,6 +24,7 @@ const defaultState: DistributionsState = {
     donor: '',
     KID: '',
   },
+  distributionInput: []
 };
 
 export const distributionsReducer = (state = defaultState, action: any): DistributionsState => {
@@ -40,8 +42,8 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
   }
 
   /**
-   * FILTER
-   */
+  * FILTER
+  */
 
   switch (action.type) {
     case SET_DISTRIBUTIONS_FILTER_DONOR:
@@ -51,11 +53,19 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
   }
 
   /**
-   * PAGINATION ACTIONS
-   */
+  * PAGINATION ACTIONS
+  */
   switch (action.type) {
     case SET_DISTRIBUTIONS_PAGINATION:
       return { ...state, pagination: action.payload };
+  }
+ 
+  /**
+  * DISTRIBUTION INPUT ACTIONS
+  */
+  switch (action.type) {
+    case SET_DISTRIBUTION_INPUT:
+      return { ...state, distributionInput: action.payload };
   }
 
   return state;
