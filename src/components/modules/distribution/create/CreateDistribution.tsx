@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { EffektInput } from '../../../style/elements/input.style';
 import { EffektButton } from '../../../style/elements/button.style';
 import { useSelector, useDispatch } from 'react-redux';
-import { IDistributionShare, IDonor } from '../../../../models/types';
+import { IDistributionShare } from '../../../../models/types';
 import { Plus } from 'react-feather';
 import { CreateDistributionWrapper } from './CreateDistribution.style';
 import { getDonorAction } from '../../../../store/donors/donor-page.actions';
