@@ -25,6 +25,7 @@ import {
   IAvtaleGiroValidation,
   ILogFilter,
   IDonorStats,
+  IDistributionShare,
 } from './types';
 
 export interface AppState {
@@ -170,6 +171,7 @@ export interface DistributionsState {
   pages: number;
   loading: boolean;
   searchResult: Array<IDistributionSearchResultItem>;
+  distributionInput: Array<IDistributionShare>
 }
 
 export interface DataOwnerState {

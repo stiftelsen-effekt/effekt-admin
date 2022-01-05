@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FilterHeader,
   FilterWrapper,
@@ -23,6 +23,10 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
 
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
+  useEffect(() => {
+    dispatch(fetchDistributionsAction.started(undefined));
+  }, [KID, dispatch, donor])
+
   return (
     <FilterWrapper isOpen={filterIsOpen}>
       <FilterOpenButton
@@ -39,7 +43,6 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
           value={KID}
           onChange={(e) => {
             dispatch(setDistributionFilterKid(e.target.value));
-            dispatch(fetchDistributionsAction.started(undefined));
           }}
         ></FilterInput>
       </FilterGroup>
@@ -52,7 +55,6 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
           value={donor}
           onChange={(e) => {
             dispatch(setDistributionFilterDonor(e.target.value));
-            dispatch(fetchDistributionsAction.started(undefined));
           }}
         ></FilterInput>
       </FilterGroup>

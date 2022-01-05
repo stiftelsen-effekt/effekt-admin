@@ -78,7 +78,7 @@ export interface IDistributionShare {
   organizationId: number;
   share: Decimal;
   value?: Decimal;
-  abbriv: string;
+  abbriv?: string;
 }
 
 export interface IDistribution {
