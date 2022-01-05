@@ -11,6 +11,7 @@ import { AppState } from '../../../../models/state';
 import { DistributionInput } from '../../shared/distribution-input/DistributionInput';
 import Decimal from 'decimal.js';
 import { createDistributionAction } from '../../../../store/distributions/distribution-input.actions';
+import { fetchDistributionsAction } from '../../../../store/distributions/distribution-list.actions';
 
 interface IProps {
   onSubmit(): void;

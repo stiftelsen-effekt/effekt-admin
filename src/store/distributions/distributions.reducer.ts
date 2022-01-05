@@ -6,7 +6,8 @@ import {
   SET_DISTRIBUTIONS_FILTER_DONOR,
   SET_DISTRIBUTIONS_FILTER_KID,
 } from './distribution-list.actions';
-import { SET_DISTRIBUTION_INPUT } from './distribution-input.actions';
+import { createDistributionAction, SET_DISTRIBUTION_INPUT } from './distribution-input.actions';
+import { toast } from 'react-toastify';
 
 const defaultState: DistributionsState = {
   searchResult: [],
@@ -63,6 +64,15 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
   /**
   * DISTRIBUTION INPUT ACTIONS
   */
+
+  if (isType(action, createDistributionAction.done)) {
+    toast.success(`Created new distribution with KID ${action.payload.result}`);
+    return { 
+      ...state, 
+      filter: { ...state.filter, KID: action.payload.result } 
+    };
+  }
+
   switch (action.type) {
     case SET_DISTRIBUTION_INPUT:
       return { ...state, distributionInput: action.payload };
