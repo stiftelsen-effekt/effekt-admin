@@ -1,3 +1,4 @@
+import Decimal from "decimal.js";
 import { isType } from "typescript-fsa";
 import { AvtaleGiroAgreementsState } from "../../models/state";
 import { toastError } from "../../util/toasthelper";
@@ -83,7 +84,13 @@ export const avtaleGiroReducer = (
         return {
             ...state,
             currentAgreement: {
-                ...action.payload.result
+                ...action.payload.result,
+                distribution: action.payload.result.distribution.map(dist => (
+                  {
+                    ...dist,
+                    share: new Decimal(dist.share)
+                  }
+                ))
             },
             loading: false
         }
