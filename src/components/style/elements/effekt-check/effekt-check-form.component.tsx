@@ -10,19 +10,19 @@ export interface EffektCheckChoice {
 
 interface IProps {
   choices: Array<EffektCheckChoice>;
-  azure?: boolean;
+  inverted?: boolean;
   onChange(selectedValues: Array<any>): void;
 }
 
-export const EffektCheckForm: React.FunctionComponent<IProps> = ({ choices, azure, onChange }) => {
-  const azureColor: boolean = azure ? true : false;
+export const EffektCheckForm: React.FunctionComponent<IProps> = ({ choices, inverted, onChange }) => {
+  const isInverted: boolean = inverted ? true : false;
 
   let checkBoxes = choices.map((choice, index) => (
     <EffektCheck
       key={index}
       label={choice.label}
       checked={choice.selected}
-      azure={azureColor}
+      inverted={isInverted}
       onChange={(checked) => {
         let updatedValues: Array<any> = choices.reduce(
           (result: Array<any>, origChoice: EffektCheckChoice) => {

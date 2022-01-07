@@ -29,7 +29,7 @@ class DonorSelectionDialogComponent extends React.Component<IStateProps & IDispa
           <DonorSelectionComponent></DonorSelectionComponent>
           {/* Controls */}
           <Controls>
-            <EffektSecondaryButton onClick={this.abort}>Avbryt</EffektSecondaryButton>
+            <EffektSecondaryButton onClick={this.abort}>Cancel</EffektSecondaryButton>
             <EffektButton onClick={this.confirm}>Confirm</EffektButton>
           </Controls>
         </DonorDialog>

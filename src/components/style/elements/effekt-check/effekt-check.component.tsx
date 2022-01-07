@@ -8,20 +8,20 @@ import {
 interface IProps {
   checked: boolean;
   label: string;
-  azure: boolean;
+  inverted: boolean;
   onChange(checked: boolean): void;
 }
 
 export const EffektCheck: React.FunctionComponent<IProps> = ({
   label,
   checked,
-  azure,
+  inverted,
   onChange,
 }) => {
   return (
     <EffektCheckWrapper onClick={() => onChange(!checked)}>
-      <EffektCheckBox azure={azure} checked={checked} />
-      <EffektCheckLabel>{label}</EffektCheckLabel>
+      <EffektCheckBox checked={checked} />
+      <EffektCheckLabel inverted={inverted}>{label}</EffektCheckLabel>
     </EffektCheckWrapper>
   );
 };

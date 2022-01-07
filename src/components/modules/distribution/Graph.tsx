@@ -15,17 +15,7 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ di
     datasets: [
       {
         label: 'Organizations',
-        backgroundColor: [
-          '#4d342f',
-          '#73402e',
-          '#954f2e',
-          '#b26231',
-          '#cb7835',
-          '#df913d',
-          '#efad47',
-          '#f9cb55',
-          '#feeb65',
-        ],
+        backgroundColor: 'black',
         borderWidth: 0,
         data: distribution.map((dist) => dist.share.toNumber()),
       },

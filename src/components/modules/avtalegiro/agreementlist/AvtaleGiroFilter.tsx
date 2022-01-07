@@ -106,7 +106,7 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
         <FilterGroup>
           <FilterGroupHeader>Status</FilterGroupHeader>
           <EffektCheckForm
-            azure={true}
+            inverted={true}
             choices={statusChoices}
             onChange={(choices: Array<number>) => {
               let newChoices: number[] = [];

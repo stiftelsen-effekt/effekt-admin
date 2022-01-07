@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ReportWrapper = styled.div`
-  border-left: 4px solid #006a82;
+  border-left: 4px solid black;
   display: flex;
   flex-direction: column;
 
@@ -15,10 +15,9 @@ export const ReportWrapper = styled.div`
 export const ReportHeader = styled.h3`
   margin-top: 0;
   margin-bottom: 0;
-  background: #e7f2f4;
   position: relative;
   padding: 15px 20px;
-  font-family: 'Georgia';
+  font-family: 'ESKlarheitKurrent';
   font-weight: 400;
 `;
 
@@ -34,8 +33,4 @@ export const ReportActions = styled.div`
   justify-content: flex-end;
   padding: 10px;
   width: 100%;
-  border-width: 1px 0px 1px 0px;
-  border-style: solid;
-  border-color: #eee;
-  background: #f6f6f6;
 `

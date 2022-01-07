@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { brown50, grey05 } from '../colors';
+import { grey05 } from '../colors';
 
 export const FormSection = styled.div`
   padding-top: 5px;
@@ -15,7 +15,7 @@ export const FormSectionHeader = styled.h4`
   padding: 5px 0;
   margin: 0;
   margin-bottom: 10px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 1px;
-  color: ${brown50};
+  color: black;
 `;

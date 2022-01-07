@@ -14,7 +14,7 @@ export const HiddenFileInput = styled.input`
 
 export const FileInputLabel = styled.label`
   cursor: pointer;
-  font-family: 'Roboto';
+  font-family: 'ESKlarheitGrotesk';
   font-weight: 300;
   background: #eee;
   border: none;
