@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { EffektCheckFormWrapper } from './effekt-check-form.component.style';
 import { EffektCheck } from './effekt-check.component';
 
@@ -11,11 +11,14 @@ export interface EffektCheckChoice {
 interface IProps {
   choices: Array<EffektCheckChoice>;
   azure?: boolean;
-  onChange(selectedValues: Array<any>): void;
+  allChecked?: boolean;
+  onChange(value: number, checked: boolean): void;
 }
 
-export const EffektCheckForm: React.FunctionComponent<IProps> = ({ choices, azure, onChange }) => {
+export const EffektCheckForm: React.FunctionComponent<IProps> = ({ choices, azure, allChecked, onChange}) => {
   const azureColor: boolean = azure ? true : false;
+ 
+  choices.push({label: "select all", value: 99, selected: allChecked} as EffektCheckChoice);
 
   let checkBoxes = choices.map((choice, index) => (
     <EffektCheck
@@ -23,26 +26,7 @@ export const EffektCheckForm: React.FunctionComponent<IProps> = ({ choices, azur
       label={choice.label}
       checked={choice.selected}
       azure={azureColor}
-      onChange={(checked) => {
-        let updatedValues: Array<any> = choices.reduce(
-          (result: Array<any>, origChoice: EffektCheckChoice) => {
-            if (choice.label === origChoice.label) {
-              if (checked) {
-                result.push(choice.value);
-                return result;
-              } else {
-                return result;
-              }
-            }
-            if (origChoice.selected) {
-              result.push(origChoice.value);
-            }
-            return result;
-          },
-          []
-        );
-        onChange(updatedValues);
-      }}
+      onChange={(now_checked) => {onChange(choice.value, now_checked)}}
     ></EffektCheck>
   ));
   return <EffektCheckFormWrapper>{checkBoxes}</EffektCheckFormWrapper>;

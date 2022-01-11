@@ -51,7 +51,44 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
     selected: selectedPaymentMethodIDs.indexOf(method.id) !== -1,
   }));
 
+  const allPaymentMethods = new Set(paymentMethodChoices.reduce(
+    (result: Array<number>, origChoice: EffektCheckChoice) => {
+      result.push(origChoice.value);
+      return result;
+    },
+    []
+  ));
+
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
+  const [allChecked, setAllChecked] = useState<boolean>(true);
+  const [activePaymentMethods, setActivePaymentMethods] = useState(new Set([2,3,4,5,6,7,8]));
+
+  
+
+  function clickfunction(value: number, checked: boolean){
+    var newActivePaymentMethods = activePaymentMethods;
+    if (value === 99){
+      if (checked){
+        setAllChecked(true);
+        newActivePaymentMethods = allPaymentMethods;
+      }
+      else{
+        setAllChecked(false);
+        newActivePaymentMethods = new Set<number>();
+      }
+    }
+    else{
+      if (checked){
+        newActivePaymentMethods.add(value);
+      }
+      else{
+        setAllChecked(false);
+        newActivePaymentMethods.delete(value);
+      }
+    }
+    setActivePaymentMethods(newActivePaymentMethods);
+    dispatch(setDonationFilterPaymentMethodIDs(Array.from(newActivePaymentMethods)));
+  }
 
   if (!histogram || !paymentMethods)
     return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>;
@@ -120,9 +157,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
           <EffektCheckForm
             azure={true}
             choices={paymentMethodChoices}
-            onChange={(choices: Array<number>) => {
-              dispatch(setDonationFilterPaymentMethodIDs(choices));
-            }}
+            allChecked={allChecked}
+            onChange={(value: number, checked: boolean) => {
+              clickfunction(value, checked);}}
           ></EffektCheckForm>
         </FilterGroup>
       </FilterContent>
