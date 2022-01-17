@@ -8,6 +8,7 @@ import {
 } from './distribution-list.actions';
 import { createDistributionAction, SET_DISTRIBUTION_INPUT } from './distribution-input.actions';
 import { toast } from 'react-toastify';
+import Decimal from 'decimal.js';
 
 const defaultState: DistributionsState = {
   searchResult: [],
@@ -25,7 +26,13 @@ const defaultState: DistributionsState = {
     donor: '',
     KID: '',
   },
-  distributionInput: []
+  distributionInput: {
+    donorID: "",
+    donorName: "",
+    distribution: [
+      {organizationId: 12, share: new Decimal(100)}
+    ]
+  }
 };
 
 export const distributionsReducer = (state = defaultState, action: any): DistributionsState => {
@@ -75,7 +82,7 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
 
   switch (action.type) {
     case SET_DISTRIBUTION_INPUT:
-      return { ...state, distributionInput: action.payload };
+      return { ...state, distributionInput: { ...state.distributionInput, distribution: action.payload} };
   }
 
   return state;

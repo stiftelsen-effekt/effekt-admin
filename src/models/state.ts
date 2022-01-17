@@ -171,7 +171,11 @@ export interface DistributionsState {
   pages: number;
   loading: boolean;
   searchResult: Array<IDistributionSearchResultItem>;
-  distributionInput: Array<IDistributionShare>
+  distributionInput: {
+    distribution: Array<IDistributionShare>,
+    donorID: string,
+    donorName: string
+  }
 }
 
 export interface DataOwnerState {
