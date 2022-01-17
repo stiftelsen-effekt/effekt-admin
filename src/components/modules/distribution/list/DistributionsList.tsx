@@ -12,10 +12,12 @@ import { PlusSquare } from 'react-feather';
 import { EffektButton } from '../../../style/elements/button.style';
 import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
 import { CreateDistribution } from '../create/CreateDistribution';
+import { useHistory } from 'react-router';
 
 export const DistributionsList: React.FunctionComponent<{ distributions: Array<IDistributionSearchResultItem> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ distributions, manual, defaultPageSize }) => {
   const pages = useSelector((state: AppState) => state.distributions.pages)
   const loading = useSelector((state: AppState) => state.distributions.loading)
+  const history = useHistory()
   const dispatch = useDispatch()
 
   const [showCreate, setShowCreate] = useState<boolean>(false);
@@ -60,6 +62,18 @@ export const DistributionsList: React.FunctionComponent<{ distributions: Array<I
 
   const defaultSorting = [{ id: 'KID', desc: true }];
 
+  const trProps = (tableState: any, rowInfo: any) => {
+    if (rowInfo && rowInfo.row) {
+      return {
+        onDoubleClick: (e: any) => {
+          console.log("heyeyeyey")
+          history.push(`/distributions/${rowInfo.original.KID}`);
+        },
+      };
+    }
+    return {};
+  };
+
   if (manual) {
     return (
       <div>
@@ -80,6 +94,7 @@ export const DistributionsList: React.FunctionComponent<{ distributions: Array<I
           loading={loading}
           columns={columnDefinitions}
           defaultSorted={defaultSorting}
+          getTrProps={trProps}
           onFetchData={(state) => {
             dispatch(
               setDistributionPagination({

@@ -26,6 +26,7 @@ import { AvtaleGiroPage } from './pages/avtalegiro/AvtaleGiroPage';
 import { AvtaleGiroAgreement } from './pages/avtalegiro/AvtaleGiroAgreement/AvtaleGiroAgreement';
 import { AvtaleGiroValidationPage } from './pages/avtalegiro/validation/AvtaleGiroValidationPage';
 import { DonorPage } from './pages/donors/Donor';
+import { DistributionComponent } from './pages/distributions/Distribution';
 
 export const AdminPanel: React.FunctionComponent = () => {
   //TODO: Move someplace where it is run only once
@@ -40,6 +41,7 @@ export const AdminPanel: React.FunctionComponent = () => {
         <Switch>
           <Route exact path="/home" component={HomeComponent}></Route>
           <Route exact path="/distributions" component={DistributionsPageComponent}></Route>
+          <Route exact path="/distributions/:id" component={DistributionComponent}></Route>
           <Route exact path="/register" component={RegisterComponent}></Route>
           <Route exact path="/register/process" component={ProcessDonations}></Route>
           <Route exact path="/graphing" component={GraphingPageComponent}></Route>
