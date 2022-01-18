@@ -3,7 +3,7 @@ import ReactTable from 'react-table';
 import {
   setDistributionPagination,
   fetchDistributionsAction,
-} from '../../../../store/distributions/distribution-list.actions';
+} from '../../../../store/distributions/distribution.actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { IDistributionSearchResultItem } from '../../../../models/types';

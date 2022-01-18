@@ -42,8 +42,8 @@ import { fetchDonationAction, fetchHistogramAction } from './store/donations/don
 import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
 import { fetchSumByMonth, fetchTotalByPeriod } from './store/graphing/graphing.saga';
 import { fetchSumByMonthAction, fetchTotalByPeriodAction } from './store/graphing/graphing.actions';
-import { fetchDistributions } from './store/distributions/distribution-list.saga';
-import { fetchDistributionsAction } from './store/distributions/distribution-list.actions';
+import { fetchDistribution, fetchDistributions } from './store/distributions/distributions.saga';
+import { fetchDistributionAction, fetchDistributionsAction } from './store/distributions/distribution.actions';
 import { fetchOwnersAction } from './store/owners/owners.actions';
 import { fetchOwners } from './store/owners/owners.saga';
 import { resendReceiptAction } from './store/donations/receipt.actions';
@@ -144,6 +144,7 @@ function* watchAll() {
     takeLatest(fetchSumByMonthAction.started.type, fetchSumByMonth),
     takeLatest(fetchHistogramAction.started.type, fetchHistogram),
 
+    takeLatest(fetchDistributionAction.started.type, fetchDistribution),
     takeLatest(fetchDistributionsAction.started.type, fetchDistributions),
     takeLatest(fetchOwnersAction.started.type, fetchOwners),
 

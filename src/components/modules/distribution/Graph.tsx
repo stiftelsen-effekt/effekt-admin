@@ -3,11 +3,13 @@ import { IDistributionShare } from '../../../models/types';
 import { Bar } from 'react-chartjs-2';
 import { GraphWrapper } from './Graph.style';
 import { ChartData, ChartOptions } from 'chart.js';
+import Decimal from 'decimal.js';
 
 interface IProps {
   distribution: Array<IDistributionShare> | undefined;
 }
 export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ distribution }) => {
+
   if (!distribution) return <div>No distribution</div>;
 
   const data: ChartData = {
@@ -27,7 +29,7 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ di
           '#feeb65',
         ],
         borderWidth: 0,
-        data: distribution.map((dist) => dist.share.toNumber()),
+        data: distribution.map((dist) => new Decimal(dist.share).toNumber()),
       },
     ],
   };

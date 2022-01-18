@@ -159,8 +159,8 @@ export interface GraphingState {
 }
 
 export interface CurrentDistributionState {
-  distribution: IDistribution;
-  affiliatedDonations: Array<IDonation>;
+  distribution?: IDistribution;
+  affiliatedDonations?: Array<IDonation>;
 }
 
 export interface DistributionsState {
