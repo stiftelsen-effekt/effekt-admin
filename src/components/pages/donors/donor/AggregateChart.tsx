@@ -33,6 +33,10 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
   const minYear = Math.min(...years)
   const maxYear = Math.max(...years)
   const numYears = maxYear - minYear + 1
+  
+  if (numYears < 0) {
+    return <div>No donations</div>
+  }
 
   let data: ChartData = {
     labels: new Array(numYears).fill(0).map((_, idx) => minYear + idx),

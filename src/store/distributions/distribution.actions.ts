@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IPagination, IDistributionSearchResultItem, IDonor, IDistributionShare } from '../../models/types';
+import { IPagination, IDistributionSearchResultItem, IDonor, IDistributionShare, IDonation } from '../../models/types';
 
 export const SET_DISTRIBUTIONS_PAGINATION = 'SET_DISTRIBUTIONS_PAGINATION';
 
@@ -11,6 +11,7 @@ interface IFetchDistributionResult {
   kid: string;
   donor: IDonor;
   distribution: IDistributionShare[];
+  affilliatedDonations: IDonation[];
 }
 
 interface IFetchDistributionsResult {

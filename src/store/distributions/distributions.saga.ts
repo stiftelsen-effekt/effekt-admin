@@ -5,7 +5,6 @@ import { AppState } from '../../models/state';
 import { IAccessToken } from '../authentication/auth';
 import { IPagination, IDistributionFilter, IDistributionShare } from '../../models/types';
 import { Action } from 'typescript-fsa';
-import Decimal from 'decimal.js';
 
 export function* fetchDistribution(action: Action<IFetchDistributionActionParams>) {
   try {

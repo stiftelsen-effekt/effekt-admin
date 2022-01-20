@@ -8,6 +8,7 @@ import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../style/elemen
 import { Page } from '../../style/elements/page.style';
 import { HorizontalPanel } from '../donations/Donation.style';
 import { fetchDistributionAction } from '../../../store/distributions/distribution.actions';
+import { DistributionKeyInfo } from './DistributionKeyInfo';
 
 interface IParams {
     id: string
@@ -22,6 +23,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
         dispatch(fetchDistributionAction.started({ kid: KID }))
     }, [KID, dispatch]);
     
+    // TEMPORARY
     useEffect(() => {
         console.log(current)
     }, [current]);
@@ -29,8 +31,8 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
     if (current && current.distribution && current.distribution.shares) {
         return (
             <Page>
-                <ResourceHeader hasSubHeader={true}>Distribution KID: {KID}</ResourceHeader>
-                <ResourceSubHeader>{current.distribution.donor.name}</ResourceSubHeader>
+                <ResourceHeader hasSubHeader={true}>Distribution {KID}</ResourceHeader>
+                <ResourceSubHeader></ResourceSubHeader>
 
                 <SubHeader>Key info</SubHeader>
                 <HorizontalPanel>
@@ -38,9 +40,11 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
                         <DistributionGraphComponent distribution={current.distribution.shares}></DistributionGraphComponent>
                     </div>
                 
-                    {/* <AvtaleGiroKeyInfo agreement={avtaleGiro}></AvtaleGiroKeyInfo> */}
+                    <DistributionKeyInfo distribution={current}></DistributionKeyInfo>
                 </HorizontalPanel>
                 <SubHeader>Meta</SubHeader>
+                <NavLink to={`/donors/${current.distribution.donor.id}`}>Go to donor</NavLink>
+                <br />
                 <NavLink to={`/distributions`}>See all distributions</NavLink>
             </Page>
         )
