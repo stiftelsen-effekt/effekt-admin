@@ -1,6 +1,6 @@
 import React from 'react';
 import { CurrentDistributionState } from '../../../models/state';
-import { KeyInfoWrapper, KeyInfoGroup, KeyInfoHeader, KeyInfoTimestamp, KeyInfoSum, KeyInfoValue } from '../../style/elements/keyinfo/keyinfo.style';
+import { KeyInfoWrapper, KeyInfoGroup, KeyInfoHeader, KeyInfoTimestamp, KeyInfoValue } from '../../style/elements/keyinfo/keyinfo.style';
 
 interface IProps {
     distribution: CurrentDistributionState;
