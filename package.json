@@ -77,7 +77,6 @@
     "@types/shortid": "0.0.29",
     "@types/styled-components": "^4.4.3",
     "@types/validator": "^13.7.1",
-    "eslint": "^7.5.0",
     "jest-localstorage-mock": "^2.4.3",
     "prettier": "^2.4.1",
     "redux-devtools-extension": "^2.13.9",
