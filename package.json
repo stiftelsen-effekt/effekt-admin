@@ -80,6 +80,6 @@
     "jest-localstorage-mock": "^2.4.3",
     "prettier": "^2.4.1",
     "redux-devtools-extension": "^2.13.9",
-    "typescript": "3.5.2"
+    "typescript": "^3.5.2"
   }
 }
