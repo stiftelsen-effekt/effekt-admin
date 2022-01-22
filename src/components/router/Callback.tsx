@@ -7,10 +7,11 @@ import { connect } from 'react-redux';
 
 interface ICallbackProps extends RouteProps {
   authStep: AuthStep;
+  loginCallback: any;
 }
 
 class CallbackComponent extends React.Component<ICallbackProps & IDispatchProps> {
-  [x: string]: any;
+  props!: ICallbackProps;
   constructor(props: ICallbackProps & IDispatchProps) {
     super(props);
 
@@ -35,4 +36,4 @@ const mapDispatchToProps: IDispatchProps = {
   loginCallback,
 };
 
-export default connect(null, mapDispatchToProps)(CallbackComponent as any);
+export default connect(null, mapDispatchToProps)(CallbackComponent as any) as any;
