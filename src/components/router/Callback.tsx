@@ -10,7 +10,7 @@ interface ICallbackProps extends RouteProps {
 }
 
 class CallbackComponent extends React.Component<ICallbackProps & IDispatchProps> {
-  props: any;
+  [x: string]: any;
   constructor(props: ICallbackProps & IDispatchProps) {
     super(props);
 
