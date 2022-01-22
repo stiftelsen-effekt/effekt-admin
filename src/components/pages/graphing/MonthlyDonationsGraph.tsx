@@ -41,6 +41,7 @@ export const MonthlyDonationsGraph: React.FC = () => {
         },
       },
     },
+    maintainAspectRatio: false,
     scales: {
       y: {
         ticks: {

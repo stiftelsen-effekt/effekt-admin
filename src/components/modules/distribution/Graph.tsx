@@ -36,6 +36,7 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ di
 
   const options: ChartOptions<"bar"> = {
     responsive: true,
+    maintainAspectRatio: false,
     indexAxis: 'y',
     plugins: {
       legend: {

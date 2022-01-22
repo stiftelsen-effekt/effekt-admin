@@ -80,6 +80,7 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
       },
     },
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         stacked: true,
