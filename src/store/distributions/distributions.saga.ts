@@ -26,10 +26,11 @@ export function* fetchDistribution(action: Action<IFetchDistributionActionParams
     yield put(fetchDistributionAction.done({ params: action.payload, result: {
        kid: action.payload.kid,
        donor: result.content.donor,
-       distribution: formattedShares
+       distribution: formattedShares,
+       affilliatedDonations: [] // TODO: Fetch affiliateddonations from database
     } }));
   } catch (ex) {
-    yield put(fetchDistributionAction.failed({ params: action.payload, error: ex }));
+    yield put(fetchDistributionAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}));
   }
 }
 
@@ -56,6 +57,6 @@ export function* fetchDistributions(action: any) {
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchDistributionsAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(fetchDistributionsAction.failed({ params: action.payload, error: ex }));
+    yield put(fetchDistributionsAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}));
   }
 }

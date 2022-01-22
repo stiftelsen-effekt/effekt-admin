@@ -170,6 +170,7 @@ export interface IVippsAgreement {
   monthly_charge_day: number;
   paused_until_date: Date;
   distribution: Array<IDistributionShare>;
+  timestamp_created: string;
 }
 
 export interface IVippsAgreementFilter {

@@ -15,7 +15,7 @@ interface IParams {
 }
 
 export const DistributionComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({ match }: RouteComponentProps<IParams>) => {
-    const current: CurrentDistributionState = useSelector((state: AppState) => state.distributions.current)
+    const current: CurrentDistributionState | undefined = useSelector((state: AppState) => state.distributions.current)
     const KID = match.params.id
     const dispatch = useDispatch()
     

@@ -61,7 +61,9 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
       }
     });
 
-    dispatch(createDistributionAction.started({donor: {id: donor.id}, distribution: filteredDistributions}))
+    if (donor) {
+      dispatch(createDistributionAction.started({donor: {id: donor.id}, distribution: filteredDistributions}))
+    }
     onSubmit();
   };
 

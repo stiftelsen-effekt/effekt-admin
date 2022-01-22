@@ -15,7 +15,7 @@ export const MonthlyDonationsGraph: React.FC = () => {
 
   if (!monthly || monthly.length === 0) return <div>Loading...</div>;
 
-  const data: ChartData = {
+  const data: ChartData<"bar"> = {
     datasets: [
       {
         data: monthly.map((record) => record.sum),
@@ -25,7 +25,7 @@ export const MonthlyDonationsGraph: React.FC = () => {
     labels: monthly.map((record) => record.year.toString() + ' - ' + record.month.toString()),
   };
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"bar"> = {
     plugins: {
       legend: {
         display: false,

@@ -50,7 +50,7 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
   };
 
   const createLines = (distributionItems: any) => {
-    let distributionLines = [];
+    let distributionLines: JSX.Element[] = [];
     for (let i = 0; i < distributionItems.length / 3; i++) {
       let startPickingAt = i * 3;
       let endPickingAt = startPickingAt + 3;

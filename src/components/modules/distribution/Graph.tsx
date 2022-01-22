@@ -12,7 +12,7 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ di
 
   if (!distribution) return <div>No distribution</div>;
 
-  const data: ChartData = {
+  const data: ChartData<"bar"> = {
     labels: distribution.map((dist) => dist.abbriv),
     datasets: [
       {
@@ -34,7 +34,7 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ di
     ],
   };
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
     indexAxis: 'y',
     plugins: {
