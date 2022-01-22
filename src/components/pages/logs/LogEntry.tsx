@@ -14,7 +14,8 @@ interface IParams {
 }
 
 // This is a workaround for TypeScript
-interface JSONTreeFix extends React.FunctionComponent {
+// https://stackoverflow.com/questions/69220088/jsx-element-class-does-not-support-attributes-because-it-does-not-have-a-props
+interface JSONTreeFix extends React.Component {
   render;
   context;
   setState;
@@ -24,7 +25,7 @@ interface JSONTreeFix extends React.FunctionComponent {
   refs;
 }
 
-const JSONView = (JSONTree as React.FunctionComponent) as {
+const JSONView = (JSONTree as unknown) as {
   new(): JSONTreeFix;
 };
 
