@@ -104,7 +104,6 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
       <Bar 
         options={options}
         data={data}
-        height={175}
       />
     </AggregateChartWrapper>
   )

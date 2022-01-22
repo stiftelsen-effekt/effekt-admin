@@ -13,6 +13,21 @@ interface IParams {
   id: string;
 }
 
+// This is a workaround for TypeScript
+interface JSONTreeFix extends React.FunctionComponent {
+  render;
+  context;
+  setState;
+  forceUpdate; 
+  props; 
+  state; 
+  refs;
+}
+
+const JSONView = (JSONTree as React.FunctionComponent) as {
+  new(): JSONTreeFix;
+};
+
 export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({
   match,
 }: RouteComponentProps<IParams>) => {
@@ -38,9 +53,9 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
           {longDateTime(DateTime.fromISO(entry.timestamp, { setZone: true }))}
         </ResourceSubHeader>
 
-        <JSONTree
+        <JSONView
           data={entry.result}
-          valueRenderer={(value, valueActual, keyPath) =>
+          valueRenderer={(value, keyPath) =>
             keyPath === 'file' ? (
               <span style={{ fontFamily: 'monospace', whiteSpace: 'pre', display: 'block' }}>
                 {value}
@@ -49,7 +64,7 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
               <span>{value}</span>
             )
           }
-          shouldExpandNode={(keyPath, data, level) => true}
+          shouldExpandNode={() => true}
         />
       </Page>
     );

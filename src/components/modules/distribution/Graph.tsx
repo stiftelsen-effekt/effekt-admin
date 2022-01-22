@@ -57,7 +57,7 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ di
 
   return (
     <GraphWrapper>
-      <Bar data={data} options={options} height={280}></Bar>
+      <Bar data={data} options={options}></Bar>
     </GraphWrapper>
   );
 };

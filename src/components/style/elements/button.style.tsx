@@ -32,17 +32,17 @@ export const EffektButton = styled.button`
   }
 `;
 
-export const EffektSecondaryButton = styled(EffektButton)`
+export const EffektSecondaryButton = styled(EffektButton as any)`
   background: ${brown05};
   color: white;
 `;
 
-export const EffektRedButton = styled(EffektButton)`
+export const EffektRedButton = styled(EffektButton as any)`
   background: ${red20};
   color: white;
 `;
 
-export const EffektBlueButton = styled(EffektButton)`
+export const EffektBlueButton = styled(EffektButton as any)`
   background: ${azure50};
   color: white;
 `

@@ -18,6 +18,7 @@ import {
 } from 'react-feather';
 
 class MainNavigation extends React.Component<IDispatchProps> {
+  props: any;
   logout = () => {
     this.props.logoutRequest();
   };
@@ -89,4 +90,4 @@ const mapDispatchToProps: IDispatchProps = {
   logoutRequest,
 };
 
-export default connect(null, mapDispatchToProps)(MainNavigation);
+export default connect(null, mapDispatchToProps)(MainNavigation as any);

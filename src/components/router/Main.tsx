@@ -15,6 +15,7 @@ import { HashRouter } from 'react-router-dom';
 import { loginCacheCheck } from '../../store/authentication/loginout.actions';
 
 class MainRouter extends React.Component<IStateProps & IDispatchProps> {
+  props: any;
   render() {
     return (
       <HashRouter>
@@ -57,4 +58,4 @@ const mapStateToProps = (state: AppState): IStateProps => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainRouter);
+export default connect(mapStateToProps, mapDispatchToProps)(MainRouter as any);

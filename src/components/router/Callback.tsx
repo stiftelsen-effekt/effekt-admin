@@ -10,6 +10,7 @@ interface ICallbackProps extends RouteProps {
 }
 
 class CallbackComponent extends React.Component<ICallbackProps & IDispatchProps> {
+  props: any;
   constructor(props: ICallbackProps & IDispatchProps) {
     super(props);
 
@@ -34,4 +35,4 @@ const mapDispatchToProps: IDispatchProps = {
   loginCallback,
 };
 
-export default connect(null, mapDispatchToProps)(CallbackComponent);
+export default connect(null, mapDispatchToProps)(CallbackComponent as any);

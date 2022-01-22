@@ -55,5 +55,5 @@ export const MonthlyDonationsGraph: React.FC = () => {
     },
   };
 
-  return <Bar data={data} options={options} height={220} />;
+  return <Bar data={data} options={options} />;
 };
