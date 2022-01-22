@@ -14,8 +14,13 @@ import { Switch } from 'react-router';
 import { HashRouter } from 'react-router-dom';
 import { loginCacheCheck } from '../../store/authentication/loginout.actions';
 
+interface IProps {
+  authStep: AuthStep;
+  loginCacheCheck: any;
+}
+
 class MainRouter extends React.Component<IStateProps & IDispatchProps> {
-  [x: string]: any;
+  props!: IProps;
   render() {
     return (
       <HashRouter>
