@@ -23,7 +23,7 @@ export function* fetchLogs(action: any) {
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchLogsAction.done({ params: action.payload, result: result.content }));
-  } catch (ex: any) {
-    yield put(fetchLogsAction.failed({ params: action.payload, error: ex }));
+  } catch (ex) {
+    yield put(fetchLogsAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}));
   }
 }

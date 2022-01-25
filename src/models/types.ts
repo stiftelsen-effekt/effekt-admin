@@ -170,6 +170,7 @@ export interface IVippsAgreement {
   monthly_charge_day: number;
   paused_until_date: Date;
   distribution: Array<IDistributionShare>;
+  timestamp_created: string;
 }
 
 export interface IVippsAgreementFilter {
@@ -216,6 +217,7 @@ export interface IAvtaleGiro {
     amount: number,
     KID: string,
     donor: string,
+    full_name: string,
     payment_date: number,
     cancelled: string,
     distribution: Array<IDistributionShare>,

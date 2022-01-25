@@ -18,15 +18,21 @@ interface IProps {
 
 export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }) => {
   const donor = useSelector((state: AppState) => state.donorPage.donor)
-  const distributionInput = useSelector((state: AppState) => state.distributions.distributionInput)
+  const distributionInput = useSelector((state: AppState) => state.distributions.distributionInput.distribution)
   const [donorInput, setDonorInput] = useState<number>();
   const [validInput, setValidInput] = useState<boolean>(false);
 
   const dispatch = useDispatch();
 
+  // Reset donor state when opening modal
+  useEffect(() => {
+    dispatch(getDonorAction.started(0))
+  }, [dispatch])
+
+  // Check if donor exists
   useEffect(() => {
     if(donorInput !== undefined) {
-        dispatch(getDonorAction.started(donorInput))
+      dispatch(getDonorAction.started(donorInput))
     }
   }, [dispatch, donorInput])
 
@@ -55,7 +61,9 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
       }
     });
 
-    dispatch(createDistributionAction.started({donor: {id: donor.id}, distribution: filteredDistributions}))
+    if (donor) {
+      dispatch(createDistributionAction.started({donor: {id: donor.id}, distribution: filteredDistributions}))
+    }
     onSubmit();
   };
 
@@ -63,8 +71,8 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
     <CreateDistributionWrapper>
       <h3>New distribution</h3>
       <EffektInput
-        type="number"
-        inputMode="tel"
+        type="text"
+        inputMode="numeric"
         value={donorInput}
         placeholder="Donor ID"
         onChange={(e: any) => setDonorInput(e.target.value)}

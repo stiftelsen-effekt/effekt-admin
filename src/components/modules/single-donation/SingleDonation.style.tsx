@@ -35,6 +35,6 @@ export const ControlsWrapper = styled.div`
   margin-top: 14px;
 `;
 
-export const DonationInputElement = styled(EffektInput)`
+export const DonationInputElement = styled(EffektInput as any)`
   width: 90px;
 `;

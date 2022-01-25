@@ -6,7 +6,6 @@ import { authReducer } from './store/authentication/auth.reducer';
 import { donorSelectorReducer } from './store/donors/donor-selection.reducer';
 import { organizationsReducer } from './store/organizations/organizations.reducer';
 import { singleDonationReducer } from './store/single-donation/single-donation.reducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { reportProcessingReducer } from './store/process/process.reducer';
 import { CreateDonorReducer } from './store/donors/create-donor.reducer';
 import { donationsReducer } from './store/donations/donations.reducer';
@@ -18,6 +17,7 @@ import { loggingReducer } from './store/logs/logs.reducer';
 import { vippsAgreementChargeReducer, vippsAgreementReducer } from './store/vipps/vipps.reducer';
 import { avtaleGiroReducer } from './store/avtalegiro/avtalegiro.reducer';
 import { donorPageReducer } from './store/donors/donor-page.reducer';
+import { composeWithDevTools } from '@redux-devtools/extension';
 
 const rootReducer = combineReducers<AppState>({
   auth: authReducer,

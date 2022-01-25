@@ -159,8 +159,8 @@ export interface GraphingState {
 }
 
 export interface CurrentDistributionState {
-  distribution: IDistribution;
-  affiliatedDonations: Array<IDonation>;
+  distribution?: IDistribution;
+  affiliatedDonations?: Array<IDonation>;
 }
 
 export interface DistributionsState {
@@ -171,7 +171,11 @@ export interface DistributionsState {
   pages: number;
   loading: boolean;
   searchResult: Array<IDistributionSearchResultItem>;
-  distributionInput: Array<IDistributionShare>
+  distributionInput: {
+    distribution: Array<IDistributionShare>,
+    donorID: string,
+    donorName: string
+  }
 }
 
 export interface DataOwnerState {

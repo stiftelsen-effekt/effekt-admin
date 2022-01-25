@@ -1,10 +1,11 @@
 /* eslint-disable no-restricted-globals */
 import Decimal from "decimal.js";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
 import Validator from "validator";
 import { API_URL } from "../../../../config/config";
+import { AppState } from "../../../../models/state";
 import { IDistributionShare } from "../../../../models/types";
 import { setDistributionInput } from "../../../../store/distributions/distribution-input.actions";
 import { RedFont } from "../../../pages/avtalegiro/AvtaleGiroAgreement/ShareSelection/ShareSelection.style";
@@ -23,13 +24,9 @@ export interface OrganizationResponse {
 	content: Organization[];
 }
 
-interface Props {
-	KID?: string;
-}
-
-export const DistributionInput: React.FC<Props> = ({KID}) => {
+export const DistributionInput: React.FC = () => {
 	const [organizations, setOrganizations] = useState<Organization[]>()
-	const [shares, setShares] = useState<IDistributionShare[]>([])
+	const distributionInput: IDistributionShare[] = useSelector((state: AppState) => state.distributions.distributionInput.distribution)
 	const [sumPercentage, setSumPercentage] = useState<number>()
 	const dispatch = useDispatch()
 
@@ -47,45 +44,51 @@ export const DistributionInput: React.FC<Props> = ({KID}) => {
 		organizations && organizations.forEach(org => {
 			newShares.push({organizationId: org.id, share: new Decimal(0)})
 		})
-		setShares(newShares)
 	}, [organizations])
 
 	useEffect(() => {
-		if (shares) {
+		if (distributionInput) {
             let sum = new Decimal(0)
-            shares.forEach(org => {
+            distributionInput.forEach((org: IDistributionShare) => {
                 sum = sum.plus(org.share)
             })
             setSumPercentage(parseInt(sum.toFixed(0)))
         }
-	}, [shares])
+	}, [distributionInput])
 
 	if (!organizations) return <div>Failed fetching organizations</div>
 
 	return (
 		<Wrapper>
 			<div>
-				{shares && shares.map((share: IDistributionShare) => (
-					<div key={share.organizationId}>
+				{organizations.map(org => (
+					<div key={org.id}>
 						<TextInput
-							label={organizations.filter((org) => org.id === share.organizationId)[0].name}
-							key={share.organizationId}
+							label={org.name}
+							key={org.id}
 							type="tel"
 							inputMode="numeric"
 							placeholder="0"
-							value={share.share.toString()}
+							value={distributionInput.filter(dist => dist.organizationId === org.id).length === 1 ? 
+								distributionInput.filter(dist => dist.organizationId === org.id)[0].share.toString() : ""
+							}
 							onChange={(e: { target: { value: string; }; }) => {
-								const newShares: IDistributionShare[] = [...shares]
+								let newShares: IDistributionShare[] = [...distributionInput]
+
+								organizations.forEach(org => {
+									if (newShares.filter(share => share.organizationId === org.id).length === 0) {
+										newShares.push({organizationId: org.id, share: new Decimal(0)})
+									}
+								})
+								
                                 // Index of changed organization
 								const index = newShares.map((s) => {
 									return s.organizationId
-								}).indexOf(share.organizationId);
+								}).indexOf(org.id);
 								
 								newShares[index].share = Validator.isInt(e.target.value)
 									? new Decimal(e.target.value)
 									: new Decimal(0);
-								setShares(newShares)
-
                                 dispatch(setDistributionInput(newShares))
 							}}
 							denomination="%"

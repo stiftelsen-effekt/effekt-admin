@@ -42,13 +42,13 @@ export const Box = styled.div`
   }
 `;
 
-export const RedBox = styled(Box)`
-  border-left-color: ${red30};
-  background: ${red02};
-  color: ${red30};
+export const RedBox = styled(Box as any)`
+   border-left-color: ${red30};
+   background: ${red02};
+   color: ${red30};
 `;
 
-export const GreenBox = styled(Box)`
+export const GreenBox = styled(Box as any)`
   border-left-color: ${green30};
   background: ${green02};
   color: ${green30};

@@ -1,13 +1,7 @@
 import React from 'react';
 
 import { IVippsAgreement } from '../../../../models/types';
-import {
-  KeyInfoWrapper,
-  KeyInfoGroup,
-  KeyInfoHeader,
-  KeyInfoSum,
-  KeyInfoTimestamp,
-} from '../../donations/keyinfo/keyinfo.component.style';
+import { KeyInfoWrapper, KeyInfoGroup, KeyInfoHeader, KeyInfoSum, KeyInfoTimestamp } from '../../../style/elements/keyinfo/keyinfo.style';
 
 interface IProps {
   agreement: IVippsAgreement;
