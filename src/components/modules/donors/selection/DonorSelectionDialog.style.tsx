@@ -36,7 +36,9 @@ export const DonorDialog = styled.div`
 export const Controls = styled.div`
   padding-top: 14px;
   display: flex;
-  justify-content: space-between;
-  width: 230px;
   float: right;
+
+  & Button {
+    margin-left: 12px;
+  }
 `;

@@ -1,19 +1,18 @@
 .ReactTable {
-  font-family: 'Roboto';
+  font-family: 'ESKlarheitGrotesk';
 }
 
 .ReactTable .rt-tr {
-  /*display: flex;*/
   cursor: pointer;
 }
 
 .ReactTable .rt-tbody .rt-tr:hover {
-  background: #ffeed4;
+  background: #ddd;
 }
 
 .ReactTable .rt-th {
-  font-weight: 500;
-  color: #5d3800;
+  font-weight: 600;
+  color: black;
   cursor: pointer;
   outline: none;
   padding: 10px 0;
@@ -26,7 +25,31 @@
 
 .ReactTable .pagination-bottom {
   padding-top: 20px;
-  padding-bottom: 10px;
   text-align: center;
   font-size: 14px;
+  box-shadow: none;
+}
+
+.ReactTable .-pagination {
+  box-shadow: none !important;
+}
+
+.ReactTable .-pagination button.-btn {
+  padding: 10px 30px;
+  font-family: 'ESKlarheitGrotesk';
+  display: inline-flex;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.2);
+  background: black;
+  color: white;
+  border-radius: 0;
+  transition: none;
+}
+
+.ReactTable .-pagination button.-btn:not([disabled]):hover {
+  background: black;
 }

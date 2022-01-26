@@ -20,6 +20,7 @@ export function* fetchToken(action: AnyAction) {
       yield put(fetchTokenAction.done({ params: action.payload, result: tokenResponse.content }));
     else throw new Error(tokenResponse.status);
   } catch (ex) {
-    yield put(fetchTokenAction.failed({ params: action.payload, error: ex }));
+    console.log(ex)
+    yield put(fetchTokenAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

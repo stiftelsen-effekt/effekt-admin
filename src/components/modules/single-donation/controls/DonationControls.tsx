@@ -28,7 +28,7 @@ export const DonationControls: React.FunctionComponent<IProps> = (props: IProps)
         onChange={(checked) => {
           setReceipt(checked);
         }}
-        azure={false}
+        inverted={false}
       ></EffektCheck>
       <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
       <EffektButton onClick={() => props.onInsert(receipt)}>Insert</EffektButton>

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import { AppState, VippsAgreementsState } from '../../../../models/state';
 import { fetchAgreementsReportAction } from '../../../../store/vipps/vipps.actions';
 import { thousandize } from '../../../../util/formatting';
-import { EffektBlueButton } from '../../../style/elements/button.style';
+import { EffektButton } from '../../../style/elements/button.style';
 import { ReportActions, ReportContent, ReportHeader, ReportWrapper } from '../../shared/report/Report.style';
 
 export const VippsReport = () => {
@@ -68,14 +68,14 @@ export const VippsReport = () => {
         </table>
       </ReportContent>
       <ReportActions>
-        <EffektBlueButton onClick={handleChargesListButtonClick} style={{ marginRight: 12 }}>
+        <EffektButton onClick={handleChargesListButtonClick} style={{ marginRight: 12 }}>
           <List size={16} color={'white'}></List>
           <span>Charges</span>
-        </EffektBlueButton>
-        <EffektBlueButton onClick={handleAgreementListButtonClick}>
+        </EffektButton>
+        <EffektButton onClick={handleAgreementListButtonClick}>
           <List size={16} color={'white'}></List>
           <span>Agreements</span>
-        </EffektBlueButton>
+        </EffektButton>
       </ReportActions>
     </ReportWrapper>
   );

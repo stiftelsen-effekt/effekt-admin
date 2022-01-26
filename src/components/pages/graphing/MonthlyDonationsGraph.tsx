@@ -19,7 +19,7 @@ export const MonthlyDonationsGraph: React.FC = () => {
     datasets: [
       {
         data: monthly.map((record) => record.sum),
-        backgroundColor: '#f5b555',
+        backgroundColor: 'black',
       },
     ],
     labels: monthly.map((record) => record.year.toString() + ' - ' + record.month.toString()),
@@ -44,6 +44,9 @@ export const MonthlyDonationsGraph: React.FC = () => {
     maintainAspectRatio: false,
     scales: {
       y: {
+        grid: {
+          drawBorder: false,
+        },
         ticks: {
           callback: (val) =>
             new Intl.NumberFormat('no-NB', {
@@ -53,6 +56,11 @@ export const MonthlyDonationsGraph: React.FC = () => {
             }).format(val as number),
         },
       },
+      x: {
+        grid: {
+          display: false
+        }
+      }
     },
   };
 

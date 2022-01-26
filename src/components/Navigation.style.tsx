@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { orange50, orange20, orange10 } from './style/colors';
 import { NavLink } from 'react-router-dom';
 
 export const MainNav = styled.nav`
@@ -28,7 +27,7 @@ export const NavMenu = styled.ul`
 
 export const NavMenuItem = styled(NavLink)`
   font-size: 24px;
-  font-weight: 300;
+  font-weight: 100;
   color: white;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -41,7 +40,7 @@ export const NavMenuItem = styled(NavLink)`
     display: block;
     position: absolute;
     right: -36px;
-    top: 15px;
+    top: 18px;
 
     width: 0;
     height: 0;
@@ -70,39 +69,11 @@ export const Logout = styled.span`
   font-size: 24px;
   font-weight: 300;
   color: white;
-`;
+  display: flex;
+  align-items: center;
 
-export const Flare = styled.div`
-  position: absolute;
-  bottom: -80px;
-  left: -100px;
-  width: 240px;
-  height: 100px;
-  background: ${orange50};
-  transform: rotate(10deg);
-  opacity: 0.9;
-
-  &:after {
-    content: '';
-    width: 240px;
-    height: 100px;
-    background: ${orange20};
-    position: absolute;
-    left: 35px;
-    transform: rotate(26deg);
-    opacity: 0.6;
-  }
-
-  &:before {
-    content: '';
-    width: 240px;
-    height: 100px;
-    background: ${orange10};
-    position: absolute;
-    left: -34px;
-    bottom: 20px;
-    transform: rotate(55deg);
-    opacity: 0.3;
+  & span {
+    margin-right: 14px;
   }
 `;
 

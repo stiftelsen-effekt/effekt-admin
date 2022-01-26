@@ -11,17 +11,17 @@ export const TabHeaderWrapper = styled.div`
   margin-right: 16px;
   padding: 8px;
   cursor: pointer;
-  border-bottom: ${((props: ITabHeaderProps) => props.selected ? '3px solid #555' : 'none')};
+  border-bottom: ${((props: ITabHeaderProps) => props.selected ? '3px solid black' : 'none')};
   line-height: 26px;
-  font-weight: 500;
-  color: rgb(54 59 69);
+  font-weight: 600;
+  color: black;
 `;
 
 export const TabHeaderCounter = styled.div`\
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #7e8ba2;
+  background: black;
   width: 26px;
   height: 26px;
   color: white;

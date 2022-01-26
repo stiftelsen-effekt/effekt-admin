@@ -1,6 +1,5 @@
 import { API_URL } from '../config/config';
 import store from './../store';
-import queryString from 'querystring';
 import { sessionInvalid, LOGIN_SUCCESS } from '../store/authentication/loginout.actions';
 import { Auth } from '../store/authentication/auth';
 
@@ -53,7 +52,12 @@ export const call = async (params: IAPIParameters): Promise<any> => {
   let result;
   switch (params.method) {
     case Method.GET:
-      if (params.data !== null) url += `?${queryString.stringify(params.data)}`;
+      if (params.data !== null) {
+        url += '?'
+        for (let key in params.data) {
+          url += encodeURIComponent(key) + '=' + encodeURIComponent(params.data[key])
+        }
+      }
 
       response = await fetch(url, options);
       if (!params.handleUnauthorized)

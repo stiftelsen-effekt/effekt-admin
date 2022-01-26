@@ -1,17 +1,16 @@
 import styled from 'styled-components';
-import { brown50, brown05, red20, azure50 } from '../colors';
 
 export const EffektButton = styled.button`
   padding: 10px 30px;
-  font-family: 'Roboto';
+  font-family: 'ESKlarheitGrotesk';
   display: inline-flex;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 1px;
   font-size: 14px;
   border: none;
   cursor: pointer;
   box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.2);
-  background: ${brown50};
+  background: black;
   color: white;
 
   svg {
@@ -32,17 +31,7 @@ export const EffektButton = styled.button`
   }
 `;
 
-export const EffektSecondaryButton = styled(EffektButton as any)`
-  background: ${brown05};
+export const EffektSecondaryButton = styled(EffektButton)`
+  background: #444;
   color: white;
 `;
-
-export const EffektRedButton = styled(EffektButton as any)`
-  background: ${red20};
-  color: white;
-`;
-
-export const EffektBlueButton = styled(EffektButton as any)`
-  background: ${azure50};
-  color: white;
-`

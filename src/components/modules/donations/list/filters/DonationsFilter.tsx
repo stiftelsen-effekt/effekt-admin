@@ -76,6 +76,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
               onChangeTo={(date) => {
                 dispatch(setDonationFilterDateRange(donationDateRange.from, date));
               }}
+              inverted
             ></FilterDateRange>
           </FilterDateRangeWrapper>
         </FilterGroup>
@@ -118,7 +119,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
         <FilterGroup>
           <FilterGroupHeader>Payment method</FilterGroupHeader>
           <EffektCheckForm
-            azure={true}
+            inverted={true}
             choices={paymentMethodChoices}
             onChange={(choices: Array<number>) => {
               dispatch(setDonationFilterPaymentMethodIDs(choices));

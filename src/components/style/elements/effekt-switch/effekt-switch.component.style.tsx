@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { SwitchSelected } from './effekt-switch.component';
-import { orange50, orange05, brown30 } from '../../colors';
 
 export const EffektSwitchWrapper = styled.div`
-  background: ${orange05};
+  background: #eee;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
   display: inline-block;
   position: relative;
@@ -18,10 +17,10 @@ export const EffektSwitchItem = styled.span<ISwitchItemProps>`
   display: inline-block;
   cursor: pointer;
   padding: 8px 18px;
-  color: ${(props) => (props.active ? 'white' : brown30)};
+  color: ${(props) => (props.active ? 'white' : 'black')};
   text-shadow: ${(props) => (props.active ? '0px 1px rgba(0,0,0,.3)' : '')};
-  font-weight: 500;
-  font-family: 'Roboto';
+  font-weight: 600;
+  font-family: 'ESKlarheitGrotesk';
   font-size: 14px;
   position: relative;
   transition: all 200ms;
@@ -36,7 +35,7 @@ export const EffektSwitchSlider = styled.div<ISwitchSliderProps>`
   left: 0;
   width: calc(50% - 5px);
   height: 100%;
-  background: ${orange50};
+  background: black;
   transform: translateX(
     ${(props) => (props.state === SwitchSelected.RIGHT ? 'calc(100% + 10px)' : '0%')}
   );
@@ -51,7 +50,7 @@ export const EffektSwitchSlider = styled.div<ISwitchSliderProps>`
     height: 0;
     border-style: solid;
     border-width: 0 0 35px 10px;
-    border-color: transparent transparent ${orange50} transparent;
+    border-color: transparent transparent black transparent;
   }
 
   &:before {
@@ -63,6 +62,6 @@ export const EffektSwitchSlider = styled.div<ISwitchSliderProps>`
     height: 0;
     border-style: solid;
     border-width: 35px 10px 0 0;
-    border-color: ${orange50} transparent transparent transparent;
+    border-color: black transparent transparent transparent;
   }
 `;
