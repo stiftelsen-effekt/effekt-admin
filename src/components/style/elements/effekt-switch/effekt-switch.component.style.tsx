@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { SwitchSelected } from './effekt-switch.component';
-import { orange50, orange05, brown30 } from '../../colors';
 
 export const EffektSwitchWrapper = styled.div`
   background: #eee;

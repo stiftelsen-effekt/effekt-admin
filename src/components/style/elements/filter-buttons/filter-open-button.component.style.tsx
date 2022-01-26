@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { azure50 } from '../../colors';
 
 export const FilterOpenButtonContainer = styled.div`
   background: black;
