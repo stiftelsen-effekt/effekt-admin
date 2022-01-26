@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { SelectorWrapper, DonorDialog, Controls } from './DonorSelectionDialog.style';
 
 import {
@@ -12,6 +11,7 @@ import { EffektButton, EffektSecondaryButton } from '../../../style/elements/but
 import { DonorSelectionComponent } from './DonorSelection';
 
 class DonorSelectionDialogComponent extends React.Component<IStateProps & IDispatchProps> {
+  props: any;
   abort = () => {
     this.props.clearSelectedDonor();
     this.props.hideDonorSelectionComponent();
@@ -56,4 +56,4 @@ const mapDispatchToProps: IDispatchProps = {
   clearSelectedDonor,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DonorSelectionDialogComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(DonorSelectionDialogComponent as any);

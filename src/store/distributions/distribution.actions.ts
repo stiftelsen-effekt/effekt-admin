@@ -1,20 +1,36 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IPagination, IDistributionSearchResultItem } from '../../models/types';
+import { IPagination, IDistributionSearchResultItem, IDonor, IDistributionShare, IDonation } from '../../models/types';
 
 export const SET_DISTRIBUTIONS_PAGINATION = 'SET_DISTRIBUTIONS_PAGINATION';
 
 const actionCreator = actionCreatorFactory();
 
+export interface IFetchDistributionActionParams { kid: string }
+
 interface IFetchDistributionResult {
+  kid: string;
+  donor: IDonor;
+  distribution: IDistributionShare[];
+  affilliatedDonations: IDonation[];
+}
+
+interface IFetchDistributionsResult {
   rows: Array<IDistributionSearchResultItem>;
   pages: number;
 }
 
-export const fetchDistributionsAction = actionCreator.async<
-  undefined,
+export const fetchDistributionAction = actionCreator.async<
+  IFetchDistributionActionParams,
   IFetchDistributionResult,
   Error
+>('FETCH_DISTRIBUTION');
+
+export const fetchDistributionsAction = actionCreator.async<
+  undefined,
+  IFetchDistributionsResult,
+  Error
 >('FETCH_DISTRIBUTIONS');
+
 export const setDistributionPagination = (pagination: IPagination) => {
   return {
     type: SET_DISTRIBUTIONS_PAGINATION,

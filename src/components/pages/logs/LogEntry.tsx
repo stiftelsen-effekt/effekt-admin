@@ -13,6 +13,22 @@ interface IParams {
   id: string;
 }
 
+// This is a workaround for TypeScript
+// https://stackoverflow.com/questions/69220088/jsx-element-class-does-not-support-attributes-because-it-does-not-have-a-props
+interface JSONTreeFix extends React.Component {
+  render;
+  context;
+  setState;
+  forceUpdate; 
+  props; 
+  state; 
+  refs;
+}
+
+const JSONView = (JSONTree as unknown) as {
+  new(): JSONTreeFix;
+};
+
 export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({
   match,
 }: RouteComponentProps<IParams>) => {
@@ -38,9 +54,9 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
           {longDateTime(DateTime.fromISO(entry.timestamp, { setZone: true }))}
         </ResourceSubHeader>
 
-        <JSONTree
+        <JSONView
           data={entry.result}
-          valueRenderer={(value, valueActual, keyPath) =>
+          valueRenderer={(value, keyPath) =>
             keyPath === 'file' ? (
               <span style={{ fontFamily: 'monospace', whiteSpace: 'pre', display: 'block' }}>
                 {value}
@@ -49,7 +65,7 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
               <span>{value}</span>
             )
           }
-          shouldExpandNode={(keyPath, data, level) => true}
+          shouldExpandNode={() => true}
         />
       </Page>
     );

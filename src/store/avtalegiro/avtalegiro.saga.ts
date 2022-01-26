@@ -51,7 +51,7 @@ export function* fetchAvtaleGiroAgreements(action: any) {
       fetchAvtaleGiroAgreementsAction.done({ params: action.payload, result: result.content })
     );
   } catch (ex) {
-    yield put(fetchAvtaleGiroAgreementsAction.failed({ params: action.payload, error: ex }));
+    yield put(fetchAvtaleGiroAgreementsAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}));
   }
 }
 
@@ -64,7 +64,7 @@ export function* fetchAvtaleGiroHistogram() {
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchAvtaleGiroHistogramAction.done({ result: result.content }));
   } catch (ex) {
-    yield put(fetchAvtaleGiroHistogramAction.failed({ error: ex }));
+    yield put(fetchAvtaleGiroHistogramAction.failed({error: new Error(typeof ex === "string" ? ex : "")}));
   }
 }
 
@@ -80,7 +80,7 @@ export function* fetchAvtaleGiroReport() {
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchAvtaleGiroReportAction.done({ result: result.content }));
   } catch (ex) {
-    yield put(fetchAvtaleGiroReportAction.failed({ error: ex }));
+    yield put(fetchAvtaleGiroReportAction.failed({error: new Error(typeof ex === "string" ? ex : "")}));
   }
 }
 
@@ -96,7 +96,7 @@ export function* fetchAvtaleGiroValidationTable() {
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchAvtaleGiroValidationTableAction.done({ result: result.content }));
   } catch (ex) {
-    yield put(fetchAvtaleGiroValidationTableAction.failed({ error: ex }));
+    yield put(fetchAvtaleGiroValidationTableAction.failed({error: new Error(typeof ex === "string" ? ex : "")}));
   }
 }
 
@@ -116,7 +116,7 @@ export function* fetchAvtaleGiroMissingByDate(action: Action<IFetchAvtaleGiroDat
       result: (result.content as Array<IAvtaleGiro>) 
     }));
   } catch (ex) {
-    yield put(fetchAvtaleGiroMissingByDateAction.failed({ error: ex }));
+    yield put(fetchAvtaleGiroMissingByDateAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}));
   }
 }
 
@@ -136,7 +136,7 @@ export function* fetchAvtaleGiroRecievedByDate(action: Action<IFetchAvtaleGiroDa
       result: (result.content as Array<IDonation>) 
     }));
   } catch (ex) {
-    yield put(fetchAvtaleGiroRecievedByDateAction.failed({ error: ex }));
+    yield put(fetchAvtaleGiroRecievedByDateAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}));
   }
 }
 
@@ -156,7 +156,7 @@ export function* fetchAvtaleGiroExpectedByDate(action: Action<IFetchAvtaleGiroDa
       result: (result.content as Array<IAvtaleGiro>) 
     }));
   } catch (ex) {
-    yield put(fetchAvtaleGiroExpectedByDateAction.failed({ error: ex }));
+    yield put(fetchAvtaleGiroExpectedByDateAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}));
   }
 }
 
@@ -173,7 +173,7 @@ export function* fetchAvtaleGiro(action: Action<IFetchAgreementActionParams>) {
             yield put(fetchAvtaleGiroAction.done({params: action.payload, result: result.content}))
     }
     catch(ex) {
-        yield put(fetchAvtaleGiroAction.failed({ params: action.payload, error: ex }))
+        yield put(fetchAvtaleGiroAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}))
     }
 }
 
@@ -198,7 +198,7 @@ export function* updateAvtaleGiroAmount(action: Action<IUpdateAvtaleGiroAmountAc
         }
     }
     catch(ex) {
-        yield put(updateAvtaleGiroAmountAction.failed({ params: action.payload, error: ex }))
+        yield put(updateAvtaleGiroAmountAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}))
     }
 }
 
@@ -223,7 +223,7 @@ export function* updateAvtaleGiroStatus(action: Action<IUpdateAvtaleGiroStatusAc
         }
     }
     catch(ex) {
-        yield put(updateAvtaleGiroStatusAction.failed({ params: action.payload, error: ex }))
+        yield put(updateAvtaleGiroStatusAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}))
     }
 }
 
@@ -248,7 +248,7 @@ export function* updateAvtaleGiroPaymentDate(action: Action<IUpdateAvtaleGiroPay
       }
     }
     catch(ex) {
-        yield put(updateAvtaleGiroPaymentDateAction.failed({ params: action.payload, error: ex }))
+        yield put(updateAvtaleGiroPaymentDateAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}))
     }
 }
 
@@ -272,6 +272,6 @@ export function* updateAvtaleGiroDistribution(action: Action<IUpdateAvtaleGiroDi
       }
   }
   catch(ex) {
-      yield put(updateAvtaleGiroDistributionAction.failed({ params: action.payload, error: ex }))
+      yield put(updateAvtaleGiroDistributionAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}))
   }
 }

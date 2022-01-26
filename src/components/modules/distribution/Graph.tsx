@@ -3,27 +3,30 @@ import { IDistributionShare } from '../../../models/types';
 import { Bar } from 'react-chartjs-2';
 import { GraphWrapper } from './Graph.style';
 import { ChartData, ChartOptions } from 'chart.js';
+import Decimal from 'decimal.js';
 
 interface IProps {
   distribution: Array<IDistributionShare> | undefined;
 }
 export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ distribution }) => {
+
   if (!distribution) return <div>No distribution</div>;
 
-  const data: ChartData = {
+  const data: ChartData<"bar"> = {
     labels: distribution.map((dist) => dist.abbriv),
     datasets: [
       {
         label: 'Organizations',
         backgroundColor: 'black',
         borderWidth: 0,
-        data: distribution.map((dist) => dist.share.toNumber()),
+        data: distribution.map((dist) => new Decimal(dist.share).toNumber()),
       },
     ],
   };
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
+    maintainAspectRatio: false,
     indexAxis: 'y',
     plugins: {
       legend: {
@@ -45,7 +48,7 @@ export const DistributionGraphComponent: React.FunctionComponent<IProps> = ({ di
 
   return (
     <GraphWrapper>
-      <Bar data={data} options={options} height={280}></Bar>
+      <Bar data={data} options={options}></Bar>
     </GraphWrapper>
   );
 };
