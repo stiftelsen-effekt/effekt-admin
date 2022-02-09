@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { AppState } from '../../../models/state';
 import { Redirect } from 'react-router';
 import { OwnerSelect } from '../owner-select/OwnerSelect';
+import { EffektLoadingSpinner} from '../../style/elements/loading-spinner';
 
 interface IState {
   vippsReport: File | null;
@@ -30,9 +31,11 @@ export const ReportUpload: React.FunctionComponent = (props) => {
   const [state, setState] = useState<IState>(getDefaultState());
 
   const currentDataOwner = useSelector((state: AppState) => state.dataOwner.current);
+  const loading = useSelector((state: AppState) => state.reportProcessing.loading);
 
   const uploadReport = (type: ReportTypes, file: File | null) => {
-    if (!file) return toast.error('No file selected');
+    if (!file) if (loading) return toast.error('Already processing a report'); 
+    else return toast.error('No file selected');
     if (!currentDataOwner) return toast.error('No data owner selected');
     dispatch(uploadReportAction.started({ type, report: file, metaOwnerID: currentDataOwner.id }));
   };
@@ -73,6 +76,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               Process
             </EffektButton>
           </td>
+          {(state.vippsReport !== null && loading) && <EffektLoadingSpinner />}
         </tr>
 
         <tr>
@@ -81,7 +85,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           </td>
           <td>
             <EffektFileInput
-              onChange={(file: File) => setState({ ...state, paypalReport: file })}
+              onChange={(file: File) => !loading && setState({ ...state, paypalReport: file })}
               id="paypal-upload"
             />
           </td>
@@ -94,6 +98,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               Process
             </EffektButton>
           </td>
+          {(state.paypalReport !== null && loading) && <EffektLoadingSpinner />}
         </tr>
 
         <tr>
@@ -102,7 +107,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           </td>
           <td>
             <EffektFileInput
-              onChange={(file: File) => setState({ ...state, ocrReport: file })}
+              onChange={(file: File) => !loading && setState({ ...state, ocrReport: file })}
               id="ocr-upload"
             />
           </td>
@@ -115,6 +120,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               Process
             </EffektButton>
           </td>
+          {(state.ocrReport !== null && loading) && <EffektLoadingSpinner />}
         </tr>
 
         <tr>
@@ -123,7 +129,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           </td>
           <td>
             <EffektFileInput
-              onChange={(file: File) => setState({ ...state, bankReport: file })}
+              onChange={(file: File) => !loading && setState({ ...state, bankReport: file }) }
               id="bank-upload"
             />
           </td>
@@ -136,6 +142,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               Process
             </EffektButton>
           </td>
+          {(state.bankReport !== null && loading) && <EffektLoadingSpinner />}
         </tr>
       </tbody>
     </ReportTable>
