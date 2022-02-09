@@ -126,7 +126,9 @@ export const SharesSelection: React.FC<Props> = ({KID}) => {
 						if(confirm(`Press OK to set new AvtaleGiro distribution`)) {
 							setLoading(true)
 							const filteredShares = shares.filter(share => share.share > 0)
-							dispatch(updateAvtaleGiroDistributionAction.started({KID, distribution: filteredShares}))
+							if (KID) {
+								dispatch(updateAvtaleGiroDistributionAction.started({KID, distribution: filteredShares}))
+							}
 						}
 					}
 				}}>

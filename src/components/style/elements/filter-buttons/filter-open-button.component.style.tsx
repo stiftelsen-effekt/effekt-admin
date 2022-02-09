@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { azure50 } from '../../colors';
 
 export const FilterOpenButtonContainer = styled.div`
-  background: ${azure50};
+  background: black;
   padding: 8px 20px;
   cursor: pointer;
   position: absolute;
@@ -12,12 +11,12 @@ export const FilterOpenButtonContainer = styled.div`
   box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.3);
   color: white;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
 
   span {
     vertical-align: middle;
     margin-right: 10px;
-    font-family: 'Roboto';
+    font-family: 'ESKlarheitGrotesk';
   }
 
   svg {

@@ -39,7 +39,7 @@ export const AvtaleGiroValidationTable = () => {
     {
       Header: 'Diff',
       id: 'diff',
-      accessor: (res: any) => res.actual !== null ? thousandize(res.diff) + ' kr' + (res.diff !== '0' ? ' ⚠️' : '') : '-',
+      accessor: (res: any) => res.actual !== null ? thousandize(res.diff) + ' kr' : '-',
     },
   ];
 

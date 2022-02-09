@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { grey15 } from '../colors';
 
 export const EffektSelect = styled.select`
-  font-family: 'Roboto';
+  font-family: 'ESKlarheitGrotesk';
   font-weight: 300;
   background: #eee;
   border: none;

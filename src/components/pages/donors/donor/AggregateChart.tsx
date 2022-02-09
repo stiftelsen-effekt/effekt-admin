@@ -33,27 +33,33 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
   const minYear = Math.min(...years)
   const maxYear = Math.max(...years)
   const numYears = maxYear - minYear + 1
+  
+  if (numYears < 0) {
+    return <div>No donations</div>
+  }
 
-  let data: ChartData = {
+  let data: ChartData<"bar"> = {
     labels: new Array(numYears).fill(0).map((_, idx) => minYear + idx),
     datasets: []
   }
 
   stats.sumYearlyAggregates.forEach((row) => {
     let index = -1
-    if (!added.hasOwnProperty(row.abbriv)) {
-      let length = data.datasets.push({
-        label: row.abbriv,
-        data: new Array(numYears).fill(0),
-      })
-      added[row.abbriv] = length-1
-      data.datasets[added[row.abbriv]].backgroundColor = color(added[row.abbriv])
+    if (row.abbriv) {
+      if (!added.hasOwnProperty(row.abbriv)) {
+        let length = data.datasets.push({
+          label: row.abbriv,
+          data: new Array(numYears).fill(0),
+        })
+        added[row.abbriv] = length-1
+        data.datasets[added[row.abbriv]].backgroundColor = color(added[row.abbriv])
+      }
+      index = added[row.abbriv]
+      data.datasets[index].data[row.year - minYear] = row.value ? row.value.toNumber() : 0
     }
-    index = added[row.abbriv]
-    data.datasets[index].data[row.year - minYear] = row.value ? row.value.toNumber() : 0
   })
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"bar"> = {
     plugins: {
       title: {
         display: false,
@@ -74,6 +80,7 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
       },
     },
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         stacked: true,
@@ -98,7 +105,6 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
       <Bar 
         options={options}
         data={data}
-        height={175}
       />
     </AggregateChartWrapper>
   )

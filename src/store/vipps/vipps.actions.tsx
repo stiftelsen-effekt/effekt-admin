@@ -27,11 +27,6 @@ interface IFetchVippsAgreementsResult {
   pages: number;
 }
 
-interface IFetchVippsAgreementsResult {
-  rows: Array<IVippsAgreement>;
-  pages: number;
-}
-
 interface IFetchVippsAgreementChargesResult {
   rows: Array<IVippsAgreementCharge>;
   pages: number;
@@ -143,11 +138,6 @@ export const setVippsChargesPagination = (pagination: IPagination) => {
     payload: pagination,
   };
 };
-
-interface AmountRange {
-  from: number;
-  to: number;
-}
 
 export const setVippsChargesFilterAmount = (amountRange: AmountRange) => {
   return {

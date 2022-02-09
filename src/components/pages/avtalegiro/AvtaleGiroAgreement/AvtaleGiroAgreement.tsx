@@ -33,7 +33,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
         return (
             <Page>
                 <ResourceHeader hasSubHeader={true}>AvtaleGiro {avtaleGiroID}</ResourceHeader>
-                <ResourceSubHeader>KID {avtaleGiro.KID}</ResourceSubHeader>
+                <ResourceSubHeader>{avtaleGiro.full_name}</ResourceSubHeader>
 
                 <SubHeader>Keyinfo</SubHeader>
                 <HorizontalPanel>

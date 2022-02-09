@@ -81,7 +81,7 @@ export const TextInputField = styled.input`
   transition: box-shadow 180ms;
   &:focus {
     outline: none;
-    box-shadow: 0px 0px 0px 1.5px orange;
+    box-shadow: 0px 0px 0px 1.5px black;
   }
 `;
 

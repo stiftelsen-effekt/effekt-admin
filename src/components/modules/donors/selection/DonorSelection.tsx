@@ -11,7 +11,6 @@ import {
 } from '../../../../store/donors/donor-selection.actions';
 import { IDonor } from '../../../../models/types';
 import { EffektInput } from '../../../style/elements/input.style';
-import { orange50 } from '../../../style/colors';
 import { shortDate } from '../../../../util/formatting';
 import { PlusSquare } from 'react-feather';
 import { EffektButton } from '../../../style/elements/button.style';
@@ -92,7 +91,7 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
 
   const rowStyle = (rowIndex: number, selectedIndex: number) => {
     return {
-      background: rowIndex === selectedIndex ? orange50 : '',
+      background: rowIndex === selectedIndex ? 'black' : '',
       color: rowIndex === selectedIndex ? 'white' : '',
     };
   };

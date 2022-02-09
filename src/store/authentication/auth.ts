@@ -1,5 +1,4 @@
 import { DEV_ENVIRONMENT, API_URL, API_AUTH } from '../../config/config';
-import queryString from 'querystring';
 
 import shortid from 'shortid';
 import { loginSuccess, loginCacheFailure, loginFailure } from './loginout.actions';
@@ -106,7 +105,7 @@ export class AuthUtil {
   /* Gets the access key from localstorage, or returns null if no access key exists */
   static getStoredAccessKey(): IAccessKey | null {
     let accessKeyStr: string | null = localStorage.getItem(this.ACCESS_KEY_KEY);
-    if (accessKeyStr == null) return null;
+    if (accessKeyStr === null) return null;
     try {
       return JSON.parse(accessKeyStr);
     } catch (ex) {
@@ -128,13 +127,26 @@ export class AuthUtil {
   /* Parses the querystring of the callback from the API authentification
        route, returns a clean object to work with */
   static parseCallback(): ICallbackParameters {
-    let params = queryString.parse(this.getCurrentUrlParameters);
+    const query = this.getCurrentUrlParameters;
+
     return {
-      key: params.key as string,
-      expires: new Date(params.expires as string),
-      state: params.state as string,
+      key: this.getQueryVariable(query, 'key'),
+      expires: new Date(this.getQueryVariable(query, 'expires')),
+      state: this.getQueryVariable(query, 'state'),
     };
   }
+
+  static getQueryVariable(query, variable): string {
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) === variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    console.log('Query variable %s not found', variable);
+    return '';
+}
 
   //Helper
   static get getCurrentUrlParameters(): string {

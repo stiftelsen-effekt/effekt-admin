@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 
 import Histoslider from 'histoslider';
-import { azure50 } from '../../style/colors';
 
 import rightArrow from '../../../assets/right-arrow.svg';
 import { FilterInput } from '../../style/elements/filters.component.style';
@@ -65,13 +64,14 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({
         height={120}
         step={1}
         padding={10}
-        selectedColor={azure50}
+        selectedColor={'white'}
         histogramStyle={{
           backgroundColor: 'none',
         }}
         showLabels={false}
+        barBorderRadius={0}
       ></Histoslider>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'white' }}>
         <div>
           <FilterInput
             value={range[0]}
@@ -85,7 +85,7 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({
           ></FilterInput>
           <span>&nbsp;&nbsp;kr</span>
         </div>
-        <img src={rightArrow} style={{ height: '20px' }} alt="arrow" />
+        <img src={rightArrow} style={{ height: '20px', color: 'white' }} alt="arrow" />
         <div>
           <FilterInput
             value={range[1] === Number.MAX_SAFE_INTEGER ? '∞' : range[1]}

@@ -26,7 +26,7 @@ export const KIDDonorComponent: React.FunctionComponent<IProps> = (props) => {
 
   const donor = props.selectedDonor;
 
-  let selectedDonor = null;
+  let selectedDonor: JSX.Element = <div />
   if (donor !== undefined) {
     if (donor.id !== parseInt(donorId)) setDonorId(donor.id.toString());
 

@@ -1,17 +1,17 @@
 import styled from 'styled-components';
-import { azure02, azure50, grey05 } from '../colors';
 import { EffektDateRange } from '../../modules/range/DateRange';
 import { EffektInput } from './input.style';
 
 export const FilterHeader = styled.h2`
-  font-size: 24px;
+  font-family: 'ESKlarheitKurrent';
+  font-size: 28px;
   padding-left: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   padding-bottom: 20px;
-  background: ${azure50};
+  background: black;
   color: white;
   margin-top: 0;
-  padding-top: 20px;
+  padding-top: 60px;
   font-weight: 300;
   letter-spacing: 1px;
 `;
@@ -25,7 +25,7 @@ export const FilterWrapper = styled.div<IFilterWrapperProps>`
   position: fixed;
   right: 0;
   top: 0;
-  background: ${azure02};
+  background: black;
   box-shadow: 0px 0px 6px 0 rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   transition: transform 200ms;
@@ -44,16 +44,16 @@ export const FilterContent = styled.div`
 `;
 
 export const FilterGroup = styled.div`
-  border-bottom: 1px solid ${grey05};
+  border-bottom: 1px solid #333;
   padding: 25px 20px;
 `;
 
 export const FilterGroupHeader = styled.h3`
   font-size: 12px;
   margin-top: 0px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
-  color: ${azure50};
+  color: white;
 `;
 
 export const FilterDateRange = styled(EffektDateRange)`

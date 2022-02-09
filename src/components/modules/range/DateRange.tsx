@@ -7,12 +7,14 @@ interface IProps {
   to: Date | null;
   onChangeFrom(date: Date | null): void;
   onChangeTo(date: Date | null): void;
+  inverted?: boolean;
 }
 export const EffektDateRange: React.FunctionComponent<IProps> = ({
   from,
   to,
   onChangeFrom,
   onChangeTo,
+  inverted
 }) => {
   return (
     <React.Fragment>
@@ -25,7 +27,12 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({
 
       <img
         src={rightArrow}
-        style={{ margin: '0 12px', height: '20px', verticalAlign: 'middle' }}
+        style={{ 
+          margin: '0 12px', 
+          height: '20px', 
+          verticalAlign: 'middle',
+          color: (inverted ? 'white' : 'black')
+        }}
         alt="arrow"
       />
 

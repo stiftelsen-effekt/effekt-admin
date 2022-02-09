@@ -3,12 +3,12 @@ import { green30, red30 } from '../../../style/colors';
 
 export const Valid = styled.div`
   color: ${green30};
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 export const Invalid = styled.div`
   color: ${red30};
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 export const SummationString = styled.span`

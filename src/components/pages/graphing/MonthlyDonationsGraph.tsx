@@ -15,17 +15,17 @@ export const MonthlyDonationsGraph: React.FC = () => {
 
   if (!monthly || monthly.length === 0) return <div>Loading...</div>;
 
-  const data: ChartData = {
+  const data: ChartData<"bar"> = {
     datasets: [
       {
         data: monthly.map((record) => record.sum),
-        backgroundColor: '#f5b555',
+        backgroundColor: 'black',
       },
     ],
     labels: monthly.map((record) => record.year.toString() + ' - ' + record.month.toString()),
   };
 
-  const options: ChartOptions = {
+  const options: ChartOptions<"bar"> = {
     plugins: {
       legend: {
         display: false,
@@ -41,8 +41,12 @@ export const MonthlyDonationsGraph: React.FC = () => {
         },
       },
     },
+    maintainAspectRatio: false,
     scales: {
       y: {
+        grid: {
+          drawBorder: false,
+        },
         ticks: {
           callback: (val) =>
             new Intl.NumberFormat('no-NB', {
@@ -52,8 +56,13 @@ export const MonthlyDonationsGraph: React.FC = () => {
             }).format(val as number),
         },
       },
+      x: {
+        grid: {
+          display: false
+        }
+      }
     },
   };
 
-  return <Bar data={data} options={options} height={220} />;
+  return <Bar data={data} options={options} />;
 };

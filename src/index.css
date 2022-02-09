@@ -1,8 +1,23 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+@font-face {
+  font-family: "ESKlarheitGrotesk";
+  src: url("assets/ESKlarheitGrotesk-Regular.woff2") format('woff');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "ESKlarheitGrotesk";
+  src: url("assets/ESKlarheitGrotesk-Semibold.woff2") format('woff');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "ESKlarheitKurrent";
+  src: url("assets/ESKlarheitKurrent-Regular.woff2") format('woff');
+}
 
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'ESKlarheitGrotesk', sans-serif;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -13,5 +28,5 @@ code {
 }
 
 strong {
-  font-weight: 500;
+  font-weight: 600;
 }
