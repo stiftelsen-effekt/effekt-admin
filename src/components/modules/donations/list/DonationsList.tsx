@@ -13,7 +13,16 @@ import { StyledDeleteButton } from './DonationsList.style';
 import { useHistory } from 'react-router';
 import { IDonation } from '../../../../models/types';
 
-export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ donations, manual, defaultPageSize }) => {
+interface Props {
+  donations: Array<IDonation> | undefined;
+  manual?: boolean;
+  defaultPageSize?: number;
+  hideDeleteButton?: boolean;
+  hideDonorName?: boolean;
+  hideKID?: boolean;
+}
+
+export const DonationsList: React.FunctionComponent<Props> = ({ donations, manual, defaultPageSize, hideDeleteButton, hideDonorName, hideKID }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -27,15 +36,11 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
     }
   }, [pagination, manual, dispatch]);
 
-  const columnDefinitions = [
+  const columnDefinitions: any[] = [
     {
       Header: 'ID',
       accessor: 'id',
       width: 60
-    },
-    {
-      Header: 'Donor',
-      accessor: 'donor',
     },
     {
       Header: 'Method',
@@ -58,10 +63,6 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
       }
     },
     {
-      Header: 'KID',
-      accessor: 'kid',
-    },
-    {
       Header: 'Timestamp',
       id: 'timestamp',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp, { setZone: true })),
@@ -70,14 +71,31 @@ export const DonationsList: React.FunctionComponent<{ donations: Array<IDonation
           DateTime.fromFormat(b, "dd.MM.yyyy") ? 
           -1 : 1)
       }
-    },
-    {
-      Header: 'Slett',
+    }
+  ];
+
+  if(!hideDonorName) {
+    columnDefinitions.splice(1, 0, {
+      Header: 'Donor',
+      accessor: 'donor',
+    })
+  }
+
+  if(!hideKID) {
+    columnDefinitions.splice(4, 0, {
+      Header: 'KID',
+      accessor: 'kid',
+    },)
+  }
+
+  if (!hideDeleteButton) {
+    columnDefinitions.push({
+      Header: 'Delete',
       id: 'delete',
       accessor: (res: any) => <DeleteButton id={res.id} sum={res.sum} donor={res.donor} />,
       width: 80
-    },
-  ];
+    })
+  }
 
   const defaultSorting = [{ id: 'timestamp', desc: true }];
 
