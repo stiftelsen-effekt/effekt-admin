@@ -10,6 +10,10 @@ import { HorizontalPanel } from '../donations/Donation.style';
 import { fetchDistributionAction } from '../../../store/distributions/distribution.actions';
 import { DistributionKeyInfo } from './DistributionKeyInfo';
 import { DonationsList } from '../../modules/donations/list/DonationsList';
+import { EffektButton } from '../../style/elements/button.style';
+import { PieChart, User } from 'react-feather';
+import { useHistory } from 'react-router';
+import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/EffektButtonsWrapper.style';
 
 interface IParams {
     id: string
@@ -19,6 +23,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
     const current: CurrentDistributionState | undefined = useSelector((state: AppState) => state.distributions.current)
     const KID = match.params.id
     const dispatch = useDispatch()
+    const history = useHistory()
     
     useEffect(() => {
         dispatch(fetchDistributionAction.started({ kid: KID }))
@@ -46,9 +51,19 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
                 <SubHeader>Donations</SubHeader>
                 <DonationsList donations={current.affiliatedDonations} hideDeleteButton={true} hideDonorName={true} hideKID={true} defaultPageSize={10} />
                 <SubHeader>Meta</SubHeader>
-                <NavLink to={`/donors/${current.distribution.donor.id}`}>Go to donor</NavLink>
-                <br />
-                <NavLink to={`/distributions`}>See all distributions</NavLink>
+
+                <EffektButtonsWrapper>
+                    <EffektButton onClick={() => {
+                        history.push('/donors/' + current.distribution?.donor.id)
+                    }}>
+                        <User size={16} />Donor
+                    </EffektButton>
+                    <EffektButton onClick={() => {
+                        history.push('/distributions')
+                    }}>
+                        <PieChart size={16} />All Distributions
+                    </EffektButton>
+                </EffektButtonsWrapper>
             </Page>
         )
     }
