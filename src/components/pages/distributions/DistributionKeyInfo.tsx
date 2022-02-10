@@ -12,7 +12,7 @@ export const DistributionKeyInfo: React.FunctionComponent<IProps> = ({ distribut
 
     if(distribution.affiliatedDonations) {
         distribution.affiliatedDonations.forEach(donation => {
-            sumDonations += parseFloat(donation.sum)
+            sumDonations += parseFloat(donation.sum.toString())
         });
     }
 
