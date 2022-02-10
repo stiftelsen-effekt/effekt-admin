@@ -9,6 +9,7 @@ import { Page } from '../../style/elements/page.style';
 import { HorizontalPanel } from '../donations/Donation.style';
 import { fetchDistributionAction } from '../../../store/distributions/distribution.actions';
 import { DistributionKeyInfo } from './DistributionKeyInfo';
+import { DonationsList } from '../../modules/donations/list/DonationsList';
 
 interface IParams {
     id: string
@@ -42,6 +43,8 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
                 
                     <DistributionKeyInfo distribution={current}></DistributionKeyInfo>
                 </HorizontalPanel>
+                <SubHeader>Donations</SubHeader>
+                <DonationsList donations={current.affiliatedDonations} hideDeleteButton={true} hideDonorName={true} hideKID={true} defaultPageSize={10} />
                 <SubHeader>Meta</SubHeader>
                 <NavLink to={`/donors/${current.distribution.donor.id}`}>Go to donor</NavLink>
                 <br />
