@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import React, { useEffect } from 'react'
-import { RouteComponentProps, NavLink } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState, CurrentDistributionState } from '../../../models/state';
 import { DistributionGraphComponent } from '../../modules/distribution/Graph';
