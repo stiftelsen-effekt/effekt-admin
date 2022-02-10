@@ -9,9 +9,12 @@ interface IProps {
 export const DistributionKeyInfo: React.FunctionComponent<IProps> = ({ distribution }) => {
 
     let sumDonations = 0
-    distribution.affiliatedDonations.forEach(donation => {
-        sumDonations += parseFloat(donation.sum)
-    });
+
+    if(distribution.affiliatedDonations) {
+        distribution.affiliatedDonations.forEach(donation => {
+            sumDonations += parseFloat(donation.sum)
+        });
+    }
 
     if (distribution.distribution) {
         return (
