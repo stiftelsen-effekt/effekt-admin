@@ -10,24 +10,31 @@ export function* fetchDistribution(action: Action<IFetchDistributionActionParams
   try {
     const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
 
-    const result: API.Response = yield call(API.call, {
+    const distributionResult: API.Response = yield call(API.call, {
       endpoint: `/distributions/${action.payload.kid}`,
       method: API.Method.GET,
       token: token.token
     });
-    if (result.status !== 200) throw new Error(result.content);
+    if (distributionResult.status !== 200) throw new Error(distributionResult.content);
+
+    const donationsResult: API.Response = yield call(API.call, {
+      endpoint: `/donations/all/${action.payload.kid}`,
+      method: API.Method.GET,
+      token: token.token
+    });
+    if (donationsResult.status !== 200) throw new Error(donationsResult.content);
 
     let formattedShares: IDistributionShare[] = [];
 
-    result.content.distribution.forEach((dist: any) => {
+    distributionResult.content.distribution.forEach((dist: any) => {
       formattedShares.push({organizationId: dist.ID, abbriv: dist.abbriv, share: dist.percentage_share})
     });
 
     yield put(fetchDistributionAction.done({ params: action.payload, result: {
        kid: action.payload.kid,
-       donor: result.content.donor,
+       donor: distributionResult.content.donor,
        distribution: formattedShares,
-       affilliatedDonations: [] // TODO: Fetch affiliateddonations from database
+       affilliatedDonations: donationsResult.content
     } }));
   } catch (ex) {
     yield put(fetchDistributionAction.failed({error: new Error(typeof ex === "string" ? ex : ""), params: action.payload}));

@@ -46,7 +46,8 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
           KID: action.payload.result.kid,
           donor: action.payload.result.donor,
           shares: action.payload.result.distribution
-        }
+        },
+        affiliatedDonations: action.payload.result.affilliatedDonations
       }
     };
   } else if (isType(action, fetchDistributionAction.started)) {
