@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { grey15, grey02, grey30, grey70} from '../../colors';
+import { grey15, grey02, grey30} from '../../colors';
 import checked_inactive from '../../../../assets/checked_inactive.svg';
 import checked_active from '../../../../assets/checked_active.svg';
 
