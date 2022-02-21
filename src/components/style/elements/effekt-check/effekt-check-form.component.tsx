@@ -1,6 +1,7 @@
 import React from 'react';
 import { EffektCheckFormWrapper } from './effekt-check-form.component.style';
 import { EffektCheck } from './effekt-check.component';
+import { SelectAllButton } from './effekt-check.component.style';
 
 export interface EffektCheckChoice {
   label: string;
@@ -23,27 +24,16 @@ export const EffektCheckForm: React.FunctionComponent<IProps> = ({ choices, inve
       label={choice.label}
       checked={choice.selected}
       inverted={isInverted}
-      onChange={(checked) => {
-        let updatedValues: Array<any> = choices.reduce(
-          (result: Array<any>, origChoice: EffektCheckChoice) => {
-            if (choice.label === origChoice.label) {
-              if (checked) {
-                result.push(choice.value);
-                return result;
-              } else {
-                return result;
-              }
-            }
-            if (origChoice.selected) {
-              result.push(origChoice.value);
-            }
-            return result;
-          },
-          []
-        );
-        onChange(updatedValues);
+      onChange={(now_checked) => {
+        choices[index].selected = now_checked;
+        onChange(choices.filter(choice => (choice.selected)).map(choice => choice.value))
       }}
     ></EffektCheck>
   ));
-  return <EffektCheckFormWrapper>{checkBoxes}</EffektCheckFormWrapper>;
+  return <EffektCheckFormWrapper>
+  <SelectAllButton onClick={() => {
+    if (choices.filter(choice => (choice.selected)).length === choices.length){onChange(new Array<number>())}
+    else{onChange(choices.map(choice => choice.value))}}} inverted={isInverted}>Select all</SelectAllButton>
+  {checkBoxes}
+</EffektCheckFormWrapper>;
 };

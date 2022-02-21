@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { grey15, grey02, grey30, grey70, azure02, azure50, } from '../../colors';
+import { grey15, grey02, grey30, grey70} from '../../colors';
 import checked_inactive from '../../../../assets/checked_inactive.svg';
 import checked_active from '../../../../assets/checked_active.svg';
 
@@ -41,17 +41,17 @@ export const EffektCheckLabel = styled.div<LabelProps>`
   margin-left: 10px;
 `;
 
-export const SelectAllButton = styled.div`  
+export const SelectAllButton = styled.div<LabelProps>`  
     font-size: 12px;
     text-decoration: underline;
     margin-top: 0px;
     font-weight: 500;
-    color: ${grey70};
+    color: ${(props) => (props.inverted ?  'white' : 'black')};
     &:hover{
-      color: ${grey30};
+      color: ${(props) => (props.inverted ?  grey15 : grey30)};
       cursor: pointer;
     }
     &:active{
-      color: ${azure50};
+      color: ${(props) => (props.inverted ?  grey30 : grey15)};
     }
 `;
