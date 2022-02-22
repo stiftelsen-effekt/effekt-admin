@@ -121,9 +121,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
           <EffektCheckForm
             inverted={true}
             choices={paymentMethodChoices}
-            onChange={(choices: Array<number>) => {
-              dispatch(setDonationFilterPaymentMethodIDs(choices));
-            }}
+            onChange={(selected: Array<number>) => { dispatch(setDonationFilterPaymentMethodIDs(selected)) } }
           ></EffektCheckForm>
         </FilterGroup>
       </FilterContent>
