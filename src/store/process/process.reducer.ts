@@ -11,6 +11,7 @@ const defaultState: ReportProcessingState = {
   valid: 0,
   invalid: 0,
   invalidTransactions: [],
+  loading: false,
 };
 
 const toastIfDone = (transactionsLeft: number) =>
@@ -20,8 +21,12 @@ export const reportProcessingReducer = (
   state: ReportProcessingState = defaultState,
   action: AnyAction
 ): ReportProcessingState => {
+  if (isType(action, uploadReportAction.started)){
+    return {...state, loading: true};
+  }
   if (isType(action, uploadReportAction.failed)) {
     toastError('Failed to process report', action.payload.error.message);
+    return {...state, loading: false};
   } else if (isType(action, uploadReportAction.done)) {
     if (action.payload.result.invalid > 0) {
       toast.success(
@@ -39,10 +44,11 @@ export const reportProcessingReducer = (
             },
           };
         }),
+        loading: false,
       };
     } else {
       toast.success(`🔥 inserted ${action.payload.result.valid} donations`);
-      return state;
+      return {...state, loading: false};
     }
   } else if (action.type === POP_INVALID_TRANSACTION) {
     let transactions = state.invalidTransactions;
@@ -53,22 +59,24 @@ export const reportProcessingReducer = (
       valid: ++state.valid,
       invalid: --state.invalid,
       invalidTransactions: transactions,
+      loading: false,
     };
   } else if (isType(action, createDistribitionAndInsertDonationAction.done)) {
-    if (state.invalidTransactions.length === 0) return state;
+    if (state.invalidTransactions.length === 0) return {...state, loading: false};
     let externalRef = action.payload.params.donation.paymentExternalRef;
 
     let transactions = state.invalidTransactions.filter(
       (invalid) => invalid.transaction.transactionID !== externalRef
     );
 
-    if (transactions.length === state.invalidTransactions.length) return state;
+    if (transactions.length === state.invalidTransactions.length) return {...state, loading: false};
 
     toastIfDone(transactions.length);
     return {
       valid: ++state.valid,
       invalid: --state.invalid,
       invalidTransactions: transactions,
+      loading: false,
     };
   }
 

@@ -94,6 +94,7 @@ export interface ReportProcessingState {
   valid: number;
   invalid: number;
   invalidTransactions: Array<IInvalidTransaction>;
+  loading: boolean;
 }
 
 export interface CreateDonorState {}
