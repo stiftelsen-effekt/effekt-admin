@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import React, { useEffect } from 'react';
 import { List } from 'react-feather';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +8,12 @@ import { IAvtalegiroReport } from '../../../../models/types';
 import { fetchAvtaleGiroReportAction } from '../../../../store/avtalegiro/avtalegiro.actions';
 import { thousandize } from '../../../../util/formatting';
 import { EffektButton } from '../../../style/elements/button.style';
-import { ReportActions, ReportContent, ReportHeader, ReportWrapper } from '../../shared/report/Report.style';
+import {
+  ReportActions,
+  ReportContent,
+  ReportHeader,
+  ReportWrapper,
+} from '../../shared/report/Report.style';
 
 export const AvtaleGiroReport = () => {
   const report: IAvtalegiroReport = useSelector(
@@ -15,12 +21,15 @@ export const AvtaleGiroReport = () => {
   );
   const dispatch = useDispatch();
   const history = useHistory();
+  const { getAccessTokenSilently } = useAuth0();
 
-  const handleAgreementListButtonClick = () => history.push("/avtalegiro")
+  const handleAgreementListButtonClick = () => history.push('/avtalegiro');
 
   useEffect(() => {
-    dispatch(fetchAvtaleGiroReportAction.started(undefined));
-  }, [dispatch]);
+    getAccessTokenSilently().then((token) =>
+      dispatch(fetchAvtaleGiroReportAction.started({ token }))
+    );
+  }, [dispatch, getAccessTokenSilently]);
 
   return (
     <ReportWrapper>
@@ -49,17 +58,19 @@ export const AvtaleGiroReport = () => {
             <tr>
               <td>Agreements drafted</td>
               <td>{report.draftedThisMonth}</td>
-              <td style={{textAlign: 'right'}}>({thousandize(report.sumDraftedThisMonth)} kr)</td>
+              <td style={{ textAlign: 'right' }}>({thousandize(report.sumDraftedThisMonth)} kr)</td>
             </tr>
             <tr>
               <td>Agreements activated</td>
               <td>{report.activatedThisMonth}</td>
-              <td style={{textAlign: 'right'}}>({thousandize(report.sumActivatedThisMonth)} kr)</td>
+              <td style={{ textAlign: 'right' }}>
+                ({thousandize(report.sumActivatedThisMonth)} kr)
+              </td>
             </tr>
             <tr>
               <td>Agreements stopped</td>
               <td>{report.stoppedThisMonth}</td>
-              <td style={{textAlign: 'right'}}>({thousandize(report.sumStoppedThisMonth)} kr)</td>
+              <td style={{ textAlign: 'right' }}>({thousandize(report.sumStoppedThisMonth)} kr)</td>
             </tr>
           </tbody>
         </table>

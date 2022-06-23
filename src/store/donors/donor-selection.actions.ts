@@ -15,30 +15,6 @@ export const clearSelectedDonor = () => ({ type: CLEAR_SELECTED_DONOR });
 
 const actionCreator = actionCreatorFactory();
 
-export const searchDonorAction = actionCreator.async<String, Array<IDonor>, Error>('SEARCH_DONORS');
-/*
-export const SEARCH_DONORS_REQUEST = "SEARCH_DONORS_REQUEST"
-export const SEARCH_DONORS_SUCCESS = "SEARCH_DONORS_SUCCESS"
-export const SEARCH_DONORS_FAILURE = "SEARCH_DONORS_FAILURE"
+export interface IFetchSearchDonorsActionParams { query: string, token: string }
 
-export const searchDonorsRequest = (query: string) => {
-    return {
-        type: SEARCH_DONORS_REQUEST,
-        payload: query
-    }
-}
-
-export const searchDonorsSuccess = (payload: Array<IDonor>) => {
-    return {
-        type: SEARCH_DONORS_SUCCESS,
-        payload
-    }
-}
-
-export const searchDonorFailure = (payload: string) => {
-    return {
-        type: SEARCH_DONORS_FAILURE,
-        payload
-    }
-}
-*/
+export const searchDonorAction = actionCreator.async<IFetchSearchDonorsActionParams, Array<IDonor>, Error>('SEARCH_DONORS');

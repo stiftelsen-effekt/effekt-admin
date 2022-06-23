@@ -11,14 +11,18 @@ import { AppState } from '../../../../models/state';
 import { DistributionInput } from '../../shared/distribution-input/DistributionInput';
 import Decimal from 'decimal.js';
 import { createDistributionAction } from '../../../../store/distributions/distribution-input.actions';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface IProps {
   onSubmit(): void;
 }
 
 export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }) => {
-  const donor = useSelector((state: AppState) => state.donorPage.donor)
-  const distributionInput = useSelector((state: AppState) => state.distributions.distributionInput.distribution)
+  const { getAccessTokenSilently } = useAuth0();
+  const donor = useSelector((state: AppState) => state.donorPage.donor);
+  const distributionInput = useSelector(
+    (state: AppState) => state.distributions.distributionInput.distribution
+  );
   const [donorInput, setDonorInput] = useState<number>();
   const [validInput, setValidInput] = useState<boolean>(false);
 
@@ -26,43 +30,49 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
 
   // Reset donor state when opening modal
   useEffect(() => {
-    dispatch(getDonorAction.started(0))
-  }, [dispatch])
+    getAccessTokenSilently().then((token) => dispatch(getDonorAction.started({ id: 0, token })));
+  }, [dispatch, getAccessTokenSilently]);
 
   // Check if donor exists
   useEffect(() => {
-    if(donorInput !== undefined) {
-      dispatch(getDonorAction.started(donorInput))
+    if (donorInput !== undefined) {
+      getAccessTokenSilently().then((token) =>
+        dispatch(getDonorAction.started({ id: donorInput, token }))
+      );
     }
-  }, [dispatch, donorInput])
+  }, [dispatch, donorInput, getAccessTokenSilently]);
 
   useEffect(() => {
-    let sumPercent = new Decimal(0)
+    let sumPercent = new Decimal(0);
     distributionInput.forEach((org: IDistributionShare) => {
-        sumPercent = sumPercent.plus(org.share)
-    })
+      sumPercent = sumPercent.plus(org.share);
+    });
 
     // Set valid input if distribution sums to 100 and donor with inputID exists
     if (parseInt(sumPercent.toFixed(0)) === 100) {
       if (donor) {
-        setValidInput(true)
+        setValidInput(true);
       }
     } else {
-      setValidInput(false)
+      setValidInput(false);
     }
-
-  }, [dispatch, distributionInput, donor, donorInput])
+  }, [dispatch, distributionInput, donor, donorInput]);
 
   const submit = () => {
-    let filteredDistributions: Array<IDistributionShare> = []
+    let filteredDistributions: Array<IDistributionShare> = [];
     distributionInput.forEach((dist: IDistributionShare) => {
-      if(dist.share.greaterThan(0)) {
-        filteredDistributions.push(dist)
+      if (dist.share.greaterThan(0)) {
+        filteredDistributions.push(dist);
       }
     });
 
     if (donor) {
-      dispatch(createDistributionAction.started({donor: {id: donor.id}, distribution: filteredDistributions}))
+      dispatch(
+        createDistributionAction.started({
+          donor: { id: donor.id },
+          distribution: filteredDistributions,
+        })
+      );
     }
     onSubmit();
   };
@@ -78,12 +88,20 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
         onChange={(e: any) => setDonorInput(e.target.value)}
       ></EffektInput>
       <EffektInput
-        value={donor ? donor.name : (donorInput ? `No donor with ID ${donorInput}` : "Donor name (autofills)")}
+        value={
+          donor
+            ? donor.name
+            : donorInput
+            ? `No donor with ID ${donorInput}`
+            : 'Donor name (autofills)'
+        }
         onKeyDown={(e) => e.key === 'Enter' && submit()}
         disabled={true}
       ></EffektInput>
       <DistributionInput />
-      <EffektButton disabled={!validInput} onClick={submit}>Create <Plus size={16}/></EffektButton>
+      <EffektButton disabled={!validInput} onClick={submit}>
+        Create <Plus size={16} />
+      </EffektButton>
     </CreateDistributionWrapper>
   );
 };

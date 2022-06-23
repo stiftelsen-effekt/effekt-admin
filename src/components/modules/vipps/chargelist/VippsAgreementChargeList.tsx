@@ -12,6 +12,7 @@ import {
 import { ChargeListWrapper } from './VippsAgreementChargeList.style';
 import { VippsChargeFilter } from './VippsAgreementChargeFilter';
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const VippsAgreementChargeList: React.FunctionComponent = () => {
   const data = useSelector((state: AppState) => state.vippsAgreementCharges.charges);
@@ -21,10 +22,13 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
   const filter = useSelector((state: AppState) => state.vippsAgreementCharges.filter);
 
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    dispatch(fetchVippsAgreementChargesAction.started(undefined));
-  }, [pagination, filter, dispatch]);
+    getAccessTokenSilently().then((token) =>
+      dispatch(fetchVippsAgreementChargesAction.started({ token }))
+    );
+  }, [pagination, filter, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions = [
     {
@@ -112,6 +116,7 @@ const RefundButton: React.FC<{
   disabled: boolean;
 }> = ({ agreementId, chargeId, amount, disabled }) => {
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   return (
     <button
@@ -121,8 +126,10 @@ const RefundButton: React.FC<{
           `Do you really want to refund the charge with ID ${chargeId} and sum ${amount} kr?`
         );
         if (sure) {
-          dispatch(refundVippsAgreementChargeAction.started({ agreementId, chargeId }));
-          window.location.reload();
+          getAccessTokenSilently().then((token) => {
+            dispatch(refundVippsAgreementChargeAction.started({ agreementId, chargeId, token }));
+            window.location.reload();
+          });
         }
       }}
     >

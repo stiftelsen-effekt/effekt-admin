@@ -10,10 +10,16 @@ import {
   setAvtaleGiroPagination,
 } from '../../../../store/avtalegiro/avtalegiro.actions';
 import { IAvtaleGiro } from '../../../../models/types';
+import { useAuth0 } from '@auth0/auth0-react';
 
-export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtaleGiro> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ agreements, manual, defaultPageSize }) => {
+export const AvtaleGiroList: React.FunctionComponent<{
+  agreements: Array<IAvtaleGiro> | undefined;
+  manual?: boolean;
+  defaultPageSize?: number;
+}> = ({ agreements, manual, defaultPageSize }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { getAccessTokenSilently } = useAuth0();
 
   const loading = useSelector((state: AppState) => state.avtaleGiroAgreements.loading);
   const pages = useSelector((state: AppState) => state.avtaleGiroAgreements.pages);
@@ -21,16 +27,18 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
 
   useEffect(() => {
     if (manual) {
-      dispatch(fetchAvtaleGiroAgreementsAction.started(undefined))
+      getAccessTokenSilently().then((token) =>
+        dispatch(fetchAvtaleGiroAgreementsAction.started({ token }))
+      );
     }
-  }, [pagination, manual, dispatch]);
+  }, [pagination, manual, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions = [
     {
       Header: 'ID',
       accessor: 'ID',
       id: 'id',
-      width: 60
+      width: 60,
     },
     {
       Header: 'Donor',
@@ -44,21 +52,21 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
         if (res.active === 0 && res.cancelled) return 'STOPPED';
         return 'INACTIVE';
       },
-      width: 80
+      width: 80,
     },
     {
       Header: 'Sum',
       id: 'amount',
       accessor: (res: any) => thousandize(res.amount),
       sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
-      }
+        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
+      },
     },
     {
       Header: 'Day',
       accessor: 'payment_date',
       id: 'paymentDate',
-      width: 60
+      width: 60,
     },
     {
       Header: 'KID',
@@ -70,20 +78,16 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
       id: 'created',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.created, { setZone: true })),
       sortMethod: (a: any, b: any) => {
-        return (DateTime.fromFormat(a, "dd.MM.yyyy") > 
-          DateTime.fromFormat(b, "dd.MM.yyyy") ? 
-          -1 : 1)
-      }
+        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
+      },
     },
     {
       Header: 'Last updated',
       id: 'lastUpdated',
       accessor: (res: any) => longDateTime(DateTime.fromISO(res.last_updated, { setZone: true })),
       sortMethod: (a: any, b: any) => {
-        return (DateTime.fromFormat(a, "dd.MM.yyyy") > 
-          DateTime.fromFormat(b, "dd.MM.yyyy") ? 
-          -1 : 1)
-      }
+        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
+      },
     },
     {
       Header: 'Cancellation date',
@@ -95,7 +99,7 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
       Header: 'Notify',
       id: 'notice',
       accessor: (res: any) => (res.notice === 1 ? 'YES' : 'NO'),
-      width: 60
+      width: 60,
     },
   ];
 
@@ -115,20 +119,24 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
   if (manual) {
     return (
       <ReactTable
-          manual
-          data={agreements}
-          page={pagination.page}
-          pages={pages}
-          pageSize={pagination.limit}
-          loading={loading}
-          columns={columnDefinitions}
-          defaultSorted={defaultSorting}
-          onPageChange={(page) => dispatch(setAvtaleGiroPagination({ ...pagination, page }))}
-          onSortedChange={(sorted) => dispatch(setAvtaleGiroPagination({ ...pagination, sort: sorted[0] }))}
-          onPageSizeChange={(pagesize) => dispatch(setAvtaleGiroPagination({ ...pagination, limit: pagesize }))}
-          getTrProps={trProps}
-          />
-    )
+        manual
+        data={agreements}
+        page={pagination.page}
+        pages={pages}
+        pageSize={pagination.limit}
+        loading={loading}
+        columns={columnDefinitions}
+        defaultSorted={defaultSorting}
+        onPageChange={(page) => dispatch(setAvtaleGiroPagination({ ...pagination, page }))}
+        onSortedChange={(sorted) =>
+          dispatch(setAvtaleGiroPagination({ ...pagination, sort: sorted[0] }))
+        }
+        onPageSizeChange={(pagesize) =>
+          dispatch(setAvtaleGiroPagination({ ...pagination, limit: pagesize }))
+        }
+        getTrProps={trProps}
+      />
+    );
   } else {
     return (
       <ReactTable
@@ -138,7 +146,7 @@ export const AvtaleGiroList: React.FunctionComponent<{ agreements: Array<IAvtale
         defaultPageSize={defaultPageSize}
         defaultSorted={defaultSorting}
         getTrProps={trProps}
-        />
-    )
+      />
+    );
   }
-}
+};

@@ -8,7 +8,8 @@ import { toast } from 'react-toastify';
 import { AppState } from '../../../models/state';
 import { Redirect } from 'react-router';
 import { OwnerSelect } from '../owner-select/OwnerSelect';
-import { EffektLoadingSpinner} from '../../style/elements/loading-spinner';
+import { EffektLoadingSpinner } from '../../style/elements/loading-spinner';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface IState {
   vippsReport: File | null;
@@ -28,16 +29,22 @@ export const ReportUpload: React.FunctionComponent = (props) => {
   };
 
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
   const [state, setState] = useState<IState>(getDefaultState());
 
   const currentDataOwner = useSelector((state: AppState) => state.dataOwner.current);
   const loading = useSelector((state: AppState) => state.reportProcessing.loading);
 
   const uploadReport = (type: ReportTypes, file: File | null) => {
-    if (!file) if (loading) return toast.error('Already processing a report'); 
-    else return toast.error('No file selected');
+    if (!file)
+      if (loading) return toast.error('Already processing a report');
+      else return toast.error('No file selected');
     if (!currentDataOwner) return toast.error('No data owner selected');
-    dispatch(uploadReportAction.started({ type, report: file, metaOwnerID: currentDataOwner.id }));
+    getAccessTokenSilently().then((token) =>
+      dispatch(
+        uploadReportAction.started({ type, report: file, metaOwnerID: currentDataOwner.id, token })
+      )
+    );
   };
 
   const shouldProcess: boolean = useSelector(
@@ -76,7 +83,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               Process
             </EffektButton>
           </td>
-          {(state.vippsReport !== null && loading) && <EffektLoadingSpinner />}
+          {state.vippsReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
 
         <tr>
@@ -98,7 +105,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               Process
             </EffektButton>
           </td>
-          {(state.paypalReport !== null && loading) && <EffektLoadingSpinner />}
+          {state.paypalReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
 
         <tr>
@@ -120,7 +127,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               Process
             </EffektButton>
           </td>
-          {(state.ocrReport !== null && loading) && <EffektLoadingSpinner />}
+          {state.ocrReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
 
         <tr>
@@ -129,7 +136,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           </td>
           <td>
             <EffektFileInput
-              onChange={(file: File) => !loading && setState({ ...state, bankReport: file }) }
+              onChange={(file: File) => !loading && setState({ ...state, bankReport: file })}
               id="bank-upload"
             />
           </td>
@@ -142,7 +149,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               Process
             </EffektButton>
           </td>
-          {(state.bankReport !== null && loading) && <EffektLoadingSpinner />}
+          {state.bankReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
       </tbody>
     </ReportTable>

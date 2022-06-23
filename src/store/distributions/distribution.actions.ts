@@ -5,7 +5,8 @@ export const SET_DISTRIBUTIONS_PAGINATION = 'SET_DISTRIBUTIONS_PAGINATION';
 
 const actionCreator = actionCreatorFactory();
 
-export interface IFetchDistributionActionParams { kid: string }
+export interface IFetchDistributionActionParams { kid: string, token: string }
+export interface IFetchDistributionsActionParams { token: string }
 
 interface IFetchDistributionResult {
   kid: string;
@@ -26,7 +27,7 @@ export const fetchDistributionAction = actionCreator.async<
 >('FETCH_DISTRIBUTION');
 
 export const fetchDistributionsAction = actionCreator.async<
-  undefined,
+  IFetchDistributionsActionParams,
   IFetchDistributionsResult,
   Error
 >('FETCH_DISTRIBUTIONS');

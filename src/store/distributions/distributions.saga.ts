@@ -1,26 +1,23 @@
-import { fetchDistributionAction, fetchDistributionsAction, IFetchDistributionActionParams } from './distribution.actions';
+import { fetchDistributionAction, fetchDistributionsAction, IFetchDistributionActionParams, IFetchDistributionsActionParams } from './distribution.actions';
 import { put, call, select } from 'redux-saga/effects';
 import * as API from '../../util/api';
 import { AppState } from '../../models/state';
-import { IAccessToken } from '../authentication/auth';
 import { IPagination, IDistributionFilter, IDistributionShare } from '../../models/types';
 import { Action } from 'typescript-fsa';
 
 export function* fetchDistribution(action: Action<IFetchDistributionActionParams>) {
   try {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
     const distributionResult: API.Response = yield call(API.call, {
       endpoint: `/distributions/${action.payload.kid}`,
       method: API.Method.GET,
-      token: token.token
+      token: action.payload.token
     });
     if (distributionResult.status !== 200) throw new Error(distributionResult.content);
 
     const donationsResult: API.Response = yield call(API.call, {
       endpoint: `/donations/all/${action.payload.kid}`,
       method: API.Method.GET,
-      token: token.token
+      token: action.payload.token
     });
     if (donationsResult.status !== 200) throw new Error(donationsResult.content);
 
@@ -41,10 +38,8 @@ export function* fetchDistribution(action: Action<IFetchDistributionActionParams
   }
 }
 
-export function* fetchDistributions(action: any) {
+export function* fetchDistributions(action: Action<IFetchDistributionsActionParams>) {
   try {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
     const pagination: IPagination = yield select(
       (state: AppState) => state.distributions.pagination
     );
@@ -55,7 +50,7 @@ export function* fetchDistributions(action: any) {
     const result: API.Response = yield call(API.call, {
       endpoint: '/distributions/search',
       method: API.Method.POST,
-      token: token.token,
+      token: action.payload.token,
       data: {
         ...pagination,
         filter,

@@ -7,6 +7,7 @@ const actionCreator = actionCreatorFactory();
 export interface IResendReceiptPayload {
   donationID: number;
   email: string | undefined;
+  token: string;
 }
 
 export const resendReceiptAction = actionCreator.async<IResendReceiptPayload, boolean, Error>(

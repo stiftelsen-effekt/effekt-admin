@@ -5,6 +5,7 @@ const actionCreator = actionCreatorFactory();
 
 export interface IFetchLogEntryActionParams {
   id: number;
+  token: string;
 }
 export const fetchLogEntryAction = actionCreator.async<
   IFetchLogEntryActionParams,

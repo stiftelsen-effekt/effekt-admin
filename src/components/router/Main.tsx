@@ -1,66 +1,19 @@
 import React from 'react';
 
 import { LoginComponent } from '../login/login.component';
-import CallbackComponent from './Callback';
-
 import { PrivateRoute } from './PrivateRoute';
 import { Route } from 'react-router';
-
-import { AppState, AuthStep } from '../../models/state';
-import { connect } from 'react-redux';
-
 import { AdminPanel } from '../AdminPanel';
 import { Switch } from 'react-router';
 import { HashRouter } from 'react-router-dom';
-import { loginCacheCheck } from '../../store/authentication/loginout.actions';
 
-interface IProps {
-  authStep: AuthStep;
-  loginCacheCheck: any;
-}
-
-class MainRouter extends React.Component<IStateProps & IDispatchProps> {
-  props!: IProps;
-  render() {
-    return (
-      <HashRouter>
-        <Switch>
-          {/* Login handling */}
-          <Route
-            exact
-            path="/callback"
-            render={(routeProps) => (
-              <CallbackComponent {...routeProps} authStep={this.props.authStep} />
-            )}
-          />
-          <Route exact path="/login" component={LoginComponent}></Route>
-
-          <PrivateRoute
-            path="/"
-            component={AdminPanel}
-            authStep={this.props.authStep}
-            loginCacheCheck={this.props.loginCacheCheck}
-          />
-        </Switch>
-      </HashRouter>
-    );
-  }
-}
-
-interface IDispatchProps {
-  loginCacheCheck: Function;
-}
-const mapDispatchToProps: IDispatchProps = {
-  loginCacheCheck,
+export const MainRouter: React.FC = () => {
+  return (
+    <HashRouter>
+      <Switch>
+        <Route exact path="/login" component={LoginComponent}></Route>
+        <PrivateRoute path="/" component={AdminPanel} />
+      </Switch>
+    </HashRouter>
+  );
 };
-
-interface IStateProps {
-  authStep: AuthStep;
-}
-const mapStateToProps = (state: AppState): IStateProps => {
-  return {
-    authStep: state.auth.authStep,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainRouter as any);

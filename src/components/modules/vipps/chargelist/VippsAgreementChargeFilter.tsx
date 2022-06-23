@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import React, { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -38,6 +39,7 @@ const statusTypes = [
 
 export const VippsChargeFilter: React.FunctionComponent = () => {
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const amountRange = useSelector(
     (state: AppState) => state.vippsAgreementCharges.filter.amountNOK
@@ -49,7 +51,10 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
   if (statuses) {
-    if (!histogram) dispatch(fetchChargeHistogramAction.started(undefined));
+    if (!histogram)
+      getAccessTokenSilently().then((token) =>
+        dispatch(fetchChargeHistogramAction.started({ token }))
+      );
 
     let statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
       label: status.name,
@@ -121,6 +126,5 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
         </FilterContent>
       </FilterWrapper>
     );
-  }
-  else return <div>Error loading filter</div>
+  } else return <div>Error loading filter</div>;
 };

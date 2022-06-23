@@ -2,7 +2,6 @@ import { AppState } from './models/state';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import watchAll from './root.saga';
-import { authReducer } from './store/authentication/auth.reducer';
 import { donorSelectorReducer } from './store/donors/donor-selection.reducer';
 import { organizationsReducer } from './store/organizations/organizations.reducer';
 import { singleDonationReducer } from './store/single-donation/single-donation.reducer';
@@ -20,7 +19,6 @@ import { donorPageReducer } from './store/donors/donor-page.reducer';
 import { composeWithDevTools } from '@redux-devtools/extension';
 
 const rootReducer = combineReducers<AppState>({
-  auth: authReducer,
   graphing: graphingReducer,
   donorSelector: donorSelectorReducer,
   donorCreation: CreateDonorReducer,

@@ -12,6 +12,7 @@ import { DateTime } from 'luxon';
 import { StyledDeleteButton } from './DonationsList.style';
 import { useHistory } from 'react-router';
 import { IDonation } from '../../../../models/types';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface Props {
   donations: Array<IDonation> | undefined;
@@ -22,9 +23,17 @@ interface Props {
   hideKID?: boolean;
 }
 
-export const DonationsList: React.FunctionComponent<Props> = ({ donations, manual, defaultPageSize, hideDeleteButton, hideDonorName, hideKID }) => {
+export const DonationsList: React.FunctionComponent<Props> = ({
+  donations,
+  manual,
+  defaultPageSize,
+  hideDeleteButton,
+  hideDonorName,
+  hideKID,
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { getAccessTokenSilently } = useAuth0();
 
   const pages = useSelector((state: AppState) => state.donations.pages);
   const loading = useSelector((state: AppState) => state.donations.loading);
@@ -32,15 +41,15 @@ export const DonationsList: React.FunctionComponent<Props> = ({ donations, manua
 
   useEffect(() => {
     if (manual) {
-      dispatch(fetchDonationsAction.started(undefined))
+      getAccessTokenSilently().then((token) => dispatch(fetchDonationsAction.started({ token })));
     }
-  }, [pagination, manual, dispatch]);
+  }, [pagination, manual, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions: any[] = [
     {
       Header: 'ID',
       accessor: 'id',
-      width: 60
+      width: 60,
     },
     {
       Header: 'Method',
@@ -51,41 +60,39 @@ export const DonationsList: React.FunctionComponent<Props> = ({ donations, manua
       id: 'sum',
       accessor: (res: any) => thousandize(res.sum),
       sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
-      }
+        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
+      },
     },
     {
       Header: 'Transaction cost',
       id: 'transactionCost',
       accessor: (res: any) => thousandize(res.transactionCost),
       sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
-      }
+        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
+      },
     },
     {
       Header: 'Timestamp',
       id: 'timestamp',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp, { setZone: true })),
       sortMethod: (a: any, b: any) => {
-        return (DateTime.fromFormat(a, "dd.MM.yyyy") > 
-          DateTime.fromFormat(b, "dd.MM.yyyy") ? 
-          -1 : 1)
-      }
-    }
+        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
+      },
+    },
   ];
 
-  if(!hideDonorName) {
+  if (!hideDonorName) {
     columnDefinitions.splice(1, 0, {
       Header: 'Donor',
       accessor: 'donor',
-    })
+    });
   }
 
-  if(!hideKID) {
+  if (!hideKID) {
     columnDefinitions.splice(4, 0, {
       Header: 'KID',
       accessor: 'kid',
-    },)
+    });
   }
 
   if (!hideDeleteButton) {
@@ -93,8 +100,8 @@ export const DonationsList: React.FunctionComponent<Props> = ({ donations, manua
       Header: 'Delete',
       id: 'delete',
       accessor: (res: any) => <DeleteButton id={res.id} sum={res.sum} donor={res.donor} />,
-      width: 80
-    })
+      width: 80,
+    });
   }
 
   const defaultSorting = [{ id: 'timestamp', desc: true }];
@@ -147,6 +154,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({ donations, manua
 
 const DeleteButton: React.FC<{ id: number; donor: string; sum: number }> = ({ id, donor, sum }) => {
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   return (
     <StyledDeleteButton
@@ -154,7 +162,10 @@ const DeleteButton: React.FC<{ id: number; donor: string; sum: number }> = ({ id
         let sure = window.confirm(
           `Do you really want to delete the donation of ${donor} with sum ${sum}`
         );
-        if (sure) dispatch(deleteDonationAction.started(id));
+        if (sure)
+          getAccessTokenSilently().then((token) =>
+            dispatch(deleteDonationAction.started({ id, token }))
+          );
       }}
     >
       X

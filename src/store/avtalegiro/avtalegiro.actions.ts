@@ -31,25 +31,29 @@ interface IFetchAvtaleGiroReportResult {
   sumStoppedThisMonth: number | null
 }
 
-export interface IFetchAgreementActionParams { id: string }
-export interface IUpdateAvtaleGiroAmountActionParams { KID: string, amount: number }
-export interface IUpdateAvtaleGiroStatusActionParams { KID: string, status: number }
-export interface IUpdateAvtaleGiroPaymentDateActionParams { KID: string, paymentDate: number }
-export interface IUpdateAvtaleGiroDistributionActionParams { KID: string, distribution: Array<Share>}
-export interface IFetchAvtaleGiroDateValidationParams { date: DateTime }
+export interface IFetchAvtaleGiroAgreementsActionParams { token: string }
+export interface IFetchAgreementActionParams { id: string, token: string }
+export interface IUpdateAvtaleGiroAmountActionParams { KID: string, amount: number, token: string }
+export interface IUpdateAvtaleGiroStatusActionParams { KID: string, status: number, token: string }
+export interface IUpdateAvtaleGiroPaymentDateActionParams { KID: string, paymentDate: number, token: string }
+export interface IUpdateAvtaleGiroDistributionActionParams { KID: string, distribution: Array<Share>, token: string }
+export interface IFetchAvtaleGiroDateValidationParams { date: DateTime, token: string }
+export interface IFetchAvtaleGiroReportActionParams { token: string }
+export interface IFetchAvtaleGiroValidationTableActionParams { token: string }
+export interface IFetchAvtaleGiroHistogramActionParams { token: string }
 
-export const fetchAvtaleGiroAgreementsAction = actionCreator.async<undefined, IFetchAvtaleGirosResults, Error>('FETCH_AVTALEGIRO_AGREEMENTS');
+export const fetchAvtaleGiroAgreementsAction = actionCreator.async<IFetchAvtaleGiroAgreementsActionParams, IFetchAvtaleGirosResults, Error>('FETCH_AVTALEGIRO_AGREEMENTS');
 export const fetchAvtaleGiroAction = actionCreator.async<IFetchAgreementActionParams, IAvtaleGiro, Error>('FETCH_AVTALEGIRO');
 export const updateAvtaleGiroAmountAction = actionCreator.async<IUpdateAvtaleGiroAmountActionParams, number, Error>('UPDATE_AVTALEGIRO_AMOUNT');
 export const updateAvtaleGiroStatusAction = actionCreator.async<IUpdateAvtaleGiroStatusActionParams, number, Error>('UPDATE_AVTALEGIRO_STATUS');
 export const updateAvtaleGiroPaymentDateAction = actionCreator.async<IUpdateAvtaleGiroPaymentDateActionParams, number, Error>('UPDATE_AVTALEGIRO_PAYMENTDATE');
 export const updateAvtaleGiroDistributionAction = actionCreator.async<IUpdateAvtaleGiroDistributionActionParams, boolean, Error>('UPDATE_AVTALEGIRO_DISTRIBUTION');
-export const fetchAvtaleGiroReportAction = actionCreator.async<undefined, IFetchAvtaleGiroReportResult, Error>('FETCH_AVTALEGIRO_REPORT');
-export const fetchAvtaleGiroValidationTableAction = actionCreator.async<undefined, Array<IAvtaleGiroValidationTableRow>, Error>('FETCH_AVTALEGIRO_VALIDATIONTABLE');
+export const fetchAvtaleGiroReportAction = actionCreator.async<IFetchAvtaleGiroReportActionParams, IFetchAvtaleGiroReportResult, Error>('FETCH_AVTALEGIRO_REPORT');
+export const fetchAvtaleGiroValidationTableAction = actionCreator.async<IFetchAvtaleGiroValidationTableActionParams, Array<IAvtaleGiroValidationTableRow>, Error>('FETCH_AVTALEGIRO_VALIDATIONTABLE');
 export const fetchAvtaleGiroMissingByDateAction = actionCreator.async<IFetchAvtaleGiroDateValidationParams, Array<IAvtaleGiro>, Error>('FETCH_AVTALEGIRO_MISSING_BY_DATE');
 export const fetchAvtaleGiroRecievedByDateAction = actionCreator.async<IFetchAvtaleGiroDateValidationParams, Array<IDonation>, Error>('FETCH_AVTALEGIRO_RECIEVED_BY_DATE');
 export const fetchAvtaleGiroExpectedByDateAction = actionCreator.async<IFetchAvtaleGiroDateValidationParams, Array<IAvtaleGiro>, Error>('FETCH_AVTALEGIRO_EXPECTED_BY_DATE');
-export const fetchAvtaleGiroHistogramAction = actionCreator.async<undefined, Array<IHistogramBucket>, Error>('FETCH_AVTALEGIRO_HISTOGRAM');
+export const fetchAvtaleGiroHistogramAction = actionCreator.async<IFetchAvtaleGiroHistogramActionParams, Array<IHistogramBucket>, Error>('FETCH_AVTALEGIRO_HISTOGRAM');
 
 export const setAvtaleGiroPagination = (pagination: IPagination) => {
   return {

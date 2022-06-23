@@ -18,11 +18,13 @@ export interface ICreateDistributionParams {
 
 export interface ICreateDonationParams extends IDonation {
   receipt: boolean;
+  token: string;
 }
 
-interface ICreateDistributionAndInsertDonationParams {
+export interface ICreateDistributionAndInsertDonationParams {
   distribution: ICreateDistributionParams;
   donation: ICreateDonationParams;
+  token: string;
 }
 
 export const createDistribitionAndInsertDonationAction = actionCreator.async<

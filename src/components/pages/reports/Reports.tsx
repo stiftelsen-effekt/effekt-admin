@@ -27,8 +27,6 @@ export enum ReportFileFormats {
 export const ReportsComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
-  const token = useSelector((state: AppState) => state.auth.currentToken);
-
   const [from, setFrom] = useState<Date | null>(null);
   const [to, setTo] = useState<Date | null>(new Date());
 
@@ -114,8 +112,6 @@ export const ReportsComponent: React.FunctionComponent = () => {
             value={fileFormat === ReportFileFormats.EXCEL ? 'excel' : 'json'}
           ></input>
         </FormSection>
-
-        <input type="hidden" name="token" value={token ? token.token : ''}></input>
 
         <EffektButton onClick={() => form.current && form.current.submit()}>Download</EffektButton>
       </form>

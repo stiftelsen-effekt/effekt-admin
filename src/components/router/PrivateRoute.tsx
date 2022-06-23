@@ -1,24 +1,22 @@
-import React, { ComponentType } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import React, { ReactComponentElement } from 'react';
 import { RouteProps, Route, Redirect } from 'react-router';
-import { AuthStep } from '../../models/state';
 
 interface IPrivateRouteProps {
-  authStep: AuthStep;
-  loginCacheCheck: Function;
-  component: ComponentType;
+  component: React.FC;
 }
 
-export const PrivateRoute: React.FunctionComponent<IPrivateRouteProps & RouteProps> = ({
+export const PrivateRoute: React.FC<IPrivateRouteProps & RouteProps> = ({
   component: Component,
-  authStep,
-  loginCacheCheck,
   ...rest
 }) => {
-  if (authStep === AuthStep.LOGGED_IN)
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading && !isAuthenticated)
+    return <Route {...rest} render={(props) => <span>Loading...</span>} />;
+
+  if (user) {
     return <Route {...rest} render={(props) => <Component {...props} />} />;
-  else if (authStep === AuthStep.INITIAL) {
-    loginCacheCheck();
-    return <div></div>;
   } else
     return (
       <Route

@@ -17,6 +17,7 @@ import { EffektButton } from '../../../style/elements/button.style';
 import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
 import { CreateDonor } from '../create/CreateDonor';
 import { useHistory } from 'react-router';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface IDonorTableState {
   sorted: Array<any>;
@@ -30,6 +31,7 @@ interface IDonorTableState {
 
 export const DonorSelectionComponent: React.FunctionComponent = (props) => {
   const history = useHistory();
+  const { getAccessTokenSilently } = useAuth0();
 
   const getDefaultState = (): IDonorTableState => {
     return {
@@ -47,14 +49,19 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
   const dispatch = useDispatch();
   const searchResult = useSelector((state: AppState) => state.donorSelector.searchResult);
 
-  if (!searchResult) dispatch(searchDonorAction.started(''));
+  if (!searchResult)
+    getAccessTokenSilently().then((token) =>
+      dispatch(searchDonorAction.started({ query: '', token }))
+    );
 
   const search = (event: ChangeEvent<HTMLInputElement>) => {
     setState({
       ...state,
       selected: null,
     });
-    dispatch(searchDonorAction.started(event.target.value));
+    getAccessTokenSilently().then((token) =>
+      dispatch(searchDonorAction.started({ query: event.target.value, token }))
+    );
   };
 
   const columnDefinitions = [
@@ -86,7 +93,7 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
   };
 
   const rowDoubleClick = (donorID: number) => {
-    history.push(`donors/${donorID}`)
+    history.push(`donors/${donorID}`);
   };
 
   const rowStyle = (rowIndex: number, selectedIndex: number) => {

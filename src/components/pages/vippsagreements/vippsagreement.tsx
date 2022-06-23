@@ -9,6 +9,7 @@ import { HorizontalPanel } from '../donations/Donation.style';
 import { fetchVippsAgreementAction } from '../../../store/vipps/vipps.actions';
 import { AgreementKeyInfoComponent } from '../../modules/vipps/singleagreement/AgreementKeyInfo';
 import { DistributionGraphComponent } from '../../modules/distribution/Graph';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface IParams {
   id: string;
@@ -19,14 +20,17 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
 }: RouteComponentProps<IParams>) => {
   const agreementID = match.params.id;
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const agreement: IVippsAgreement | undefined = useSelector(
     (state: AppState) => state.vippsAgreements.currentAgreement
   );
 
   useEffect(() => {
-    dispatch(fetchVippsAgreementAction.started({ id: agreementID }));
-  }, [agreementID, dispatch]);
+    getAccessTokenSilently().then((token) =>
+      dispatch(fetchVippsAgreementAction.started({ id: agreementID, token }))
+    );
+  }, [agreementID, dispatch, getAccessTokenSilently]);
 
   if (agreement && !agreement.id) {
     return (

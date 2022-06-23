@@ -1,21 +1,19 @@
-import { fetchLogsAction } from './logs-list.actions';
+import { fetchLogsAction, IFetchLogsActionParams } from './logs-list.actions';
 import { put, call, select } from 'redux-saga/effects';
 import * as API from '../../util/api';
 import { AppState } from '../../models/state';
-import { IAccessToken } from '../authentication/auth';
 import { IPagination } from '../../models/types';
+import { Action } from 'typescript-fsa';
 
-export function* fetchLogs(action: any) {
+export function* fetchLogs(action: Action<IFetchLogsActionParams>) {
   try {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
     const pagination: IPagination = yield select((state: AppState) => state.logs.pagination);
     const filesearch: string = yield select((state: AppState) => state.logs.filter.filesearch)
 
     const result: API.Response = yield call(API.call, {
       endpoint: '/logging/',
       method: API.Method.POST,
-      token: token.token,
+      token: action.payload.token,
       data: {
         ...pagination,
         filesearch

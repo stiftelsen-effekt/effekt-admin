@@ -1,9 +1,8 @@
 /* eslint-disable no-restricted-globals */
 import { put, call, select } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
-import { IAccessToken } from '../authentication/auth';
 import { AppState } from '../../models/state';
-import { IAvtaleGiro, IAvtaleGiroFilter, IDonation, IPagination } from '../../models/types';
+import { IAvtaleGiro, IAvtaleGiroFilter, IDonation, IHistogramBucket, IPagination } from '../../models/types';
 import * as API from './../../util/api';
 import {
   fetchAvtaleGiroAgreementsAction,
@@ -14,7 +13,11 @@ import {
   fetchAvtaleGiroReportAction,
   fetchAvtaleGiroValidationTableAction,
   IFetchAgreementActionParams,
+  IFetchAvtaleGiroAgreementsActionParams,
   IFetchAvtaleGiroDateValidationParams,
+  IFetchAvtaleGiroHistogramActionParams,
+  IFetchAvtaleGiroReportActionParams,
+  IFetchAvtaleGiroValidationTableActionParams,
   IUpdateAvtaleGiroAmountActionParams,
   IUpdateAvtaleGiroDistributionActionParams,
   IUpdateAvtaleGiroPaymentDateActionParams,
@@ -26,10 +29,8 @@ import {
 } from './avtalegiro.actions';
 import { fetchAvtaleGiroAction } from './avtalegiro.actions';
 
-export function* fetchAvtaleGiroAgreements(action: any) {
+export function* fetchAvtaleGiroAgreements(action: Action<IFetchAvtaleGiroAgreementsActionParams>) {
   try {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
     const pagination: IPagination = yield select(
       (state: AppState) => state.avtaleGiroAgreements.pagination
     );
@@ -40,7 +41,7 @@ export function* fetchAvtaleGiroAgreements(action: any) {
     const result: API.Response = yield call(API.call, {
       endpoint: '/avtalegiro/agreements',
       method: API.Method.POST,
-      token: token.token,
+      token: action.payload.token,
       data: {
         ...pagination,
         filter,
@@ -55,60 +56,54 @@ export function* fetchAvtaleGiroAgreements(action: any) {
   }
 }
 
-export function* fetchAvtaleGiroHistogram() {
+export function* fetchAvtaleGiroHistogram(action: Action<IFetchAvtaleGiroHistogramActionParams>) {
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
       endpoint: '/avtalegiro/histogram',
     });
     if (result.status !== 200) throw new Error(result.content);
-    yield put(fetchAvtaleGiroHistogramAction.done({ result: result.content }));
+    yield put(fetchAvtaleGiroHistogramAction.done({ params: action.payload, result: (result.content as IHistogramBucket[]) }));
   } catch (ex) {
-    yield put(fetchAvtaleGiroHistogramAction.failed({error: new Error(typeof ex === "string" ? ex : "")}));
+    yield put(fetchAvtaleGiroHistogramAction.failed({ params: action.payload, error: new Error(typeof ex === "string" ? ex : "")}));
   }
 }
 
-export function* fetchAvtaleGiroReport() {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
+export function* fetchAvtaleGiroReport(action: Action<IFetchAvtaleGiroReportActionParams>) {
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
       endpoint: '/avtalegiro/report',
-      token: token.token,
+      token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content);
-    yield put(fetchAvtaleGiroReportAction.done({ result: result.content }));
+    yield put(fetchAvtaleGiroReportAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(fetchAvtaleGiroReportAction.failed({error: new Error(typeof ex === "string" ? ex : "")}));
+    yield put(fetchAvtaleGiroReportAction.failed({ params: action.payload, error: new Error(typeof ex === "string" ? ex : "")}));
   }
 }
 
-export function* fetchAvtaleGiroValidationTable() {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
+export function* fetchAvtaleGiroValidationTable(action: Action<IFetchAvtaleGiroValidationTableActionParams>) {
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
       endpoint: '/avtalegiro/validation',
-      token: token.token,
+      token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content);
-    yield put(fetchAvtaleGiroValidationTableAction.done({ result: result.content }));
+    yield put(fetchAvtaleGiroValidationTableAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(fetchAvtaleGiroValidationTableAction.failed({error: new Error(typeof ex === "string" ? ex : "")}));
+    yield put(fetchAvtaleGiroValidationTableAction.failed({ params: action.payload, error: new Error(typeof ex === "string" ? ex : "")}));
   }
 }
 
 export function* fetchAvtaleGiroMissingByDate(action: Action<IFetchAvtaleGiroDateValidationParams>) {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
   try {
     const result: API.TypedResponse<Array<IAvtaleGiro>> = yield call(API.call, {
       method: API.Method.GET,
       endpoint: '/avtalegiro/missing/',
       data: { date: action.payload.date.toISO() },
-      token: token.token,
+      token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content as string);
     yield put(fetchAvtaleGiroMissingByDateAction.done({ 
@@ -121,14 +116,12 @@ export function* fetchAvtaleGiroMissingByDate(action: Action<IFetchAvtaleGiroDat
 }
 
 export function* fetchAvtaleGiroRecievedByDate(action: Action<IFetchAvtaleGiroDateValidationParams>) {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
   try {
     const result: API.TypedResponse<Array<IDonation>> = yield call(API.call, {
       method: API.Method.GET,
       endpoint: '/avtalegiro/recieved/',
       data: { date: action.payload.date.toISO() },
-      token: token.token,
+      token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content as string);
     yield put(fetchAvtaleGiroRecievedByDateAction.done({ 
@@ -141,14 +134,12 @@ export function* fetchAvtaleGiroRecievedByDate(action: Action<IFetchAvtaleGiroDa
 }
 
 export function* fetchAvtaleGiroExpectedByDate(action: Action<IFetchAvtaleGiroDateValidationParams>) {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
   try {
     const result: API.TypedResponse<Array<IAvtaleGiro>> = yield call(API.call, {
       method: API.Method.GET,
       endpoint: '/avtalegiro/expected/',
       data: { date: action.payload.date.toISO() },
-      token: token.token,
+      token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content as string);
     yield put(fetchAvtaleGiroExpectedByDateAction.done({ 
@@ -161,13 +152,13 @@ export function* fetchAvtaleGiroExpectedByDate(action: Action<IFetchAvtaleGiroDa
 }
 
 export function* fetchAvtaleGiro(action: Action<IFetchAgreementActionParams>) {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
+  ;
 
     try {
         const result: API.Response = yield call(API.call, {
             method: API.Method.GET,
             endpoint: `/avtalegiro/agreement/${action.payload.id}`,
-            token: token.token
+            token: action.payload.token
         })
         if (result)
             yield put(fetchAvtaleGiroAction.done({params: action.payload, result: result.content}))
@@ -178,7 +169,7 @@ export function* fetchAvtaleGiro(action: Action<IFetchAgreementActionParams>) {
 }
 
 export function* updateAvtaleGiroAmount(action: Action<IUpdateAvtaleGiroAmountActionParams>) {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+    
     const KID = action.payload.KID
     const amount = action.payload.amount
 
@@ -186,7 +177,7 @@ export function* updateAvtaleGiroAmount(action: Action<IUpdateAvtaleGiroAmountAc
         const result: API.Response = yield call(API.call, {
             method: API.Method.POST,
             endpoint: `/avtalegiro/${action.payload.KID}/amount`,
-            token: token.token,
+            token: action.payload.token,
             data: {
                 KID,
                 amount
@@ -203,7 +194,7 @@ export function* updateAvtaleGiroAmount(action: Action<IUpdateAvtaleGiroAmountAc
 }
 
 export function* updateAvtaleGiroStatus(action: Action<IUpdateAvtaleGiroStatusActionParams>) {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+    
     const KID = action.payload.KID
     const status = action.payload.status
 
@@ -211,7 +202,7 @@ export function* updateAvtaleGiroStatus(action: Action<IUpdateAvtaleGiroStatusAc
         const result: API.Response = yield call(API.call, {
             method: API.Method.POST,
             endpoint: `/avtalegiro/${action.payload.KID}/status`,
-            token: token.token,
+            token: action.payload.token,
             data: {
                 KID,
                 active: status
@@ -228,7 +219,7 @@ export function* updateAvtaleGiroStatus(action: Action<IUpdateAvtaleGiroStatusAc
 }
 
 export function* updateAvtaleGiroPaymentDate(action: Action<IUpdateAvtaleGiroPaymentDateActionParams>) {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+    
     const KID = action.payload.KID
     const paymentDate = action.payload.paymentDate
 
@@ -236,7 +227,7 @@ export function* updateAvtaleGiroPaymentDate(action: Action<IUpdateAvtaleGiroPay
       const result: API.Response = yield call(API.call, {
           method: API.Method.POST,
           endpoint: `/avtalegiro/${action.payload.KID}/paymentdate`,
-          token: token.token,
+          token: action.payload.token,
           data: {
               KID,
               paymentDate
@@ -253,7 +244,7 @@ export function* updateAvtaleGiroPaymentDate(action: Action<IUpdateAvtaleGiroPay
 }
 
 export function* updateAvtaleGiroDistribution(action: Action<IUpdateAvtaleGiroDistributionActionParams>) {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken)
+  
   const KID = action.payload.KID
   const distribution = action.payload.distribution
 
@@ -261,7 +252,7 @@ export function* updateAvtaleGiroDistribution(action: Action<IUpdateAvtaleGiroDi
       const result: API.Response = yield call(API.call, {
           method: API.Method.POST,
           endpoint: `/avtalegiro/${KID}/distribution`,
-          token: token.token,
+          token: action.payload.token,
           data: {
               distribution
           }

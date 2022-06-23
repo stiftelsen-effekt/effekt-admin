@@ -10,7 +10,9 @@ interface IFetchLogssResult {
   pages: number;
 }
 
-export const fetchLogsAction = actionCreator.async<undefined, IFetchLogssResult, Error>(
+export interface IFetchLogsActionParams { token: string }
+
+export const fetchLogsAction = actionCreator.async<IFetchLogsActionParams, IFetchLogssResult, Error>(
   'FETCH_LOGS'
 );
 export const setLogsPaginationAction = (pagination: IPagination) => {

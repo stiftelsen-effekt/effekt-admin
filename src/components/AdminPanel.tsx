@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router';
 import { HomeComponent } from './pages/home/Home';
-import MainNavigation from './Navigation';
+import { MainNavigation } from './Navigation';
 import { AdminPanelWrapper } from './AdminPanel.style';
 import { RegisterComponent } from './pages/register/Register';
 import DonorSelectionDialog from './modules/donors/selection/DonorSelectionDialog';
@@ -21,7 +21,6 @@ import { LogEntryComponent } from './pages/logs/LogEntry';
 import { VippsAgreementsPageComponent } from './pages/vippsagreements/VippsAgreements';
 import { VippsAgreementChargesPageComponent } from './pages/vippsagreementcharges/VippsAgreementCharges';
 import { VippsAgreementPageComponent } from './pages/vippsagreements/vippsagreement';
-import { VippsAgreementChargePageComponent } from './pages/vippsagreementcharges/vippsagreementcharge';
 import { AvtaleGiroPage } from './pages/avtalegiro/AvtaleGiroPage';
 import { AvtaleGiroAgreement } from './pages/avtalegiro/AvtaleGiroAgreement/AvtaleGiroAgreement';
 import { AvtaleGiroValidationPage } from './pages/avtalegiro/validation/AvtaleGiroValidationPage';
@@ -61,14 +60,13 @@ export const AdminPanel: React.FunctionComponent = () => {
             path="/vipps/agreements/charges"
             component={VippsAgreementChargesPageComponent}
           ></Route>
-          <Route
-            exact
-            path="/vipps/agreements/charge/:id"
-            component={VippsAgreementChargePageComponent}
-          ></Route>
           <Route exact path="/avtalegiro" component={AvtaleGiroPage}></Route>
           <Route exact path="/avtalegiro/:id" component={AvtaleGiroAgreement}></Route>
-          <Route exact path="/avtalegiro/validation/:date" component={AvtaleGiroValidationPage}></Route>
+          <Route
+            exact
+            path="/avtalegiro/validation/:date"
+            component={AvtaleGiroValidationPage}
+          ></Route>
           <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
         </Switch>
       </AdminPanelWrapper>

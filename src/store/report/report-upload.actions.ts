@@ -9,8 +9,10 @@ export enum ReportTypes {
   BANK,
 }
 
+export interface IUploadReportActionParams { type: ReportTypes; report: File; metaOwnerID: Number, token: string }
+
 export const uploadReportAction = actionCreator.async<
-  { type: ReportTypes; report: File; metaOwnerID: Number },
+  IUploadReportActionParams,
   ReportProcessingState,
   Error
 >('REPORT_UPLOAD');

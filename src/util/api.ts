@@ -1,7 +1,4 @@
 import { API_URL } from '../config/config';
-import store from './../store';
-import { sessionInvalid, LOGIN_SUCCESS } from '../store/authentication/loginout.actions';
-import { Auth } from '../store/authentication/auth';
 
 export enum Method {
   GET = 'GET',
@@ -60,10 +57,6 @@ export const call = async (params: IAPIParameters): Promise<any> => {
       }
 
       response = await fetch(url, options);
-      if (!params.handleUnauthorized)
-        if (response.status === 401) {
-          return await redoCallWithNewToken(params);
-        }
       result = await response.json();
 
       return result;
@@ -96,10 +89,6 @@ export const call = async (params: IAPIParameters): Promise<any> => {
       }
 
       response = await fetch(url, options);
-      if (!params.handleUnauthorized)
-        if (response.status === 401) {
-          return await redoCallWithNewToken(params);
-        }
       result = await response.json();
       return result;
     case Method.DELETE:
@@ -109,10 +98,6 @@ export const call = async (params: IAPIParameters): Promise<any> => {
       };
 
       response = await fetch(url, options);
-      if (!params.handleUnauthorized)
-        if (response.status === 401) {
-          return await redoCallWithNewToken(params);
-        }
       result = await response.json();
 
       return result;
@@ -122,24 +107,3 @@ export const call = async (params: IAPIParameters): Promise<any> => {
       });
   }
 };
-
-async function redoCallWithNewToken(params: IAPIParameters) {
-  let cachedKeyAction = Auth.tryCachedKey();
-  //Possible infinite recursion, here be dragons!
-
-  if (cachedKeyAction.type === LOGIN_SUCCESS) {
-    for (let i = 0; i < 10; i++) {
-      await sleep(250);
-      let token = store.getState().auth.currentToken;
-      if (typeof token !== 'undefined' && token.token !== params.token)
-        return await call({ ...params, token: token.token });
-    }
-  }
-
-  store.dispatch(sessionInvalid());
-  return false;
-}
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}

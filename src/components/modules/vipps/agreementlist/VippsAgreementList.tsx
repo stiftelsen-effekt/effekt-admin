@@ -10,25 +10,33 @@ import {
   setVippsAgreementsPagination,
 } from '../../../../store/vipps/vipps.actions';
 import { IVippsAgreement } from '../../../../models/types';
+import { useAuth0 } from '@auth0/auth0-react';
 
-export const VippsAgreementList: React.FunctionComponent<{ agreements: Array<IVippsAgreement> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ agreements, manual, defaultPageSize }) => {
+export const VippsAgreementList: React.FunctionComponent<{
+  agreements: Array<IVippsAgreement> | undefined;
+  manual?: boolean;
+  defaultPageSize?: number;
+}> = ({ agreements, manual, defaultPageSize }) => {
   const pages = useSelector((state: AppState) => state.vippsAgreements.pages);
   const loading = useSelector((state: AppState) => state.vippsAgreements.loading);
   const pagination = useSelector((state: AppState) => state.vippsAgreements.pagination);
 
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(fetchVippsAgreementsAction.started(undefined));
-  }, [pagination, dispatch]);
+    getAccessTokenSilently().then((token) =>
+      dispatch(fetchVippsAgreementsAction.started({ token }))
+    );
+  }, [pagination, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions = [
     {
       Header: 'Agreement ID',
       accessor: 'ID',
       id: 'id',
-      width: 140
+      width: 140,
     },
     {
       Header: 'Donor',
@@ -45,31 +53,29 @@ export const VippsAgreementList: React.FunctionComponent<{ agreements: Array<IVi
       width: 110,
       accessor: (res: any) => thousandize(res.amount),
       sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
-      }
+        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
+      },
     },
     {
       Header: 'Charge day',
       accessor: 'monthly_charge_day',
       id: 'chargeDay',
-      width: 120
+      width: 120,
     },
     {
       Header: 'KID',
       accessor: 'KID',
       id: 'kid',
-      width: 120
+      width: 120,
     },
     {
       Header: 'Draft date',
       id: 'created',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created, { setZone: true })),
       sortMethod: (a: any, b: any) => {
-        return (DateTime.fromFormat(a, "dd.MM.yyyy") > 
-          DateTime.fromFormat(b, "dd.MM.yyyy") ? 
-          -1 : 1)
+        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
       },
-      width: 120
+      width: 120,
     },
   ];
 

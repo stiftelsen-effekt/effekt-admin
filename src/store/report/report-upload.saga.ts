@@ -1,15 +1,10 @@
-import { uploadReportAction, ReportTypes } from './report-upload.actions';
-import { put, select, call } from 'redux-saga/effects';
-import { AppState } from '../../models/state';
-import { IAccessToken } from '../authentication/auth';
+import { uploadReportAction, ReportTypes, IUploadReportActionParams } from './report-upload.actions';
+import { put, call } from 'redux-saga/effects';
 import * as API from '../../util/api';
+import { Action } from 'typescript-fsa';
 
-const getApiToken = (state: AppState) => state.auth.currentToken;
-
-export function* uploadReport(action: any) {
+export function* uploadReport(action: Action<IUploadReportActionParams>) {
   try {
-    var token: IAccessToken = yield select(getApiToken);
-
     let reportType;
     switch (action.payload.type) {
       case ReportTypes.OCR:
@@ -30,17 +25,17 @@ export function* uploadReport(action: any) {
 
     const formData = new FormData();
     formData.append('report', action.payload.report);
-    formData.append('metaOwnerID', action.payload.metaOwnerID);
+    formData.append('metaOwnerID', action.payload.metaOwnerID.toString());
 
     var data: API.Response = yield call(API.call, {
       endpoint: `/reports/${reportType}`,
       method: API.Method.POST,
-      token: token.token,
+      token: action.payload.token,
       formData: formData,
     });
     if (data.status !== 200) throw new Error(data.content);
     yield put(uploadReportAction.done({ params: action.payload, result: data.content }));
   } catch (ex) {
-    yield put(uploadReportAction.failed({ params: action.payload, error: ex }));
+    yield put(uploadReportAction.failed({ params: action.payload, error: (ex as Error) }));
   }
 }

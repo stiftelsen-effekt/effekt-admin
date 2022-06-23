@@ -24,6 +24,7 @@ import { KIDComponent } from '../kid/KIDComponent';
 import { DonationInput } from './input/DonationInput';
 import { toast } from 'react-toastify';
 import { mapOrgToDist } from '../kid/kid.util';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface IProps {
   onIgnore?(): void;
@@ -37,6 +38,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
   suggestedValues,
 }) => {
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const [donationInput, setDonationInput] = useState<Partial<IDonation>>({});
 
@@ -74,31 +76,34 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
 
     if (!donation) return toast.error('Missing fields');
 
-    let donationParams: ICreateDonationParams = { ...donation, receipt: receipt };
+    getAccessTokenSilently().then((token) => {
+      let donationParams: ICreateDonationParams = { ...donation, receipt: receipt, token };
 
-    if (donationInput.KID) {
-      dispatch(insertDonationAction.started(donationParams));
-    } else {
-      if (!selectedDonor) return toast.error('No donor selected');
-      if (!distribution || !donationInput)
-        return toast.error('Error initializing distribution or input');
-      if (!currentSelectedOwner) return toast.error('Missing meta owner');
+      if (donationInput.KID) {
+        dispatch(insertDonationAction.started(donationParams));
+      } else {
+        if (!selectedDonor) return toast.error('No donor selected');
+        if (!distribution || !donationInput)
+          return toast.error('Error initializing distribution or input');
+        if (!currentSelectedOwner) return toast.error('Missing meta owner');
 
-      const filteredDistribution = getFilteredDistribution(distribution);
+        const filteredDistribution = getFilteredDistribution(distribution);
 
-      const distributionParams: ICreateDistributionParams = {
-        distribution: filteredDistribution,
-        donor: selectedDonor,
-        metaOwnerID: currentSelectedOwner.id,
-      };
+        const distributionParams: ICreateDistributionParams = {
+          distribution: filteredDistribution,
+          donor: selectedDonor,
+          metaOwnerID: currentSelectedOwner.id,
+        };
 
-      dispatch(
-        createDistribitionAndInsertDonationAction.started({
-          donation: donationParams,
-          distribution: distributionParams,
-        })
-      );
-    }
+        dispatch(
+          createDistribitionAndInsertDonationAction.started({
+            donation: donationParams,
+            distribution: distributionParams,
+            token,
+          })
+        );
+      }
+    });
   };
 
   const onDonationInputChange = useCallback(

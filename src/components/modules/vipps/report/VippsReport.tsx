@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import React, { useEffect } from 'react';
 import { List } from 'react-feather';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,19 +7,27 @@ import { AppState, VippsAgreementsState } from '../../../../models/state';
 import { fetchAgreementsReportAction } from '../../../../store/vipps/vipps.actions';
 import { thousandize } from '../../../../util/formatting';
 import { EffektButton } from '../../../style/elements/button.style';
-import { ReportActions, ReportContent, ReportHeader, ReportWrapper } from '../../shared/report/Report.style';
+import {
+  ReportActions,
+  ReportContent,
+  ReportHeader,
+  ReportWrapper,
+} from '../../shared/report/Report.style';
 
 export const VippsReport = () => {
   const agreements: VippsAgreementsState = useSelector((state: AppState) => state.vippsAgreements);
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
   const history = useHistory();
 
   const handleAgreementListButtonClick = () => history.push('vipps/agreements');
   const handleChargesListButtonClick = () => history.push('vipps/agreements/charges');
 
   useEffect(() => {
-    dispatch(fetchAgreementsReportAction.started(undefined));
-  }, [dispatch]);
+    getAccessTokenSilently().then((token) =>
+      dispatch(fetchAgreementsReportAction.started({ token }))
+    );
+  }, [dispatch, getAccessTokenSilently]);
 
   return (
     <ReportWrapper>
@@ -47,22 +56,30 @@ export const VippsReport = () => {
             <tr>
               <td>Agreements activated</td>
               <td>{agreements.activatedThisMonth}</td>
-              <td style={{textAlign: 'right'}}>({thousandize(agreements.sumActivatedThisMonth)} kr)</td>
+              <td style={{ textAlign: 'right' }}>
+                ({thousandize(agreements.sumActivatedThisMonth)} kr)
+              </td>
             </tr>
             <tr>
               <td>Agreements stopped</td>
               <td>{agreements.stoppedThisMonth}</td>
-              <td style={{textAlign: 'right'}}>({thousandize(agreements.sumStoppedThisMonth)} kr)</td>
+              <td style={{ textAlign: 'right' }}>
+                ({thousandize(agreements.sumStoppedThisMonth)} kr)
+              </td>
             </tr>
             <tr>
               <td>Agreements pending</td>
               <td>{agreements.pendingThisMonth}</td>
-              <td style={{textAlign: 'right'}}>({thousandize(agreements.sumPendingThisMonth)} kr)</td>
+              <td style={{ textAlign: 'right' }}>
+                ({thousandize(agreements.sumPendingThisMonth)} kr)
+              </td>
             </tr>
             <tr>
               <td>Agreements expired</td>
               <td>{agreements.expiredThisMonth}</td>
-              <td style={{textAlign: 'right'}}>({thousandize(agreements.sumExpiredThisMonth)} kr)</td>
+              <td style={{ textAlign: 'right' }}>
+                ({thousandize(agreements.sumExpiredThisMonth)} kr)
+              </td>
             </tr>
           </tbody>
         </table>

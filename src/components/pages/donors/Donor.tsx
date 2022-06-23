@@ -7,7 +7,14 @@ import { AppState } from '../../../models/state';
 import { DonorKeyInfo } from './donor/KeyInfo';
 import { DonationsList } from '../../modules/donations/list/DonationsList';
 import { AvtaleGiroList } from '../../modules/avtalegiro/agreementlist/AvtaleGiroList';
-import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction } from '../../../store/donors/donor-page.actions';
+import {
+  getDonorAction,
+  getDonorAvtalegiroAgreementsAction,
+  getDonorDistributionsAction,
+  getDonorDonationsAction,
+  getDonorVippsAgreementsAction,
+  getDonorYearlyAggregatesAction,
+} from '../../../store/donors/donor-page.actions';
 import { DonorAggregateChart } from './donor/AggregateChart';
 import { OverviewLine } from './Donor.style';
 import { EffektTabs } from '../../modules/shared/tabs/EffektTabs';
@@ -15,6 +22,7 @@ import { EffektTabHeader } from '../../modules/shared/tabs/EffektTabHeader';
 import { EffektTab } from '../../modules/shared/tabs/EffektTab';
 import { VippsAgreementList } from '../../modules/vipps/agreementlist/VippsAgreementList';
 import { DistributionsList } from '../../modules/distribution/list/DistributionsList';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface IParams {
   id: string;
@@ -23,24 +31,27 @@ interface IParams {
 export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = ({
   match,
 }: RouteComponentProps<IParams>) => {
-  const dispatch = useDispatch()
-  const donorId = parseInt(match.params.id)
+  const dispatch = useDispatch();
+  const donorId = parseInt(match.params.id);
+  const { getAccessTokenSilently } = useAuth0();
 
-  const data = useSelector((state: AppState) => state.donorPage)
+  const data = useSelector((state: AppState) => state.donorPage);
 
   useEffect(() => {
-    dispatch(getDonorAction.started(donorId))
-    dispatch(getDonorDonationsAction.started(donorId))
-    dispatch(getDonorDistributionsAction.started(donorId))
-    dispatch(getDonorAvtalegiroAgreementsAction.started(donorId))
-    dispatch(getDonorVippsAgreementsAction.started(donorId))
-    dispatch(getDonorYearlyAggregatesAction.started(donorId))
-  }, [dispatch, donorId])
+    getAccessTokenSilently().then((token) => {
+      dispatch(getDonorAction.started({ id: donorId, token }));
+      dispatch(getDonorDonationsAction.started({ id: donorId, token }));
+      dispatch(getDonorDistributionsAction.started({ id: donorId, token }));
+      dispatch(getDonorAvtalegiroAgreementsAction.started({ id: donorId, token }));
+      dispatch(getDonorVippsAgreementsAction.started({ id: donorId, token }));
+      dispatch(getDonorYearlyAggregatesAction.started({ id: donorId, token }));
+    });
+  }, [dispatch, donorId, getAccessTokenSilently]);
 
   return (
     <Page>
       <MainHeader>Donor {donorId}</MainHeader>
-      
+
       <OverviewLine>
         <DonorKeyInfo donor={data.donor} />
         <DonorAggregateChart stats={data.stats} />
@@ -48,22 +59,19 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
 
       <EffektTabs>
         <div>
-          <EffektTabHeader 
-            label='Donations' 
-            counter={data.donations ? data.donations.length : 0} 
-            />
-          <EffektTabHeader 
-            label='Distributions' 
-            counter={data.distributions ? data.distributions.length : 0} 
-            />
-          <EffektTabHeader 
-            label='AvtaleGiro' 
-            counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : 0} 
-            />
-          <EffektTabHeader 
-            label='Vipps' 
-            counter={data.vippsAgreements ? data.vippsAgreements.length : 0} 
-            />
+          <EffektTabHeader label="Donations" counter={data.donations ? data.donations.length : 0} />
+          <EffektTabHeader
+            label="Distributions"
+            counter={data.distributions ? data.distributions.length : 0}
+          />
+          <EffektTabHeader
+            label="AvtaleGiro"
+            counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : 0}
+          />
+          <EffektTabHeader
+            label="Vipps"
+            counter={data.vippsAgreements ? data.vippsAgreements.length : 0}
+          />
         </div>
         <div>
           <EffektTab>

@@ -1,22 +1,19 @@
-import { IAccessToken } from '../authentication/auth';
-import { select, put, call } from 'redux-saga/effects';
-import { AppState } from '../../models/state';
-import { resendReceiptAction } from './receipt.actions';
+import { put, call } from 'redux-saga/effects';
+import { IResendReceiptPayload, resendReceiptAction } from './receipt.actions';
 import * as API from '../../util/api';
+import { Action } from 'typescript-fsa';
 
-export function* resendReceipt(action: any) {
+export function* resendReceipt(action: Action<IResendReceiptPayload>) {
   try {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
     const result: API.Response = yield call(API.call, {
       endpoint: '/donations/receipt',
       method: API.Method.POST,
-      token: token.token,
+      token: action.payload.token,
       data: action.payload,
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(resendReceiptAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(resendReceiptAction.failed({ params: action.payload, error: ex }));
+    yield put(resendReceiptAction.failed({ params: action.payload, error: (ex as Error) }));
   }
 }

@@ -6,16 +6,20 @@ import { fetchAvtaleGiroValidationTableAction } from '../../../../store/avtalegi
 import { ReportContent, ReportHeader, ReportWrapper } from '../../shared/report/Report.style';
 import { useHistory } from 'react-router';
 import { DateTime } from 'luxon';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const AvtaleGiroValidationTable = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const avtaleGiroState = useSelector((state: AppState) => state.avtaleGiroAgreements);
 
   useEffect(() => {
-    dispatch(fetchAvtaleGiroValidationTableAction.started(undefined));
-  }, [dispatch]);
+    getAccessTokenSilently().then((token) =>
+      dispatch(fetchAvtaleGiroValidationTableAction.started({ token }))
+    );
+  }, [dispatch, getAccessTokenSilently]);
 
   const thousandize = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
@@ -24,7 +28,7 @@ export const AvtaleGiroValidationTable = () => {
       Header: 'Date',
       accessor: 'date',
       id: 'date',
-      width: 60
+      width: 60,
     },
     {
       Header: 'Expected',
@@ -34,26 +38,27 @@ export const AvtaleGiroValidationTable = () => {
     {
       Header: 'Actual',
       id: 'actual',
-      accessor: (res: any) => res.actual !== null ? thousandize(res.actual) + ' kr' : '-',
+      accessor: (res: any) => (res.actual !== null ? thousandize(res.actual) + ' kr' : '-'),
     },
     {
       Header: 'Diff',
       id: 'diff',
-      accessor: (res: any) => res.actual !== null ? thousandize(res.diff) + ' kr' : '-',
+      accessor: (res: any) => (res.actual !== null ? thousandize(res.diff) + ' kr' : '-'),
     },
   ];
 
   const defaultSorting = [{ id: 'date', desc: true }];
-  const data = avtaleGiroState.validation.validationTable
+  const data = avtaleGiroState.validation.validationTable;
 
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          let now = DateTime.fromJSDate(new Date())
-          let date = now.day < rowInfo.original.date 
-            ? now.set({ day: rowInfo.original.date }).minus({ months: 1 }).toISO()
-            : now.set({ day: rowInfo.original.date }).toISO();
+          let now = DateTime.fromJSDate(new Date());
+          let date =
+            now.day < rowInfo.original.date
+              ? now.set({ day: rowInfo.original.date }).minus({ months: 1 }).toISO()
+              : now.set({ day: rowInfo.original.date }).toISO();
           history.push(`/avtalegiro/validation/${date}`);
         },
       };
@@ -65,14 +70,15 @@ export const AvtaleGiroValidationTable = () => {
     <ReportWrapper>
       <ReportHeader>AvtaleGiro validation</ReportHeader>
       <ReportContent>
-        <ReactTable 
+        <ReactTable
           data={data}
           columns={columnDefinitions}
           defaultSorting={defaultSorting}
           pageSize={10}
           showPageSizeOptions={false}
           loading={avtaleGiroState.loading}
-          getTrProps={trProps} />
+          getTrProps={trProps}
+        />
       </ReportContent>
     </ReportWrapper>
   );

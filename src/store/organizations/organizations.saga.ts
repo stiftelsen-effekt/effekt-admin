@@ -13,6 +13,6 @@ export function* fetchActiveOrganizations(action: any) {
       fetchActiveOrganizationsAction.done({ params: action.payload, result: data.content })
     );
   } catch (ex) {
-    yield put(fetchActiveOrganizationsAction.failed(ex));
+    yield put(fetchActiveOrganizationsAction.failed({ error: (ex as Error) }));
   }
 }

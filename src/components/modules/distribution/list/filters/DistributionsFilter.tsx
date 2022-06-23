@@ -14,9 +14,11 @@ import {
   fetchDistributionsAction,
 } from '../../../../../store/distributions/distribution.actions';
 import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const DistributionsFiltersComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const KID = useSelector((state: AppState) => state.distributions.filter.KID);
   const donor = useSelector((state: AppState) => state.distributions.filter.donor);
@@ -24,8 +26,8 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(fetchDistributionsAction.started(undefined));
-  }, [KID, dispatch, donor])
+    getAccessTokenSilently().then((token) => dispatch(fetchDistributionsAction.started({ token })));
+  }, [KID, dispatch, donor, getAccessTokenSilently]);
 
   return (
     <FilterWrapper isOpen={filterIsOpen}>

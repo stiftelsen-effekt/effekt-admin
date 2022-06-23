@@ -1,20 +1,4 @@
 import { takeEvery, all, takeLatest } from 'redux-saga/effects';
-import { fetchTokenAction } from './store/authentication/token.actions';
-import { fetchToken } from './store/authentication/token.saga';
-import {
-  LOGIN_BEGIN,
-  LOGOUT_REQUEST,
-  LOGIN_CACHE_CHECK,
-  LOGIN_CALLBACK,
-  LOGIN_SUCCESS,
-} from './store/authentication/loginout.actions';
-import {
-  login,
-  logout,
-  loginCacheCheck,
-  callback,
-  loginSuccess,
-} from './store/authentication/loginout.saga';
 import { searchDonorAction } from './store/donors/donor-selection.actions';
 import { searchDonors } from './store/donors/donor-selection.saga';
 import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';
@@ -105,15 +89,6 @@ import { createDistributionAction } from './store/distributions/distribution-inp
 
 function* watchAll() {
   yield all([
-    takeLatest(LOGIN_CACHE_CHECK, loginCacheCheck),
-    takeLatest(LOGIN_BEGIN, login),
-
-    takeLatest(LOGIN_SUCCESS, loginSuccess),
-
-    takeLatest(LOGIN_CALLBACK, callback),
-    takeEvery(LOGOUT_REQUEST, logout),
-    takeEvery(fetchTokenAction.started.type, fetchToken),
-
     takeLatest(searchDonorAction.started.type, searchDonors),
 
     takeLatest(fetchActiveOrganizationsAction.started.type, fetchActiveOrganizations),

@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import React, { useEffect, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -32,6 +33,7 @@ const statusTypes = [
 
 export const AvtaleGiroFilter: React.FunctionComponent = () => {
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const filter = useSelector((state: AppState) => state.avtaleGiroAgreements.filter);
   const histogram = useSelector((state: AppState) => state.avtaleGiroAgreements.histogram);
@@ -42,11 +44,16 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
   const statuses = filter.statuses;
 
   useEffect(() => {
-    dispatch(fetchAvtaleGiroAgreementsAction.started(undefined));
-  }, [filter, dispatch]);
+    getAccessTokenSilently().then((token) =>
+      dispatch(fetchAvtaleGiroAgreementsAction.started({ token }))
+    );
+  }, [filter, dispatch, getAccessTokenSilently]);
 
   if (statuses) {
-    if (!histogram) dispatch(fetchAvtaleGiroHistogramAction.started(undefined));
+    if (!histogram)
+      getAccessTokenSilently().then((token) =>
+        dispatch(fetchAvtaleGiroHistogramAction.started({ token }))
+      );
 
     let statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
       label: status.name,
@@ -120,6 +127,6 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
       </FilterWrapper>
     );
   } else {
-    return (<div>Error loading filter statuses</div>)
+    return <div>Error loading filter statuses</div>;
   }
-}
+};

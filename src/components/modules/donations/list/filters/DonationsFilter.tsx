@@ -27,9 +27,11 @@ import {
 } from '../../../../../store/donations/donation-filters.actions';
 import { fetchHistogramAction } from '../../../../../store/donations/donation.actions';
 import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const DonationsFilterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const donationDateRange = useSelector((state: AppState) => state.donations.filter.date);
   const donationSumRange = useSelector((state: AppState) => state.donations.filter.sum);
@@ -43,7 +45,8 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined));
 
   const histogram = useSelector((state: AppState) => state.donations.histogram);
-  if (!histogram) dispatch(fetchHistogramAction.started(undefined));
+  if (!histogram)
+    getAccessTokenSilently().then((token) => dispatch(fetchHistogramAction.started({ token })));
 
   let paymentMethodChoices: Array<EffektCheckChoice> = paymentMethods.map((method) => ({
     label: method.abbriviation,
@@ -121,7 +124,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
           <EffektCheckForm
             inverted={true}
             choices={paymentMethodChoices}
-            onChange={(selected: Array<number>) => { dispatch(setDonationFilterPaymentMethodIDs(selected)) } }
+            onChange={(selected: Array<number>) => {
+              dispatch(setDonationFilterPaymentMethodIDs(selected));
+            }}
           ></EffektCheckForm>
         </FilterGroup>
       </FilterContent>

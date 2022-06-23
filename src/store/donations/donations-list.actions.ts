@@ -5,12 +5,15 @@ export const SET_DONATIONS_PAGINATION = 'SET_DONATIONS_PAGINATION';
 
 const actionCreator = actionCreatorFactory();
 
+export interface IFetchDonationsActionParams { token: string }
+export interface IDeleteDonationActionParams { id: number, token: string }
+
 interface IFetchDonationsResult {
   rows: Array<IDonation>;
   pages: number;
 }
 
-export const fetchDonationsAction = actionCreator.async<undefined, IFetchDonationsResult, Error>(
+export const fetchDonationsAction = actionCreator.async<IFetchDonationsActionParams, IFetchDonationsResult, Error>(
   'FETCH_DONATIONS'
 );
 export const setDonationsPagination = (pagination: IPagination) => {
@@ -20,6 +23,6 @@ export const setDonationsPagination = (pagination: IPagination) => {
   };
 };
 
-export const deleteDonationAction = actionCreator.async<number, IFetchDonationsResult, Error>(
+export const deleteDonationAction = actionCreator.async<IDeleteDonationActionParams, IFetchDonationsResult, Error>(
   'DELETE_DONATION'
 );

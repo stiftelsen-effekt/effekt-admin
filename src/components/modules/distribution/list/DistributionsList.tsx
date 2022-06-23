@@ -13,12 +13,18 @@ import { EffektButton } from '../../../style/elements/button.style';
 import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
 import { CreateDistribution } from '../create/CreateDistribution';
 import { useHistory } from 'react-router';
+import { useAuth0 } from '@auth0/auth0-react';
 
-export const DistributionsList: React.FunctionComponent<{ distributions: Array<IDistributionSearchResultItem> | undefined, manual?: boolean, defaultPageSize?: number }> = ({ distributions, manual, defaultPageSize }) => {
-  const pages = useSelector((state: AppState) => state.distributions.pages)
-  const loading = useSelector((state: AppState) => state.distributions.loading)
-  const history = useHistory()
-  const dispatch = useDispatch()
+export const DistributionsList: React.FunctionComponent<{
+  distributions: Array<IDistributionSearchResultItem> | undefined;
+  manual?: boolean;
+  defaultPageSize?: number;
+}> = ({ distributions, manual, defaultPageSize }) => {
+  const pages = useSelector((state: AppState) => state.distributions.pages);
+  const loading = useSelector((state: AppState) => state.distributions.loading);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const [showCreate, setShowCreate] = useState<boolean>(false);
 
@@ -40,23 +46,23 @@ export const DistributionsList: React.FunctionComponent<{ distributions: Array<I
       Header: 'Total sum',
       id: 'sum',
       accessor: (res: any) => {
-        if (res.sum) return thousandize(res.sum)
-        else return '0'
+        if (res.sum) return thousandize(res.sum);
+        else return '0';
       },
       sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
-      }
+        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
+      },
     },
     {
       Header: 'Antall donasjoner',
       id: 'count',
       accessor: (res: any) => {
-        if (res.count) return thousandize(res.count)
-        else return '0'
+        if (res.count) return thousandize(res.count);
+        else return '0';
       },
       sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1
-      }
+        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
+      },
     },
   ];
 
@@ -66,7 +72,7 @@ export const DistributionsList: React.FunctionComponent<{ distributions: Array<I
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          console.log("heyeyeyey")
+          console.log('heyeyeyey');
           history.push(`/distributions/${rowInfo.original.KID}`);
         },
       };
@@ -84,7 +90,11 @@ export const DistributionsList: React.FunctionComponent<{ distributions: Array<I
           </EffektButton>
         </div>
 
-        <EffektModal visible={showCreate} effect="fadeInUp" onClickAway={() => setShowCreate(false)}>
+        <EffektModal
+          visible={showCreate}
+          effect="fadeInUp"
+          onClickAway={() => setShowCreate(false)}
+        >
           <CreateDistribution onSubmit={() => setShowCreate(false)} />
         </EffektModal>
         <ReactTable
@@ -103,11 +113,13 @@ export const DistributionsList: React.FunctionComponent<{ distributions: Array<I
                 limit: state.pageSize,
               })
             );
-            dispatch(fetchDistributionsAction.started(undefined));
+            getAccessTokenSilently().then((token) =>
+              dispatch(fetchDistributionsAction.started({ token }))
+            );
           }}
         />
       </div>
-    )
+    );
   } else {
     return (
       <ReactTable
@@ -116,6 +128,6 @@ export const DistributionsList: React.FunctionComponent<{ distributions: Array<I
         defaultSorted={defaultSorting}
         defaultPageSize={defaultPageSize}
       />
-    )
+    );
   }
 };

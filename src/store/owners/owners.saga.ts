@@ -11,6 +11,6 @@ export function* fetchOwners(action: any) {
     if (data.status !== 200) throw new Error(data.content);
     yield put(fetchOwnersAction.done({ params: action.payload, result: data.content }));
   } catch (ex) {
-    yield put(fetchOwnersAction.failed(ex));
+    yield put(fetchOwnersAction.failed({ error: (ex as Error) }));
   }
 }

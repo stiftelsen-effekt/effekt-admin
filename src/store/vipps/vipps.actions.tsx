@@ -39,20 +39,41 @@ interface IFetchVippsAgreementReportResult {
   medianAgreementSum: number;
 }
 
+export interface IFetchVippsAgreementsActionParams {
+  token: string;
+}
+
 export interface IFetchAgreementActionParams {
   id: string;
+  token: string;
 }
+
+export interface IFetchVippsAgreementChargesActionParams {
+  token: string;
+}
+
 export interface IFetchAgreementChargeActionParams {
   agreementId: string;
   chargeId: string;
+  token: string;
 }
+
+export interface IFetchVippsAgreementsReportActionParams {
+  token: string;
+}
+
+export interface IFetchVippsChargeHistogramActionParams {
+  token: string;
+}
+
 export interface IRefundVippsChargeActionParams {
   agreementId: string;
   chargeId: string;
+  token: string;
 }
 
 export const fetchVippsAgreementsAction = actionCreator.async<
-  undefined,
+  IFetchVippsAgreementsActionParams,
   IFetchVippsAgreementsResult,
   Error
 >('FETCH_VIPPS_AGREEMENTS');
@@ -62,7 +83,7 @@ export const fetchVippsAgreementAction = actionCreator.async<
   Error
 >('FETCH_VIPPS_AGREEMENT');
 export const fetchVippsAgreementChargesAction = actionCreator.async<
-  undefined,
+  IFetchVippsAgreementChargesActionParams,
   IFetchVippsAgreementChargesResult,
   Error
 >('FETCH_VIPPS_AGREEMENT_CHARGES');
@@ -72,7 +93,7 @@ export const fetchVippsAgreementChargeAction = actionCreator.async<
   Error
 >('FETCH_VIPPS_AGREEMENT_CHARGE');
 export const fetchAgreementsReportAction = actionCreator.async<
-  undefined,
+  IFetchVippsAgreementsReportActionParams,
   IFetchVippsAgreementReportResult,
   Error
 >('FETCH_VIPPS_AGREEMENTS_REPORT');
@@ -82,7 +103,7 @@ export const fetchAgreementHistogramAction = actionCreator.async<
   Error
 >('FETCH_VIPPS_AGREEMENT_HISTOGRAM');
 export const fetchChargeHistogramAction = actionCreator.async<
-  undefined,
+  IFetchVippsChargeHistogramActionParams,
   Array<IHistogramBucket>,
   Error
 >('FETCH_VIPPS_CHARGES_HISTOGRAM');

@@ -1,20 +1,16 @@
-import { call, put, select } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import * as API from '../../util/api';
-import { searchDonorAction } from './donor-selection.actions';
-import { AppState } from '../../models/state';
-import { IAccessToken } from '../authentication/auth';
+import { IFetchSearchDonorsActionParams, searchDonorAction } from './donor-selection.actions';
+import { Action } from 'typescript-fsa';
 
-export const getApiToken = (state: AppState) => state.auth.currentToken;
-
-export function* searchDonors(action: any) {
+export function* searchDonors(action: Action<IFetchSearchDonorsActionParams>) {
   try {
-    const accessToken: IAccessToken = yield select(getApiToken);
     var data: API.Response = yield call(API.call, {
       endpoint: '/donors/search/',
       method: API.Method.GET,
-      token: accessToken.token,
+      token: action.payload.token,
       data: {
-        q: action.payload,
+        q: action.payload.query,
       },
     });
     if (data.status !== 200) throw new Error(data.content);

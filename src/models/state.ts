@@ -1,4 +1,3 @@
-import { IAccessKey, IAccessToken } from '../store/authentication/auth';
 import {
   IDonor,
   IOrganization,
@@ -29,8 +28,6 @@ import {
 } from './types';
 
 export interface AppState {
-  auth: AuthState;
-
   graphing: GraphingState;
 
   donorSelector: DonorSelectorState;
@@ -52,19 +49,6 @@ export interface AppState {
   vippsAgreementCharges: VippsAgreementChargeState;
 
   avtaleGiroAgreements: AvtaleGiroAgreementsState;
-}
-
-export interface AuthState {
-  currentToken?: IAccessToken;
-  accessKey?: IAccessKey;
-  authStep: AuthStep;
-  loginError?: string;
-}
-export enum AuthStep {
-  INITIAL,
-  SHOW_CONNECTION_FAILED,
-  SHOW_LOGIN_SCREEN,
-  LOGGED_IN,
 }
 
 export interface DonorSelectorState {

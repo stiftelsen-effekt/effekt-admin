@@ -1,6 +1,5 @@
 import { put, call, select } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
-import { IAccessToken } from '../authentication/auth';
 import { AppState } from '../../models/state';
 import {
   IPagination,
@@ -17,13 +16,15 @@ import {
   fetchVippsAgreementChargesAction,
   fetchVippsAgreementsAction,
   IFetchAgreementActionParams,
+  IFetchVippsAgreementChargesActionParams,
+  IFetchVippsAgreementsActionParams,
+  IFetchVippsAgreementsReportActionParams,
+  IFetchVippsChargeHistogramActionParams,
   IRefundVippsChargeActionParams,
 } from './vipps.actions';
 
-export function* fetchVippsAgreements(action: any) {
+export function* fetchVippsAgreements(action: Action<IFetchVippsAgreementsActionParams>) {
   try {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
     const pagination: IPagination = yield select(
       (state: AppState) => state.vippsAgreements.pagination
     );
@@ -34,7 +35,7 @@ export function* fetchVippsAgreements(action: any) {
     const result: API.Response = yield call(API.call, {
       endpoint: '/vipps/agreements',
       method: API.Method.POST,
-      token: token.token,
+      token: action.payload.token,
       data: {
         ...pagination,
         filter,
@@ -43,14 +44,14 @@ export function* fetchVippsAgreements(action: any) {
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchVippsAgreementsAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(fetchVippsAgreementsAction.failed({ params: action.payload, error: ex }));
+    yield put(fetchVippsAgreementsAction.failed({ params: action.payload, error: ex as Error }));
   }
 }
 
-export function* fetchVippsAgreementCharges(action: any) {
+export function* fetchVippsAgreementCharges(
+  action: Action<IFetchVippsAgreementChargesActionParams>
+) {
   try {
-    const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
     const pagination: IPagination = yield select(
       (state: AppState) => state.vippsAgreementCharges.pagination
     );
@@ -61,7 +62,7 @@ export function* fetchVippsAgreementCharges(action: any) {
     const result: API.Response = yield call(API.call, {
       endpoint: '/vipps/charges',
       method: API.Method.POST,
-      token: token.token,
+      token: action.payload.token,
       data: {
         ...pagination,
         filter,
@@ -72,24 +73,26 @@ export function* fetchVippsAgreementCharges(action: any) {
       fetchVippsAgreementChargesAction.done({ params: action.payload, result: result.content })
     );
   } catch (ex) {
-    yield put(fetchVippsAgreementChargesAction.failed({ params: action.payload, error: ex }));
+    yield put(
+      fetchVippsAgreementChargesAction.failed({ params: action.payload, error: ex as Error })
+    );
   }
 }
 
-export function* fetchChargeHistogram() {
+export function* fetchChargeHistogram(action: Action<IFetchVippsChargeHistogramActionParams>) {
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
       endpoint: '/vipps/histogram/charges',
     });
     if (result.status !== 200) throw new Error(result.content);
-    yield put(fetchChargeHistogramAction.done({ result: result.content }));
+    yield put(fetchChargeHistogramAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(fetchChargeHistogramAction.failed({ error: ex }));
+    yield put(fetchChargeHistogramAction.failed({ params: action.payload, error: ex as Error }));
   }
 }
 
-export function* fetchAgreementHistogram() {
+export function* fetchAgreementHistogram(action: any) {
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
@@ -98,51 +101,47 @@ export function* fetchAgreementHistogram() {
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchAgreementHistogramAction.done({ result: result.content }));
   } catch (ex) {
-    yield put(fetchAgreementHistogramAction.failed({ error: ex }));
+    yield put(fetchAgreementHistogramAction.failed({ error: ex as Error }));
   }
 }
 
-export function* fetchAgreementsReport() {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
+export function* fetchAgreementsReport(action: Action<IFetchVippsAgreementsReportActionParams>) {
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
       endpoint: '/vipps/agreements/report',
-      token: token.token,
+      token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content);
-    yield put(fetchAgreementsReportAction.done({ result: result.content[0] }));
+    yield put(
+      fetchAgreementsReportAction.done({ params: action.payload, result: result.content[0] })
+    );
   } catch (ex) {
-    yield put(fetchAgreementsReportAction.failed({ error: ex }));
+    yield put(fetchAgreementsReportAction.failed({ params: action.payload, error: ex as Error }));
   }
 }
 
 export function* fetchVippsAgreement(action: Action<IFetchAgreementActionParams>) {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
   try {
     const result: IVippsAgreement = yield call(API.call, {
       method: API.Method.GET,
       endpoint: `/vipps/agreement/${action.payload.id}`,
-      token: token.token,
+      token: action.payload.token,
     });
     if (result) yield put(fetchVippsAgreementAction.done({ params: action.payload, result }));
   } catch (ex) {
-    yield put(fetchVippsAgreementAction.failed({ params: action.payload, error: ex }));
+    yield put(fetchVippsAgreementAction.failed({ params: action.payload, error: ex as Error }));
   }
 }
 
 export function* refundVippsAgreementCharge(action: Action<IRefundVippsChargeActionParams>) {
-  const token: IAccessToken = yield select((state: AppState) => state.auth.currentToken);
-
   try {
     yield call(API.call, {
       method: API.Method.POST,
       endpoint: `/vipps/agreement/${action.payload.agreementId}/charge/${action.payload.chargeId}/refund`,
-      token: token.token,
+      token: action.payload.token,
     });
   } catch (ex) {
-    throw new Error(ex);
+    throw ex;
   }
 }

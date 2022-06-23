@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { DateTime } from 'luxon';
 import React from 'react';
 import JSONTree from 'react-json-tree';
@@ -19,14 +20,14 @@ interface JSONTreeFix extends React.Component {
   render;
   context;
   setState;
-  forceUpdate; 
-  props; 
-  state; 
+  forceUpdate;
+  props;
+  state;
   refs;
 }
 
-const JSONView = (JSONTree as unknown) as {
-  new(): JSONTreeFix;
+const JSONView = JSONTree as unknown as {
+  new (): JSONTreeFix;
 };
 
 export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({
@@ -36,12 +37,17 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
 
   const entry = useSelector((state: AppState) => state.logs.currentEntry);
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   if (entry && entry.ID !== entryId) {
-    dispatch(clearCurrentLogEntry());
-    dispatch(fetchLogEntryAction.started({ id: entryId }));
+    getAccessTokenSilently().then((token) => {
+      dispatch(clearCurrentLogEntry());
+      dispatch(fetchLogEntryAction.started({ id: entryId, token }));
+    });
   } else if (!entry) {
-    dispatch(fetchLogEntryAction.started({ id: entryId }));
+    getAccessTokenSilently().then((token) => {
+      dispatch(fetchLogEntryAction.started({ id: entryId, token }));
+    });
   }
 
   if (entry) {

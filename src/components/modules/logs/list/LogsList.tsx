@@ -6,6 +6,7 @@ import { AppState } from '../../../../models/state';
 import { longDateTime } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { Redirect } from 'react-router';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface LogsListProps {
   showPagination?: boolean;
@@ -18,35 +19,36 @@ export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showM
   const pagination = useSelector((state: AppState) => state.logs.pagination);
 
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    dispatch(fetchLogsAction.started(undefined));
-  }, [pagination, dispatch]);
+    getAccessTokenSilently().then((token) => dispatch(fetchLogsAction.started({ token })));
+  }, [pagination, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions: any = [
     {
       Header: 'ID',
       accessor: 'ID',
-      width: 100
+      width: 100,
     },
     {
       Header: 'Label',
       accessor: 'label',
-      width: 150
+      width: 150,
     },
     {
       Header: 'Timestamp',
       id: 'timestamp',
       accessor: (res: any) => longDateTime(DateTime.fromISO(res.timestamp, { setZone: true })),
-      width: showMeta ? 200 : undefined
-    }
+      width: showMeta ? 200 : undefined,
+    },
   ];
 
   if (showMeta) {
     columnDefinitions.push({
       Header: 'Meta',
-      accessor: 'meta'
-    })
+      accessor: 'meta',
+    });
   }
 
   const defaultSorting = [{ id: 'timestamp', desc: true }];

@@ -21,7 +21,7 @@ export function* fetchTotalByPeriod(action: Action<IFetchTotalByPeriodActionPara
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchTotalByPeriodAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(fetchTotalByPeriodAction.failed({ params: action.payload, error: ex }));
+    yield put(fetchTotalByPeriodAction.failed({ params: action.payload, error: (ex as Error) }));
   }
 }
 
@@ -34,6 +34,6 @@ export function* fetchSumByMonth(action: Action<undefined>) {
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchSumByMonthAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(fetchSumByMonthAction.failed({ params: action.payload, error: ex }));
+    yield put(fetchSumByMonthAction.failed({ params: action.payload, error: (ex as Error) }));
   }
 }
