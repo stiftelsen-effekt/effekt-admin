@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import { LoginWrapper, LoginButton, LoginHeader, LoginError } from './login.component.style';
+import { LoginWrapper, LoginButton, LoginHeader } from './login.component.style';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export const LoginComponent: React.FunctionComponent = () => {

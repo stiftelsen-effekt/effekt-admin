@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import * as API from '../../util/api';
 import {

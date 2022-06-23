@@ -1,4 +1,4 @@
-import { takeEvery, all, takeLatest } from 'redux-saga/effects';
+import { all, takeLatest } from 'redux-saga/effects';
 import { searchDonorAction } from './store/donors/donor-selection.actions';
 import { searchDonors } from './store/donors/donor-selection.saga';
 import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';
