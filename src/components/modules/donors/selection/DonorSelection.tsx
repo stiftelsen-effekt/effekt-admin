@@ -55,6 +55,7 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
     );
 
   const search = (event: ChangeEvent<HTMLInputElement>) => {
+    event.persist();
     setState({
       ...state,
       selected: null,
