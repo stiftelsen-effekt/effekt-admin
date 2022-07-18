@@ -27,7 +27,10 @@ import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
 import { fetchSumByMonth, fetchTotalByPeriod } from './store/graphing/graphing.saga';
 import { fetchSumByMonthAction, fetchTotalByPeriodAction } from './store/graphing/graphing.actions';
 import { fetchDistribution, fetchDistributions } from './store/distributions/distributions.saga';
-import { fetchDistributionAction, fetchDistributionsAction } from './store/distributions/distribution.actions';
+import {
+  fetchDistributionAction,
+  fetchDistributionsAction,
+} from './store/distributions/distribution.actions';
 import { fetchOwnersAction } from './store/owners/owners.actions';
 import { fetchOwners } from './store/owners/owners.saga';
 import { resendReceiptAction } from './store/donations/receipt.actions';
@@ -82,10 +85,26 @@ import {
   updateAvtaleGiroPaymentDateAction,
   updateAvtaleGiroStatusAction,
 } from './store/avtalegiro/avtalegiro.actions';
-import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction } from './store/donors/donor-page.actions';
-import { getDonor, getDonorAvtalegiroAgreements, getDonorDistributions, getDonorDonations, getDonorVippsAgreements, getDonorYearlyAggregates } from './store/donors/donor-page.saga';
+import {
+  getDonorAction,
+  getDonorAvtalegiroAgreementsAction,
+  getDonorDistributionsAction,
+  getDonorDonationsAction,
+  getDonorVippsAgreementsAction,
+  getDonorYearlyAggregatesAction,
+} from './store/donors/donor-page.actions';
+import {
+  getDonor,
+  getDonorAvtalegiroAgreements,
+  getDonorDistributions,
+  getDonorDonations,
+  getDonorVippsAgreements,
+  getDonorYearlyAggregates,
+} from './store/donors/donor-page.saga';
 import { createDistribution } from './store/distributions/distribution-input.saga';
 import { createDistributionAction } from './store/distributions/distribution-input.actions';
+import { processDonationsAction, registerCampaignAction } from './store/facebook/facebook.actions';
+import { processFBDonations, registerFBCampaign } from './store/facebook/facebook.saga';
 
 function* watchAll() {
   yield all([
@@ -102,6 +121,9 @@ function* watchAll() {
     takeLatest(createDistributionAction.started.type, createDistribution),
     takeLatest(insertDonationAction.started.type, insertDonation),
     takeLatest(uploadReportAction.started.type, uploadReport),
+
+    takeLatest(registerCampaignAction.started.type, registerFBCampaign),
+    takeLatest(processDonationsAction.started.type, processFBDonations),
 
     takeLatest(createDonorAction.started.type, createDonor),
     takeLatest(getDonorAction.started.type, getDonor),

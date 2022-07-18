@@ -74,11 +74,19 @@ export interface SingleDonationState {
   paymentMethods: Array<IPaymentMethod>;
 }
 
+export interface FBCampaign {
+  ID: string;
+  fundraiserTitle: string;
+  campaignOwnerName: string;
+  permalink: string;
+}
+
 export interface ReportProcessingState {
   valid: number;
   invalid: number;
   invalidTransactions: Array<IInvalidTransaction>;
   loading: boolean;
+  fbCampaigns?: Array<FBCampaign> | undefined;
 }
 
 export interface CreateDonorState {}
@@ -157,10 +165,10 @@ export interface DistributionsState {
   loading: boolean;
   searchResult: Array<IDistributionSearchResultItem>;
   distributionInput: {
-    distribution: Array<IDistributionShare>,
-    donorID: string,
-    donorName: string
-  }
+    distribution: Array<IDistributionShare>;
+    donorID: string;
+    donorName: string;
+  };
 }
 
 export interface DataOwnerState {

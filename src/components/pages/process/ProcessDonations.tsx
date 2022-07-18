@@ -39,7 +39,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
       <MainHeader>Report upload - Manual review</MainHeader>
 
       <GreenBox>
-        <strong>{processingState.valid}</strong> processed donations,
+        <strong>{processingState.valid}</strong> processed donations,{' '}
         <strong>{processingState.invalid}</strong> up for manual review
       </GreenBox>
       <RedBox>
@@ -50,9 +50,11 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
       <EffektDisplayTable style={{ marginBottom: '40px', marginTop: '30px' }}>
         <thead>
           <tr>
-            {current.transaction.location !== undefined ? <th>Saleslocation</th> : ''}
-            {current.transaction.name !== undefined ? <th>Name</th> : ''}
-            <th>Message</th>
+            {current.transaction.location !== undefined && <th>Saleslocation</th>}
+            {current.transaction.name !== undefined && <th>Name</th>}
+            {current.transaction.message !== undefined && <th>Message</th>}
+            {current.transaction.FBCampaignName !== undefined && <th>FB campaign name</th>}
+            {current.transaction.FBLink !== undefined && <th>FB campaign link</th>}
           </tr>
         </thead>
         <tbody>
@@ -62,8 +64,18 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
             ) : (
               ''
             )}
-            {current.transaction.name !== undefined ? <td>{current.transaction.name}</td> : ''}
-            <td>{current.transaction.message}</td>
+            {current.transaction.name !== undefined && <td>{current.transaction.name}</td>}
+            {current.transaction.message !== undefined && <td>{current.transaction.message}</td>}
+            {current.transaction.FBCampaignName !== undefined && (
+              <td>{current.transaction.FBCampaignName}</td>
+            )}
+            {current.transaction.FBLink !== undefined && (
+              <td>
+                <a href={current.transaction.FBLink} target="_blank" rel="noreferrer">
+                  {current.transaction.FBLink}
+                </a>
+              </td>
+            )}
           </tr>
         </tbody>
       </EffektDisplayTable>

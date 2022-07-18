@@ -7,9 +7,15 @@ export enum ReportTypes {
   PAYPAL,
   OCR,
   BANK,
+  FACEBOOK,
 }
 
-export interface IUploadReportActionParams { type: ReportTypes; report: File; metaOwnerID: Number, token: string }
+export interface IUploadReportActionParams {
+  type: ReportTypes;
+  report: File | null;
+  metaOwnerID: Number;
+  token: string;
+}
 
 export const uploadReportAction = actionCreator.async<
   IUploadReportActionParams,
