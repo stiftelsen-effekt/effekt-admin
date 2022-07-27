@@ -11,6 +11,7 @@ export function* createDistribution(action: Action<ICreateDistributionActionPara
         var data: API.Response = yield call(API.call, {
             endpoint: `/distributions/`,
             method: API.Method.POST,
+            token: action.payload.token,
             data: {
                 donor: {id: donorId},
                 distribution, 

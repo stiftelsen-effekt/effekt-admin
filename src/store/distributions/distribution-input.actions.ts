@@ -11,7 +11,7 @@ export const setDistributionInput = (distribution: Array<IDistributionShare>) =>
 
 const actionCreator = actionCreatorFactory();
 
-export interface ICreateDistributionActionParams { donor: {id: number}, distribution: Array<IDistributionShare>}
+export interface ICreateDistributionActionParams { donor: {id: number}, distribution: Array<IDistributionShare>, token: string }
 export const createDistributionAction = actionCreator.async<ICreateDistributionActionParams, string, Error>(
     'CREATE_DISTRIBUTION'
 );

@@ -67,12 +67,11 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
     });
 
     if (donor) {
-      dispatch(
-        createDistributionAction.started({
-          donor: { id: donor.id },
-          distribution: filteredDistributions,
-        })
-      );
+      getAccessTokenSilently().then((token) => dispatch(createDistributionAction.started({
+        donor: { id: donor.id },
+        distribution: filteredDistributions,
+        token
+      })));
     }
     onSubmit();
   };
