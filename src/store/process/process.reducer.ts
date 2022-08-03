@@ -40,7 +40,7 @@ export const reportProcessingReducer = (
     action.payload.result.fbCampaigns !== undefined
   ) {
     if (action.payload.result.fbCampaigns.length > 0) {
-      toast.success(`Uploaded FB report! Please register the FB campaign shares`);
+      toast.success(`🔥 Uploaded FB report! Please register the FB campaign shares`);
     }
     return { ...state, fbCampaigns: action.payload.result.fbCampaigns, loading: false };
   } else if (
