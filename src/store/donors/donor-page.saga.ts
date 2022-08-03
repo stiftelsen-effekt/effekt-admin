@@ -37,7 +37,7 @@ export function* getDonorDonations(action: Action<IFetchDonorDonationsActionPara
 export function* getDonorDistributions(action: Action<IFetchDonorDistributionsActionParams>) {
   try {
     const data: API.TypedResponse<Array<IDistributionSearchResultItem>> = yield call(API.call, {
-      endpoint: `/donors/${action.payload.id}/distributions`,
+      endpoint: `/donors/${action.payload.id}/distributions/aggregated`,
       method: API.Method.GET,
       token: action.payload.token
     });
