@@ -40,7 +40,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
   const uploadReport = (type: ReportTypes, file: File | null) => {
     if (!file)
       if (loading) return toast.error('Already processing a report');
-      else if (type !== ReportTypes.FACEBOOK) return toast.error('No file selected');
+      else return toast.error('No file selected');
     if (!currentDataOwner) return toast.error('No data owner selected');
     getAccessTokenSilently().then((token) =>
       dispatch(
