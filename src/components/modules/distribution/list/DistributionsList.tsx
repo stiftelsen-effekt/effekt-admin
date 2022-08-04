@@ -79,7 +79,6 @@ export const DistributionsList: React.FunctionComponent<{
     }
     return {};
   };
-  console.log(defaultPageSize);
 
   if (manual) {
     return (
