@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Page } from '../../style/elements/page.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../models/state';
-import { IDonation } from '../../../models/types';
+import { IDonation, IDonor } from '../../../models/types';
 import {
   fetchDonationAction,
   clearCurrentDonation,
@@ -17,6 +17,7 @@ import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/Effek
 import { PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
+import { deleteDonationAction } from '../../../store/donations/donations-list.actions';
 
 interface IParams {
   id: string;
@@ -32,6 +33,9 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
 
   const donation: IDonation | undefined = useSelector(
     (state: AppState) => state.donations.currentDonation
+  );
+  const selectedDonor = useSelector<AppState, IDonor | undefined>(
+    (state: AppState) => state.donorSelector.selectedDonor
   );
 
   if (donation && donation.id !== donationID) {
@@ -50,6 +54,9 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
       <Page>
         <ResourceHeader hasSubHeader={true}>Donation {donation.id}</ResourceHeader>
         <ResourceSubHeader>KID {donation.KID}</ResourceSubHeader>
+        {donation.id && (
+          <DeleteButton id={donation.id} sum={donation.sum} donor={selectedDonor?.name} />
+        )}
 
         <SubHeader>Keyinfo</SubHeader>
         <HorizontalPanel>
@@ -87,4 +94,29 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
   } else {
     return <Page>Loading...</Page>;
   }
+};
+
+const DeleteButton: React.FC<{ id: number; donor?: string; sum?: number }> = ({
+  id,
+  donor,
+  sum,
+}) => {
+  const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
+
+  return (
+    <EffektButton
+      onClick={() => {
+        let sure = window.confirm(
+          `Do you really want to delete the donation of ${donor} with sum ${sum}`
+        );
+        if (sure)
+          getAccessTokenSilently().then((token) =>
+            dispatch(deleteDonationAction.started({ id, token }))
+          );
+      }}
+    >
+      Delete
+    </EffektButton>
+  );
 };

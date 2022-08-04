@@ -2,14 +2,12 @@ import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  deleteDonationAction,
   fetchDonationsAction,
   setDonationsPagination,
 } from '../../../../store/donations/donations-list.actions';
 import { AppState } from '../../../../models/state';
 import { shortDate, thousandize } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
-import { StyledDeleteButton } from './DonationsList.style';
 import { useHistory } from 'react-router';
 import { IDonation } from '../../../../models/types';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -18,7 +16,6 @@ interface Props {
   donations: Array<IDonation> | undefined;
   manual?: boolean;
   defaultPageSize?: number;
-  hideDeleteButton?: boolean;
   hideDonorName?: boolean;
   hideKID?: boolean;
 }
@@ -27,7 +24,6 @@ export const DonationsList: React.FunctionComponent<Props> = ({
   donations,
   manual,
   defaultPageSize,
-  hideDeleteButton,
   hideDonorName,
   hideKID,
 }) => {
@@ -95,15 +91,6 @@ export const DonationsList: React.FunctionComponent<Props> = ({
     });
   }
 
-  if (!hideDeleteButton) {
-    columnDefinitions.push({
-      Header: 'Delete',
-      id: 'delete',
-      accessor: (res: any) => <DeleteButton id={res.id} sum={res.sum} donor={res.donor} />,
-      width: 80,
-    });
-  }
-
   const defaultSorting = [{ id: 'timestamp', desc: true }];
 
   const trProps = (tableState: any, rowInfo: any) => {
@@ -150,25 +137,4 @@ export const DonationsList: React.FunctionComponent<Props> = ({
       />
     );
   }
-};
-
-const DeleteButton: React.FC<{ id: number; donor: string; sum: number }> = ({ id, donor, sum }) => {
-  const dispatch = useDispatch();
-  const { getAccessTokenSilently } = useAuth0();
-
-  return (
-    <StyledDeleteButton
-      onClick={() => {
-        let sure = window.confirm(
-          `Do you really want to delete the donation of ${donor} with sum ${sum}`
-        );
-        if (sure)
-          getAccessTokenSilently().then((token) =>
-            dispatch(deleteDonationAction.started({ id, token }))
-          );
-      }}
-    >
-      X
-    </StyledDeleteButton>
-  );
 };

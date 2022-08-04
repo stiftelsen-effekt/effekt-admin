@@ -16,9 +16,11 @@ export const fetchDonationAction = actionCreator.async<
   IDonation,
   Error
 >('FETCH_DONATION');
-export const fetchHistogramAction = actionCreator.async<IFetchDonationsHistogramActionParams, Array<IHistogramBucket>, Error>(
-  'FETCH_HISTOGRAM'
-);
+export const fetchHistogramAction = actionCreator.async<
+  IFetchDonationsHistogramActionParams,
+  Array<IHistogramBucket>,
+  Error
+>('FETCH_HISTOGRAM');
 
 export const CLEAR_CURRENT_DONATION = 'CLEAR_CURRENT_DONATION';
 export const clearCurrentDonation = () => ({ type: CLEAR_CURRENT_DONATION });

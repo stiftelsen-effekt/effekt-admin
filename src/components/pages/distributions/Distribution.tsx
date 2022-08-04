@@ -61,7 +61,6 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
         <SubHeader>Donations</SubHeader>
         <DonationsList
           donations={current.affiliatedDonations}
-          hideDeleteButton={true}
           hideDonorName={true}
           hideKID={true}
           defaultPageSize={10}
