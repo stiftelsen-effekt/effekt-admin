@@ -78,8 +78,12 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
               range={[amountRange.from, amountRange.to]}
               histogram={histogram}
               onChange={(range: any) => {
+                let minRange = range[0]
+                let maxRange = range[1]
+                if (isNaN(minRange)) minRange = 0
+                if (isNaN(maxRange)) maxRange = 0
                 dispatch(
-                  setAvtalegiroFilterAmount({ from: Math.min(...range), to: Math.max(...range) })
+                  setAvtalegiroFilterAmount({ from: minRange, to: maxRange })
                 );
               }}
             ></HistogramInputComponent>
