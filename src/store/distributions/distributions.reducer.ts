@@ -17,7 +17,7 @@ const defaultState: DistributionsState = {
   loading: false,
   pagination: {
     page: 1,
-    limit: 20,
+    limit: 25,
     sort: {
       id: 'KID',
       desc: true,
@@ -28,34 +28,32 @@ const defaultState: DistributionsState = {
     KID: '',
   },
   distributionInput: {
-    donorID: "",
-    donorName: "",
-    distribution: [
-      {organizationId: 12, share: new Decimal(100)}
-    ]
-  }
+    donorID: '',
+    donorName: '',
+    distribution: [{ organizationId: 12, share: new Decimal(100) }],
+  },
 };
 
 export const distributionsReducer = (state = defaultState, action: any): DistributionsState => {
   if (isType(action, fetchDistributionAction.done)) {
     return {
       ...state,
-      current: { 
+      current: {
         ...state.current,
         distribution: {
           KID: action.payload.result.kid,
           donor: action.payload.result.donor,
-          shares: action.payload.result.distribution
+          shares: action.payload.result.distribution,
         },
-        affiliatedDonations: action.payload.result.affilliatedDonations
-      }
+        affiliatedDonations: action.payload.result.affilliatedDonations,
+      },
     };
   } else if (isType(action, fetchDistributionAction.started)) {
     return { ...state, loading: true };
   } else if (isType(action, fetchDistributionAction.failed)) {
     return { ...state, loading: false };
   }
-  
+
   if (isType(action, fetchDistributionsAction.done)) {
     return {
       ...state,
@@ -70,8 +68,8 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
   }
 
   /**
-  * FILTER
-  */
+   * FILTER
+   */
 
   switch (action.type) {
     case SET_DISTRIBUTIONS_FILTER_DONOR:
@@ -81,28 +79,31 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
   }
 
   /**
-  * PAGINATION ACTIONS
-  */
+   * PAGINATION ACTIONS
+   */
   switch (action.type) {
     case SET_DISTRIBUTIONS_PAGINATION:
       return { ...state, pagination: action.payload };
   }
- 
+
   /**
-  * DISTRIBUTION INPUT ACTIONS
-  */
+   * DISTRIBUTION INPUT ACTIONS
+   */
 
   if (isType(action, createDistributionAction.done)) {
     toast.success(`Created new distribution with KID ${action.payload.result}`);
-    return { 
-      ...state, 
-      filter: { ...state.filter, KID: action.payload.result } 
+    return {
+      ...state,
+      filter: { ...state.filter, KID: action.payload.result },
     };
   }
 
   switch (action.type) {
     case SET_DISTRIBUTION_INPUT:
-      return { ...state, distributionInput: { ...state.distributionInput, distribution: action.payload} };
+      return {
+        ...state,
+        distributionInput: { ...state.distributionInput, distribution: action.payload },
+      };
   }
 
   return state;

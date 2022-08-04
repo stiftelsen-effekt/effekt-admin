@@ -104,6 +104,7 @@ export const DistributionsList: React.FunctionComponent<{
           loading={loading}
           columns={columnDefinitions}
           defaultSorted={defaultSorting}
+          defaultPageSize={defaultPageSize}
           getTrProps={trProps}
           onFetchData={(state) => {
             dispatch(

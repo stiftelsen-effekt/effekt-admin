@@ -22,7 +22,7 @@ const defaultState: DonationsState = {
   pages: 1,
   pagination: {
     page: 0,
-    limit: 20,
+    limit: 25,
     sort: {
       id: 'timestamp',
       desc: true,
