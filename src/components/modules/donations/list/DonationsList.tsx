@@ -49,7 +49,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({
     {
       Header: 'ID',
       accessor: 'id',
-      width: 60,
+      width: 100,
     },
     {
       Header: 'Method',
