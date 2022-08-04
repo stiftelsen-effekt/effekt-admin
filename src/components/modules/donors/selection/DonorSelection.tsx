@@ -37,7 +37,7 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
     return {
       sorted: [],
       page: 0,
-      pageSize: 10,
+      pageSize: 25,
       expanded: {},
       resized: [],
       filtered: [],
@@ -139,7 +139,7 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
       <ReactTable
         data={searchResult}
         columns={columnDefinitions}
-        defaultPageSize={10}
+        defaultPageSize={25}
         onSortedChange={(sorted) => setState({ ...state, sorted })}
         onPageChange={(page) => setState({ ...state, page })}
         onPageSizeChange={(pageSize, page) => setState({ ...state, page, pageSize })}

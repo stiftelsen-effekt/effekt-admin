@@ -1,8 +1,23 @@
-import Decimal from "decimal.js";
-import { isType } from "typescript-fsa";
-import { AvtaleGiroAgreementsState } from "../../models/state";
-import { toastError } from "../../util/toasthelper";
-import { CLEAR_CURRENT_AVTALEGIRO, fetchAvtaleGiroAction, fetchAvtaleGiroAgreementsAction, fetchAvtaleGiroExpectedByDateAction, fetchAvtaleGiroHistogramAction, fetchAvtaleGiroMissingByDateAction, fetchAvtaleGiroRecievedByDateAction, fetchAvtaleGiroReportAction, fetchAvtaleGiroValidationTableAction, SET_AVTALEGIRO_FILTER_ACTIVE, SET_AVTALEGIRO_FILTER_AMOUNT, SET_AVTALEGIRO_FILTER_DONOR, SET_AVTALEGIRO_FILTER_KID, SET_AVTALEGIRO_PAGINATION } from "./avtalegiro.actions";
+import Decimal from 'decimal.js';
+import { isType } from 'typescript-fsa';
+import { AvtaleGiroAgreementsState } from '../../models/state';
+import { toastError } from '../../util/toasthelper';
+import {
+  CLEAR_CURRENT_AVTALEGIRO,
+  fetchAvtaleGiroAction,
+  fetchAvtaleGiroAgreementsAction,
+  fetchAvtaleGiroExpectedByDateAction,
+  fetchAvtaleGiroHistogramAction,
+  fetchAvtaleGiroMissingByDateAction,
+  fetchAvtaleGiroRecievedByDateAction,
+  fetchAvtaleGiroReportAction,
+  fetchAvtaleGiroValidationTableAction,
+  SET_AVTALEGIRO_FILTER_ACTIVE,
+  SET_AVTALEGIRO_FILTER_AMOUNT,
+  SET_AVTALEGIRO_FILTER_DONOR,
+  SET_AVTALEGIRO_FILTER_KID,
+  SET_AVTALEGIRO_PAGINATION,
+} from './avtalegiro.actions';
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
   agreements: [],
@@ -10,7 +25,7 @@ const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
   pages: 1,
   pagination: {
     page: 0,
-    limit: 20,
+    limit: 25,
     sort: {
       id: 'created',
       desc: true,
@@ -41,8 +56,8 @@ const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     validationTable: [],
     missing: [],
     recieved: [],
-    expected: []
-  }
+    expected: [],
+  },
 };
 
 export const avtaleGiroReducer = (
@@ -63,52 +78,46 @@ export const avtaleGiroReducer = (
     return { ...state, loading: false };
   }
 
-    // Fetch multiple agreements
-    if(isType(action, fetchAvtaleGiroAgreementsAction.done)) {
-        return {
-            ...state,
-            loading: false,
-            agreements: action.payload.result.rows,
-            pages: action.payload.result.pages
-        }
-    }
-    else if (isType(action, fetchAvtaleGiroAgreementsAction.started)) {
-        return { ...state, loading: true }
-    }
-    else if (isType(action, fetchAvtaleGiroAgreementsAction.failed)) {
-        return { ...state, loading: false }
-    }
+  // Fetch multiple agreements
+  if (isType(action, fetchAvtaleGiroAgreementsAction.done)) {
+    return {
+      ...state,
+      loading: false,
+      agreements: action.payload.result.rows,
+      pages: action.payload.result.pages,
+    };
+  } else if (isType(action, fetchAvtaleGiroAgreementsAction.started)) {
+    return { ...state, loading: true };
+  } else if (isType(action, fetchAvtaleGiroAgreementsAction.failed)) {
+    return { ...state, loading: false };
+  }
 
-    // Fetch single agreement
-    if(isType(action, fetchAvtaleGiroAction.done)) {
-        return {
-            ...state,
-            currentAgreement: {
-                ...action.payload.result,
-                distribution: action.payload.result.distribution.map(dist => (
-                  {
-                    ...dist,
-                    share: new Decimal(dist.share)
-                  }
-                ))
-            },
-            loading: false
-        }
-    }
-    else if (isType(action, fetchAvtaleGiroAction.started)) {
-        return { ...state, loading: true }
-    }
-    else if (isType(action, fetchAvtaleGiroAction.failed)) {
-        return { ...state, loading: false }
-    }
+  // Fetch single agreement
+  if (isType(action, fetchAvtaleGiroAction.done)) {
+    return {
+      ...state,
+      currentAgreement: {
+        ...action.payload.result,
+        distribution: action.payload.result.distribution.map((dist) => ({
+          ...dist,
+          share: new Decimal(dist.share),
+        })),
+      },
+      loading: false,
+    };
+  } else if (isType(action, fetchAvtaleGiroAction.started)) {
+    return { ...state, loading: true };
+  } else if (isType(action, fetchAvtaleGiroAction.failed)) {
+    return { ...state, loading: false };
+  }
 
-    // Clear current AvtaleGiro
-    if (action.type === CLEAR_CURRENT_AVTALEGIRO) {
-        return {
-            ...state,
-            currentAgreement: undefined
-        }
-    }
+  // Clear current AvtaleGiro
+  if (action.type === CLEAR_CURRENT_AVTALEGIRO) {
+    return {
+      ...state,
+      currentAgreement: undefined,
+    };
+  }
 
   // Fetch agreement report
   if (isType(action, fetchAvtaleGiroReportAction.done)) {
@@ -116,8 +125,8 @@ export const avtaleGiroReducer = (
       ...state,
       loading: false,
       report: {
-        ...action.payload.result
-      }
+        ...action.payload.result,
+      },
     };
   } else if (isType(action, fetchAvtaleGiroReportAction.started)) {
     return { ...state, loading: true };
@@ -132,8 +141,8 @@ export const avtaleGiroReducer = (
       loading: false,
       validation: {
         ...state.validation,
-        validationTable: action.payload.result
-      }
+        validationTable: action.payload.result,
+      },
     };
   } else if (isType(action, fetchAvtaleGiroValidationTableAction.started)) {
     return { ...state, loading: true };
@@ -148,8 +157,8 @@ export const avtaleGiroReducer = (
       loading: false,
       validation: {
         ...state.validation,
-        missing: action.payload.result
-      }
+        missing: action.payload.result,
+      },
     };
   } else if (isType(action, fetchAvtaleGiroMissingByDateAction.started)) {
     return { ...state, loading: true };
@@ -164,15 +173,15 @@ export const avtaleGiroReducer = (
       loading: false,
       validation: {
         ...state.validation,
-        recieved: action.payload.result
-      }
+        recieved: action.payload.result,
+      },
     };
   } else if (isType(action, fetchAvtaleGiroRecievedByDateAction.started)) {
     return { ...state, loading: true };
   } else if (isType(action, fetchAvtaleGiroRecievedByDateAction.failed)) {
     return { ...state, loading: false };
   }
-  
+
   // Fetch validation expected
   if (isType(action, fetchAvtaleGiroExpectedByDateAction.done)) {
     return {
@@ -180,8 +189,8 @@ export const avtaleGiroReducer = (
       loading: false,
       validation: {
         ...state.validation,
-        missing: action.payload.result
-      }
+        missing: action.payload.result,
+      },
     };
   } else if (isType(action, fetchAvtaleGiroExpectedByDateAction.started)) {
     return { ...state, loading: true };
