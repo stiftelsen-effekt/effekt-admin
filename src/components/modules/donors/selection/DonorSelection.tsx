@@ -139,7 +139,7 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
       <ReactTable
         data={searchResult}
         columns={columnDefinitions}
-        defaultPageSize={25}
+        defaultPageSize={state.pageSize}
         onSortedChange={(sorted) => setState({ ...state, sorted })}
         onPageChange={(page) => setState({ ...state, page })}
         onPageSizeChange={(pageSize, page) => setState({ ...state, page, pageSize })}
