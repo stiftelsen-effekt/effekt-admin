@@ -28,12 +28,16 @@ export const reportProcessingReducer = (
     isType(action, processDonationsAction.started)
   ) {
     return { ...state, fbCampaigns: undefined, loading: true };
-  }
-  if (isType(action, registerCampaignAction.started)) {
+  } else if (isType(action, registerCampaignAction.started)) {
     return { ...state, loading: true };
-  }
-  if (isType(action, uploadReportAction.failed)) {
+  } else if (
+    isType(action, uploadReportAction.failed) ||
+    isType(action, processDonationsAction.failed)
+  ) {
     toastError('Failed to process report', action.payload.error.message);
+    return { ...state, loading: false };
+  } else if (isType(action, registerCampaignAction.failed)) {
+    toastError('Failed to process campaign', action.payload.error.message);
     return { ...state, loading: false };
   } else if (
     isType(action, uploadReportAction.done) &&
