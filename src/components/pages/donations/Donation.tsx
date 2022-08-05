@@ -34,9 +34,6 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
   const donation: IDonation | undefined = useSelector(
     (state: AppState) => state.donations.currentDonation
   );
-  const selectedDonor = useSelector<AppState, IDonor | undefined>(
-    (state: AppState) => state.donorSelector.selectedDonor
-  );
 
   if (donation && donation.id !== donationID) {
     dispatch(clearCurrentDonation());
@@ -54,9 +51,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
       <Page>
         <ResourceHeader hasSubHeader={true}>Donation {donation.id}</ResourceHeader>
         <ResourceSubHeader>KID {donation.KID}</ResourceSubHeader>
-        {donation.id && (
-          <DeleteButton id={donation.id} sum={donation.sum} donor={selectedDonor?.name} />
-        )}
+        {donation.id && <DeleteButton id={donation.id} sum={donation.sum} />}
 
         <SubHeader>Keyinfo</SubHeader>
         <HorizontalPanel>
@@ -96,11 +91,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
   }
 };
 
-const DeleteButton: React.FC<{ id: number; donor?: string; sum?: number }> = ({
-  id,
-  donor,
-  sum,
-}) => {
+const DeleteButton: React.FC<{ id: number; sum?: number }> = ({ id, sum }) => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -108,7 +99,7 @@ const DeleteButton: React.FC<{ id: number; donor?: string; sum?: number }> = ({
     <EffektButton
       onClick={() => {
         let sure = window.confirm(
-          `Do you really want to delete the donation of ${donor} with sum ${sum}`
+          `Do you really want to delete the donation with id ${id} and sum ${sum}`
         );
         if (sure)
           getAccessTokenSilently().then((token) =>
