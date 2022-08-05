@@ -49,8 +49,9 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
       },
     };
   } else if (isType(action, fetchDistributionAction.started)) {
-    return { ...state, loading: true };
+    return { ...state, current: undefined, loading: true };
   } else if (isType(action, fetchDistributionAction.failed)) {
+    console.log(action.payload);
     return { ...state, loading: false };
   }
 

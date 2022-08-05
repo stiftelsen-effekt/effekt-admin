@@ -80,7 +80,6 @@ export const DistributionsList: React.FunctionComponent<{
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          console.log('heyeyeyey');
           history.push(`/distributions/${rowInfo.original.KID}`);
         },
       };

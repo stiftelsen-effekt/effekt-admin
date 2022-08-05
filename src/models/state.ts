@@ -150,17 +150,16 @@ export interface CurrentDistributionState {
 
 export interface DistributionsState {
   current?: CurrentDistributionState;
-
   filter: IDistributionFilter;
   pagination: IPagination;
   pages: number;
   loading: boolean;
   searchResult: Array<IDistributionSearchResultItem>;
   distributionInput: {
-    distribution: Array<IDistributionShare>,
-    donorID: string,
-    donorName: string
-  }
+    distribution: Array<IDistributionShare>;
+    donorID: string;
+    donorName: string;
+  };
 }
 
 export interface DataOwnerState {
