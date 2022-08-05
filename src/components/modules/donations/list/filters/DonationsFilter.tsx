@@ -90,7 +90,11 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
             range={[donationSumRange.from, donationSumRange.to]}
             histogram={histogram}
             onChange={(range) => {
-              dispatch(setDonationFilterSumRange(Math.min(...range), Math.max(...range)));
+              let minRange = range[0]
+              let maxRange = range[1]
+              if (isNaN(minRange)) minRange = 0
+              if (isNaN(maxRange)) maxRange = 0
+              dispatch(setDonationFilterSumRange(minRange, maxRange));
             }}
           ></HistogramInputComponent>
         </FilterGroup>
