@@ -17,8 +17,8 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Auth0Provider
-        domain={process.env.NEXT_PUBLIC_DOMAIN || 'konduit.eu.auth0.com'}
-        clientId={process.env.NEXT_PUBLIC_CLIENT_ID || 'EX8houA1Dg5P6eWucXG6Tcc7qc8Loh63'}
+        domain={'gieffektivt.eu.auth0.com'}
+        clientId={'jg0jOryc8mhJ0Z0FVLfrDxx5qaznd2x8'}
         audience="https://data.gieffektivt.no"
         scope="openid profile email read:donations write:donations read:profile write:profile read:distributions write:distributions read:agreements write:agreements read:vipps_api write:vipps_api admin"
         redirectUri={typeof window !== 'undefined' ? window.location.origin + '/' : undefined}
