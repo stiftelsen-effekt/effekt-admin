@@ -39,7 +39,7 @@ const defaultAgreementState: VippsAgreementsState = {
   pages: 1,
   pagination: {
     page: 0,
-    limit: 20,
+    limit: 25,
     sort: {
       id: 'amount',
       desc: true,
@@ -62,7 +62,7 @@ const defaultChargeState: VippsAgreementChargeState = {
   pages: 1,
   pagination: {
     page: 0,
-    limit: 20,
+    limit: 25,
     sort: {
       id: 'amountNOK',
       desc: true,

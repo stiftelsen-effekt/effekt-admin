@@ -78,7 +78,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
             <DonationsList donations={data.donations} defaultPageSize={10} />
           </EffektTab>
           <EffektTab>
-            <DistributionsList distributions={data.distributions} defaultPageSize={10} />
+            <DistributionsList distributions={data.distributions} defaultPageSize={10} hideEmail={true} hideName={true} />
           </EffektTab>
           <EffektTab>
             <AvtaleGiroList agreements={data.avtalegiroAgreements} defaultPageSize={10} />

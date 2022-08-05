@@ -8,16 +8,17 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../../models/state';
 
 export const DistributionsPageComponent: React.FunctionComponent = () => {
-  const distributions = useSelector((state: AppState) => state.distributions.searchResult)
+  const distributions = useSelector((state: AppState) => state.distributions.searchResult);
+  const defaultPageSize = useSelector((state: AppState) => state.distributions.pagination.limit);
 
   return (
     <Page>
       <MainHeader>Distributions</MainHeader>
 
       <DistributionListWrapper>
-        <DistributionsList distributions={distributions} manual />
+        <DistributionsList distributions={distributions} defaultPageSize={defaultPageSize} manual />
         <DistributionsFiltersComponent />
       </DistributionListWrapper>
     </Page>
-  )
-}
+  );
+};

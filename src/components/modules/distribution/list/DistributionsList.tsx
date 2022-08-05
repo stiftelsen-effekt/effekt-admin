@@ -19,7 +19,9 @@ export const DistributionsList: React.FunctionComponent<{
   distributions: Array<IDistributionSearchResultItem> | undefined;
   manual?: boolean;
   defaultPageSize?: number;
-}> = ({ distributions, manual, defaultPageSize }) => {
+  hideName?: boolean;
+  hideEmail?: boolean;
+}> = ({ distributions, manual, defaultPageSize, hideName, hideEmail }) => {
   const pages = useSelector((state: AppState) => state.distributions.pages);
   const loading = useSelector((state: AppState) => state.distributions.loading);
   const history = useHistory();
@@ -28,19 +30,11 @@ export const DistributionsList: React.FunctionComponent<{
 
   const [showCreate, setShowCreate] = useState<boolean>(false);
 
-  const columnDefinitions = [
+  let columnDefinitions: any[] = [
     {
       Header: 'KID',
       accessor: 'KID',
       width: 150,
-    },
-    {
-      Header: 'Name',
-      accessor: 'full_name',
-    },
-    {
-      Header: 'Email',
-      accessor: 'email',
     },
     {
       Header: 'Total sum',
@@ -65,6 +59,20 @@ export const DistributionsList: React.FunctionComponent<{
       },
     },
   ];
+
+  if (!hideName) {
+    columnDefinitions.splice(1, 0, {
+      Header: 'Name',
+      accessor: 'full_name'
+    });
+  }
+
+  if (!hideEmail) {
+    columnDefinitions.splice(2, 0, {
+      Header: 'Email',
+      accessor: 'email',
+    })
+  }
 
   const defaultSorting = [{ id: 'KID', desc: true }];
 
@@ -104,6 +112,7 @@ export const DistributionsList: React.FunctionComponent<{
           loading={loading}
           columns={columnDefinitions}
           defaultSorted={defaultSorting}
+          defaultPageSize={defaultPageSize}
           getTrProps={trProps}
           onFetchData={(state) => {
             dispatch(
