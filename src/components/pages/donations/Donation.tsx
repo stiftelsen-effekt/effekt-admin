@@ -17,6 +17,8 @@ import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/Effek
 import { PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
+import { toastError } from '../../../util/toasthelper';
+import { resendReceiptAction } from '../../../store/donations/receipt.actions';
 
 interface IParams {
   id: string;
@@ -45,11 +47,24 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
     );
   }
 
+  function resendReceipt() {
+    if (donation && donation.id) {
+      const donationID = donation.id;
+      getAccessTokenSilently().then((token) => {
+        dispatch(resendReceiptAction.started({ donationID, email: undefined, token }));
+      });
+    } else {
+      toastError('Failed to send', 'Missing donation ID');
+    }
+  }
+
   if (donation) {
     return (
       <Page>
         <ResourceHeader hasSubHeader={true}>Donation {donation.id}</ResourceHeader>
         <ResourceSubHeader>KID {donation.KID}</ResourceSubHeader>
+
+        <EffektButton onClick={() => resendReceipt()}>Resend receipt</EffektButton>
 
         <SubHeader>Keyinfo</SubHeader>
         <HorizontalPanel>
