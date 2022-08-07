@@ -49,6 +49,9 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
   }, [avtaleGiroID, dispatch, getAccessTokenSilently]);
 
   if (avtaleGiro) {
+    let formattedStatus = avtaleGiro.active ? 'Active' : 'Inactive';
+    if (avtaleGiro.cancelled) formattedStatus = 'Cancelled';
+
     return (
       <Page>
         <ResourceHeader hasSubHeader={true}>AvtaleGiro {avtaleGiroID}</ResourceHeader>
@@ -105,6 +108,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
               <select
                 name="status"
                 id="status"
+                value={formattedStatus === 'Active' ? '1' : '0'}
                 onChange={(e) => setNewStatus(parseInt(e.currentTarget.value))}
               >
                 <option value="0">Inactive</option>
