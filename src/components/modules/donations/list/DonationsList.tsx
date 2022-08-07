@@ -104,7 +104,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({
     });
   }
 
-  const defaultSorting = [{ id: 'timestamp', desc: true }];
+  const defaultSorting = [{ id: 'timestamp', desc: false }];
 
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {
