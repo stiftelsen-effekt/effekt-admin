@@ -2,7 +2,7 @@ export const SET_DONATION_FILTER_SUM_RANGE = 'SET_DONATION_FILTER_SUM_RANGE';
 export const SET_DONATION_FILTER_DATE_RANGE = 'SET_DONATION_FILTER_DATE_RANGE';
 export const SET_DONATION_FILTER_DONOR = 'SET_DONATION_FILTER_DONOR';
 export const SET_DONATION_FILTER_KID = 'SET_DONATION_FILTER_KID';
-export const SET_DONATION_FILTRE_PAYMENT_METHOD_IDS = 'SET_DONATION_FILTRE_PAYMENT_METHOD_IDS';
+export const SET_DONATION_FILTER_PAYMENT_METHOD_IDS = 'SET_DONATION_FILTER_PAYMENT_METHOD_IDS';
 
 export interface IActionRangeParams<T> {
   from: T;
@@ -55,10 +55,10 @@ export const setDonationFilterDonor = (donor: string): IFilterAction<string> => 
 };
 
 export const setDonationFilterPaymentMethodIDs = (
-  IDs: Array<number>
-): IFilterAction<Array<number>> => {
+  IDs: Array<number> | undefined
+): IFilterAction<Array<number> | undefined> => {
   return {
-    type: SET_DONATION_FILTRE_PAYMENT_METHOD_IDS,
+    type: SET_DONATION_FILTER_PAYMENT_METHOD_IDS,
     payload: IDs,
   };
 };

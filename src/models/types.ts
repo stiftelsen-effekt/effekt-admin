@@ -61,7 +61,7 @@ export interface IDonationFilter {
     from: Date | null;
     to: Date | null;
   };
-  paymentMethodIDs: Array<number>;
+  paymentMethodIDs: Array<number> | undefined;
   KID?: string;
   donor?: string;
 }
@@ -210,17 +210,17 @@ export interface IVippsAgreementChargeFilter {
 /** AvtaleGiro agreements */
 
 export interface IAvtaleGiro {
-    id: string,
-    created: string,
-    last_updated: string,
-    active: number,
-    amount: number,
-    KID: string,
-    donor: string,
-    full_name: string,
-    payment_date: number,
-    cancelled: string,
-    distribution: Array<IDistributionShare>,
+  id: string;
+  created: string;
+  last_updated: string;
+  active: number;
+  amount: number;
+  KID: string;
+  donor: string;
+  full_name: string;
+  payment_date: number;
+  cancelled: string;
+  distribution: Array<IDistributionShare>;
 }
 
 export interface IAvtaleGiroFilter {
