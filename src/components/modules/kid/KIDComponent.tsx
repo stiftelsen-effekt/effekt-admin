@@ -31,6 +31,7 @@ interface IProps {
   KID?: string;
   distribution: Array<IDistributionShare>;
   onChange(distribution: Array<IDistributionShare>): void;
+  hideDonorField?: boolean;
 }
 
 export const KIDComponent: React.FunctionComponent<IProps> = ({
@@ -39,6 +40,7 @@ export const KIDComponent: React.FunctionComponent<IProps> = ({
   KID,
   onChange,
   distribution,
+  hideDonorField,
 }) => {
   const dispatch = useDispatch();
 
@@ -64,12 +66,15 @@ export const KIDComponent: React.FunctionComponent<IProps> = ({
       <KIDUpperBracket></KIDUpperBracket>
       <KIDInnerContent>
         {/* Donor */}
-        <div>
-          <KIDDonorComponent
-            selectedDonor={donor}
-            openDonorSelectionDialog={openDonorSelectionDialog}
-          ></KIDDonorComponent>
-        </div>
+        {!hideDonorField && (
+          <div>
+            <KIDDonorComponent
+              selectedDonor={donor}
+              openDonorSelectionDialog={openDonorSelectionDialog}
+            ></KIDDonorComponent>
+          </div>
+        )}
+
         {/* Split */}
         <div>
           <KIDDistribution

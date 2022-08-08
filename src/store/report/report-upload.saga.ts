@@ -1,4 +1,8 @@
-import { uploadReportAction, ReportTypes, IUploadReportActionParams } from './report-upload.actions';
+import {
+  uploadReportAction,
+  ReportTypes,
+  IUploadReportActionParams,
+} from './report-upload.actions';
 import { put, call } from 'redux-saga/effects';
 import * as API from '../../util/api';
 import { Action } from 'typescript-fsa';
@@ -19,12 +23,18 @@ export function* uploadReport(action: Action<IUploadReportActionParams>) {
       case ReportTypes.BANK:
         reportType = 'bank';
         break;
+      case ReportTypes.FACEBOOK:
+        reportType = 'facebook';
+        break;
       default:
         throw new Error('Report type not supported');
     }
 
     const formData = new FormData();
-    formData.append('report', action.payload.report);
+    if (action.payload.report) {
+      formData.append('report', action.payload.report);
+    }
+
     formData.append('metaOwnerID', action.payload.metaOwnerID.toString());
 
     var data: API.Response = yield call(API.call, {
@@ -34,8 +44,10 @@ export function* uploadReport(action: Action<IUploadReportActionParams>) {
       formData: formData,
     });
     if (data.status !== 200) throw new Error(data.content);
-    yield put(uploadReportAction.done({ params: action.payload, result: data.content }));
+    else {
+      yield put(uploadReportAction.done({ params: action.payload, result: data.content }));
+    }
   } catch (ex) {
-    yield put(uploadReportAction.failed({ params: action.payload, error: (ex as Error) }));
+    yield put(uploadReportAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

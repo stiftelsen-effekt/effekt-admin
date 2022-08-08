@@ -113,6 +113,8 @@ export interface ITransaction {
   name: string;
   transactionID: string;
   paymentID?: number;
+  FBLink?: string;
+  FBCampaignName?: string;
 }
 
 /** Graphing */
@@ -210,17 +212,17 @@ export interface IVippsAgreementChargeFilter {
 /** AvtaleGiro agreements */
 
 export interface IAvtaleGiro {
-    id: string,
-    created: string,
-    last_updated: string,
-    active: number,
-    amount: number,
-    KID: string,
-    donor: string,
-    full_name: string,
-    payment_date: number,
-    cancelled: string,
-    distribution: Array<IDistributionShare>,
+  id: string;
+  created: string;
+  last_updated: string;
+  active: number;
+  amount: number;
+  KID: string;
+  donor: string;
+  full_name: string;
+  payment_date: number;
+  cancelled: string;
+  distribution: Array<IDistributionShare>;
 }
 
 export interface IAvtaleGiroFilter {

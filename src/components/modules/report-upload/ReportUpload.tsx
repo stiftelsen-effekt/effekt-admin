@@ -16,6 +16,7 @@ interface IState {
   paypalReport: File | null;
   ocrReport: File | null;
   bankReport: File | null;
+  facebookReport: File | null;
 }
 
 export const ReportUpload: React.FunctionComponent = (props) => {
@@ -25,6 +26,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
       paypalReport: null,
       ocrReport: null,
       bankReport: null,
+      facebookReport: null,
     };
   };
 
@@ -70,7 +72,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           </td>
           <td>
             <EffektFileInput
-              onChange={(file: File) => setState({ ...state, vippsReport: file })}
+              onChange={(file: File) => !loading && setState({ ...state, vippsReport: file })}
               id="vipps-upload"
             />
           </td>
@@ -150,6 +152,28 @@ export const ReportUpload: React.FunctionComponent = (props) => {
             </EffektButton>
           </td>
           {state.bankReport !== null && loading && <EffektLoadingSpinner />}
+        </tr>
+
+        <tr>
+          <td>
+            <strong>Facebook</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) => !loading && setState({ ...state, facebookReport: file })}
+              id="facebook-upload"
+            />
+          </td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(ReportTypes.FACEBOOK, state.facebookReport);
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+          {state.facebookReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
       </tbody>
     </ReportTable>

@@ -74,11 +74,19 @@ export interface SingleDonationState {
   paymentMethods: Array<IPaymentMethod>;
 }
 
+export interface FBCampaign {
+  ID: string;
+  fundraiserTitle: string;
+  campaignOwnerName: string;
+  permalink: string;
+}
+
 export interface ReportProcessingState {
   valid: number;
   invalid: number;
   invalidTransactions: Array<IInvalidTransaction>;
   loading: boolean;
+  fbCampaigns?: Array<FBCampaign> | undefined;
 }
 
 export interface CreateDonorState {}
