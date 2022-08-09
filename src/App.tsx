@@ -22,14 +22,8 @@ const App: React.FC = () => {
         audience="https://data.gieffektivt.no"
         scope="openid profile email read:donations write:donations read:profile write:profile read:distributions write:distributions read:agreements write:agreements read:vipps_api write:vipps_api admin"
         redirectUri={typeof window !== 'undefined' ? window.location.origin + '/' : undefined}
-        onRedirectCallback={() => (window.location.href = '/')}
-        cacheLocation={
-          typeof window !== 'undefined'
-            ? (window as any).Cypress
-              ? 'localstorage'
-              : 'memory'
-            : undefined
-        }
+        onRedirectCallback={() => { window.history.replaceState({}, document.title, "/"); }}
+        cacheLocation={'memory'}
       >
         <MainRouter></MainRouter>
       </Auth0Provider>

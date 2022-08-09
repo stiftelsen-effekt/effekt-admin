@@ -67,7 +67,7 @@ export const MainNavigation: React.FC = () => {
         </NavMenuItem>
       </NavMenu>
 
-      <Logout onClick={() => logout()}>
+      <Logout onClick={() => logout({ returnTo: window.location.origin })}>
         {' '}
         <span>Logout</span> <LogOut size={iconSize} color={'white'}></LogOut>
       </Logout>
