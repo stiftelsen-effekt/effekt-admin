@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { LoginComponent } from '../login/login.component';
 import { PrivateRoute } from './PrivateRoute';
-import { Route, useHistory } from 'react-router';
+import { Route } from 'react-router';
 import { AdminPanel } from '../AdminPanel';
 import { Switch } from 'react-router';
 import { HashRouter } from 'react-router-dom';
