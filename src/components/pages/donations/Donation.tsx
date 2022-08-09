@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Page } from '../../style/elements/page.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../models/state';
-import { IDonation, IDonor } from '../../../models/types';
+import { IDonation } from '../../../models/types';
 import {
   fetchDonationAction,
   clearCurrentDonation,
