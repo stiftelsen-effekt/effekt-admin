@@ -17,6 +17,7 @@ import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/Effek
 import { PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
+import { deleteDonationAction } from '../../../store/donations/donations-list.actions';
 
 interface IParams {
   id: string;
@@ -50,6 +51,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
       <Page>
         <ResourceHeader hasSubHeader={true}>Donation {donation.id}</ResourceHeader>
         <ResourceSubHeader>KID {donation.KID}</ResourceSubHeader>
+        {donation.id && <DeleteButton id={donation.id} sum={donation.sum} />}
 
         <SubHeader>Keyinfo</SubHeader>
         <HorizontalPanel>
@@ -87,4 +89,25 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
   } else {
     return <Page>Loading...</Page>;
   }
+};
+
+const DeleteButton: React.FC<{ id: number; sum?: number }> = ({ id, sum }) => {
+  const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
+
+  return (
+    <EffektButton
+      onClick={() => {
+        let sure = window.confirm(
+          `Do you really want to delete the donation with id ${id} and sum ${sum}`
+        );
+        if (sure)
+          getAccessTokenSilently().then((token) =>
+            dispatch(deleteDonationAction.started({ id, token }))
+          );
+      }}
+    >
+      Delete
+    </EffektButton>
+  );
 };
