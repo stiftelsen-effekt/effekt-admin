@@ -45,7 +45,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({
     {
       Header: 'ID',
       accessor: 'id',
-      width: 60,
+      width: 100,
     },
     {
       Header: 'Method',
@@ -90,8 +90,6 @@ export const DonationsList: React.FunctionComponent<Props> = ({
       accessor: 'kid',
     });
   }
-
-  const defaultSorting = [{ id: 'timestamp', desc: true }];
 
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {

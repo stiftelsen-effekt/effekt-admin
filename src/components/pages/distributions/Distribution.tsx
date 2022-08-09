@@ -37,11 +37,6 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
     );
   }, [KID, dispatch, getAccessTokenSilently]);
 
-  // TEMPORARY
-  useEffect(() => {
-    console.log(current);
-  }, [current]);
-
   if (current && current.distribution && current.distribution.shares) {
     return (
       <Page>
