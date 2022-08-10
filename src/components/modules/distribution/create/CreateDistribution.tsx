@@ -26,6 +26,8 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
   const [donorInput, setDonorInput] = useState<number>();
   const [validInput, setValidInput] = useState<boolean>(false);
 
+  const [standardSplit, setStandardSplit] = useState<boolean>(false);
+
   const dispatch = useDispatch();
 
   // Reset donor state when opening modal
@@ -44,9 +46,11 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
 
   useEffect(() => {
     let sumPercent = new Decimal(0);
-    distributionInput.forEach((org: IDistributionShare) => {
-      sumPercent = sumPercent.plus(org.share);
-    });
+    if (distributionInput) {
+      distributionInput.forEach((org: IDistributionShare) => {
+        sumPercent = sumPercent.plus(org.share);
+      });
+    }
 
     // Set valid input if distribution sums to 100 and donor with inputID exists
     if (parseInt(sumPercent.toFixed(0)) === 100) {
@@ -58,6 +62,10 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
     }
   }, [dispatch, distributionInput, donor, donorInput]);
 
+  const toggleStandardSplit = () => {
+    setStandardSplit((current) => !current);
+  };
+
   const submit = () => {
     let filteredDistributions: Array<IDistributionShare> = [];
     distributionInput.forEach((dist: IDistributionShare) => {
@@ -67,11 +75,19 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
     });
 
     if (donor) {
-      getAccessTokenSilently().then((token) => dispatch(createDistributionAction.started({
-        donor: { id: donor.id },
-        distribution: filteredDistributions,
-        token
-      })));
+      getAccessTokenSilently().then((token) => {
+        let distribution = filteredDistributions;
+        if (standardSplit) {
+          distribution = [];
+        }
+        dispatch(
+          createDistributionAction.started({
+            donor: { id: donor.id },
+            distribution,
+            token,
+          })
+        );
+      });
     }
     onSubmit();
   };
@@ -97,7 +113,10 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
         onKeyDown={(e) => e.key === 'Enter' && submit()}
         disabled={true}
       ></EffektInput>
-      <DistributionInput />
+      <EffektButton onClick={toggleStandardSplit}>
+        {standardSplit ? 'Set distribution manually' : 'Use standard share'}
+      </EffektButton>
+      {!standardSplit && <DistributionInput />}
       <EffektButton disabled={!validInput} onClick={submit}>
         Create <Plus size={16} />
       </EffektButton>

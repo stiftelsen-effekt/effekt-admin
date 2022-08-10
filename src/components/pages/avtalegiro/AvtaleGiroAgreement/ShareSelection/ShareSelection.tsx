@@ -142,7 +142,7 @@ export const SharesSelection: React.FC<Props> = ({ KID }) => {
                     dispatch(
                       updateAvtaleGiroDistributionAction.started({
                         KID,
-                        distribution: filteredShares,
+                        distribution: filteredShares, //TODO: smartDist
                         token,
                       })
                     )

@@ -98,7 +98,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
         dispatch(
           createDistribitionAndInsertDonationAction.started({
             donation: donationParams,
-            distribution: distributionParams,
+            distribution: distributionParams, //TODO: smartDist
             token,
           })
         );

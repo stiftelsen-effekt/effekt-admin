@@ -103,7 +103,10 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
     case SET_DISTRIBUTION_INPUT:
       return {
         ...state,
-        distributionInput: { ...state.distributionInput, distribution: action.payload },
+        distributionInput: {
+          ...state.distributionInput,
+          distribution: action.payload,
+        },
       };
   }
 
