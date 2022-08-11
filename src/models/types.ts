@@ -81,6 +81,11 @@ export interface IDistributionShare {
   abbriv?: string;
 }
 
+export interface IDistributionStandardSplit {
+  shares: Array<IDistributionShare>;
+  standardSplit: boolean;
+}
+
 export interface IDistribution {
   KID: string;
   donor: Partial<IDonor>;

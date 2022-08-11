@@ -15,7 +15,11 @@ import {
 } from './KIDComponent.style';
 
 //Models
-import { IOrganization, IDistributionShare } from '../../../models/types';
+import {
+  IOrganization,
+  IDistributionShare,
+  IDistributionStandardSplit,
+} from '../../../models/types';
 
 import Decimal from 'decimal.js';
 
@@ -29,8 +33,8 @@ interface IProps {
   donationAmount?: number;
   organizations: Array<IOrganization>;
   KID?: string;
-  distribution: Array<IDistributionShare>;
-  onChange(distribution: Array<IDistributionShare>): void;
+  distribution: IDistributionStandardSplit;
+  onChange(distribution: IDistributionStandardSplit): void;
   hideDonorField?: boolean;
 }
 
@@ -45,7 +49,7 @@ export const KIDComponent: React.FunctionComponent<IProps> = ({
   const dispatch = useDispatch();
 
   const [distributionSum, setDistributionSum] = useState<Decimal>(
-    calculateDistributionSum(distribution)
+    calculateDistributionSum(distribution.shares)
   );
   //TODO: Add support for absolute values
   const distributionMax = new Decimal(100);
@@ -56,8 +60,8 @@ export const KIDComponent: React.FunctionComponent<IProps> = ({
     dispatch(showDonorSelectionComponent());
   };
 
-  const distributionChanged = (distribution: Array<IDistributionShare>) => {
-    setDistributionSum(calculateDistributionSum(distribution));
+  const distributionChanged = (distribution: IDistributionStandardSplit) => {
+    setDistributionSum(calculateDistributionSum(distribution.shares));
     onChange(distribution);
   };
 
@@ -84,12 +88,14 @@ export const KIDComponent: React.FunctionComponent<IProps> = ({
         </div>
 
         {/* Controls */}
-        <div>
-          <KIDControls
-            distributionMax={distributionMax}
-            distributionSum={distributionSum}
-          ></KIDControls>
-        </div>
+        {!distribution.standardSplit && (
+          <div>
+            <KIDControls
+              distributionMax={distributionMax}
+              distributionSum={distributionSum}
+            ></KIDControls>
+          </div>
+        )}
       </KIDInnerContent>
       <KIDLowerBracket></KIDLowerBracket>
     </KIDWrapper>

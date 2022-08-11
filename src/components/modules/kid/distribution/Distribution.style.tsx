@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const DistributionWrapper = styled.div``;
+export const DistributionWrapper = styled.div`
+  margin-top: 2em;
+`;
 
 export const DistributionRow = styled.div`
   display: flex;

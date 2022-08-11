@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { EffektInput } from '../../../style/elements/input.style';
 import { DistributionWrapper, DistributionItem, DistributionRow } from './Distribution.style';
 
 import Decimal from 'decimal.js';
-import { IDistributionShare } from '../../../../models/types';
+import { IDistributionShare, IDistributionStandardSplit } from '../../../../models/types';
+import { EffektButton } from '../../../style/elements/button.style';
 
 interface IProps {
-  onChange(distribution: Array<IDistributionShare>): void;
-  distribution: Array<IDistributionShare>;
+  onChange(distribution: IDistributionStandardSplit): void;
+  distribution: IDistributionStandardSplit;
 }
 
 export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution, onChange }) => {
+  const [standardSplit, setStandardSplit] = useState<boolean>(distribution.standardSplit);
+
   const organizationValueChanged = (orgId: number, value: string) => {
     try {
       value = value === '' ? '0' : value;
       let parsedValue = new Decimal(value);
-      let updatedDistribution = distribution.map((dist: IDistributionShare) => {
+      let updatedDistribution = distribution;
+      updatedDistribution.shares = distribution.shares.map((dist: IDistributionShare) => {
         if (dist.organizationId === orgId)
           return {
             ...dist,
@@ -23,7 +27,7 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
           };
         else return dist;
       });
-
+      updatedDistribution.standardSplit = distribution.standardSplit;
       onChange(updatedDistribution);
     } catch (ex) {
       console.log('Could not parse distribution input: ', value);
@@ -31,7 +35,7 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
   };
 
   const createItems = () => {
-    let distributionItems = distribution.map((dist: IDistributionShare, i: number) => (
+    let distributionItems = distribution.shares.map((dist: IDistributionShare, i: number) => (
       <DistributionItem key={i}>
         <span>{dist.abbriv}</span>
         <EffektInput
@@ -64,10 +68,26 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
     return distributionLines;
   };
 
+  const toggleStandardSplit = () => {
+    const nextStandardSplit = !distribution.standardSplit;
+    distribution.standardSplit = nextStandardSplit;
+    setStandardSplit(nextStandardSplit);
+    onChange(distribution);
+  };
+
   const createDistribution = () => {
     let distributionItems = createItems();
     let distributionLines = createLines(distributionItems);
-    return <DistributionWrapper>{distributionLines}</DistributionWrapper>;
+    return (
+      <>
+        <EffektButton onClick={() => toggleStandardSplit()}>
+          {standardSplit ? 'Set distribution manually' : 'Use standard share'}
+        </EffektButton>
+        <DistributionWrapper>
+          {!standardSplit ? distributionLines : 'Using standard distribution'}
+        </DistributionWrapper>
+      </>
+    );
   };
 
   return createDistribution();

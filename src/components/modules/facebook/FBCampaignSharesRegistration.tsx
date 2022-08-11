@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IDistributionShare, IOrganization } from '../../../models/types';
+import { IDistributionStandardSplit, IOrganization } from '../../../models/types';
 import { useDispatch } from 'react-redux';
 import { FBCampaign } from '../../../models/state';
 import { KIDComponent } from '../kid/KIDComponent';
@@ -28,23 +28,31 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
-  const [distributions, setDistributions] = useState<Array<IDistributionShare>>(
-    mapOrgToDist(organizations)
-  );
+  const [distributions, setDistributions] = useState<IDistributionStandardSplit>({
+    shares: mapOrgToDist(organizations),
+    standardSplit: false,
+  });
 
   const currentCampaign = campaigns[0];
 
   const submit = () => {
-    const accShares = distributions.reduce((acc, distribution) => {
+    const accShares = distributions.shares.reduce((acc, distribution) => {
       acc += parseFloat(String(distribution.share));
       return acc;
     }, 0.0);
-    if (accShares === 100) {
+    if (accShares === 100 || distributions.standardSplit) {
+      let shares;
+      if (distributions.standardSplit) {
+        shares = [];
+      } else shares = distributions.shares;
       getAccessTokenSilently().then((token) => {
         dispatch(
           registerCampaignAction.started({
             token,
-            campaign: { id: currentCampaign.ID, shares: distributions },
+            campaign: {
+              id: currentCampaign.ID,
+              shares: shares,
+            },
           })
         );
       });
@@ -66,7 +74,7 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
       <KIDComponent
         organizations={organizations}
         distribution={distributions}
-        onChange={(distribution: Array<IDistributionShare>) => setDistributions(distribution)}
+        onChange={(distribution: IDistributionStandardSplit) => setDistributions(distribution)}
         hideDonorField={true}
       ></KIDComponent>
       <ButtonWrapper>

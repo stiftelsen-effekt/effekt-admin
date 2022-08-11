@@ -7,6 +7,7 @@ import {
   IDonation,
   IDistributionShare,
   IOrganization,
+  IDistributionStandardSplit,
 } from '../../../models/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../models/state';
@@ -47,9 +48,10 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
   );
   if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined));
 
-  const [distribution, setDistribution] = useState<Array<IDistributionShare>>(
-    mapOrgToDist(organizations)
-  );
+  const [distribution, setDistribution] = useState<IDistributionStandardSplit>({
+    shares: mapOrgToDist(organizations),
+    standardSplit: false,
+  });
 
   const selectedDonor = useSelector<AppState, IDonor | undefined>(
     (state: AppState) => state.donorSelector.selectedDonor
@@ -87,7 +89,10 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
           return toast.error('Error initializing distribution or input');
         if (!currentSelectedOwner) return toast.error('Missing meta owner');
 
-        const filteredDistribution = getFilteredDistribution(distribution);
+        let filteredDistribution;
+        if (distribution.standardSplit) {
+          filteredDistribution = [];
+        } else filteredDistribution = getFilteredDistribution(distribution.shares);
 
         const distributionParams: ICreateDistributionParams = {
           distribution: filteredDistribution,
@@ -98,7 +103,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
         dispatch(
           createDistribitionAndInsertDonationAction.started({
             donation: donationParams,
-            distribution: distributionParams, //TODO: smartDist
+            distribution: distributionParams,
             token,
           })
         );
@@ -120,12 +125,13 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
           onChange={onDonationInputChange}
         ></DonationInput>
       </InputWrapper>
+
       <KIDComponent
         organizations={organizations}
         donationAmount={donationInput && donationInput.sum}
         KID={donationInput.KID}
         distribution={distribution}
-        onChange={(distribution: Array<IDistributionShare>) => setDistribution(distribution)}
+        onChange={(distribution: IDistributionStandardSplit) => setDistribution(distribution)}
       ></KIDComponent>
       <ControlsWrapper>
         <DonationControls onInsert={submit} onIgnore={onIgnore}></DonationControls>
