@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-export const EffektButton = styled.button`
+interface ButtonProps {
+  inverted?: boolean;
+}
+export const EffektButton = styled.button<ButtonProps>`
   padding: 10px 30px;
   font-family: 'ESKlarheitGrotesk';
   display: inline-flex;
@@ -10,8 +13,8 @@ export const EffektButton = styled.button`
   border: none;
   cursor: pointer;
   box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.2);
-  background: black;
-  color: white;
+  background: ${(props) => (props.inverted ? 'white' : 'black')};
+  color: ${(props) => (props.inverted ? 'black' : 'white')};
 
   svg {
     vertical-align: middle;

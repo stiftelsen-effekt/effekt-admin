@@ -68,6 +68,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
             onChangeFrom={(date: Date | null) => setFrom(date)}
             to={to}
             onChangeTo={(date: Date | null) => setTo(date)}
+            onChangeRange={(from: Date | null, to: Date | null) => {setFrom(from); setTo(to);}}
           ></EffektDateRange>
           <span style={{ color: grey30, marginLeft: '14px', fontSize: '14px' }}>
             Date range is inclusive
