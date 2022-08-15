@@ -85,6 +85,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
               onChangeTo={(date) => {
                 dispatch(setDonationFilterDateRange(donationDateRange.from, date));
               }}
+              onChangeRange={(to, from) => {
+                dispatch(setDonationFilterDateRange(to, from));
+              }}
               inverted
             ></FilterDateRange>
           </FilterDateRangeWrapper>
