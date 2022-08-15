@@ -60,7 +60,7 @@ export const VippsAgreementList: React.FunctionComponent<{
       Header: 'Charge day',
       accessor: 'monthly_charge_day',
       id: 'chargeDay',
-      width: 120,
+      width: 80,
     },
     {
       Header: 'KID',
