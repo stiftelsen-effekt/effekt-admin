@@ -18,11 +18,20 @@ export function* fetchDistribution(action: Action<IFetchDistributionActionParams
       token: action.payload.token,
     });
     if (distributionResult.status !== 200) throw new Error(distributionResult.content);
-    const donationsResult: API.Response = yield call(API.call, {
-      endpoint: `/donations/all/${action.payload.kid}`,
-      method: API.Method.GET,
-      token: action.payload.token,
-    });
+    let donationsResult: API.Response;
+    if (action.payload.avtaleGiro) {
+      donationsResult = yield call(API.call, {
+        endpoint: `/avtalegiro/donations/${action.payload.kid}`,
+        method: API.Method.GET,
+        token: action.payload.token,
+      });
+    } else {
+      donationsResult = yield call(API.call, {
+        endpoint: `/donations/all/${action.payload.kid}`,
+        method: API.Method.GET,
+        token: action.payload.token,
+      });
+    }
     if (donationsResult.status !== 200) throw new Error(donationsResult.content);
     let formattedShares: IDistributionShare[] = [];
 
