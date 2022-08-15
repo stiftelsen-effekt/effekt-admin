@@ -80,6 +80,7 @@
   -webkit-transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: inset 0 0 0 0 transparent;
+  white-space: normal !important
 }
 
 .ReactTable .rt-thead .rt-th.-sort-asc,
