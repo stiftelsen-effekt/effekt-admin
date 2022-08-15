@@ -34,7 +34,7 @@ export const DistributionsList: React.FunctionComponent<{
     {
       Header: 'KID',
       accessor: 'KID',
-      width: 150,
+      width: 170,
     },
     {
       Header: 'Total sum',
@@ -46,9 +46,10 @@ export const DistributionsList: React.FunctionComponent<{
       sortMethod: (a: any, b: any) => {
         return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
       },
+      width: 125,
     },
     {
-      Header: 'Antall donasjoner',
+      Header: 'Number of donations',
       id: 'count',
       accessor: (res: any) => {
         if (res.count) return thousandize(res.count);
@@ -57,13 +58,14 @@ export const DistributionsList: React.FunctionComponent<{
       sortMethod: (a: any, b: any) => {
         return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
       },
+      width: 100,
     },
   ];
 
   if (!hideName) {
     columnDefinitions.splice(1, 0, {
       Header: 'Name',
-      accessor: 'full_name'
+      accessor: 'full_name',
     });
   }
 
@@ -71,6 +73,7 @@ export const DistributionsList: React.FunctionComponent<{
     columnDefinitions.splice(2, 0, {
       Header: 'Email',
       accessor: 'email',
+      width: 350,
     })
   }
 
