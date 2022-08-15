@@ -35,10 +35,10 @@ export const AvtaleGiroList: React.FunctionComponent<{
 
   const columnDefinitions = [
     {
-      Header: 'ID',
+      Header: 'Agreement ID',
       accessor: 'ID',
       id: 'id',
-      width: 60,
+      width: 120,
     },
     {
       Header: 'Donor',
