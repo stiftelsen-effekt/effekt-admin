@@ -220,6 +220,14 @@ export function* fetchAvtaleGiro(action: Action<IFetchAgreementActionParams>) {
       endpoint: `/avtalegiro/agreement/${action.payload.id}`,
       token: action.payload.token,
     });
+    if (result.status !== 200) throw new Error(result.content);
+    const donationsResult = yield call(API.call, {
+      endpoint: `/avtalegiro/donations/${result.content.KID}`,
+      method: API.Method.GET,
+      token: action.payload.token,
+    });
+    if (donationsResult.status !== 200) throw new Error(donationsResult.content);
+    result.content.affiliatedDonations = donationsResult.content;
     if (result)
       yield put(fetchAvtaleGiroAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {

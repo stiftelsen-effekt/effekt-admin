@@ -14,7 +14,6 @@ const actionCreator = actionCreatorFactory();
 export interface IFetchDistributionActionParams {
   kid: string;
   token: string;
-  avtaleGiro?: boolean;
 }
 export interface IFetchDistributionsActionParams {
   token: string;

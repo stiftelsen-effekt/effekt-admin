@@ -4,7 +4,7 @@ import { RouteComponentProps, NavLink } from 'react-router-dom';
 import { Page } from '../../../style/elements/page.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { IAvtaleGiro, IDonation } from '../../../../models/types';
+import { IAvtaleGiro } from '../../../../models/types';
 import { DistributionGraphComponent } from '../../../modules/distribution/Graph';
 import {
   ResourceHeader,
@@ -21,7 +21,6 @@ import { HorizontalPanel } from '../../donations/Donation.style';
 import { AvtaleGiroKeyInfo } from './AvtaleGiroKeyInfo';
 import { SharesSelection } from './ShareSelection/ShareSelection';
 import { useAuth0 } from '@auth0/auth0-react';
-import { fetchDistributionAction } from '../../../../store/distributions/distribution.actions';
 import { DonationsList } from '../../../modules/donations/list/DonationsList';
 
 interface IParams {
@@ -33,9 +32,6 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
 }: RouteComponentProps<IParams>) => {
   const avtaleGiro: IAvtaleGiro | undefined = useSelector(
     (state: AppState) => state.avtaleGiroAgreements.currentAgreement
-  );
-  const avtaleGiroDonations: IDonation[] | undefined = useSelector(
-    (state: AppState) => state.distributions.current?.affiliatedDonations
   );
 
   const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false);
@@ -53,17 +49,6 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
       dispatch(fetchAvtaleGiroAction.started({ id: avtaleGiroID, token }))
     );
   }, [avtaleGiroID, dispatch, getAccessTokenSilently]);
-
-  useEffect(() => {
-    if (avtaleGiro) {
-      console.log(avtaleGiro.KID);
-      getAccessTokenSilently().then((token) =>
-        dispatch(fetchDistributionAction.started({ kid: avtaleGiro.KID, token, avtaleGiro: true }))
-      );
-    }
-  }, [avtaleGiro, dispatch, getAccessTokenSilently]);
-
-  console.log(avtaleGiroDonations);
 
   if (avtaleGiro) {
     let formattedStatus = avtaleGiro.active ? 'Active' : 'Inactive';
@@ -86,7 +71,11 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
         </HorizontalPanel>
 
         <SubHeader>Payments</SubHeader>
-        <DonationsList donations={avtaleGiroDonations} manual={true} defaultPageSize={10} />
+        <DonationsList
+          donations={avtaleGiro.affiliatedDonations}
+          manual={true}
+          defaultPageSize={10}
+        />
 
         <SubHeader>Edit</SubHeader>
         <button onClick={() => setEditMenuVisible(!editMenuVisible)}>

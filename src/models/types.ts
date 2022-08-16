@@ -223,6 +223,7 @@ export interface IAvtaleGiro {
   payment_date: number;
   cancelled: string;
   distribution: Array<IDistributionShare>;
+  affiliatedDonations: Array<IDonation>;
 }
 
 export interface IAvtaleGiroFilter {
