@@ -18,6 +18,7 @@ import { PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 import { deleteDonationAction } from '../../../store/donations/donations-list.actions';
+import { RegisterReceiptComponent } from '../../modules/donations/receipt/Receipt';
 
 interface IParams {
   id: string;
@@ -84,6 +85,12 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
             Distribution
           </EffektButton>
         </EffektButtonsWrapper>
+
+        <SubHeader>Resend receipt</SubHeader>
+        <RegisterReceiptComponent
+          defaultDonationID={donation.id}
+          hideDonationIDField={true}
+        ></RegisterReceiptComponent>
       </Page>
     );
   } else {

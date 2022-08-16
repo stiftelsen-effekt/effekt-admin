@@ -7,9 +7,17 @@ import { resendReceiptAction } from '../../../../store/donations/receipt.actions
 import { toastError } from '../../../../util/toasthelper';
 import { useAuth0 } from '@auth0/auth0-react';
 
-export const RegisterReceiptComponent: React.FunctionComponent = () => {
+interface IProps {
+  defaultDonationID?: number;
+  hideDonationIDField?: boolean;
+}
+
+export const RegisterReceiptComponent: React.FunctionComponent<IProps> = ({
+  defaultDonationID,
+  hideDonationIDField,
+}) => {
   const [email, setEmail] = useState<string | undefined>();
-  const [donationID, setDonationID] = useState<number | undefined>();
+  const [donationID, setDonationID] = useState<number | undefined>(defaultDonationID);
 
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
@@ -26,14 +34,16 @@ export const RegisterReceiptComponent: React.FunctionComponent = () => {
 
   return (
     <ResendReceiptWrapper>
-      <div>
-        <div>Donation ID</div>
-        <EffektInput
-          placeholder="donationID"
-          value={donationID || ''}
-          onChange={(e) => setDonationID(parseInt(e.target.value))}
-        ></EffektInput>
-      </div>
+      {!hideDonationIDField && (
+        <div>
+          <div>Donation ID</div>
+          <EffektInput
+            placeholder="donationID"
+            value={donationID || ''}
+            onChange={(e) => setDonationID(parseInt(e.target.value))}
+          ></EffektInput>
+        </div>
+      )}
       <div>
         <div>Optional email</div>
         <EffektInput
