@@ -6,7 +6,7 @@ import { Action } from 'typescript-fsa';
 export function* resendReceipt(action: Action<IResendReceiptPayload>) {
   try {
     const result: API.Response = yield call(API.call, {
-      endpoint: '/donations/receipt',
+      endpoint: `/donations/${action.payload.donationID}/receipt`,
       method: API.Method.POST,
       token: action.payload.token,
       data: action.payload,
@@ -14,6 +14,6 @@ export function* resendReceipt(action: Action<IResendReceiptPayload>) {
     if (result.status !== 200) throw new Error(result.content);
     yield put(resendReceiptAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(resendReceiptAction.failed({ params: action.payload, error: (ex as Error) }));
+    yield put(resendReceiptAction.failed({ params: action.payload, error: ex as Error }));
   }
 }
