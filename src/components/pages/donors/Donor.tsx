@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../models/state';
 import { DonorKeyInfo } from './donor/KeyInfo';
+import { TotalDonationAmount } from './donor/TotalDonationAmount';
 import { DonationsList } from '../../modules/donations/list/DonationsList';
 import { AvtaleGiroList } from '../../modules/avtalegiro/agreementlist/AvtaleGiroList';
 import {
@@ -48,6 +49,17 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
     });
   }, [dispatch, donorId, getAccessTokenSilently]);
 
+  let totalDonations = 0;
+  let operationsDonations = 0;
+  if (data.stats && data.stats.sumYearlyAggregates) {
+    data.stats.sumYearlyAggregates.forEach((row) => {
+      let amount = row.value ? row.value.toNumber() : 0;
+      totalDonations += amount;
+      if (row.abbriv === "Drift")
+        operationsDonations += amount;
+    })
+  }
+
   return (
     <Page>
       <MainHeader>Donor {donorId}</MainHeader>
@@ -55,6 +67,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
       <OverviewLine>
         <DonorKeyInfo donor={data.donor} />
         <DonorAggregateChart stats={data.stats} />
+        <TotalDonationAmount totalDonationAmount={totalDonations} operationsDonationAmount={operationsDonations} />
       </OverviewLine>
 
       <EffektTabs>
