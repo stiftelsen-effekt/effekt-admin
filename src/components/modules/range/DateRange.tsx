@@ -1,7 +1,7 @@
 import React from 'react';
 import { EffektButton } from '../../style/elements/button.style';
 import { EffektDatePicker } from '../../style/elements/datepicker/datepicker.style';
-import rightArrow from '../../../assets/right-arrow.svg';
+import { ArrowRight } from 'react-feather';
 import styled from 'styled-components';
 
 interface IProps {
@@ -57,7 +57,6 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({
       new Date(new Date().getFullYear() - 1, 12, 0),
     ],
   };
-  // TODO styled rather than inline styles...
   return (
     <React.Fragment>
       <DatesContainer>
@@ -67,16 +66,10 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({
           placeholderText="from"
           dateFormat="dd.MM.yyyy"
         ></EffektDatePicker>
-        <img
-          src={rightArrow}
-          style={{
-            margin: '0 12px',
-            height: '20px',
-            verticalAlign: 'middle',
-            color: (inverted ? 'white' : 'black')
-          }}
-          alt="arrow"
-        />
+        <ArrowRight
+          color={inverted ? 'white' : 'black'}
+          style={{ margin: '5px' }}
+          />
         <EffektDatePicker
           onChange={onChangeTo}
           selected={to}
