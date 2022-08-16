@@ -21,6 +21,7 @@ import { HorizontalPanel } from '../../donations/Donation.style';
 import { AvtaleGiroKeyInfo } from './AvtaleGiroKeyInfo';
 import { SharesSelection } from './ShareSelection/ShareSelection';
 import { useAuth0 } from '@auth0/auth0-react';
+import { DonationsList } from '../../../modules/donations/list/DonationsList';
 
 interface IParams {
   id: string;
@@ -32,6 +33,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
   const avtaleGiro: IAvtaleGiro | undefined = useSelector(
     (state: AppState) => state.avtaleGiroAgreements.currentAgreement
   );
+
   const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false);
   const [newAmount, setNewAmount] = useState<number>(avtaleGiro ? avtaleGiro.amount : 0);
   const [newPaymentDate, setNewPaymentDate] = useState<number>(
@@ -68,6 +70,14 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
           <AvtaleGiroKeyInfo agreement={avtaleGiro}></AvtaleGiroKeyInfo>
         </HorizontalPanel>
 
+        <SubHeader>Payments</SubHeader>
+        <DonationsList
+          donations={avtaleGiro.affiliatedDonations}
+          manual={true}
+          defaultPageSize={10}
+        />
+
+        <SubHeader>Edit</SubHeader>
         <button onClick={() => setEditMenuVisible(!editMenuVisible)}>
           {editMenuVisible ? 'Cancel editing' : 'Edit agreement'}
         </button>
