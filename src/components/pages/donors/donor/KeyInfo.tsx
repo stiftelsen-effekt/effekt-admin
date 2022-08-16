@@ -23,7 +23,7 @@ export const DonorKeyInfo: React.FunctionComponent<{ donor?: IDonor }> = ({ dono
           </tr>
           <tr>
             <td>Newsletter</td>
-            <td>{donor ? 'Yes' : <Skeleton />}</td>
+            <td>{donor ? (donor.newsletter ? 'Yes' : 'No') : <Skeleton />}</td>
           </tr>
           <tr>
             <td>Registered</td>
@@ -31,7 +31,7 @@ export const DonorKeyInfo: React.FunctionComponent<{ donor?: IDonor }> = ({ dono
           </tr>
           <tr>
             <td>Trash</td>
-            <td>{donor ? 'No' : <Skeleton />}</td>
+            <td>{donor ? (donor.trash ? 'Yes' : 'No') : <Skeleton />}</td>
           </tr>
         </tbody>
       </table>
