@@ -3,9 +3,10 @@ import { DateTime } from "luxon";
 import { AnyAction } from "redux";
 import { isType } from "typescript-fsa";
 import { DonorPageState } from "../../models/state";
-import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction } from "./donor-page.actions";
+import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction, updateDonorDataAction } from "./donor-page.actions";
 
 const initialState: DonorPageState = {
+  pendingUpdates: 0
 };
 
 export const donorPageReducer = (
@@ -93,6 +94,18 @@ export const donorPageReducer = (
         ...state.stats,
         sumYearlyAggregates: undefined
       }
+    }
+  } else if (isType(action, updateDonorDataAction.started)) {
+    state.pendingUpdates += 1;
+    delete state.updateError;
+  } else if (isType(action, updateDonorDataAction.done)) {
+    state.pendingUpdates -= 1;
+    delete state.updateError;
+  } else if (isType(action, updateDonorDataAction.failed)) {
+    state.pendingUpdates -= 1;
+    return {
+      ...state,
+      updateError: {message: action.payload.error.message, timestamp: +new Date()}
     }
   }
 
