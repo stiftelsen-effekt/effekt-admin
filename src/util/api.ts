@@ -61,9 +61,10 @@ export const call = async (params: IAPIParameters): Promise<any> => {
 
       return result;
     case Method.POST:
+    case Method.PUT:
       options = {
         ...options,
-        method: Method.POST,
+        method: params.method,
         headers: {
           ...options.headers,
           Accept: 'application/json',
