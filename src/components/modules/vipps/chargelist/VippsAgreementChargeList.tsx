@@ -35,14 +35,17 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
       Header: 'Due date',
       id: 'dueDate',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.dueDate, { setZone: true })),
+      width: 93,
     },
     {
       Header: 'Agreement ID',
       accessor: 'agreementID',
+      width: 129,
     },
     {
       Header: 'Charge ID',
       accessor: 'chargeID',
+      width: 130,
     },
     {
       Header: 'Donor',
@@ -51,20 +54,24 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
     {
       Header: 'Status',
       accessor: 'status',
+      width: 114,
     },
     {
       Header: 'Sum',
       accessor: 'amountNOK',
+      width: 83,
     },
     {
       Header: 'KID',
       accessor: 'KID',
       id: 'kid',
+      width: 150,
     },
     {
       Header: 'Created',
       id: 'created',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created, { setZone: true })),
+      width: 98,
     },
     {
       Header: 'Refund',
@@ -77,6 +84,7 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
           disabled={res.status !== 'CHARGED'}
         />
       ),
+      width: 75,
     },
   ];
 

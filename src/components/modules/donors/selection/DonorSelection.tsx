@@ -69,6 +69,7 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
     {
       Header: 'ID',
       accessor: 'id',
+      width: 100,
     },
     {
       Header: 'name',
@@ -77,11 +78,13 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
     {
       Header: 'email',
       accessor: 'email',
+      width: 580,
     },
     {
       id: 'registered',
       Header: 'registered',
       accessor: (donor: IDonor) => shortDate(donor.registered),
+      width: 270,
     },
   ];
 

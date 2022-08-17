@@ -29,18 +29,18 @@ export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showM
     {
       Header: 'ID',
       accessor: 'ID',
-      width: 100,
+      width: 80,
     },
     {
       Header: 'Label',
       accessor: 'label',
-      width: 150,
+      width: 180,
     },
     {
       Header: 'Timestamp',
       id: 'timestamp',
       accessor: (res: any) => longDateTime(DateTime.fromISO(res.timestamp, { setZone: true })),
-      width: showMeta ? 200 : undefined,
+      width: showMeta ? 150 : undefined,
     },
   ];
 

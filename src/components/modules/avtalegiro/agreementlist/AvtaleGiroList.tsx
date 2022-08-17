@@ -52,7 +52,7 @@ export const AvtaleGiroList: React.FunctionComponent<{
         if (res.active === 0 && res.cancelled) return 'STOPPED';
         return 'INACTIVE';
       },
-      width: 80,
+      width: 90,
     },
     {
       Header: 'Sum',
@@ -61,6 +61,7 @@ export const AvtaleGiroList: React.FunctionComponent<{
       sortMethod: (a: any, b: any) => {
         return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
       },
+      width: 85,
     },
     {
       Header: 'Day',
@@ -72,6 +73,7 @@ export const AvtaleGiroList: React.FunctionComponent<{
       Header: 'KID',
       accessor: 'KID',
       id: 'kid',
+      width: 160,
     },
     {
       Header: 'Draft date',
@@ -80,6 +82,7 @@ export const AvtaleGiroList: React.FunctionComponent<{
       sortMethod: (a: any, b: any) => {
         return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
       },
+      width: 110,
     },
     {
       Header: 'Last updated',
@@ -88,12 +91,14 @@ export const AvtaleGiroList: React.FunctionComponent<{
       sortMethod: (a: any, b: any) => {
         return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
       },
+      width: 150,
     },
     {
       Header: 'Cancellation date',
       id: 'cancelled',
       accessor: (res: any) =>
         res.cancelled && shortDate(DateTime.fromISO(res.cancelled, { setZone: true })),
+      width: 115,
     },
     {
       Header: 'Notify',

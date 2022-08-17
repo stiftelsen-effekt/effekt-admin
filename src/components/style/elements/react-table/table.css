@@ -21,6 +21,7 @@
 .ReactTable .rt-td {
   display: flex;
   align-items: center;
+  white-space: normal !important
 }
 
 .ReactTable .pagination-bottom {
