@@ -10,6 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './components/style/elements/datepicker/datepicker-effekt.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './components/style/elements/react-table/base.css';
+import { DEV_ENVIRONMENT } from "./config/config";
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Auth0Provider } from '@auth0/auth0-react';
 
@@ -23,7 +24,7 @@ const App: React.FC = () => {
         scope="openid profile email read:donations write:donations read:profile write:profile read:distributions write:distributions read:agreements write:agreements read:vipps_api write:vipps_api admin"
         redirectUri={typeof window !== 'undefined' ? window.location.origin + '/' : undefined}
         onRedirectCallback={() => { window.history.replaceState({}, document.title, "/"); }}
-        cacheLocation={'memory'}
+        cacheLocation={DEV_ENVIRONMENT ? 'localstorage' : 'memory'}
       >
         <MainRouter></MainRouter>
       </Auth0Provider>
