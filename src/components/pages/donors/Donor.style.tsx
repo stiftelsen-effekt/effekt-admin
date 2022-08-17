@@ -3,8 +3,7 @@ import styled from 'styled-components';
 export const OverviewLine = styled.div`
   display: flex;
   margin-bottom: 40px;
-  max-width: 1324px;
+  max-width: 95%;
   min-height: 245px;
-  width: 100%;
   justify-content: space-between;
 `

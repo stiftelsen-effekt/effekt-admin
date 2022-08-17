@@ -9,6 +9,7 @@ export interface IFetchDonorDistributionsActionParams { id: number, token: strin
 export interface IFetchDonorAvtalegiroAgreementsActionParams { id: number, token: string }
 export interface IFetchDonorVippsAgreementsActionParams { id: number, token: string }
 export interface IFetchDonorYearlyAggregatesActionParams { id: number, token: string }
+export interface IUpdateDonorDataParams { token: string, donor: IDonor }
 
 export const getDonorAction = actionCreator.async<IFetchDonorActionParams, IDonor, Error>(
   'FETCH_DONOR'
@@ -27,4 +28,7 @@ export const getDonorVippsAgreementsAction = actionCreator.async<IFetchDonorVipp
 );
 export const getDonorYearlyAggregatesAction = actionCreator.async<IFetchDonorYearlyAggregatesActionParams, Array<IDistributionShare & { year: number }>, Error>(
   'FETCH_DONOR_YEARLY_AGGREGATES'
+);
+export const updateDonorDataAction = actionCreator.async<IUpdateDonorDataParams, boolean, Error>(
+  'UPDATE_DONOR_DATA'
 );

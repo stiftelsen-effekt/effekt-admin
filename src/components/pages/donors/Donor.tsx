@@ -65,7 +65,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
       <MainHeader>Donor {donorId}</MainHeader>
 
       <OverviewLine>
-        <DonorKeyInfo donor={data.donor} />
+        {data.donor && <DonorKeyInfo donor={data.donor} />}
         <DonorAggregateChart stats={data.stats} />
         <TotalDonationAmount totalDonationAmount={totalDonations} operationsDonationAmount={operationsDonations} />
       </OverviewLine>

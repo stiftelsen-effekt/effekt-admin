@@ -64,6 +64,8 @@ export interface DonorPageState {
   distributions?: Array<IDistributionSearchResultItem>;
   avtalegiroAgreements?: Array<IAvtaleGiro>;
   vippsAgreements?: Array<IVippsAgreement>;
+  updateError?: {message: string, timestamp: number};
+  pendingUpdates: number;
 }
 
 export interface OrganizationsState {

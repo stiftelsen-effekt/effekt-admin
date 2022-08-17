@@ -1,7 +1,7 @@
 import { put, call } from 'redux-saga/effects';
 import * as API from '../../util/api';
 import { IAvtaleGiro, IDistributionSearchResultItem, IDistributionShare, IDonation, IDonor, IVippsAgreement } from '../../models/types';
-import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction, IFetchDonorActionParams, IFetchDonorAvtalegiroAgreementsActionParams, IFetchDonorDistributionsActionParams, IFetchDonorDonationsActionParams, IFetchDonorVippsAgreementsActionParams, IFetchDonorYearlyAggregatesActionParams } from './donor-page.actions';
+import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction, updateDonorDataAction, IFetchDonorActionParams, IFetchDonorAvtalegiroAgreementsActionParams, IFetchDonorDistributionsActionParams, IFetchDonorDonationsActionParams, IFetchDonorVippsAgreementsActionParams, IFetchDonorYearlyAggregatesActionParams, IUpdateDonorDataParams } from './donor-page.actions';
 import { Action } from 'typescript-fsa';
 
 export function* getDonor(action: Action<IFetchDonorActionParams>) {
@@ -91,5 +91,29 @@ export function* getDonorYearlyAggregates(action: Action<IFetchDonorYearlyAggreg
     yield put(getDonorYearlyAggregatesAction.done({ params: action.payload, result: data.content as Array<IDistributionShare & { year: number }> }));
   } catch (ex) {
     yield put(getDonorYearlyAggregatesAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* updateDonorData(action: Action<IUpdateDonorDataParams>) {
+  try {
+    const data: API.TypedResponse<boolean> = yield call(API.call, {
+      endpoint: `/donors/${action.payload.donor.id}`,
+      method: API.Method.PUT,
+      token: action.payload.token,
+      data: {
+        id: action.payload.donor.id,
+        name: action.payload.donor.name,
+        email: action.payload.donor.email,
+        ssn: action.payload.donor.ssn,
+        newsletter: Boolean(action.payload.donor.newsletter),
+        trash: Boolean(action.payload.donor.trash),
+        registered: action.payload.donor.registered,
+      }
+    });
+    if (data.status !== 200) throw new Error(data.content as string);
+
+    yield put(updateDonorDataAction.done({ params: action.payload, result: data.content as boolean }));
+  } catch (ex) {
+    yield put(updateDonorDataAction.failed({ params: action.payload, error: ex as Error }));
   }
 }
