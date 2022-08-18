@@ -17,14 +17,15 @@ import { uploadReportAction } from './store/report/report-upload.actions';
 import { uploadReport } from './store/report/report-upload.saga';
 import { createDonorAction } from './store/donors/create-donor.actions';
 import { createDonor } from './store/donors/create-donor.saga';
-import { deleteDonation, fetchDonations, updateDonationAmount } from './store/donations/donations-list.saga';
+import { fetchDonations } from './store/donations/donations-list.saga';
+import { fetchDonationsAction } from './store/donations/donations-list.actions';
 import {
+  fetchDonationAction,
+  fetchHistogramAction,
   deleteDonationAction,
-  fetchDonationsAction,
-  updateDonationAmountAction,
-} from './store/donations/donations-list.actions';
-import { fetchDonationAction, fetchHistogramAction } from './store/donations/donation.actions';
-import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
+  updateDonationAmountAction
+} from './store/donations/donation.actions';
+import { fetchDonation, fetchHistogram, deleteDonation, updateDonationAmount } from './store/donations/donation.saga';
 import { fetchSumByMonth, fetchTotalByPeriod } from './store/graphing/graphing.saga';
 import { fetchSumByMonthAction, fetchTotalByPeriodAction } from './store/graphing/graphing.actions';
 import { fetchDistribution, fetchDistributions } from './store/distributions/distributions.saga';

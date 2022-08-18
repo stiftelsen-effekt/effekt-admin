@@ -17,7 +17,7 @@ import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/Effek
 import { PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
-import { deleteDonationAction, updateDonationAmountAction } from '../../../store/donations/donations-list.actions';
+import { deleteDonationAction, updateDonationAmountAction } from '../../../store/donations/donation.actions';
 import { RegisterReceiptComponent } from '../../modules/donations/receipt/Receipt';
 
 interface IParams {
