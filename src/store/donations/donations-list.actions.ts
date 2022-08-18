@@ -13,6 +13,12 @@ export interface IDeleteDonationActionParams {
   token: string;
 }
 
+export interface IUpdateDonationAmountActionParams {
+  id: number;
+  amount: number;
+  token: string;
+}
+
 interface IFetchDonationsResult {
   rows: Array<IDonation>;
   pages: number;
@@ -35,3 +41,9 @@ export const deleteDonationAction = actionCreator.async<
   IFetchDonationsResult,
   Error
 >('DELETE_DONATION');
+
+export const updateDonationAmountAction = actionCreator.async<
+  IUpdateDonationAmountActionParams,
+  IFetchDonationsResult,
+  Error
+  >('UPDATE_DONATION_AMOUNT');

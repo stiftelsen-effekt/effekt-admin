@@ -3,6 +3,7 @@ import { isType } from 'typescript-fsa';
 import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from './donations-list.actions';
 import {
   fetchDonationAction,
+  updateDonationAmountAction,
   CLEAR_CURRENT_DONATION,
   fetchHistogramAction,
 } from './donation.actions';
@@ -84,6 +85,16 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
     };
   } else if (isType(action, fetchDonationAction.failed)) {
     toastError('Failed to fetch donation', action.payload.error.message);
+  } if (isType(action, updateDonationAmountAction.done)) {
+    return {
+      ...state,
+      currentDonation: {
+        ...action.payload.result,
+        timestamp: new Date(action.payload.result.timestamp),
+      }
+    }
+  } if (isType(action, updateDonationAmountAction.failed)) {
+    toastError('Failed to update donation amount', action.payload.error.message);
   }
 
   /**

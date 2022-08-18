@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Page } from '../../style/elements/page.style';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/Effek
 import { PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
-import { deleteDonationAction } from '../../../store/donations/donations-list.actions';
+import { deleteDonationAction, updateDonationAmountAction } from '../../../store/donations/donations-list.actions';
 import { RegisterReceiptComponent } from '../../modules/donations/receipt/Receipt';
 
 interface IParams {
@@ -31,6 +31,9 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
   const dispatch = useDispatch();
   const history = useHistory();
   const { getAccessTokenSilently } = useAuth0();
+
+  const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false);
+  const [newAmount, setNewAmount] = useState<number>(0);
 
   const donation: IDonation | undefined = useSelector(
     (state: AppState) => state.donations.currentDonation
@@ -64,6 +67,41 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
 
           <DonationKeyInfoComponent donation={donation}></DonationKeyInfoComponent>
         </HorizontalPanel>
+
+        <SubHeader>Edit</SubHeader>
+        <button onClick={() => setEditMenuVisible(!editMenuVisible)}>
+          {editMenuVisible ? 'Cancel editing' : 'Edit donation'}
+        </button>
+        {editMenuVisible && (
+          <div>
+            <div>
+              <label>Amount</label>
+              <br />
+              <input
+                defaultValue={donation.sum}
+                type="number"
+                onChange={(e) => setNewAmount(Number(e.currentTarget.value))}
+              ></input>
+              <button
+                disabled={newAmount < 1}
+                onClick={() => {
+                  getAccessTokenSilently().then((token) =>
+                    dispatch(
+                      updateDonationAmountAction.started({
+                        id: donationID,
+                        amount: newAmount,
+                        token,
+                      })
+                    )
+                  );
+                }}
+              >
+                Set new sum
+              </button>
+            </div>
+            <br />
+          </div>
+        )}
 
         <SubHeader>Meta</SubHeader>
 
