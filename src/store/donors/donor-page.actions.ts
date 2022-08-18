@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IAvtaleGiro, IDistributionSearchResultItem, IDistributionShare, IDonation, IDonor, IVippsAgreement } from '../../models/types';
+import { IAvtaleGiro, IDistributionSearchResultItem, IDistributionShare, IDonation, IDonor, IVippsAgreement, IReferralAnswer } from '../../models/types';
 
 const actionCreator = actionCreatorFactory();
 
@@ -28,6 +28,9 @@ export const getDonorVippsAgreementsAction = actionCreator.async<IFetchDonorVipp
 );
 export const getDonorYearlyAggregatesAction = actionCreator.async<IFetchDonorYearlyAggregatesActionParams, Array<IDistributionShare & { year: number }>, Error>(
   'FETCH_DONOR_YEARLY_AGGREGATES'
+);
+export const getDonorReferralAnswersAction = actionCreator.async<IFetchDonorActionParams, Array<IReferralAnswer>, Error>(
+  'FETCH_DONOR_REFERRAL_ANSWERS'
 );
 export const updateDonorDataAction = actionCreator.async<IUpdateDonorDataParams, boolean, Error>(
   'UPDATE_DONOR_DATA'

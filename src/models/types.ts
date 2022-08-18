@@ -286,3 +286,15 @@ export interface IAvtaleGiroValidation {
   recieved: Array<IDonation>;
   expected: Array<IAvtaleGiro>;
 }
+
+/** Referrals */
+
+export interface IReferralAnswer {
+  id: number;
+  typeId: number;
+  donorId: number;
+  answer: string;
+  timestamp: DateTime;
+  session: string;
+  active: boolean;
+}

@@ -25,6 +25,7 @@ import {
   ILogFilter,
   IDonorStats,
   IDistributionShare,
+  IReferralAnswer,
 } from './types';
 
 export interface AppState {
@@ -61,6 +62,7 @@ export interface DonorPageState {
   donor?: IDonor;
   stats?: IDonorStats;
   donations?: Array<IDonation>;
+  referralAnswers?: Array<IReferralAnswer>;
   distributions?: Array<IDistributionSearchResultItem>;
   avtalegiroAgreements?: Array<IAvtaleGiro>;
   vippsAgreements?: Array<IVippsAgreement>;

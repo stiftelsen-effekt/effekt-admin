@@ -92,6 +92,7 @@ import {
   getDonorDonationsAction,
   getDonorVippsAgreementsAction,
   getDonorYearlyAggregatesAction,
+  getDonorReferralAnswersAction,
   updateDonorDataAction,
 } from './store/donors/donor-page.actions';
 import {
@@ -101,6 +102,7 @@ import {
   getDonorDonations,
   getDonorVippsAgreements,
   getDonorYearlyAggregates,
+  getDonorReferralAnswers,
   updateDonorData,
 } from './store/donors/donor-page.saga';
 import { createDistribution } from './store/distributions/distribution-input.saga';
@@ -134,6 +136,7 @@ function* watchAll() {
     takeLatest(getDonorAvtalegiroAgreementsAction.started.type, getDonorAvtalegiroAgreements),
     takeLatest(getDonorVippsAgreementsAction.started.type, getDonorVippsAgreements),
     takeLatest(getDonorYearlyAggregatesAction.started.type, getDonorYearlyAggregates),
+    takeLatest(getDonorReferralAnswersAction.started.type, getDonorReferralAnswers),
     takeLatest(updateDonorDataAction.started.type, updateDonorData),
 
     takeLatest(fetchDonationsAction.started.type, fetchDonations),
