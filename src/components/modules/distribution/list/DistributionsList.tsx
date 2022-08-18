@@ -138,6 +138,7 @@ export const DistributionsList: React.FunctionComponent<{
         columns={columnDefinitions}
         defaultSorted={defaultSorting}
         defaultPageSize={defaultPageSize}
+        getTrProps={trProps}
       />
     );
   }
