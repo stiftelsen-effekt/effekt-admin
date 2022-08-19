@@ -25,8 +25,7 @@ import { EffektTab } from '../../modules/shared/tabs/EffektTab';
 import { VippsAgreementList } from '../../modules/vipps/agreementlist/VippsAgreementList';
 import { DistributionsList } from '../../modules/distribution/list/DistributionsList';
 import { useAuth0 } from '@auth0/auth0-react';
-import { longDateTime } from '../../../util/formatting';
-import ReactTable from 'react-table';
+import { ReferralAnswerList } from '../../modules/donors/referral_answers/ReferralAnswerList';
 
 interface IParams {
   id: string;
@@ -108,18 +107,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
             <VippsAgreementList agreements={data.vippsAgreements} defaultPageSize={10} />
           </EffektTab>
           <EffektTab>
-            <ReactTable
-              data={data.referralAnswers ? data.referralAnswers : []}
-              defaultPageSize={10}
-              columns={[
-                {Header: 'ID', width: 60, accessor: 'id'},
-                {Header: 'Answer', id: 'answer', accessor: a => (a.answer && a.answer.length) ? a.answer : "–"},
-                {Header: 'Timestamp', width: 150, id: 'timestamp', accessor: a => longDateTime(a.timestamp)},
-                {Header: 'Web Session', width: 150, accessor: 'session'},
-                {Header: 'Active Type', width: 110, id: 'active', accessor: a => a.active ? 'Yes' : 'No'},
-              ]}
-              defaultSorted={[{ id: 'id', desc: true }]}
-            />
+            <ReferralAnswerList data={data.referralAnswers} />
           </EffektTab>
         </div>
       </EffektTabs>
