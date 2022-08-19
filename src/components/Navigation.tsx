@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { MainNav, NavMenu, NavMenuItem, Logout, LogoHolder } from './Navigation.style';
-import Logo from '../assets/Konduit_Logo_Hvit_RGB.png';
+import Logo from '../assets/GiEffektivt_Logo_Hvit_RGB.png';
 import {
   Home,
   Upload,
