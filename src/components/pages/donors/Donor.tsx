@@ -15,6 +15,7 @@ import {
   getDonorDonationsAction,
   getDonorVippsAgreementsAction,
   getDonorYearlyAggregatesAction,
+  getDonorReferralAnswersAction,
 } from '../../../store/donors/donor-page.actions';
 import { DonorAggregateChart } from './donor/AggregateChart';
 import { OverviewLine } from './Donor.style';
@@ -24,6 +25,7 @@ import { EffektTab } from '../../modules/shared/tabs/EffektTab';
 import { VippsAgreementList } from '../../modules/vipps/agreementlist/VippsAgreementList';
 import { DistributionsList } from '../../modules/distribution/list/DistributionsList';
 import { useAuth0 } from '@auth0/auth0-react';
+import { ReferralAnswerList } from '../../modules/donors/referral_answers/ReferralAnswerList';
 
 interface IParams {
   id: string;
@@ -46,6 +48,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
       dispatch(getDonorAvtalegiroAgreementsAction.started({ id: donorId, token }));
       dispatch(getDonorVippsAgreementsAction.started({ id: donorId, token }));
       dispatch(getDonorYearlyAggregatesAction.started({ id: donorId, token }));
+      dispatch(getDonorReferralAnswersAction.started({ id: donorId, token }));
     });
   }, [dispatch, donorId, getAccessTokenSilently]);
 
@@ -85,6 +88,10 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
             label="Vipps"
             counter={data.vippsAgreements ? data.vippsAgreements.length : 0}
           />
+          <EffektTabHeader
+            label="Referrals"
+            counter={data.referralAnswers ? data.referralAnswers.length : 0}
+          />
         </div>
         <div>
           <EffektTab>
@@ -98,6 +105,9 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
           </EffektTab>
           <EffektTab>
             <VippsAgreementList agreements={data.vippsAgreements} defaultPageSize={10} />
+          </EffektTab>
+          <EffektTab>
+            <ReferralAnswerList data={data.referralAnswers} />
           </EffektTab>
         </div>
       </EffektTabs>

@@ -1,8 +1,9 @@
 import { put, call } from 'redux-saga/effects';
 import * as API from '../../util/api';
-import { IAvtaleGiro, IDistributionSearchResultItem, IDistributionShare, IDonation, IDonor, IVippsAgreement } from '../../models/types';
-import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction, updateDonorDataAction, IFetchDonorActionParams, IFetchDonorAvtalegiroAgreementsActionParams, IFetchDonorDistributionsActionParams, IFetchDonorDonationsActionParams, IFetchDonorVippsAgreementsActionParams, IFetchDonorYearlyAggregatesActionParams, IUpdateDonorDataParams } from './donor-page.actions';
+import { IAvtaleGiro, IDistributionSearchResultItem, IDistributionShare, IDonation, IDonor, IVippsAgreement, IReferralAnswer } from '../../models/types';
+import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction, getDonorReferralAnswersAction, updateDonorDataAction, IFetchDonorActionParams, IFetchDonorAvtalegiroAgreementsActionParams, IFetchDonorDistributionsActionParams, IFetchDonorDonationsActionParams, IFetchDonorVippsAgreementsActionParams, IFetchDonorYearlyAggregatesActionParams, IUpdateDonorDataParams } from './donor-page.actions';
 import { Action } from 'typescript-fsa';
+import { DateTime } from 'luxon';
 
 export function* getDonor(action: Action<IFetchDonorActionParams>) {
   try {
@@ -91,6 +92,24 @@ export function* getDonorYearlyAggregates(action: Action<IFetchDonorYearlyAggreg
     yield put(getDonorYearlyAggregatesAction.done({ params: action.payload, result: data.content as Array<IDistributionShare & { year: number }> }));
   } catch (ex) {
     yield put(getDonorYearlyAggregatesAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* getDonorReferralAnswers(action: Action<IFetchDonorActionParams>) {
+  try {
+    const data: API.TypedResponse<Array<IReferralAnswer>> = yield call(API.call, {
+      endpoint: `/donors/${action.payload.id}/referrals`,
+      method: API.Method.GET,
+      token: action.payload.token
+    });
+    if (data.status !== 200) throw new Error(data.content as string);
+
+    yield put(getDonorReferralAnswersAction.done({ params: action.payload, result: Object.values(data.content).map((r: any) => {
+      r.timestamp = DateTime.fromISO(r.timestamp, { setZone: true });
+      return r;
+    })}));
+  } catch (ex) {
+    yield put(getDonorReferralAnswersAction.failed({ params: action.payload, error: ex as Error }));
   }
 }
 

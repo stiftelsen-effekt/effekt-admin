@@ -3,7 +3,7 @@ import { DateTime } from "luxon";
 import { AnyAction } from "redux";
 import { isType } from "typescript-fsa";
 import { DonorPageState } from "../../models/state";
-import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction, updateDonorDataAction } from "./donor-page.actions";
+import { getDonorAction, getDonorAvtalegiroAgreementsAction, getDonorDistributionsAction, getDonorDonationsAction, getDonorVippsAgreementsAction, getDonorYearlyAggregatesAction, updateDonorDataAction, getDonorReferralAnswersAction } from "./donor-page.actions";
 
 const initialState: DonorPageState = {
   pendingUpdates: 0
@@ -94,6 +94,16 @@ export const donorPageReducer = (
         ...state.stats,
         sumYearlyAggregates: undefined
       }
+    }
+  } else if (isType(action, getDonorReferralAnswersAction.done)) {
+    return {
+      ...state,
+      referralAnswers: action.payload.result
+    }
+  } else if (isType(action, getDonorReferralAnswersAction.started)) {
+    return {
+      ...state,
+      referralAnswers: undefined
     }
   } else if (isType(action, updateDonorDataAction.started)) {
     state.pendingUpdates += 1;
