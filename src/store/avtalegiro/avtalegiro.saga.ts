@@ -142,13 +142,15 @@ export function* fetchAvtaleGiroMissingByDate(
       data: { date: action.payload.date.toISO() },
       token: action.payload.token,
     });
-    if (result.status !== 200) throw new Error(result.content as string);
-    yield put(
-      fetchAvtaleGiroMissingByDateAction.done({
-        params: action.payload,
-        result: result.content as Array<IAvtaleGiro>,
-      })
-    );
+    if (API.isOk(result))
+      yield put(
+        fetchAvtaleGiroMissingByDateAction.done({
+          params: action.payload,
+          result: result.content,
+        })
+      );
+    else
+      throw new Error(result.content);
   } catch (ex) {
     yield put(
       fetchAvtaleGiroMissingByDateAction.failed({
@@ -169,13 +171,15 @@ export function* fetchAvtaleGiroRecievedByDate(
       data: { date: action.payload.date.toISO() },
       token: action.payload.token,
     });
-    if (result.status !== 200) throw new Error(result.content as string);
-    yield put(
-      fetchAvtaleGiroRecievedByDateAction.done({
-        params: action.payload,
-        result: result.content as Array<IDonation>,
-      })
-    );
+    if (API.isOk(result))
+      yield put(
+        fetchAvtaleGiroRecievedByDateAction.done({
+          params: action.payload,
+          result: result.content,
+        })
+      );
+    else
+      throw new Error(result.content);
   } catch (ex) {
     yield put(
       fetchAvtaleGiroRecievedByDateAction.failed({
@@ -196,13 +200,15 @@ export function* fetchAvtaleGiroExpectedByDate(
       data: { date: action.payload.date.toISO() },
       token: action.payload.token,
     });
-    if (result.status !== 200) throw new Error(result.content as string);
-    yield put(
-      fetchAvtaleGiroExpectedByDateAction.done({
-        params: action.payload,
-        result: result.content as Array<IAvtaleGiro>,
-      })
-    );
+    if (API.isOk(result))
+      yield put(
+        fetchAvtaleGiroExpectedByDateAction.done({
+          params: action.payload,
+          result: result.content,
+        })
+      );
+    else
+      throw new Error(result.content);
   } catch (ex) {
     yield put(
       fetchAvtaleGiroExpectedByDateAction.failed({
