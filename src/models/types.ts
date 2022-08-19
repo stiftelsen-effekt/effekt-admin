@@ -64,6 +64,7 @@ export interface IDonationFilter {
   paymentMethodIDs: Array<number> | undefined;
   KID?: string;
   donor?: string;
+  id?: string;
 }
 
 export interface IHistogramBucket {

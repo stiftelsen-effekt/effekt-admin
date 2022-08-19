@@ -24,6 +24,7 @@ import {
   setDonationFilterDateRange,
   setDonationFilterSumRange,
   setDonationFilterPaymentMethodIDs,
+  setDonationFilterDonationId,
 } from '../../../../../store/donations/donation-filters.actions';
 import { fetchHistogramAction } from '../../../../../store/donations/donation.actions';
 import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
@@ -37,6 +38,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   const donationSumRange = useSelector((state: AppState) => state.donations.filter.sum);
   const kid = useSelector((state: AppState) => state.donations.filter.KID);
   const donor = useSelector((state: AppState) => state.donations.filter.donor);
+  const donationId = useSelector((state: AppState) => state.donations.filter.id);
   const selectedPaymentMethodIDs = useSelector(
     (state: AppState) => state.donations.filter.paymentMethodIDs
   );
@@ -106,6 +108,18 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
               dispatch(setDonationFilterSumRange(minRange, maxRange));
             }}
           ></HistogramInputComponent>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>ID like</FilterGroupHeader>
+          <FilterInput
+            value={donationId}
+            placeholder={'123'}
+            style={{ width: '100%' }}
+            onChange={(e) => {
+              dispatch(setDonationFilterDonationId(e.target.value));
+            }}
+          ></FilterInput>
         </FilterGroup>
 
         <FilterGroup>
