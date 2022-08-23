@@ -1,13 +1,15 @@
-import { createDonorAction } from './create-donor.actions';
+import { createDonorAction, ICreateDonorActionParams } from './create-donor.actions';
 import { put, call } from 'redux-saga/effects';
 import * as API from '../../util/api';
+import { Action } from 'typescript-fsa';
 
-export function* createDonor(action: any) {
+export function* createDonor(action: Action<ICreateDonorActionParams>) {
   try {
-    var data: API.Response = yield call(API.call, {
+    var data: API.TypedResponse<'OK' | string> = yield call(API.call, {
       endpoint: `/donors/`,
       method: API.Method.POST,
-      data: action.payload,
+      data: action.payload.donor,
+      token: action.payload.token,
     });
     if (data.status !== 200) throw new Error(data.content);
 
