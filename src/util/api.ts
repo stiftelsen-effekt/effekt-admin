@@ -21,10 +21,16 @@ export interface Response {
   content: any;
 }
 
-export interface TypedResponse<T> {
-  status: number;
-  content: T | string;
+export type OkResponse<T> = {
+  status: 200; // Or any other "OK" status
+  content: T;
 }
+export type ErrorResponse = {
+  status: 400 | 500; // Or any other error
+  content: string;
+}
+export type TypedResponse<T> = OkResponse<T> | ErrorResponse;
+export const isOk = <T>(response: TypedResponse<T>) : response is OkResponse<T> => response.status >= 200 && response.status < 300
 
 interface IFetchOptions {
   method?: string;

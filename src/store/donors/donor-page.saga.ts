@@ -12,9 +12,10 @@ export function* getDonor(action: Action<IFetchDonorActionParams>) {
       method: API.Method.GET,
       token: action.payload.token
     });
-    if (data.status !== 200) throw new Error(data.content as string);
-
-    yield put(getDonorAction.done({ params: action.payload, result: data.content as IDonor }));
+    if (API.isOk(data))
+      yield put(getDonorAction.done({ params: action.payload, result: data.content }));
+    else
+      throw new Error(data.content);
   } catch (ex) {
     yield put(getDonorAction.failed({ params: action.payload, error: ex as Error }));
   }
@@ -27,9 +28,11 @@ export function* getDonorDonations(action: Action<IFetchDonorDonationsActionPara
       method: API.Method.GET,
       token: action.payload.token
     });
-    if (data.status !== 200) throw new Error(data.content as string);
+    if (API.isOk(data))
+      yield put(getDonorDonationsAction.done({ params: action.payload, result: data.content }));
+    else
+      throw new Error(data.content);
 
-    yield put(getDonorDonationsAction.done({ params: action.payload, result: data.content as Array<IDonation> }));
   } catch (ex) {
     yield put(getDonorDonationsAction.failed({ params: action.payload, error: ex as Error }));
   }
@@ -42,9 +45,10 @@ export function* getDonorDistributions(action: Action<IFetchDonorDistributionsAc
       method: API.Method.GET,
       token: action.payload.token
     });
-    if (data.status !== 200) throw new Error(data.content as string);
-
-    yield put(getDonorDistributionsAction.done({ params: action.payload, result: data.content as Array<IDistributionSearchResultItem> }));
+    if (API.isOk(data))
+      yield put(getDonorDistributionsAction.done({ params: action.payload, result: data.content }));
+    else
+      throw new Error(data.content);
   } catch (ex) {
     yield put(getDonorDistributionsAction.failed({ params: action.payload, error: ex as Error }));
   }
@@ -57,9 +61,10 @@ export function* getDonorAvtalegiroAgreements(action: Action<IFetchDonorAvtalegi
       method: API.Method.GET,
       token: action.payload.token
     });
-    if (data.status !== 200) throw new Error(data.content as string);
-
-    yield put(getDonorAvtalegiroAgreementsAction.done({ params: action.payload, result: data.content as Array<IAvtaleGiro> }));
+    if (API.isOk(data))
+      yield put(getDonorAvtalegiroAgreementsAction.done({ params: action.payload, result: data.content }));
+    else
+      throw new Error(data.content);
   } catch (ex) {
     yield put(getDonorAvtalegiroAgreementsAction.failed({ params: action.payload, error: ex as Error }));
   }
@@ -72,9 +77,10 @@ export function* getDonorVippsAgreements(action: Action<IFetchDonorVippsAgreemen
       method: API.Method.GET,
       token: action.payload.token
     });
-    if (data.status !== 200) throw new Error(data.content as string);
-
-    yield put(getDonorVippsAgreementsAction.done({ params: action.payload, result: data.content as Array<IVippsAgreement> }));
+    if (API.isOk(data))
+      yield put(getDonorVippsAgreementsAction.done({ params: action.payload, result: data.content }));
+    else
+      throw new Error(data.content);
   } catch (ex) {
     yield put(getDonorVippsAgreementsAction.failed({ params: action.payload, error: ex as Error }));
   }
@@ -87,9 +93,10 @@ export function* getDonorYearlyAggregates(action: Action<IFetchDonorYearlyAggreg
       method: API.Method.GET,
       token: action.payload.token
     });
-    if (data.status !== 200) throw new Error(data.content as string);
-
-    yield put(getDonorYearlyAggregatesAction.done({ params: action.payload, result: data.content as Array<IDistributionShare & { year: number }> }));
+    if (API.isOk(data))
+      yield put(getDonorYearlyAggregatesAction.done({ params: action.payload, result: data.content }));
+    else
+      throw new Error(data.content);
   } catch (ex) {
     yield put(getDonorYearlyAggregatesAction.failed({ params: action.payload, error: ex as Error }));
   }
@@ -102,12 +109,13 @@ export function* getDonorReferralAnswers(action: Action<IFetchDonorActionParams>
       method: API.Method.GET,
       token: action.payload.token
     });
-    if (data.status !== 200) throw new Error(data.content as string);
-
-    yield put(getDonorReferralAnswersAction.done({ params: action.payload, result: Object.values(data.content).map((r: any) => {
-      r.timestamp = DateTime.fromISO(r.timestamp, { setZone: true });
-      return r;
-    })}));
+    if (API.isOk(data))
+      yield put(getDonorReferralAnswersAction.done({ params: action.payload, result: data.content.map((r) => {
+        r.timestamp = DateTime.fromISO(r.timestamp as any, { setZone: true });
+        return r;
+      })}));
+    else
+      throw new Error(data.content);
   } catch (ex) {
     yield put(getDonorReferralAnswersAction.failed({ params: action.payload, error: ex as Error }));
   }
@@ -129,9 +137,10 @@ export function* updateDonorData(action: Action<IUpdateDonorDataParams>) {
         registered: action.payload.donor.registered,
       }
     });
-    if (data.status !== 200) throw new Error(data.content as string);
-
-    yield put(updateDonorDataAction.done({ params: action.payload, result: data.content as boolean }));
+    if (API.isOk(data))
+      yield put(updateDonorDataAction.done({ params: action.payload, result: data.content }));
+    else
+      throw new Error(data.content);
   } catch (ex) {
     yield put(updateDonorDataAction.failed({ params: action.payload, error: ex as Error }));
   }

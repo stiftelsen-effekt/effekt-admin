@@ -14,6 +14,7 @@ import {
   SET_DONATION_FILTER_KID,
   SET_DONATION_FILTER_PAYMENT_METHOD_IDS,
   SET_DONATION_FILTER_DONOR,
+  SET_DONATION_FILTER_DONATION_ID,
 } from './donation-filters.actions';
 
 const defaultState: DonationsState = {
@@ -129,6 +130,12 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
         ...state,
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, donor: action.payload },
+      };
+    case SET_DONATION_FILTER_DONATION_ID:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, id: action.payload },
       };
     case SET_DONATION_FILTER_PAYMENT_METHOD_IDS:
       return {
