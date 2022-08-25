@@ -17,6 +17,7 @@ interface IState {
   ocrReport: File | null;
   bankReport: File | null;
   facebookReport: File | null;
+  currentDataOwner?: number;
 }
 
 export const ReportUpload: React.FunctionComponent = (props) => {
@@ -34,17 +35,16 @@ export const ReportUpload: React.FunctionComponent = (props) => {
   const { getAccessTokenSilently } = useAuth0();
   const [state, setState] = useState<IState>(getDefaultState());
 
-  const currentDataOwner = useSelector((state: AppState) => state.dataOwner.current);
   const loading = useSelector((state: AppState) => state.reportProcessing.loading);
 
-  const uploadReport = (type: ReportTypes, file: File | null) => {
+  const uploadReport = (type: ReportTypes, file: File | null, metaOwnerID?: number) => {
     if (!file)
       if (loading) return toast.error('Already processing a report');
       else return toast.error('No file selected');
-    if (!currentDataOwner) return toast.error('No data owner selected');
+    if (!metaOwnerID) return toast.error('No data owner selected');
     getAccessTokenSilently().then((token) =>
       dispatch(
-        uploadReportAction.started({ type, report: file, metaOwnerID: currentDataOwner.id, token })
+        uploadReportAction.started({ type, report: file, metaOwnerID: metaOwnerID, token })
       )
     );
   };
@@ -63,7 +63,10 @@ export const ReportUpload: React.FunctionComponent = (props) => {
             <strong>Eier</strong>
           </td>
           <td>
-            <OwnerSelect></OwnerSelect>
+            <OwnerSelect
+              onChanged={ (metaOwnerId: number) => setState( { ...state,
+                                                  currentDataOwner: metaOwnerId })}
+              ></OwnerSelect>
           </td>
         </tr>
         <tr>
@@ -79,7 +82,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           <td>
             <EffektButton
               onClick={() => {
-                uploadReport(ReportTypes.VIPPS, state.vippsReport);
+                uploadReport(ReportTypes.VIPPS, state.vippsReport, state.currentDataOwner);
               }}
             >
               Process
@@ -101,7 +104,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           <td>
             <EffektButton
               onClick={() => {
-                uploadReport(ReportTypes.PAYPAL, state.paypalReport);
+                uploadReport(ReportTypes.PAYPAL, state.paypalReport, state.currentDataOwner);
               }}
             >
               Process
@@ -123,7 +126,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           <td>
             <EffektButton
               onClick={() => {
-                uploadReport(ReportTypes.OCR, state.ocrReport);
+                uploadReport(ReportTypes.OCR, state.ocrReport, state.currentDataOwner);
               }}
             >
               Process
@@ -145,7 +148,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           <td>
             <EffektButton
               onClick={() => {
-                uploadReport(ReportTypes.BANK, state.bankReport);
+                uploadReport(ReportTypes.BANK, state.bankReport, state.currentDataOwner);
               }}
             >
               Process
@@ -167,7 +170,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           <td>
             <EffektButton
               onClick={() => {
-                uploadReport(ReportTypes.FACEBOOK, state.facebookReport);
+                uploadReport(ReportTypes.FACEBOOK, state.facebookReport, state.currentDataOwner);
               }}
             >
               Process

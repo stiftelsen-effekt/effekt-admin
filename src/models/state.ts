@@ -178,7 +178,6 @@ export interface DistributionsState {
 }
 
 export interface DataOwnerState {
-  current?: IDataOwner;
   owners?: Array<IDataOwner>;
 }
 

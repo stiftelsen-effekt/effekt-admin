@@ -54,7 +54,6 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
   const selectedDonor = useSelector<AppState, IDonor | undefined>(
     (state: AppState) => state.donorSelector.selectedDonor
   );
-  const currentSelectedOwner = useSelector((state: AppState) => state.dataOwner.current);
 
   const getFilteredDistribution = (distribution: Array<IDistributionShare>) => {
     return distribution.filter((dist) => !dist.share.equals(new Decimal(0)));
@@ -85,14 +84,14 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
         if (!selectedDonor) return toast.error('No donor selected');
         if (!distribution || !donationInput)
           return toast.error('Error initializing distribution or input');
-        if (!currentSelectedOwner) return toast.error('Missing meta owner');
+        if (!donationInput.metaOwnerID) return toast.error('Missing meta owner');
 
         const filteredDistribution = getFilteredDistribution(distribution);
 
         const distributionParams: ICreateDistributionParams = {
           distribution: filteredDistribution,
           donor: selectedDonor,
-          metaOwnerID: currentSelectedOwner.id,
+          metaOwnerID: donationInput.metaOwnerID,
         };
 
         dispatch(

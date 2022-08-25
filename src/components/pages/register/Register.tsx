@@ -19,7 +19,7 @@ export const RegisterComponent: React.FunctionComponent = () => {
   const organizations = useSelector((state: AppState) => state.organizations.active);
   const fbCampaigns = useSelector((state: AppState) => state.reportProcessing.fbCampaigns);
 
-  const currentSelectedOwner = useSelector((state: AppState) => state.dataOwner.current);
+  const dataOwners = useSelector((state: AppState) => state.dataOwner.owners);
 
   if (!organizations) {
     dispatch(fetchActiveOrganizationsAction.started(undefined));
@@ -28,11 +28,12 @@ export const RegisterComponent: React.FunctionComponent = () => {
 
   if (fbCampaigns !== undefined && fbCampaigns.length === 0) {
     getAccessTokenSilently().then((token) => {
-      if (!currentSelectedOwner) return toast.error('Missing meta owner');
+      const defaultOwner = dataOwners ? dataOwners.find((owner) => owner.default === true) : undefined
+      if (!defaultOwner) return toast.error('Missing meta owner');
       dispatch(
         processDonationsAction.started({
           token,
-          metaOwnerID: currentSelectedOwner.id,
+          metaOwnerID: defaultOwner.id,
         })
       );
     });

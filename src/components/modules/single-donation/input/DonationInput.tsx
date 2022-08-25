@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { EffektDatePicker } from '../../../style/elements/datepicker/datepicker.style';
 
@@ -69,6 +69,10 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
   };
 
   let methodsSelect = paymentMethods && getMethodsSelect(paymentMethods);
+  const onMetaOwnerIDChange = useCallback(
+    (newID: number) => setState({ ...state, metaOwnerID: newID }),
+    [setState, state]
+  );
 
   return (
     <React.Fragment>
@@ -105,7 +109,10 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
       />
 
       <div style={{ width: '120px' }}>
-        <OwnerSelect></OwnerSelect>
+      <OwnerSelect
+        suggestedMetaOwnerID={state.metaOwnerID}
+        onChanged={onMetaOwnerIDChange}
+      ></OwnerSelect>
       </div>
 
       {methodsSelect}
