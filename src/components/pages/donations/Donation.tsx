@@ -6,18 +6,23 @@ import { AppState } from '../../../models/state';
 import { IDonation } from '../../../models/types';
 import { DistributionGraphComponent } from '../../modules/distribution/Graph';
 import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../style/elements/headers.style';
-import { HorizontalPanel } from './Donation.style';
+import { HorizontalPanel, DonationEditWrapper } from './Donation.style';
+import { DonationEdit } from './DonationEdit';
 import { DonationKeyInfoComponent } from '../../modules/donations/keyinfo/KeyInfo';
 import { EffektButton } from '../../style/elements/button.style';
 import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/EffektButtonsWrapper.style';
 import { PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
+import { fetchActiveOrganizationsAction } from '../../../store/organizations/organizations.action';
 import {
   fetchDonationAction,
   clearCurrentDonation,
   deleteDonationAction,
 } from '../../../store/donations/donation.actions';
+import { clearSelectedDonor } from '../../../store/donors/donor-selection.actions';
+
+
 import { RegisterReceiptComponent } from '../../modules/donations/receipt/Receipt';
 
 interface IParams {
@@ -32,9 +37,15 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
   const history = useHistory();
   const { getAccessTokenSilently } = useAuth0();
 
+  const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false);
+
   const donation: IDonation | undefined = useSelector(
     (state: AppState) => state.donations.currentDonation
   );
+  const organizations = useSelector((state: AppState) => state.organizations.active);
+  if (!organizations) {
+    dispatch(fetchActiveOrganizationsAction.started(undefined));
+  }
 
   if (donation && donation.id !== donationID) {
     dispatch(clearCurrentDonation());
@@ -74,6 +85,21 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
           <DonationKeyInfoComponent donation={donation}></DonationKeyInfoComponent>
         </HorizontalPanel>
 
+        <SubHeader>Edit</SubHeader>
+        <button onClick={() => {
+          setEditMenuVisible(!editMenuVisible);
+          dispatch(clearSelectedDonor());
+        }}>
+          {editMenuVisible ? 'Cancel editing' : 'Edit donation'}
+        </button>
+        {editMenuVisible && organizations && (
+        <DonationEditWrapper>
+          <DonationEdit
+            donation={donation}
+            organizations={organizations}
+            ></DonationEdit>
+        </DonationEditWrapper>
+        )}
         <SubHeader>Meta</SubHeader>
 
         <EffektButtonsWrapper>

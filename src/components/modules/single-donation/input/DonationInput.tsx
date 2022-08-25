@@ -22,10 +22,18 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
   onChange,
   suggestedValues,
 }) => {
+
+  const getPaymentIDByMethod = (paymentMethod: string) => {
+    let method = paymentMethods.find((method) => method.name === paymentMethod)
+    return method ? method.id : undefined
+  }
+
   const [state, setState] = useState<IState>({
     ...suggestedValues,
     KID: undefined,
-    paymentId: (suggestedValues && suggestedValues.paymentId) || 4, //Defaults to vipps
+    paymentId: (suggestedValues && suggestedValues.paymentId)
+      || (suggestedValues && suggestedValues.paymentMethod && getPaymentIDByMethod(suggestedValues.paymentMethod))
+      || 4, //Defaults to vipps
     timestamp: (suggestedValues && suggestedValues.timestamp) || new Date(), //Defaults to now
   });
 
@@ -85,11 +93,12 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
       <DonationInputElement
         value={state.sum || ''}
         placeholder="Sum"
-        onChange={(e) => setState({ ...state, sum: parseInt(e.target.value) })}
+        type="number"
+        onChange={(e) => !isNaN(parseFloat(e.target.value)) && setState({ ...state, sum: Number(e.target.value) })}
       />
 
       <DonationInputElement
-        value={state.paymentExternalRef}
+        value={state.paymentExternalRef == null ? "" : state.paymentExternalRef}
         placeholder="External ref."
         onChange={(e) => setState({ ...state, paymentExternalRef: e.target.value })}
       />
