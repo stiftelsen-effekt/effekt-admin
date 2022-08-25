@@ -6,6 +6,8 @@ import {
   IFetchDonationsHistogramActionParams,
   deleteDonationAction,
   IDeleteDonationActionParams,
+  updateDonationAction,
+  IUpdateDonationActionParams,
 } from './donation.actions';
 import { fetchDonationsAction } from './donations-list.actions';
 import { Action } from 'typescript-fsa';
@@ -51,5 +53,29 @@ export function* deleteDonation(action: Action<IDeleteDonationActionParams>) {
     yield put(fetchDonationsAction.started({ token: action.payload.token }));
   } catch (ex) {
     yield put(deleteDonationAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+export function* updateDonation(action: Action<IUpdateDonationActionParams>) {
+  try {
+    const id = action.payload.donationInput.id
+    if (!id) throw new Error("no donation ID");
+    const timestamp = action.payload.donationInput.timestamp
+    if (timestamp)
+      action.payload.donationInput.timestamp = new Date(timestamp.getTime() - timestamp.getTimezoneOffset()*60000)
+
+    const result: API.Response = yield call(API.call, {
+      endpoint: `/donations/${id}`,
+      method: API.Method.PUT,
+      token: action.payload.token,
+      data: {
+        donation: action.payload.donationInput,
+        id: id,
+      },
+    });
+    if (result.status !== 200) throw new Error(result.content);
+    yield put(updateDonationAction.done({ params: action.payload, result: result.content }));
+    yield put(fetchDonationAction.started({ id: id, token: action.payload.token }));
+  } catch (ex) {
+    yield put(updateDonationAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

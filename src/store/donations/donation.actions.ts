@@ -15,6 +15,12 @@ export interface IDeleteDonationActionParams {
   id: number;
   token: string;
 }
+
+export interface IUpdateDonationActionParams {
+  donationInput: Partial<IDonation>;
+  token: string;
+}
+
 interface IFetchDonationsResult {
   rows: Array<IDonation>;
   pages: number;
@@ -35,6 +41,11 @@ export const deleteDonationAction = actionCreator.async<
   IFetchDonationsResult,
   Error
 >('DELETE_DONATION');
+export const updateDonationAction = actionCreator.async<
+  IUpdateDonationActionParams,
+  IDonation,
+  Error
+>('UPDATE_DONATION');
 
 export const CLEAR_CURRENT_DONATION = 'CLEAR_CURRENT_DONATION';
 export const clearCurrentDonation = () => ({ type: CLEAR_CURRENT_DONATION });

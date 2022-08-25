@@ -23,11 +23,13 @@ import {
   fetchDonationAction,
   fetchHistogramAction,
   deleteDonationAction,
+  updateDonationAction,
 } from './store/donations/donation.actions';
 import {
   fetchDonation,
   fetchHistogram,
   deleteDonation,
+  updateDonation,
 } from './store/donations/donation.saga';
 import { fetchSumByMonth, fetchTotalByPeriod } from './store/graphing/graphing.saga';
 import { fetchSumByMonthAction, fetchTotalByPeriodAction } from './store/graphing/graphing.actions';
@@ -147,6 +149,7 @@ function* watchAll() {
     takeLatest(fetchDonationsAction.started.type, fetchDonations),
     takeLatest(fetchDonationAction.started.type, fetchDonation),
     takeLatest(deleteDonationAction.started.type, deleteDonation),
+    takeLatest(updateDonationAction.started.type, updateDonation),
 
     takeLatest(fetchTotalByPeriodAction.started.type, fetchTotalByPeriod),
     takeLatest(fetchSumByMonthAction.started.type, fetchSumByMonth),

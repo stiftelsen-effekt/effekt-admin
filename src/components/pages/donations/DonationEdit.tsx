@@ -8,6 +8,7 @@ import { mapOrgToDist } from '../../modules/kid/kid.util';
 import { DonationInput } from '../../modules/single-donation/input/DonationInput';
 import { EffektButton } from '../../style/elements/button.style';
 import { fetchPaymentMethodsAction } from '../../../store/single-donation/single-donation.actions';
+import { updateDonationAction } from '../../../store/donations/donation.actions';
 import { InputWrapper } from './Donation.style';
 import {
   IDonation,
@@ -51,11 +52,12 @@ export const DonationEdit: React.FunctionComponent<IProps> = ({
           paymentMethods={paymentMethods}
           onChange={onDonationInputChange}
           suggestedValues={donation}
-
           ></DonationInput>
       </InputWrapper>
-
-      <EffektButton onClick={() => console.log(donation, donationInput)}>Save changes</EffektButton>
+      <EffektButton onClick={() => {
+        getAccessTokenSilently().then((token) =>
+          dispatch(updateDonationAction.started({ donationInput, token })));
+      }}>Save changes</EffektButton>
     </div>
   );
 }
