@@ -100,6 +100,7 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
       <DonationInputElement
         value={state.paymentExternalRef == null ? "" : state.paymentExternalRef}
         placeholder="External ref."
+        style={{width: 200}}
         onChange={(e) => setState({ ...state, paymentExternalRef: e.target.value })}
       />
 

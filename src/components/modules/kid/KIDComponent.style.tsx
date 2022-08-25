@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { grey15 } from '../../style/colors';
 
 export const KIDWrapper = styled.div`
-  width: 740px;
+  width: 800px;
 `;
 
 let bracketHeight = '10px';

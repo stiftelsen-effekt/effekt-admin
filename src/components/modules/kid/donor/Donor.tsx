@@ -52,7 +52,7 @@ export const KIDDonorComponent: React.FunctionComponent<IProps> = (props) => {
           <EffektInput
             value={donorId}
             onChange={handleChange}
-            style={{ width: '70px' }}
+            style={{ width: '100px' }}
             placeholder="DonorID"
           ></EffektInput>
         </DonorSelectionInput>

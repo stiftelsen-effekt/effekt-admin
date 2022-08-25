@@ -3,7 +3,7 @@ import { grey15 } from '../../style/colors';
 import { EffektInput } from '../../style/elements/input.style';
 
 export const SingleDonationWrapper = styled.div`
-  width: 740px;
+  width: 800px;
 `;
 
 export const InputWrapper = styled.div`
