@@ -3,6 +3,7 @@ import { isType } from 'typescript-fsa';
 import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from './donations-list.actions';
 import {
   fetchDonationAction,
+  deleteDonationAction,
   CLEAR_CURRENT_DONATION,
   fetchHistogramAction,
 } from './donation.actions';
@@ -40,6 +41,7 @@ const defaultState: DonationsState = {
     },
     paymentMethodIDs: undefined,
   },
+  pendingUpdates: 0,
 };
 export const donationsReducer = (state = defaultState, action: any): DonationsState => {
   /**
@@ -68,6 +70,12 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
       currentDonation: undefined,
     };
   }
+  if (isType(action, fetchDonationAction.started)) {
+    return {
+      ...state,
+      deletedDonation: false
+    }
+  }
   if (isType(action, fetchDonationAction.done)) {
     return {
       ...state,
@@ -86,6 +94,24 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
     toastError('Failed to fetch donation', action.payload.error.message);
   }
 
+  else if (isType(action, deleteDonationAction.started)) {
+    state.pendingUpdates += 1;
+    delete state.updateError
+  } else if (isType(action, deleteDonationAction.done)) {
+    state.pendingUpdates -= 1;
+    delete state.updateError
+    return {
+      ...state,
+      currentDonation: undefined,
+      deletedDonation: true
+    }
+  } else if (isType(action, deleteDonationAction.failed)) {
+    state.pendingUpdates -= 1;
+    return {
+      ...state,
+      updateError: { message: action.payload.error.message, timestamp: +new Date() }
+    }
+  }
   /**
    * PAGINATION ACTIONS
    */

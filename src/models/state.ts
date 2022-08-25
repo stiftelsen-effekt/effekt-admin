@@ -104,6 +104,9 @@ export interface DonationsState {
   pagination: IPagination;
   filter: IDonationFilter;
   donations: Array<IDonation>;
+  updateError?: {message: string, timestamp: number}
+  pendingUpdates: number;
+  deletedDonation?: boolean
 }
 
 export interface VippsAgreementsState {

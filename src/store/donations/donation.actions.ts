@@ -11,6 +11,15 @@ export interface IFetchDonationsHistogramActionParams {
   token: string;
 }
 
+export interface IDeleteDonationActionParams {
+  id: number;
+  token: string;
+}
+interface IFetchDonationsResult {
+  rows: Array<IDonation>;
+  pages: number;
+}
+
 export const fetchDonationAction = actionCreator.async<
   IFetchDonationActionParams,
   IDonation,
@@ -21,6 +30,11 @@ export const fetchHistogramAction = actionCreator.async<
   Array<IHistogramBucket>,
   Error
 >('FETCH_HISTOGRAM');
+export const deleteDonationAction = actionCreator.async<
+  IDeleteDonationActionParams,
+  IFetchDonationsResult,
+  Error
+>('DELETE_DONATION');
 
 export const CLEAR_CURRENT_DONATION = 'CLEAR_CURRENT_DONATION';
 export const clearCurrentDonation = () => ({ type: CLEAR_CURRENT_DONATION });

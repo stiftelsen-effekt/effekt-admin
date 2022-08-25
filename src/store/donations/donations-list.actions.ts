@@ -8,10 +8,6 @@ const actionCreator = actionCreatorFactory();
 export interface IFetchDonationsActionParams {
   token: string;
 }
-export interface IDeleteDonationActionParams {
-  id: number;
-  token: string;
-}
 
 interface IFetchDonationsResult {
   rows: Array<IDonation>;
@@ -29,9 +25,3 @@ export const setDonationsPagination = (pagination: IPagination) => {
     payload: pagination,
   };
 };
-
-export const deleteDonationAction = actionCreator.async<
-  IDeleteDonationActionParams,
-  IFetchDonationsResult,
-  Error
->('DELETE_DONATION');

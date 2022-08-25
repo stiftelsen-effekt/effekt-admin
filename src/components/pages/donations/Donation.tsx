@@ -1,13 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Page } from '../../style/elements/page.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../models/state';
 import { IDonation } from '../../../models/types';
-import {
-  fetchDonationAction,
-  clearCurrentDonation,
-} from '../../../store/donations/donation.actions';
 import { DistributionGraphComponent } from '../../modules/distribution/Graph';
 import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../style/elements/headers.style';
 import { HorizontalPanel } from './Donation.style';
@@ -17,7 +13,11 @@ import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/Effek
 import { PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
-import { deleteDonationAction } from '../../../store/donations/donations-list.actions';
+import {
+  fetchDonationAction,
+  clearCurrentDonation,
+  deleteDonationAction,
+} from '../../../store/donations/donation.actions';
 import { RegisterReceiptComponent } from '../../modules/donations/receipt/Receipt';
 
 interface IParams {
@@ -46,6 +46,15 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
       dispatch(fetchDonationAction.started({ id: donationID, token }))
     );
   }
+
+  const deletedDonation: boolean | undefined = useSelector(
+    (state: AppState) => state.donations.deletedDonation
+  );
+
+  useEffect(() => {
+    if (deletedDonation)
+      history.goBack();
+  }, [deletedDonation, history]);
 
   if (donation) {
     return (
