@@ -13,6 +13,7 @@ import { EffektButton } from '../../style/elements/button.style';
 import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/EffektButtonsWrapper.style';
 import { PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
+import { toastError } from "../../../util/toasthelper";
 import { useAuth0 } from '@auth0/auth0-react';
 import { fetchActiveOrganizationsAction } from '../../../store/organizations/organizations.action';
 import {
@@ -47,6 +48,14 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
     dispatch(fetchActiveOrganizationsAction.started(undefined));
   }
 
+  const pendingUpdates = useSelector((state: AppState) => state.donations.pendingUpdates);
+  const updateError = useSelector((state: AppState) => state.donations.updateError);
+
+  useEffect(() => {
+    if (updateError?.message)
+      toastError("Donation not modified", updateError.message)
+  }, [updateError, pendingUpdates]);
+
   if (donation && donation.id !== donationID) {
     dispatch(clearCurrentDonation());
     getAccessTokenSilently().then((token) =>
@@ -67,7 +76,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
       history.goBack();
   }, [deletedDonation, history]);
 
-  if (donation) {
+  if (donation && pendingUpdates === 0) {
     return (
       <Page>
         <ResourceHeader hasSubHeader={true}>Donation {donation.id}</ResourceHeader>
