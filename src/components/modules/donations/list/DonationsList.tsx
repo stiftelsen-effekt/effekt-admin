@@ -50,16 +50,17 @@ export const DonationsList: React.FunctionComponent<Props> = ({
     {
       Header: 'Method',
       accessor: 'paymentMethod',
-      width: 170
+      width: 170,
     },
     {
       Header: 'Sum',
       id: 'sum',
-      accessor: (res: any) => thousandize(res.sum),
+      accessor: (res: any) => thousandize(res.sum) + ' kr',
       sortMethod: (a: any, b: any) => {
         return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
       },
-      width: 140
+      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      width: 140,
     },
     {
       Header: 'Transaction cost',
@@ -68,7 +69,8 @@ export const DonationsList: React.FunctionComponent<Props> = ({
       sortMethod: (a: any, b: any) => {
         return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
       },
-      width: 115
+      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      width: 115,
     },
     {
       Header: 'Timestamp',
@@ -77,7 +79,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({
       sortMethod: (a: any, b: any) => {
         return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
       },
-      width: 100
+      width: 100,
     },
   ];
 
@@ -91,8 +93,10 @@ export const DonationsList: React.FunctionComponent<Props> = ({
   if (!hideKID) {
     columnDefinitions.splice(4, 0, {
       Header: 'KID',
-      accessor: 'kid',
-      width: 180
+      id: 'kid',
+      accessor: (res) => res.kid || res.KID,
+      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      width: 180,
     });
   }
 

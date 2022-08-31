@@ -26,6 +26,8 @@ import {
   IDonorStats,
   IDistributionShare,
   IReferralAnswer,
+  ITaxUnit,
+  ITaxUnitFilter,
 } from './types';
 
 export interface AppState {
@@ -42,6 +44,7 @@ export interface AppState {
 
   donations: DonationsState;
   distributions: DistributionsState;
+  taxUnits: TaxUnitsState;
   dataOwner: DataOwnerState;
   receipt: ReceiptState;
   logs: LoggingState;
@@ -62,11 +65,12 @@ export interface DonorPageState {
   donor?: IDonor;
   stats?: IDonorStats;
   donations?: Array<IDonation>;
+  taxUnits?: Array<ITaxUnit>;
   referralAnswers?: Array<IReferralAnswer>;
   distributions?: Array<IDistributionSearchResultItem>;
   avtalegiroAgreements?: Array<IAvtaleGiro>;
   vippsAgreements?: Array<IVippsAgreement>;
-  updateError?: {message: string, timestamp: number};
+  updateError?: { message: string; timestamp: number };
   pendingUpdates: number;
 }
 
@@ -104,6 +108,16 @@ export interface DonationsState {
   pagination: IPagination;
   filter: IDonationFilter;
   donations: Array<IDonation>;
+}
+
+export interface TaxUnitsState {
+  currentTaxUnit?: ITaxUnit;
+
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
+  filter: ITaxUnitFilter;
+  units: Array<ITaxUnit>;
 }
 
 export interface VippsAgreementsState {

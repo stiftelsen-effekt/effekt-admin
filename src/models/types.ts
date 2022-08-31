@@ -98,6 +98,20 @@ export interface IDistributionSearchResultItem extends Partial<IDistribution> {
   count: number;
 }
 
+/** Tax units */
+export interface ITaxUnit {
+  id: number;
+  ssn: string | null;
+  name: string;
+  numDonations: number;
+  sumDonations: number;
+  registered: DateTime;
+}
+
+export interface ITaxUnitFilter {
+  donor?: string;
+}
+
 /** Transactions */
 
 export interface IInvalidTransaction {

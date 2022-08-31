@@ -16,6 +16,7 @@ import {
   getDonorVippsAgreementsAction,
   getDonorYearlyAggregatesAction,
   getDonorReferralAnswersAction,
+  getDonorTaxUnitsAction,
 } from '../../../store/donors/donor-page.actions';
 import { DonorAggregateChart } from './donor/AggregateChart';
 import { OverviewLine } from './Donor.style';
@@ -26,6 +27,7 @@ import { VippsAgreementList } from '../../modules/vipps/agreementlist/VippsAgree
 import { DistributionsList } from '../../modules/distribution/list/DistributionsList';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ReferralAnswerList } from '../../modules/donors/referral_answers/ReferralAnswerList';
+import { TaxUnitList } from '../../modules/taxunits/list/TaxUnitsList';
 
 interface IParams {
   id: string;
@@ -49,6 +51,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
       dispatch(getDonorVippsAgreementsAction.started({ id: donorId, token }));
       dispatch(getDonorYearlyAggregatesAction.started({ id: donorId, token }));
       dispatch(getDonorReferralAnswersAction.started({ id: donorId, token }));
+      dispatch(getDonorTaxUnitsAction.started({ id: donorId, token }));
     });
   }, [dispatch, donorId, getAccessTokenSilently]);
 
@@ -58,9 +61,8 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
     data.stats.sumYearlyAggregates.forEach((row) => {
       let amount = row.value ? row.value.toNumber() : 0;
       totalDonations += amount;
-      if (row.abbriv === "Drift")
-        operationsDonations += amount;
-    })
+      if (row.abbriv === 'Drift') operationsDonations += amount;
+    });
   }
 
   return (
@@ -70,27 +72,37 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
       <OverviewLine>
         {data.donor && <DonorKeyInfo donor={data.donor} />}
         <DonorAggregateChart stats={data.stats} />
-        <TotalDonationAmount totalDonationAmount={totalDonations} operationsDonationAmount={operationsDonations} />
+        <TotalDonationAmount
+          totalDonationAmount={totalDonations}
+          operationsDonationAmount={operationsDonations}
+        />
       </OverviewLine>
 
       <EffektTabs>
         <div>
-          <EffektTabHeader label="Donations" counter={data.donations ? data.donations.length : 0} />
+          <EffektTabHeader
+            label="Donations"
+            counter={data.donations ? data.donations.length : '...'}
+          />
           <EffektTabHeader
             label="Distributions"
-            counter={data.distributions ? data.distributions.length : 0}
+            counter={data.distributions ? data.distributions.length : '...'}
           />
           <EffektTabHeader
             label="AvtaleGiro"
-            counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : 0}
+            counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : '...'}
           />
           <EffektTabHeader
             label="Vipps"
-            counter={data.vippsAgreements ? data.vippsAgreements.length : 0}
+            counter={data.vippsAgreements ? data.vippsAgreements.length : '...'}
+          />
+          <EffektTabHeader
+            label="Tax units"
+            counter={data.taxUnits ? data.taxUnits.length : '...'}
           />
           <EffektTabHeader
             label="Referrals"
-            counter={data.referralAnswers ? data.referralAnswers.length : 0}
+            counter={data.referralAnswers ? data.referralAnswers.length : '...'}
           />
         </div>
         <div>
@@ -98,13 +110,21 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
             <DonationsList donations={data.donations} defaultPageSize={10} />
           </EffektTab>
           <EffektTab>
-            <DistributionsList distributions={data.distributions} defaultPageSize={10} hideEmail={true} hideName={true} />
+            <DistributionsList
+              distributions={data.distributions}
+              defaultPageSize={10}
+              hideEmail={true}
+              hideName={true}
+            />
           </EffektTab>
           <EffektTab>
             <AvtaleGiroList agreements={data.avtalegiroAgreements} defaultPageSize={10} />
           </EffektTab>
           <EffektTab>
             <VippsAgreementList agreements={data.vippsAgreements} defaultPageSize={10} />
+          </EffektTab>
+          <EffektTab>
+            <TaxUnitList taxUnits={data.taxUnits} />
           </EffektTab>
           <EffektTab>
             <ReferralAnswerList data={data.referralAnswers} />

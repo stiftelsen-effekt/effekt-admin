@@ -40,12 +40,13 @@ export const DistributionsList: React.FunctionComponent<{
       Header: 'Total sum',
       id: 'sum',
       accessor: (res: any) => {
-        if (res.sum) return thousandize(res.sum);
-        else return '0';
+        if (res.sum) return thousandize(res.sum) + ' kr';
+        else return '0' + ' kr';
       },
       sortMethod: (a: any, b: any) => {
         return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
       },
+      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
       width: 125,
     },
     {
@@ -58,6 +59,7 @@ export const DistributionsList: React.FunctionComponent<{
       sortMethod: (a: any, b: any) => {
         return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
       },
+      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
       width: 100,
     },
   ];
@@ -74,7 +76,7 @@ export const DistributionsList: React.FunctionComponent<{
       Header: 'Email',
       accessor: 'email',
       width: 350,
-    })
+    });
   }
 
   const defaultSorting = [{ id: 'KID', desc: true }];

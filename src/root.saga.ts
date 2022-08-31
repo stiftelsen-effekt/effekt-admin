@@ -94,6 +94,7 @@ import {
   getDonorYearlyAggregatesAction,
   getDonorReferralAnswersAction,
   updateDonorDataAction,
+  getDonorTaxUnitsAction,
 } from './store/donors/donor-page.actions';
 import {
   getDonor,
@@ -104,11 +105,14 @@ import {
   getDonorYearlyAggregates,
   getDonorReferralAnswers,
   updateDonorData,
+  getDonorTaxUnits,
 } from './store/donors/donor-page.saga';
 import { createDistribution } from './store/distributions/distribution-input.saga';
 import { createDistributionAction } from './store/distributions/distribution-input.actions';
 import { processDonationsAction, registerCampaignAction } from './store/facebook/facebook.actions';
 import { processFBDonations, registerFBCampaign } from './store/facebook/facebook.saga';
+import { updateTaxUnit } from './store/taxunits.ts/taxunits.saga';
+import { UpdateTaxUnitAction } from './store/taxunits.ts/taxunits.actions';
 
 function* watchAll() {
   yield all([
@@ -137,7 +141,10 @@ function* watchAll() {
     takeLatest(getDonorVippsAgreementsAction.started.type, getDonorVippsAgreements),
     takeLatest(getDonorYearlyAggregatesAction.started.type, getDonorYearlyAggregates),
     takeLatest(getDonorReferralAnswersAction.started.type, getDonorReferralAnswers),
+    takeLatest(getDonorTaxUnitsAction.started.type, getDonorTaxUnits),
     takeLatest(updateDonorDataAction.started.type, updateDonorData),
+
+    takeLatest(UpdateTaxUnitAction.started.type, updateTaxUnit),
 
     takeLatest(fetchDonationsAction.started.type, fetchDonations),
     takeLatest(fetchDonationAction.started.type, fetchDonation),
