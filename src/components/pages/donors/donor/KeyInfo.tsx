@@ -7,7 +7,6 @@ import { DonorKeyInfoField, FieldType } from './KeyInfoField';
 import { IDonor } from '../../../../models/types';
 import { toastError } from '../../../../util/toasthelper';
 import { useSelector } from 'react-redux';
-import { validateSSNOrOrgnr } from '../../../../util/validators';
 import { EffektLoadingSpinner } from '../../../style/elements/loading-spinner';
 
 export const DonorKeyInfo: React.FunctionComponent<{ donor: IDonor }> = ({ donor }) => {
