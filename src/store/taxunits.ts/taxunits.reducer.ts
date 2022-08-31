@@ -1,4 +1,3 @@
-import { isType } from 'typescript-fsa';
 import { TaxUnitsState } from '../../models/state';
 
 const defaultState: TaxUnitsState = {

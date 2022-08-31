@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
 import { shortDate, thousandize } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
-import { useHistory } from 'react-router';
 import { ITaxUnit } from '../../../../models/types';
 import { useAuth0 } from '@auth0/auth0-react';
 import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
@@ -23,7 +22,6 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
   defaultPageSize,
 }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { getAccessTokenSilently } = useAuth0();
 
   const pages = useSelector((state: AppState) => state.taxUnits.pages);

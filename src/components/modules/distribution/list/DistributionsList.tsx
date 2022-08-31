@@ -41,7 +41,7 @@ export const DistributionsList: React.FunctionComponent<{
       id: 'sum',
       accessor: (res: any) => {
         if (res.sum) return thousandize(res.sum) + ' kr';
-        else return '0' + ' kr';
+        else return '0 kr';
       },
       sortMethod: (a: any, b: any) => {
         return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
