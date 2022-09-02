@@ -10,6 +10,8 @@ import {
 import { createDistributionAction, SET_DISTRIBUTION_INPUT } from './distribution-input.actions';
 import { toast } from 'react-toastify';
 import Decimal from 'decimal.js';
+import { getDonorTaxUnitsAction } from '../donors/donor-page.actions';
+import { toastError } from '../../util/toasthelper';
 
 const defaultState: DistributionsState = {
   searchResult: [],
@@ -31,6 +33,7 @@ const defaultState: DistributionsState = {
     donorID: '',
     donorName: '',
     distribution: [{ organizationId: 12, share: new Decimal(100) }],
+    taxUnits: [],
   },
 };
 
@@ -95,6 +98,27 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
     return {
       ...state,
       filter: { ...state.filter, KID: action.payload.result },
+    };
+  } else if (isType(action, createDistributionAction.failed)) {
+    toastError("Couldn't create distribution", action.payload.error.message);
+  }
+
+  if (isType(action, getDonorTaxUnitsAction.done)) {
+    return {
+      ...state,
+      distributionInput: {
+        ...state.distributionInput,
+        taxUnits: action.payload.result,
+      },
+    };
+  } else if (isType(action, getDonorTaxUnitsAction.failed)) {
+    toastError('Failed to fetch tax units for donor', action.payload.error.message);
+    return {
+      ...state,
+      distributionInput: {
+        ...state.distributionInput,
+        taxUnits: [],
+      },
     };
   }
 

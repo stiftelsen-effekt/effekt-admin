@@ -185,6 +185,7 @@ export interface DistributionsState {
     distribution: Array<IDistributionShare>;
     donorID: string;
     donorName: string;
+    taxUnits: ITaxUnit[];
   };
 }
 
