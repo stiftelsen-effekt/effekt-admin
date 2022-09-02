@@ -16,7 +16,6 @@ import Decimal from 'decimal.js';
 import { createDistributionAction } from '../../../../store/distributions/distribution-input.actions';
 import { useAuth0 } from '@auth0/auth0-react';
 import Select from 'react-select';
-import { EffektCheckBox } from '../../../style/elements/effekt-check/effekt-check.component.style';
 import { EffektCheck } from '../../../style/elements/effekt-check/effekt-check.component';
 
 interface IProps {
