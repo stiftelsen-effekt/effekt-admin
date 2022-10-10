@@ -3,6 +3,7 @@ import React, { ChangeEvent, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import { DateTime } from 'luxon';
 import '../../../style/elements/react-table/table.css';
 import ReactTable from 'react-table';
 import {
@@ -12,7 +13,7 @@ import {
 import { IDonor } from '../../../../models/types';
 import { EffektInput } from '../../../style/elements/input.style';
 import { shortDate } from '../../../../util/formatting';
-import { PlusSquare } from 'react-feather';
+import { HelpCircle, PlusSquare } from 'react-feather';
 import { EffektButton } from '../../../style/elements/button.style';
 import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
 import { CreateDonor } from '../create/CreateDonor';
@@ -29,7 +30,9 @@ interface IDonorTableState {
   selected: any;
 }
 
-export const DonorSelectionComponent: React.FunctionComponent = (props) => {
+export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: number }> = ({
+  pageSize,
+}) => {
   const history = useHistory();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -37,7 +40,7 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
     return {
       sorted: [],
       page: 0,
-      pageSize: 25,
+      pageSize: pageSize || 25,
       expanded: {},
       resized: [],
       filtered: [],
@@ -46,6 +49,8 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
   };
 
   const [state, setState] = useState<IDonorTableState>(getDefaultState());
+  const [searchHelp, setSearchHelp] = useState<boolean>(false);
+
   const dispatch = useDispatch();
   const searchResult = useSelector((state: AppState) => state.donorSelector.searchResult);
 
@@ -74,17 +79,20 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
     {
       Header: 'name',
       accessor: 'name',
+      width: 300,
     },
     {
       Header: 'email',
       accessor: 'email',
-      width: 580,
+      width: 300,
     },
     {
       id: 'registered',
       Header: 'registered',
       accessor: (donor: IDonor) => shortDate(donor.registered),
-      width: 270,
+      sortMethod: (a: any, b: any) => {
+        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
+      },
     },
   ];
 
@@ -123,17 +131,50 @@ export const DonorSelectionComponent: React.FunctionComponent = (props) => {
 
   return (
     <div>
-      <div style={{ display: 'flex', marginBottom: '20px' }}>
+      <div
+        style={{ display: 'flex', marginBottom: '16px', columnGap: '10px', alignItems: 'center' }}
+      >
         <EffektInput
           type="text"
           onChange={search}
           placeholder="søk"
-          style={{ flexGrow: 1, marginRight: 18 }}
+          style={{ flexGrow: 1 }}
         ></EffektInput>
+        <HelpCircle
+          size={22}
+          onClick={() => setSearchHelp((help) => !help)}
+          style={{ userSelect: 'none', cursor: 'pointer' }}
+        ></HelpCircle>
         <EffektButton onClick={() => setShowCreate(true)}>
           <span>Create &nbsp;</span>{' '}
           <PlusSquare color={'white'} size={18} style={{ verticalAlign: 'middle' }} />
         </EffektButton>
+      </div>
+
+      <div
+        style={{
+          display: searchHelp ? 'flex' : 'none',
+          marginBottom: '10px',
+          columnGap: '20px',
+          fontSize: '12px',
+        }}
+      >
+        <p>
+          <strong>+</strong> means AND
+          <br />
+          <strong>-</strong> means NOT
+          <br />
+          <strong>[no operator]</strong> means OR
+          <br />
+        </p>
+        <p>
+          For example, <i>+Håkon -gmail</i> will match Håkon in either name or email, where gmail is
+          not in name or email
+          <br />
+          <i>Jørgen Ljønes</i> will match either Jørgen or Ljønes in either name or email
+          <br />
+          Results are limited to 100 matches
+        </p>
       </div>
 
       <EffektModal visible={showCreate} effect="fadeInUp" onClickAway={() => setShowCreate(false)}>

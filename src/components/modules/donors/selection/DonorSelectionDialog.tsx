@@ -26,7 +26,7 @@ class DonorSelectionDialogComponent extends React.Component<IStateProps & IDispa
     return (
       <SelectorWrapper visible={this.props.visible}>
         <DonorDialog>
-          <DonorSelectionComponent></DonorSelectionComponent>
+          <DonorSelectionComponent pageSize={10}></DonorSelectionComponent>
           {/* Controls */}
           <Controls>
             <EffektSecondaryButton onClick={this.abort}>Cancel</EffektSecondaryButton>
