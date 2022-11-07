@@ -156,6 +156,7 @@ export interface AvtaleGiroAgreementsState {
   report: IAvtalegiroReport;
   validation: IAvtaleGiroValidation;
   currentAgreement?: IAvtaleGiro;
+  currentAgreementUpdating?: boolean;
   histogram?: Array<IHistogramBucket>;
   pages: number;
   loading: boolean;
@@ -182,10 +183,11 @@ export interface DistributionsState {
   loading: boolean;
   searchResult: Array<IDistributionSearchResultItem>;
   distributionInput: {
-    distribution: Array<IDistributionShare>;
+    distribution: Partial<IDistribution>;
     donorID: string;
     donorName: string;
     taxUnits: ITaxUnit[];
+    valid: boolean;
   };
 }
 

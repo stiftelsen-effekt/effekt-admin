@@ -4,7 +4,7 @@ import { RouteComponentProps, NavLink } from 'react-router-dom';
 import { Page } from '../../../style/elements/page.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { IAvtaleGiro } from '../../../../models/types';
+import { IAvtaleGiro, IDistribution, IDistributionShare } from '../../../../models/types';
 import { DistributionGraphComponent } from '../../../modules/distribution/Graph';
 import {
   ResourceHeader,
@@ -19,9 +19,17 @@ import {
 } from '../../../../store/avtalegiro/avtalegiro.actions';
 import { HorizontalPanel } from '../../donations/Donation.style';
 import { AvtaleGiroKeyInfo } from './AvtaleGiroKeyInfo';
-import { SharesSelection } from './ShareSelection/ShareSelection';
 import { useAuth0 } from '@auth0/auth0-react';
 import { DonationsList } from '../../../modules/donations/list/DonationsList';
+import { EffektButton } from '../../../style/elements/button.style';
+import { File, FileText, List, PieChart, User } from 'react-feather';
+import { useHistory } from 'react-router';
+import { EffektInput } from '../../../style/elements/input.style';
+import { EffektSelect } from '../../../style/elements/select.style';
+import { EffektLoadingSpinner } from '../../../style/elements/loading-spinner';
+import { DistributionInput } from '../../../modules/shared/distribution-input/DistributionInput';
+import { EditAvtaleGiroAgreement } from '../../../modules/avtalegiro/editagreement/EditAvtalegiroAgreement';
+import { EffektButtonsWrapper } from '../../../style/elements/buttons-wrapper/EffektButtonsWrapper.style';
 
 interface IParams {
   id: string;
@@ -30,19 +38,16 @@ interface IParams {
 export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IParams>> = ({
   match,
 }: RouteComponentProps<IParams>) => {
+  const history = useHistory();
+  const { getAccessTokenSilently } = useAuth0();
+  const dispatch = useDispatch();
+
   const avtaleGiro: IAvtaleGiro | undefined = useSelector(
     (state: AppState) => state.avtaleGiroAgreements.currentAgreement
   );
 
   const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false);
-  const [newAmount, setNewAmount] = useState<number>(avtaleGiro ? avtaleGiro.amount : 0);
-  const [newPaymentDate, setNewPaymentDate] = useState<number>(
-    avtaleGiro ? avtaleGiro.payment_date : 0
-  );
-  const [newStatus, setNewStatus] = useState<number>(0);
   const avtaleGiroID = match.params.id;
-  const dispatch = useDispatch();
-  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>
@@ -51,7 +56,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
   }, [avtaleGiroID, dispatch, getAccessTokenSilently]);
 
   if (avtaleGiro) {
-    let formattedStatus = avtaleGiro.active ? 'Active' : 'Inactive';
+    let formattedStatus = avtaleGiro.active === 1 ? 'Active' : 'Inactive';
     if (avtaleGiro.cancelled) formattedStatus = 'Cancelled';
 
     return (
@@ -59,16 +64,47 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
         <ResourceHeader hasSubHeader={true}>AvtaleGiro {avtaleGiroID}</ResourceHeader>
         <ResourceSubHeader>{avtaleGiro.full_name}</ResourceSubHeader>
 
+        <EffektButtonsWrapper>
+          <EffektButton
+            onClick={() =>
+              avtaleGiro.distribution.donor &&
+              history.push(`/donors/${avtaleGiro.distribution.donor.id}`)
+            }
+          >
+            <User size={16} />
+            Donor
+          </EffektButton>
+
+          <EffektButton
+            onClick={() => {
+              history.push('/distributions/' + avtaleGiro.KID);
+            }}
+          >
+            <PieChart size={16} />
+            Distribution
+          </EffektButton>
+          <EffektButton onClick={() => history.push('/avtalegiro')}>
+            <FileText size={16} /> All agreements
+          </EffektButton>
+        </EffektButtonsWrapper>
+
         <SubHeader>Keyinfo</SubHeader>
-        <HorizontalPanel>
+        <HorizontalPanel gap={120}>
+          <AvtaleGiroKeyInfo agreement={avtaleGiro}></AvtaleGiroKeyInfo>
+
           <div style={{ width: '400px', height: '380px' }}>
             <DistributionGraphComponent
-              distribution={avtaleGiro.distribution}
+              distribution={avtaleGiro.distribution.shares}
             ></DistributionGraphComponent>
           </div>
-
-          <AvtaleGiroKeyInfo agreement={avtaleGiro}></AvtaleGiroKeyInfo>
         </HorizontalPanel>
+
+        <EffektButton onClick={() => setEditMenuVisible(!editMenuVisible)}>
+          {editMenuVisible ? 'Cancel editing' : 'Edit agreement'}
+        </EffektButton>
+        {editMenuVisible && (
+          <EditAvtaleGiroAgreement initial={avtaleGiro}></EditAvtaleGiroAgreement>
+        )}
 
         <SubHeader>Payments</SubHeader>
         <DonationsList
@@ -76,115 +112,6 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
           manual={true}
           defaultPageSize={10}
         />
-
-        <SubHeader>Edit</SubHeader>
-        <button onClick={() => setEditMenuVisible(!editMenuVisible)}>
-          {editMenuVisible ? 'Cancel editing' : 'Edit agreement'}
-        </button>
-        {editMenuVisible && (
-          <div>
-            <div>
-              <label>Amount</label>
-              <br />
-              <input
-                defaultValue={avtaleGiro.amount}
-                type="number"
-                onChange={(e) => setNewAmount(parseInt(e.currentTarget.value))}
-              ></input>
-              <button
-                disabled={newAmount < 1}
-                onClick={() => {
-                  if (confirm(`Press OK to update amount to ${newAmount} kr`)) {
-                    getAccessTokenSilently().then((token) =>
-                      dispatch(
-                        updateAvtaleGiroAmountAction.started({
-                          KID: avtaleGiro.KID,
-                          amount: newAmount * 100,
-                          token,
-                        })
-                      )
-                    );
-                  }
-                }}
-              >
-                Set new sum
-              </button>
-            </div>
-            <br />
-
-            <div>
-              <label>Status</label>
-              <br />
-              <select
-                name="status"
-                id="status"
-                value={formattedStatus === 'Active' ? '1' : '0'}
-                onChange={(e) => setNewStatus(parseInt(e.currentTarget.value))}
-              >
-                <option value="0">Inactive</option>
-                <option value="1">Active</option>
-              </select>
-              <button
-                onClick={() => {
-                  if (
-                    confirm(
-                      `Press OK to update status to ${newStatus === 0 ? 'Inactive' : 'Active'}`
-                    )
-                  ) {
-                    getAccessTokenSilently().then((token) =>
-                      dispatch(
-                        updateAvtaleGiroStatusAction.started({
-                          KID: avtaleGiro.KID,
-                          status: newStatus,
-                          token,
-                        })
-                      )
-                    );
-                  }
-                }}
-              >
-                Set new status
-              </button>
-            </div>
-            <br />
-
-            <div>
-              <label>Charge day</label>
-              <br />
-              <input
-                defaultValue={avtaleGiro.payment_date}
-                type="number"
-                onChange={(e) => setNewPaymentDate(parseInt(e.currentTarget.value))}
-              ></input>
-              <button
-                disabled={newPaymentDate < 0 || newPaymentDate > 28}
-                onClick={() => {
-                  if (confirm(`Press OK to update payment date to ${newPaymentDate}`)) {
-                    getAccessTokenSilently().then((token) =>
-                      dispatch(
-                        updateAvtaleGiroPaymentDateAction.started({
-                          KID: avtaleGiro.KID,
-                          paymentDate: newPaymentDate,
-                          token,
-                        })
-                      )
-                    );
-                  }
-                }}
-              >
-                Set new charge day
-              </button>
-            </div>
-            <br />
-
-            <div>
-              <label>Distribution</label>
-              <SharesSelection KID={avtaleGiro.KID} />
-            </div>
-          </div>
-        )}
-        <SubHeader>Meta</SubHeader>
-        <NavLink to={`/avtalegiro`}>See all agreements</NavLink>
       </Page>
     );
   } else {

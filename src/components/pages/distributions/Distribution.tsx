@@ -41,26 +41,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
     return (
       <Page>
         <ResourceHeader hasSubHeader={true}>Distribution {KID}</ResourceHeader>
-        <ResourceSubHeader></ResourceSubHeader>
-
-        <SubHeader>Key info</SubHeader>
-        <HorizontalPanel>
-          <div style={{ width: '400px', height: '380px' }}>
-            <DistributionGraphComponent
-              distribution={current.distribution.shares}
-            ></DistributionGraphComponent>
-          </div>
-
-          <DistributionKeyInfo distribution={current}></DistributionKeyInfo>
-        </HorizontalPanel>
-        <SubHeader>Donations</SubHeader>
-        <DonationsList
-          donations={current.affiliatedDonations}
-          hideDonorName={true}
-          hideKID={true}
-          defaultPageSize={10}
-        />
-        <SubHeader>Meta</SubHeader>
+        <ResourceSubHeader>{current.distribution.donor.name}</ResourceSubHeader>
 
         <EffektButtonsWrapper>
           <EffektButton
@@ -80,6 +61,24 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
             All Distributions
           </EffektButton>
         </EffektButtonsWrapper>
+
+        <SubHeader>Key info</SubHeader>
+        <HorizontalPanel gap={120}>
+          <DistributionKeyInfo distribution={current}></DistributionKeyInfo>
+
+          <div style={{ width: '400px', height: '380px' }}>
+            <DistributionGraphComponent
+              distribution={current.distribution.shares}
+            ></DistributionGraphComponent>
+          </div>
+        </HorizontalPanel>
+        <SubHeader>Donations</SubHeader>
+        <DonationsList
+          donations={current.affiliatedDonations}
+          hideDonorName={true}
+          hideKID={true}
+          defaultPageSize={10}
+        />
       </Page>
     );
   } else {

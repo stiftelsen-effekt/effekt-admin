@@ -149,8 +149,7 @@ export function* fetchAvtaleGiroMissingByDate(
           result: result.content,
         })
       );
-    else
-      throw new Error(result.content);
+    else throw new Error(result.content);
   } catch (ex) {
     yield put(
       fetchAvtaleGiroMissingByDateAction.failed({
@@ -178,8 +177,7 @@ export function* fetchAvtaleGiroRecievedByDate(
           result: result.content,
         })
       );
-    else
-      throw new Error(result.content);
+    else throw new Error(result.content);
   } catch (ex) {
     yield put(
       fetchAvtaleGiroRecievedByDateAction.failed({
@@ -207,8 +205,7 @@ export function* fetchAvtaleGiroExpectedByDate(
           result: result.content,
         })
       );
-    else
-      throw new Error(result.content);
+    else throw new Error(result.content);
   } catch (ex) {
     yield put(
       fetchAvtaleGiroExpectedByDateAction.failed({
@@ -234,12 +231,12 @@ export function* fetchAvtaleGiro(action: Action<IFetchAgreementActionParams>) {
     });
     if (donationsResult.status !== 200) throw new Error(donationsResult.content);
     result.content.affiliatedDonations = donationsResult.content;
-    if (result)
-      yield put(fetchAvtaleGiroAction.done({ params: action.payload, result: result.content }));
+    if (result.status !== 200) throw new Error(result.content);
+    yield put(fetchAvtaleGiroAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
     yield put(
       fetchAvtaleGiroAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: ex as Error,
         params: action.payload,
       })
     );
@@ -262,7 +259,6 @@ export function* updateAvtaleGiroAmount(action: Action<IUpdateAvtaleGiroAmountAc
     });
     if (result) {
       yield put(updateAvtaleGiroAmountAction.done({ params: action.payload, result: amount }));
-      location.reload();
     }
   } catch (ex) {
     yield put(
@@ -290,7 +286,6 @@ export function* updateAvtaleGiroStatus(action: Action<IUpdateAvtaleGiroStatusAc
     });
     if (result) {
       yield put(updateAvtaleGiroStatusAction.done({ params: action.payload, result: status }));
-      location.reload();
     }
   } catch (ex) {
     yield put(
@@ -322,7 +317,6 @@ export function* updateAvtaleGiroPaymentDate(
       yield put(
         updateAvtaleGiroPaymentDateAction.done({ params: action.payload, result: paymentDate })
       );
-      location.reload();
     }
   } catch (ex) {
     yield put(
@@ -351,7 +345,6 @@ export function* updateAvtaleGiroDistribution(
     });
     if (result) {
       yield put(updateAvtaleGiroDistributionAction.done({ params: action.payload, result: true }));
-      location.reload();
     }
   } catch (ex) {
     yield put(

@@ -1,10 +1,10 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IDistributionShare } from '../../models/types';
+import { IDistribution, IDistributionShare } from '../../models/types';
 
-export const SET_DISTRIBUTION_INPUT = 'SET_DISTRIBUTION_INPUT';
-export const setDistributionInput = (distribution: Array<IDistributionShare>) => {
+export const SET_DISTRIBUTION_INPUT_DISTRIBUTION = 'SET_DISTRIBUTION_INPUT_DISTRIBUTION';
+export const setDistributionInputDistribution = (distribution: Partial<IDistribution>) => {
   return {
-    type: SET_DISTRIBUTION_INPUT,
+    type: SET_DISTRIBUTION_INPUT_DISTRIBUTION,
     payload: distribution,
   };
 };
@@ -12,10 +12,7 @@ export const setDistributionInput = (distribution: Array<IDistributionShare>) =>
 const actionCreator = actionCreatorFactory();
 
 export interface ICreateDistributionActionParams {
-  donor: { id: number };
-  taxUnitId?: number;
-  standardDistribution: boolean;
-  distribution: Array<IDistributionShare>;
+  distribution: Omit<IDistribution, 'KID'>;
   token: string;
 }
 export const createDistributionAction = actionCreator.async<

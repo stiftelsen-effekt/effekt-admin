@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 export const AggregateChartWrapper = styled.div`
-  width: 420px;
-  margin-left: 30px;
+  width: 1024px;
 
   table {
     td {

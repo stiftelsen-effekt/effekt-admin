@@ -50,12 +50,12 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
 
         <SubHeader>Keyinfo</SubHeader>
         <HorizontalPanel>
+          <AgreementKeyInfoComponent agreement={agreement} />
           <div style={{ width: '400px', height: '380px' }}>
             <DistributionGraphComponent
               distribution={agreement.distribution}
             ></DistributionGraphComponent>
           </div>
-          <AgreementKeyInfoComponent agreement={agreement} />
         </HorizontalPanel>
 
         <SubHeader>Meta</SubHeader>
