@@ -6,14 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import styled from 'styled-components';
 import Validator from 'validator';
-import { API_URL } from '../../../../config/config';
 import { AppState } from '../../../../models/state';
 import { IDistribution, IDistributionShare, ITaxUnit } from '../../../../models/types';
 import {
   getDonorAction,
   getDonorTaxUnitsAction,
 } from '../../../../store/donors/donor-page.actions';
-import { DistributionComponent } from '../../../pages/distributions/Distribution';
 import { EffektCheck } from '../../../style/elements/effekt-check/effekt-check.component';
 import { EffektInput } from '../../../style/elements/input.style';
 import { TextInput } from '../../../style/elements/TextInput/TextInput';

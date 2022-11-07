@@ -4,30 +4,21 @@ import { RouteComponentProps, NavLink } from 'react-router-dom';
 import { Page } from '../../../style/elements/page.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { IAvtaleGiro, IDistribution, IDistributionShare } from '../../../../models/types';
+import { IAvtaleGiro } from '../../../../models/types';
 import { DistributionGraphComponent } from '../../../modules/distribution/Graph';
 import {
   ResourceHeader,
   ResourceSubHeader,
   SubHeader,
 } from '../../../style/elements/headers.style';
-import {
-  fetchAvtaleGiroAction,
-  updateAvtaleGiroAmountAction,
-  updateAvtaleGiroPaymentDateAction,
-  updateAvtaleGiroStatusAction,
-} from '../../../../store/avtalegiro/avtalegiro.actions';
+import { fetchAvtaleGiroAction } from '../../../../store/avtalegiro/avtalegiro.actions';
 import { HorizontalPanel } from '../../donations/Donation.style';
 import { AvtaleGiroKeyInfo } from './AvtaleGiroKeyInfo';
 import { useAuth0 } from '@auth0/auth0-react';
 import { DonationsList } from '../../../modules/donations/list/DonationsList';
 import { EffektButton } from '../../../style/elements/button.style';
-import { File, FileText, List, PieChart, User } from 'react-feather';
+import { FileText, PieChart, User } from 'react-feather';
 import { useHistory } from 'react-router';
-import { EffektInput } from '../../../style/elements/input.style';
-import { EffektSelect } from '../../../style/elements/select.style';
-import { EffektLoadingSpinner } from '../../../style/elements/loading-spinner';
-import { DistributionInput } from '../../../modules/shared/distribution-input/DistributionInput';
 import { EditAvtaleGiroAgreement } from '../../../modules/avtalegiro/editagreement/EditAvtalegiroAgreement';
 import { EffektButtonsWrapper } from '../../../style/elements/buttons-wrapper/EffektButtonsWrapper.style';
 

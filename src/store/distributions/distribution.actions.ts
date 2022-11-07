@@ -2,8 +2,6 @@ import actionCreatorFactory from 'typescript-fsa';
 import {
   IPagination,
   IDistributionSearchResultItem,
-  IDonor,
-  IDistributionShare,
   IDonation,
   IDistribution,
 } from '../../models/types';

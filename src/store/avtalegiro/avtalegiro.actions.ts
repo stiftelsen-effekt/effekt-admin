@@ -4,7 +4,6 @@ import {
   IAvtaleGiro,
   IAvtaleGiroValidationTableRow,
   IDistribution,
-  IDistributionShare,
   IDonation,
   IHistogramBucket,
   IPagination,

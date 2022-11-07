@@ -7,12 +7,7 @@ import {
 import { put, call, select } from 'redux-saga/effects';
 import * as API from '../../util/api';
 import { AppState } from '../../models/state';
-import {
-  IPagination,
-  IDistributionFilter,
-  IDistributionShare,
-  IDistribution,
-} from '../../models/types';
+import { IPagination, IDistributionFilter, IDistribution } from '../../models/types';
 import { Action } from 'typescript-fsa';
 
 export function* fetchDistribution(action: Action<IFetchDistributionActionParams>) {

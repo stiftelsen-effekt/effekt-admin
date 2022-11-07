@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { IDistribution, IDistributionShare } from '../../models/types';
+import { IDistribution } from '../../models/types';
 
 export const SET_DISTRIBUTION_INPUT_DISTRIBUTION = 'SET_DISTRIBUTION_INPUT_DISTRIBUTION';
 export const setDistributionInputDistribution = (distribution: Partial<IDistribution>) => {
