@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import React, { useEffect, useState } from 'react';
-import { RouteComponentProps, NavLink } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { Page } from '../../../style/elements/page.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
@@ -47,9 +47,6 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
   }, [avtaleGiroID, dispatch, getAccessTokenSilently]);
 
   if (avtaleGiro) {
-    let formattedStatus = avtaleGiro.active === 1 ? 'Active' : 'Inactive';
-    if (avtaleGiro.cancelled) formattedStatus = 'Cancelled';
-
     return (
       <Page>
         <ResourceHeader hasSubHeader={true}>AvtaleGiro {avtaleGiroID}</ResourceHeader>

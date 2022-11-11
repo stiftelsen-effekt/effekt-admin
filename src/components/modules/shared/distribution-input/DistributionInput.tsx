@@ -84,6 +84,7 @@ export const DistributionInput: React.FC<{
     if (distribution.donor) {
       setDonorInput(distribution.donor?.id?.toString());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -107,6 +108,7 @@ export const DistributionInput: React.FC<{
     } else {
       onChange({ ...distribution, shares: [], standardDistribution: standardDistributionInput });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [standardDistributionInput]);
 
   useEffect(() => {
@@ -138,6 +140,7 @@ export const DistributionInput: React.FC<{
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [donorInput]);
 
   useEffect(() => {
@@ -147,6 +150,7 @@ export const DistributionInput: React.FC<{
         return t.id === taxUnitInput?.value;
       }),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taxUnitInput]);
 
   if (!organizations) return <div>Failed fetching organizations</div>;
