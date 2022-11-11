@@ -167,7 +167,6 @@ export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ in
         <EffektButton
           onClick={() => {
             getAccessTokenSilently().then((token) => {
-              console.log(newDistribution);
               if (typeof newDistribution.KID !== 'undefined' && 'KID' in newDistribution) {
                 dispatch(
                   updateAvtaleGiroDistributionAction.started({

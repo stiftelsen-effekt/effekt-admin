@@ -53,7 +53,6 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
       }
       index = added[row.abbriv];
       data.datasets[index].data[row.year - minYear] = row.value ? row.value.toNumber() : 0;
-      console.log(data.datasets);
     }
   });
 
