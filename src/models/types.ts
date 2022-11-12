@@ -76,7 +76,7 @@ export interface IHistogramBucket {
 /** Distribution */
 
 export interface IDistributionShare {
-  organizationId: number;
+  ID: number;
   share: Decimal;
   value?: Decimal;
   abbriv?: string;
@@ -85,6 +85,8 @@ export interface IDistributionShare {
 export interface IDistribution {
   KID: string;
   donor: Partial<IDonor>;
+  standardDistribution: boolean;
+  taxUnit?: ITaxUnit;
   shares: Array<IDistributionShare>;
 }
 
@@ -237,7 +239,7 @@ export interface IAvtaleGiro {
   full_name: string;
   payment_date: number;
   cancelled: string;
-  distribution: Array<IDistributionShare>;
+  distribution: IDistribution;
   affiliatedDonations: Array<IDonation>;
 }
 

@@ -16,7 +16,7 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
       value = value === '' ? '0' : value;
       let parsedValue = new Decimal(value);
       let updatedDistribution = distribution.map((dist: IDistributionShare) => {
-        if (dist.organizationId === orgId)
+        if (dist.ID === orgId)
           return {
             ...dist,
             share: parsedValue,
@@ -40,7 +40,7 @@ export const KIDDistribution: React.FunctionComponent<IProps> = ({ distribution,
           defaultValue={dist.share.toString()}
           style={{ width: '110px' }}
           onChange={(e) => {
-            organizationValueChanged(dist.organizationId, e.target.value);
+            organizationValueChanged(dist.ID, e.target.value);
           }}
         ></EffektInput>
       </DistributionItem>

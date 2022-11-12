@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { grey15, grey70, grey30 } from '../../colors';
 
-export const KeyInfoWrapper = styled.div`
-  margin-left: 80px;
-`;
+export const KeyInfoWrapper = styled.div``;
 
 export const KeyInfoGroup = styled.div`
   padding: 8px 18px;

@@ -52,20 +52,6 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
       <Page>
         <ResourceHeader hasSubHeader={true}>Donation {donation.id}</ResourceHeader>
         <ResourceSubHeader>KID {donation.KID}</ResourceSubHeader>
-        {donation.id && <DeleteButton id={donation.id} sum={donation.sum} />}
-
-        <SubHeader>Keyinfo</SubHeader>
-        <HorizontalPanel>
-          <div style={{ width: '400px', height: '380px' }}>
-            <DistributionGraphComponent
-              distribution={donation.distribution}
-            ></DistributionGraphComponent>
-          </div>
-
-          <DonationKeyInfoComponent donation={donation}></DonationKeyInfoComponent>
-        </HorizontalPanel>
-
-        <SubHeader>Meta</SubHeader>
 
         <EffektButtonsWrapper>
           <EffektButton
@@ -85,6 +71,18 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
             Distribution
           </EffektButton>
         </EffektButtonsWrapper>
+
+        <SubHeader>Keyinfo</SubHeader>
+        <HorizontalPanel gap={120}>
+          <DonationKeyInfoComponent donation={donation}></DonationKeyInfoComponent>
+
+          <div style={{ width: '400px', height: '380px' }}>
+            <DistributionGraphComponent
+              distribution={donation.distribution}
+            ></DistributionGraphComponent>
+          </div>
+        </HorizontalPanel>
+        {donation.id && <DeleteButton id={donation.id} sum={donation.sum} />}
 
         <SubHeader>Resend receipt</SubHeader>
         <RegisterReceiptComponent

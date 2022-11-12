@@ -19,7 +19,7 @@ import {
   getDonorTaxUnitsAction,
 } from '../../../store/donors/donor-page.actions';
 import { DonorAggregateChart } from './donor/AggregateChart';
-import { OverviewLine } from './Donor.style';
+import { ChartWrapper, OverviewLine } from './Donor.style';
 import { EffektTabs } from '../../modules/shared/tabs/EffektTabs';
 import { EffektTabHeader } from '../../modules/shared/tabs/EffektTabHeader';
 import { EffektTab } from '../../modules/shared/tabs/EffektTab';
@@ -71,12 +71,15 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
 
       <OverviewLine>
         {data.donor && <DonorKeyInfo donor={data.donor} />}
-        <DonorAggregateChart stats={data.stats} />
         <TotalDonationAmount
           totalDonationAmount={totalDonations}
           operationsDonationAmount={operationsDonations}
         />
       </OverviewLine>
+
+      <ChartWrapper>
+        <DonorAggregateChart stats={data.stats} />
+      </ChartWrapper>
 
       <EffektTabs>
         <div>

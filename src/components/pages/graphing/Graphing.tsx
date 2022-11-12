@@ -10,8 +10,6 @@ import * as palette from 'google-palette';
 import { ChartOptions } from 'chart.js';
 
 export const GraphingPageComponent: React.FunctionComponent = () => {
-  console.log(palette);
-
   const dispatch = useDispatch();
 
   const [from, setFrom] = useState<Date | null>(new Date('2018-01-01'));
@@ -38,12 +36,12 @@ export const GraphingPageComponent: React.FunctionComponent = () => {
     };
   }
 
-  const options: ChartOptions<"bar"> = {
+  const options: ChartOptions<'bar'> = {
     plugins: {
       legend: {
         display: false,
       },
-    }
+    },
   };
 
   return (

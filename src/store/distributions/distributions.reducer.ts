@@ -7,10 +7,13 @@ import {
   SET_DISTRIBUTIONS_FILTER_KID,
   fetchDistributionAction,
 } from './distribution.actions';
-import { createDistributionAction, SET_DISTRIBUTION_INPUT } from './distribution-input.actions';
+import {
+  createDistributionAction,
+  SET_DISTRIBUTION_INPUT_DISTRIBUTION,
+} from './distribution-input.actions';
 import { toast } from 'react-toastify';
 import Decimal from 'decimal.js';
-import { getDonorTaxUnitsAction } from '../donors/donor-page.actions';
+import { getDonorAction, getDonorTaxUnitsAction } from '../donors/donor-page.actions';
 import { toastError } from '../../util/toasthelper';
 
 const defaultState: DistributionsState = {
@@ -32,8 +35,12 @@ const defaultState: DistributionsState = {
   distributionInput: {
     donorID: '',
     donorName: '',
-    distribution: [{ organizationId: 12, share: new Decimal(100) }],
+    distribution: {
+      standardDistribution: true,
+      shares: [{ ID: 12, share: new Decimal(100) }],
+    },
     taxUnits: [],
+    valid: false,
   },
 };
 
@@ -43,11 +50,7 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
       ...state,
       current: {
         ...state.current,
-        distribution: {
-          KID: action.payload.result.kid,
-          donor: action.payload.result.donor,
-          shares: action.payload.result.distribution,
-        },
+        distribution: action.payload.result.distribution,
         affiliatedDonations: action.payload.result.affilliatedDonations,
       },
     };
@@ -112,7 +115,7 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
       },
     };
   } else if (isType(action, getDonorTaxUnitsAction.failed)) {
-    toastError('Failed to fetch tax units for donor', action.payload.error.message);
+    // toastError('Failed to fetch tax units for donor', action.payload.error.message);
     return {
       ...state,
       distributionInput: {
@@ -122,8 +125,26 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
     };
   }
 
+  if (isType(action, getDonorAction.done)) {
+    return {
+      ...state,
+      distributionInput: {
+        ...state.distributionInput,
+        donorName: action.payload.result.name,
+      },
+    };
+  } else if (isType(action, getDonorAction.failed)) {
+    return {
+      ...state,
+      distributionInput: {
+        ...state.distributionInput,
+        donorName: `No donor found (${action.payload.error.message})`,
+      },
+    };
+  }
+
   switch (action.type) {
-    case SET_DISTRIBUTION_INPUT:
+    case SET_DISTRIBUTION_INPUT_DISTRIBUTION:
       return {
         ...state,
         distributionInput: { ...state.distributionInput, distribution: action.payload },

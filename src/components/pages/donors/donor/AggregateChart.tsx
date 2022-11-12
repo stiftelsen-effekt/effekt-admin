@@ -1,72 +1,100 @@
-import { ChartData, ChartOptions } from "chart.js";
-import React from "react";
-import { Bar } from "react-chartjs-2";
-import { IDonorStats } from "../../../../models/types";
-import { AggregateChartWrapper } from "./AggregateChart.style";
+import { Chart, ChartData, ChartOptions } from 'chart.js';
+import React, { useEffect } from 'react';
+import { Bar } from 'react-chartjs-2';
+import { IDonorStats } from '../../../../models/types';
+import { AggregateChartWrapper } from './AggregateChart.style';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats }> = ({ stats }) => {
-  if (!stats || !stats.sumYearlyAggregates) return (
-    <AggregateChartWrapper>
-      <span>Loading...</span>
-    </AggregateChartWrapper>
-  )
+export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats }> = ({
+  stats,
+}) => {
+  useEffect(() => {
+    Chart.register(ChartDataLabels);
+  }, []);
 
-  const COLORS = [
-    '#4dc9f6',
-    '#f67019',
-    '#f53794',
-    '#537bc4',
-    '#acc236',
-    '#166a8f',
-    '#00a950',
-    '#58595b',
-    '#8549ba'
-  ];
-  
-  const color = (index: number) => {
-    return COLORS[index % COLORS.length];
-  }
+  if (!stats || !stats.sumYearlyAggregates)
+    return (
+      <AggregateChartWrapper>
+        <span>Loading...</span>
+      </AggregateChartWrapper>
+    );
 
-  let added: {[key: string]: number}  = {}
+  let added: { [key: string]: number } = {};
 
-  let years = stats.sumYearlyAggregates.map(el => el.year)
-  const minYear = Math.min(...years)
-  const maxYear = Math.max(...years)
-  const numYears = maxYear - minYear + 1
-  
+  let years = stats.sumYearlyAggregates.map((el) => el.year);
+  const minYear = Math.min(...years);
+  const maxYear = Math.max(...years);
+  const numYears = maxYear - minYear + 1;
+
   if (numYears < 0) {
-    return <div>No donations</div>
+    return <div>No donations</div>;
   }
 
-  let data: ChartData<"bar"> = {
+  let data: ChartData<'bar'> & ChartData<'line'> = {
     labels: new Array(numYears).fill(0).map((_, idx) => minYear + idx),
-    datasets: []
-  }
+    datasets: [],
+  };
 
   stats.sumYearlyAggregates.forEach((row) => {
-    let index = -1
+    let index = -1;
     if (row.abbriv) {
       if (!added.hasOwnProperty(row.abbriv)) {
         let length = data.datasets.push({
           label: row.abbriv,
           data: new Array(numYears).fill(0),
-        })
-        added[row.abbriv] = length-1
-        data.datasets[added[row.abbriv]].backgroundColor = color(added[row.abbriv])
+          order: 10,
+          datalabels: {
+            anchor: 'start',
+            align: 'start',
+          },
+        });
+        added[row.abbriv] = length - 1;
+        data.datasets[added[row.abbriv]].backgroundColor = 'black';
       }
-      index = added[row.abbriv]
-      data.datasets[index].data[row.year - minYear] = row.value ? row.value.toNumber() : 0
+      index = added[row.abbriv];
+      data.datasets[index].data[row.year - minYear] = row.value ? row.value.toNumber() : 0;
     }
-  })
+  });
 
-  const options: ChartOptions<"bar"> = {
+  const yearlyAggregates: { year: string; sum: number }[] = [];
+  stats.sumYearlyAggregates
+    .sort((a, b) => a.year - b.year)
+    .forEach((row) => {
+      if (
+        yearlyAggregates.length > 0 &&
+        row.year.toString() === yearlyAggregates[yearlyAggregates.length - 1].year
+      ) {
+        yearlyAggregates[yearlyAggregates.length - 1].sum += row.value?.toNumber() || 0;
+      } else if (row.value) {
+        yearlyAggregates.push({
+          year: row.year.toString(),
+          sum: row.value?.toNumber(),
+        });
+      }
+    });
+  data.datasets.push({
+    label: 'Yearly sum',
+    data: yearlyAggregates.map((row) => row.sum),
+    datalabels: {
+      display: false,
+    },
+    borderColor: 'black',
+    type: 'line',
+    borderDash: [5, 5],
+    borderWidth: 2,
+    pointRadius: 0,
+    tension: 0.1,
+    yAxisID: 'y2',
+    order: 0,
+  });
+
+  const options: ChartOptions<'bar'> = {
     plugins: {
       title: {
         display: false,
       },
       legend: {
-        position: "bottom",
-        align: "start"
+        display: false,
       },
       tooltip: {
         callbacks: {
@@ -78,17 +106,39 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
             }).format(val.raw as number),
         },
       },
+      datalabels: {
+        color: 'black',
+        rotation: 90,
+        display: true,
+        formatter: function (value, context) {
+          return context.dataset.label;
+        },
+      },
+    },
+    layout: {
+      padding: {
+        bottom: 50,
+      },
     },
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: {
-        stacked: true,
+        stacked: false,
+        ticks: {
+          font: {
+            weight: 'bold',
+            family: 'ES Klarheit Grotesk',
+            size: 14,
+          },
+          textStrokeColor: 'black',
+          color: 'black',
+        },
+        position: 'top',
       },
       y: {
-        stacked: true,
+        stacked: false,
         ticks: {
-          
           callback: (val) =>
             new Intl.NumberFormat('no-NB', {
               style: 'currency',
@@ -96,16 +146,25 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
               maximumSignificantDigits: 3,
             }).format(val as number),
         },
-      }
-    }
-  }
+      },
+      y2: {
+        stacked: false,
+        position: 'right',
+        ticks: {
+          callback: (val) =>
+            new Intl.NumberFormat('no-NB', {
+              style: 'currency',
+              currency: 'NOK',
+              maximumSignificantDigits: 3,
+            }).format(val as number),
+        },
+      },
+    },
+  };
 
   return (
     <AggregateChartWrapper>
-      <Bar 
-        options={options}
-        data={data}
-      />
+      <Bar options={options} data={data as ChartData<'bar'>} />
     </AggregateChartWrapper>
-  )
-}
+  );
+};

@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon';
 import actionCreatorFactory from 'typescript-fsa';
-import { Share } from '../../components/pages/avtalegiro/AvtaleGiroAgreement/ShareSelection/ShareSelection';
 import {
   IAvtaleGiro,
   IAvtaleGiroValidationTableRow,
+  IDistribution,
   IDonation,
   IHistogramBucket,
   IPagination,
@@ -61,7 +61,7 @@ export interface IUpdateAvtaleGiroPaymentDateActionParams {
 }
 export interface IUpdateAvtaleGiroDistributionActionParams {
   KID: string;
-  distribution: Array<Share>;
+  distribution: IDistribution;
   token: string;
 }
 export interface IFetchAvtaleGiroDateValidationParams {

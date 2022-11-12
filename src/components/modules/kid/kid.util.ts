@@ -11,7 +11,7 @@ export const mapOrgToDist = (organizations: Array<IOrganization>): Array<IDistri
   return organizations.map(
     (org: IOrganization): IDistributionShare => ({
       abbriv: org.abbriv,
-      organizationId: org.id,
+      ID: org.id,
       //TODO: Handle donation amount
       share: new Decimal(org.standardShare),
     })

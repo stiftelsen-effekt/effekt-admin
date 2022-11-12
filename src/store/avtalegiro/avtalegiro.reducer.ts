@@ -1,4 +1,5 @@
 import Decimal from 'decimal.js';
+import { toast } from 'react-toastify';
 import { isType } from 'typescript-fsa';
 import { AvtaleGiroAgreementsState } from '../../models/state';
 import { toastError } from '../../util/toasthelper';
@@ -17,6 +18,10 @@ import {
   SET_AVTALEGIRO_FILTER_DONOR,
   SET_AVTALEGIRO_FILTER_KID,
   SET_AVTALEGIRO_PAGINATION,
+  updateAvtaleGiroAmountAction,
+  updateAvtaleGiroDistributionAction,
+  updateAvtaleGiroPaymentDateAction,
+  updateAvtaleGiroStatusAction,
 } from './avtalegiro.actions';
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
@@ -98,16 +103,20 @@ export const avtaleGiroReducer = (
       ...state,
       currentAgreement: {
         ...action.payload.result,
-        distribution: action.payload.result.distribution.map((dist) => ({
-          ...dist,
-          share: new Decimal(dist.share),
-        })),
+        distribution: {
+          ...action.payload.result.distribution,
+          shares: action.payload.result.distribution.shares.map((share) => ({
+            ...share,
+            share: new Decimal(share.share),
+          })),
+        },
       },
       loading: false,
     };
   } else if (isType(action, fetchAvtaleGiroAction.started)) {
     return { ...state, loading: true };
   } else if (isType(action, fetchAvtaleGiroAction.failed)) {
+    toastError('Kunne ikke laste inn avtale', action.payload.error.message);
     return { ...state, loading: false };
   }
 
@@ -116,6 +125,132 @@ export const avtaleGiroReducer = (
     return {
       ...state,
       currentAgreement: undefined,
+    };
+  }
+
+  /* Agreement update actions */
+  if (isType(action, updateAvtaleGiroAmountAction.started)) {
+    return {
+      ...state,
+      currentAgreementUpdating: true,
+    };
+  }
+  if (isType(action, updateAvtaleGiroAmountAction.done)) {
+    toast.success('Avtalegiro sum er oppdatert.');
+    return {
+      ...state,
+      currentAgreement: {
+        ...state.currentAgreement!,
+        amount: action.payload.params.amount / 100,
+      },
+      currentAgreementUpdating: false,
+    };
+  }
+  if (isType(action, updateAvtaleGiroAmountAction.failed)) {
+    toastError('Kunne ikke endre avtalegiromengde.', 'Oppdatering mislyktes.');
+    return {
+      ...state,
+      currentAgreementUpdating: false,
+    };
+  }
+
+  if (isType(action, updateAvtaleGiroStatusAction.started)) {
+    return {
+      ...state,
+      currentAgreementUpdating: true,
+    };
+  }
+  if (isType(action, updateAvtaleGiroStatusAction.done)) {
+    toast.success('Avtalegirostatus oppdatert.');
+    return {
+      ...state,
+      currentAgreement: {
+        ...state.currentAgreement!,
+        active: action.payload.params.status,
+      },
+      currentAgreementUpdating: false,
+    };
+  }
+  if (isType(action, updateAvtaleGiroStatusAction.failed)) {
+    toastError('Kunne ikke endre avtalegirostatus.', 'Oppdatering mislyktes.');
+    return {
+      ...state,
+      currentAgreementUpdating: false,
+    };
+  }
+
+  if (isType(action, updateAvtaleGiroPaymentDateAction.started)) {
+    return {
+      ...state,
+      currentAgreementUpdating: true,
+    };
+  }
+  if (isType(action, updateAvtaleGiroPaymentDateAction.done)) {
+    toast.success('Avtalegiro betalingsdato er oppdatert.');
+    return {
+      ...state,
+      currentAgreement: {
+        ...state.currentAgreement!,
+        payment_date: action.payload.params.paymentDate,
+      },
+      currentAgreementUpdating: false,
+    };
+  }
+  if (isType(action, updateAvtaleGiroPaymentDateAction.failed)) {
+    toastError('Kunne ikke endre avtalegiro betalingsdato.', 'Oppdatering mislyktes.');
+    return {
+      ...state,
+      currentAgreementUpdating: false,
+    };
+  }
+
+  if (isType(action, updateAvtaleGiroDistributionAction.started)) {
+    return {
+      ...state,
+      currentAgreementUpdating: true,
+    };
+  }
+  if (isType(action, updateAvtaleGiroDistributionAction.done)) {
+    toast.success('Avtalegiro distribusjon oppdatert.');
+    return {
+      ...state,
+      currentAgreement: {
+        ...state.currentAgreement!,
+        distribution: action.payload.params.distribution,
+      },
+      currentAgreementUpdating: false,
+    };
+  }
+  if (isType(action, updateAvtaleGiroDistributionAction.failed)) {
+    toastError('Kunne ikke endre distribusjon.', 'Oppdatering mislyktes.');
+    return {
+      ...state,
+      currentAgreementUpdating: false,
+    };
+  }
+
+  if (isType(action, updateAvtaleGiroDistributionAction.started)) {
+    return {
+      ...state,
+      currentAgreementUpdating: true,
+    };
+  }
+  if (isType(action, updateAvtaleGiroDistributionAction.done)) {
+    toast.success('Avtalegiro distribusjon oppdatert.');
+    return {
+      ...state,
+      currentAgreement: {
+        ...state.currentAgreement!,
+        distribution: action.payload.params.distribution,
+      },
+      currentAgreementUpdating: false,
+    };
+  }
+  if (isType(action, updateAvtaleGiroDistributionAction.failed)) {
+    toastError('Kunne ikke endre distribusjon.', 'Oppdatering mislyktes.');
+    return {
+      ...state,
+      currentAgreementUpdating: false,
     };
   }
 
