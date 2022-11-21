@@ -97,7 +97,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
         <SubHeader>Payments</SubHeader>
         <DonationsList
           donations={avtaleGiro.affiliatedDonations}
-          manual={true}
+          manual={false}
           defaultPageSize={10}
         />
       </Page>
