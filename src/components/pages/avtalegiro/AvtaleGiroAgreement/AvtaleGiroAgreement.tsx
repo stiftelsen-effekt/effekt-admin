@@ -99,6 +99,8 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
           donations={avtaleGiro.affiliatedDonations}
           manual={false}
           defaultPageSize={10}
+          hideDonorName={true}
+          hideKID={true}
         />
       </Page>
     );
