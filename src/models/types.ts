@@ -249,6 +249,10 @@ export interface IAvtaleGiroFilter {
     to: number;
   };
   KID?: string;
+  paymentDate?: {
+    from: number;
+    to: number;
+  };
   donor?: string;
   statuses?: Array<string>;
 }
