@@ -10,6 +10,7 @@ import {
   setAvtalegiroFilterAmount,
   setAvtaleGiroFilterDonor,
   setAvtaleGiroFilterKID,
+  setAvtaleGiroFilterPaymentDate,
 } from '../../../../store/avtalegiro/avtalegiro.actions';
 import {
   EffektCheckChoice,
@@ -25,6 +26,7 @@ import {
   FilterInput,
 } from '../../../style/elements/filters.component.style';
 import { HistogramInputComponent } from '../../histogram-input/HistogramInput';
+import EffektNumberRange from '../../../style/elements/effekt-range/effekt-range.component';
 
 const statusTypes = [
   { name: 'STOPPED', id: 0 },
@@ -40,6 +42,7 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
   const amountRange = filter.amount;
   const KID = filter.KID;
+  const paymentDateRange = filter.paymentDate;
   const donor = filter.donor;
   const statuses = filter.statuses;
 
@@ -126,6 +129,19 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
                 dispatch(setAvtaleGiroFilterActive(newChoices));
               }}
             ></EffektCheckForm>
+          </FilterGroup>
+
+          <FilterGroup>
+            <FilterGroupHeader>Charge day</FilterGroupHeader>
+            <EffektNumberRange
+              min={0}
+              max={28}
+              onChange={(from: number, to: number) => {
+                dispatch(
+                  setAvtaleGiroFilterPaymentDate({ from: from, to: to })
+                );
+              }}
+            ></EffektNumberRange>
           </FilterGroup>
         </FilterContent>
       </FilterWrapper>
