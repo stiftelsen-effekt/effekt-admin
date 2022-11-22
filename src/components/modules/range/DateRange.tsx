@@ -31,37 +31,54 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({
   onChangeRange,
   inverted
 }) => {
+  const floor = (date: Date) => {
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    return date;
+  };
+  const ceil = (date: Date) => {
+    date.setHours(23);
+    date.setMinutes(59);
+    date.setSeconds(59);
+    date.setMilliseconds(999);
+    return date;
+  };
+  const now = new Date();
   const presets = {
     '7 days': [
-      new Date(new Date().setDate(new Date().getDate() - 6)),
-      new Date(new Date()),
+      new Date(new Date(now).setDate(now.getDate() - 6)),
+      now,
     ],
     '30 days': [
-      new Date(new Date().setDate(new Date().getDate() - 29)),
-      new Date(new Date()),
+      new Date(new Date(now).setDate(now.getDate() - 29)),
+      now,
     ],
     'This month': [
-      new Date(new Date().setDate(1)),
-      new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+      new Date(new Date(now).setDate(1)),
+      new Date(now.getFullYear(), now.getMonth() + 1, 0),
     ],
     'Last month': [
-      new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
-      new Date(new Date().getFullYear(), new Date().getMonth(), 0),
+      new Date(now.getFullYear(), now.getMonth() - 1, 1),
+      new Date(now.getFullYear(), now.getMonth(), 0),
     ],
     'This year': [
-      new Date(new Date().getFullYear(), 0, 1),
-      new Date(new Date().getFullYear(), 12, 0),
+      new Date(now.getFullYear(), 0, 1),
+      new Date(now.getFullYear(), 12, 0),
     ],
     'Last year': [
-      new Date(new Date().getFullYear() - 1, 0, 1),
-      new Date(new Date().getFullYear() - 1, 12, 0),
+      new Date(now.getFullYear() - 1, 0, 1),
+      new Date(now.getFullYear() - 1, 12, 0),
     ],
   };
   return (
     <React.Fragment>
       <DatesContainer>
         <EffektDatePicker
-          onChange={onChangeFrom}
+          onChange={(data) => {
+            onChangeFrom(data ? floor(data) : null)
+          }}
           selected={from}
           placeholderText="from"
           dateFormat="dd.MM.yyyy"
@@ -71,7 +88,9 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({
           style={{ margin: '5px' }}
           />
         <EffektDatePicker
-          onChange={onChangeTo}
+          onChange={(data) => {
+            onChangeTo(data ? ceil(data) : null)
+          }}
           selected={to}
           placeholderText="to"
           dateFormat="dd.MM.yyyy"
@@ -87,8 +106,8 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({
             type="button"
             onClick={() => {
               if (from !== data[0] || to !== data[1]) {
-                from = data[0];
-                to = data[1];
+                from = data[0] ? floor(data[0]) : null;
+                to = data[1] ? ceil(data[1]) : null;
                 onChangeRange(from, to);
               }
             }}
