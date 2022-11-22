@@ -15,6 +15,7 @@ import {
   SET_DONATION_FILTER_PAYMENT_METHOD_IDS,
   SET_DONATION_FILTER_DONOR,
   SET_DONATION_FILTER_DONATION_ID,
+  SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS,
 } from './donation-filters.actions';
 
 const defaultState: DonationsState = {
@@ -39,6 +40,7 @@ const defaultState: DonationsState = {
       to: Number.MAX_SAFE_INTEGER,
     },
     paymentMethodIDs: undefined,
+    organizationIDs: undefined,
   },
 };
 export const donationsReducer = (state = defaultState, action: any): DonationsState => {
@@ -142,6 +144,12 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
         ...state,
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, paymentMethodIDs: action.payload },
+      };
+    case SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, organizationIDs: action.payload },
       };
   }
 
