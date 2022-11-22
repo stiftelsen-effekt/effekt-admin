@@ -16,6 +16,7 @@ export const SET_AVTALEGIRO_FILTER_KID = 'SET_AVTALEGIRO_FILTER_KID';
 export const SET_AVTALEGIRO_FILTER_DONOR = 'SET_AVTALEGIRO_FILTER_DONOR';
 export const SET_AVTALEGIRO_FILTER_ACTIVE = 'SET_AVTALEGIRO_FILTER_ACTIVE';
 export const SET_AVTALEGIRO_FILTER_PAYMENT_DATE = 'SET_AVTALEGIRO_FILTER_PAYMENT_DATE';
+export const SET_AVTALEGIRO_FILTER_DRAFT_DATE = 'SET_AVTALEGIRO_FILTER_DRAFT_DATE';
 export const CLEAR_CURRENT_AVTALEGIRO = 'CLEAR_CURRENT_DONATION';
 
 const actionCreator = actionCreatorFactory();
@@ -177,6 +178,13 @@ export const setAvtaleGiroFilterPaymentDate = (paymentDate: AmountRange) => {
   return {
     type: SET_AVTALEGIRO_FILTER_PAYMENT_DATE,
     payload: paymentDate,
+  };
+};
+
+export const setAvtaleGiroFilterDraftDate = (from: Date | null, to: Date | null) => {
+  return {
+    type: SET_AVTALEGIRO_FILTER_DRAFT_DATE,
+    payload: {from: from, to: to},
   };
 };
 
