@@ -6,6 +6,7 @@ export interface IDonor {
   name: string;
   email: string;
   registered: DateTime;
+  total_donations: number;
   ssn: string;
   newsletter?: boolean;
   trash?: boolean;
