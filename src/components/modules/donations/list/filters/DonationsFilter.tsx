@@ -25,6 +25,7 @@ import {
   setDonationFilterSumRange,
   setDonationFilterPaymentMethodIDs,
   setDonationFilterDonationId,
+  setDonationFilterOrganizationIDs,
 } from '../../../../../store/donations/donation-filters.actions';
 import { fetchHistogramAction } from '../../../../../store/donations/donation.actions';
 import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
@@ -38,6 +39,11 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   const donationSumRange = useSelector((state: AppState) => state.donations.filter.sum);
   const kid = useSelector((state: AppState) => state.donations.filter.KID);
   const donor = useSelector((state: AppState) => state.donations.filter.donor);
+  const organizations = useSelector((state: AppState) => state.organizations.active);
+  const selectedOrganizationIDs = useSelector(
+    (state: AppState) => state.donations.filter.organizationIDs
+  );
+
   const donationId = useSelector((state: AppState) => state.donations.filter.id);
   const selectedPaymentMethodIDs = useSelector(
     (state: AppState) => state.donations.filter.paymentMethodIDs
@@ -61,6 +67,14 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
       selected: selected,
     };
   });
+
+  const organizationChoices : Array<EffektCheckChoice> = organizations?.map((organization) => {
+    return {
+      label: organization.abbriv,
+      value: organization.id,
+      selected: selectedOrganizationIDs?.includes(organization.id) ?? false,
+    }
+  }) ?? [];
 
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
@@ -156,6 +170,21 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
                 dispatch(setDonationFilterPaymentMethodIDs(undefined));
               } else {
                 dispatch(setDonationFilterPaymentMethodIDs(selected));
+              }
+            }}
+          ></EffektCheckForm>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Organizations</FilterGroupHeader>
+          <EffektCheckForm
+            inverted={true}
+            choices={organizationChoices}
+            onChange={(selected: Array<number>) => {
+              if (selected.length === 0) {
+                dispatch(setDonationFilterOrganizationIDs(undefined));
+              } else {
+                dispatch(setDonationFilterOrganizationIDs(selected));
               }
             }}
           ></EffektCheckForm>
