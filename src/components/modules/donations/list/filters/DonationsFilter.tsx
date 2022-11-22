@@ -68,7 +68,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
     };
   });
 
-  const organizationsChoices : Array<EffektCheckChoice> = organizations?.map((organization) => {
+  const organizationChoices : Array<EffektCheckChoice> = organizations?.map((organization) => {
     return {
       label: organization.abbriv,
       value: organization.id,
@@ -179,7 +179,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
           <FilterGroupHeader>Organizations</FilterGroupHeader>
           <EffektCheckForm
             inverted={true}
-            choices={organizationsChoices}
+            choices={organizationChoices}
             onChange={(selected: Array<number>) => {
               if (selected.length === 0) {
                 dispatch(setDonationFilterOrganizationIDs(undefined));
