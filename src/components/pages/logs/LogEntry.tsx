@@ -62,7 +62,7 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
 
         <JSONView
           data={entry.result}
-          valueRenderer={(value, keyPath) =>
+          valueRenderer={(value, index, keyPath) =>
             keyPath === 'file' ? (
               <span style={{ fontFamily: 'monospace', whiteSpace: 'pre', display: 'block' }}>
                 {value}
