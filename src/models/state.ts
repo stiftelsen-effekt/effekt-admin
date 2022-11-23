@@ -76,6 +76,7 @@ export interface DonorPageState {
 
 export interface OrganizationsState {
   active?: Array<IOrganization>;
+  all?: Array<IOrganization>;
 }
 
 export interface SingleDonationState {
