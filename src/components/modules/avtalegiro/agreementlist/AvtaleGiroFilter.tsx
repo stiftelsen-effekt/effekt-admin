@@ -42,7 +42,6 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
   const amountRange = filter.amount;
   const KID = filter.KID;
-  const paymentDateRange = filter.paymentDate;
   const donor = filter.donor;
   const statuses = filter.statuses;
 
