@@ -11,6 +11,7 @@ import {
   setAvtaleGiroFilterDonor,
   setAvtaleGiroFilterKID,
   setAvtaleGiroFilterPaymentDate,
+  setAvtaleGiroFilterDraftDate,
 } from '../../../../store/avtalegiro/avtalegiro.actions';
 import {
   EffektCheckChoice,
@@ -24,6 +25,8 @@ import {
   FilterGroup,
   FilterGroupHeader,
   FilterInput,
+  FilterDateRangeWrapper,
+  FilterDateRange,
 } from '../../../style/elements/filters.component.style';
 import { HistogramInputComponent } from '../../histogram-input/HistogramInput';
 import EffektNumberRange from '../../../style/elements/effekt-range/effekt-range.component';
@@ -42,7 +45,7 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
   const amountRange = filter.amount;
   const KID = filter.KID;
-  const paymentDateRange = filter.paymentDate;
+  const draftDate = filter.created;
   const donor = filter.donor;
   const statuses = filter.statuses;
 
@@ -142,6 +145,29 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
                 );
               }}
             ></EffektNumberRange>
+          </FilterGroup>
+
+          <FilterGroup>
+            <FilterGroupHeader>Draft date</FilterGroupHeader>
+            <FilterDateRangeWrapper>
+              <FilterDateRange
+                from={draftDate ? draftDate.from : null}
+                to={draftDate ? draftDate.to : null}
+                onChangeFrom={(date) => {
+                  console.log(date);
+                  dispatch(setAvtaleGiroFilterDraftDate(date, draftDate ? draftDate.to : null));
+                }}
+                onChangeTo={(date) => {
+                  console.log(date);
+                  dispatch(setAvtaleGiroFilterDraftDate(draftDate ? draftDate.from : null, date));
+                }}
+                onChangeRange={(to, from) => {
+                  console.log(to, from);
+                  dispatch(setAvtaleGiroFilterDraftDate(to, from));
+                }}
+                inverted
+              ></FilterDateRange>
+            </FilterDateRangeWrapper>
           </FilterGroup>
         </FilterContent>
       </FilterWrapper>

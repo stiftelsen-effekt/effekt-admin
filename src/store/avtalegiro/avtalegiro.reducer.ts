@@ -18,6 +18,7 @@ import {
   SET_AVTALEGIRO_FILTER_DONOR,
   SET_AVTALEGIRO_FILTER_KID,
   SET_AVTALEGIRO_FILTER_PAYMENT_DATE,
+  SET_AVTALEGIRO_FILTER_DRAFT_DATE,
   SET_AVTALEGIRO_PAGINATION,
   updateAvtaleGiroAmountAction,
   updateAvtaleGiroDistributionAction,
@@ -44,6 +45,7 @@ const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     },
     KID: '',
     paymentDate: undefined,
+    created: undefined,
     donor: '',
     statuses: [],
   },
@@ -386,6 +388,12 @@ export const avtaleGiroReducer = (
         ...state,
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, paymentDate: action.payload },
+      };
+    case SET_AVTALEGIRO_FILTER_DRAFT_DATE:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, created: action.payload },
       };
   }
 
