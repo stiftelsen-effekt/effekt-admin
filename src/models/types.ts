@@ -255,6 +255,10 @@ export interface IAvtaleGiroFilter {
     from: number;
     to: number;
   };
+  created?: {
+    from: Date | null;
+    to: Date | null;
+  };
   donor?: string;
   statuses?: Array<string>;
 }
