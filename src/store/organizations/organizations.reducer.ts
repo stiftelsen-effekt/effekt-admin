@@ -1,11 +1,12 @@
 import { OrganizationsState } from '../../models/state';
 import { AnyAction } from 'redux';
-import { fetchActiveOrganizationsAction } from './organizations.action';
+import { fetchActiveOrganizationsAction, fetchAllOrganizationsAction } from './organizations.action';
 import { isType } from 'typescript-fsa';
 import { toastError } from '../../util/toasthelper';
 
 const initialState: OrganizationsState = {
   active: undefined,
+  all: undefined,
 };
 
 export const organizationsReducer = (
@@ -19,6 +20,13 @@ export const organizationsReducer = (
     };
   } else if (isType(action, fetchActiveOrganizationsAction.failed)) {
     toastError('Failed to fetch active organizations', action.payload.error.message);
+  } else if (isType(action, fetchAllOrganizationsAction.done)) {
+    return {
+      ...state,
+      all: action.payload.result,
+    };
+  } else if (isType(action, fetchAllOrganizationsAction.failed)) {
+    toastError('Failed to fetch all organizations', action.payload.error.message);
   }
 
   return state;

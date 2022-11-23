@@ -8,3 +8,9 @@ export const fetchActiveOrganizationsAction = actionCreator.async<
   Array<IOrganization>,
   Error
 >('FETCH_ACTIVE_ORGANIZATIONS');
+
+export const fetchAllOrganizationsAction = actionCreator.async<
+  undefined,
+  Array<IOrganization>,
+  Error
+>('FETCH_ALL_ORGANIZATIONS');

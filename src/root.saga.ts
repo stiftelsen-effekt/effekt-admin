@@ -1,8 +1,8 @@
 import { all, takeLatest } from 'redux-saga/effects';
 import { searchDonorAction } from './store/donors/donor-selection.actions';
 import { searchDonors } from './store/donors/donor-selection.saga';
-import { fetchActiveOrganizationsAction } from './store/organizations/organizations.action';
-import { fetchActiveOrganizations } from './store/organizations/organizations.saga';
+import { fetchActiveOrganizationsAction, fetchAllOrganizationsAction } from './store/organizations/organizations.action';
+import { fetchActiveOrganizations, fetchAllOrganizations } from './store/organizations/organizations.saga';
 import {
   fetchPaymentMethodsAction,
   createDistribitionAndInsertDonationAction,
@@ -119,6 +119,8 @@ function* watchAll() {
     takeLatest(searchDonorAction.started.type, searchDonors),
 
     takeLatest(fetchActiveOrganizationsAction.started.type, fetchActiveOrganizations),
+
+    takeLatest(fetchAllOrganizationsAction.started.type, fetchAllOrganizations),
 
     takeLatest(fetchPaymentMethodsAction.started.type, fetchPaymentMethods),
 
