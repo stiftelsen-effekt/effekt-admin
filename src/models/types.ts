@@ -199,6 +199,14 @@ export interface IVippsAgreementFilter {
     from: number;
     to: number;
   };
+  created?: {
+    from: Date | null;
+    to: Date | null;
+  };
+  chargeDay?: {
+    from: number;
+    to: number;
+  };
   KID?: string;
   donor?: string;
   statuses?: Array<string>;

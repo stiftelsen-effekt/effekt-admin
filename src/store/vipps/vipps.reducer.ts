@@ -9,6 +9,8 @@ import {
   fetchVippsAgreementChargesAction,
   fetchVippsAgreementsAction,
   SET_VIPPS_AGREEMENTS_FILTER_AMOUNT,
+  SET_VIPPS_AGREEMENTS_FILTER_CHARGE_DAY,
+  SET_VIPPS_AGREEMENTS_FILTER_DRAFT_DATE,
   SET_VIPPS_AGREEMENTS_FILTER_DONOR,
   SET_VIPPS_AGREEMENTS_FILTER_KID,
   SET_VIPPS_AGREEMENTS_FILTER_STATUS,
@@ -50,6 +52,8 @@ const defaultAgreementState: VippsAgreementsState = {
       from: 0,
       to: 1000000,
     },
+    created: undefined,
+    chargeDay: undefined,
     KID: '',
     donor: '',
     statuses: [],
@@ -170,11 +174,23 @@ export const vippsAgreementReducer = (
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, amount: action.payload },
       };
+    case SET_VIPPS_AGREEMENTS_FILTER_CHARGE_DAY:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, chargeDay: action.payload },
+      };
     case SET_VIPPS_AGREEMENTS_FILTER_DONOR:
       return {
         ...state,
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, donor: action.payload },
+      };
+    case SET_VIPPS_AGREEMENTS_FILTER_DRAFT_DATE:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, created: action.payload },
       };
     case SET_VIPPS_AGREEMENTS_FILTER_STATUS:
       return {

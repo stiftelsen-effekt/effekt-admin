@@ -154,15 +154,12 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
                 from={draftDate ? draftDate.from : null}
                 to={draftDate ? draftDate.to : null}
                 onChangeFrom={(date) => {
-                  console.log(date);
                   dispatch(setAvtaleGiroFilterDraftDate(date, draftDate ? draftDate.to : null));
                 }}
                 onChangeTo={(date) => {
-                  console.log(date);
                   dispatch(setAvtaleGiroFilterDraftDate(draftDate ? draftDate.from : null, date));
                 }}
                 onChangeRange={(to, from) => {
-                  console.log(to, from);
                   dispatch(setAvtaleGiroFilterDraftDate(to, from));
                 }}
                 inverted

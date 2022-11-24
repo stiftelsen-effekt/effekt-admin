@@ -9,8 +9,10 @@ import {
 // Vipps agreement actions
 export const SET_VIPPS_AGREEMENTS_PAGINATION = 'SET_VIPPS_AGREEMENTS_PAGINATION';
 export const SET_VIPPS_AGREEMENTS_FILTER_AMOUNT = 'SET_VIPPS_AGREEMENTS_FILTER_AMOUNT';
-export const SET_VIPPS_AGREEMENTS_FILTER_KID = 'SET_VIPPS_AGREEMENTS_FILTER_KID';
+export const SET_VIPPS_AGREEMENTS_FILTER_CHARGE_DAY = 'SET_VIPPS_AGREEMENTS_FILTER_CHARGE_DAY';
 export const SET_VIPPS_AGREEMENTS_FILTER_DONOR = 'SET_VIPPS_AGREEMENTS_FILTER_DONOR';
+export const SET_VIPPS_AGREEMENTS_FILTER_DRAFT_DATE = 'SET_VIPPS_AGREEMENTS_FILTER_DRAFT_DATE';
+export const SET_VIPPS_AGREEMENTS_FILTER_KID = 'SET_VIPPS_AGREEMENTS_FILTER_KID';
 export const SET_VIPPS_AGREEMENTS_FILTER_STATUS = 'SET_VIPPS_AGREEMENTS_FILTER_STATUS';
 
 // Vipps charge actions
@@ -132,10 +134,24 @@ export const setVippsAgreementsFilterAmount = (amountRange: AmountRange) => {
   };
 };
 
+export const setVippsAgreementsFilterChargeDay = (paymentDate: AmountRange) => {
+  return {
+    type: SET_VIPPS_AGREEMENTS_FILTER_CHARGE_DAY,
+    payload: paymentDate,
+  };
+};
+
 export const setVippsAgreementsFilterDonor = (donor: string) => {
   return {
     type: SET_VIPPS_AGREEMENTS_FILTER_DONOR,
     payload: donor,
+  };
+};
+
+export const setVippsAgreementsFilterDraftDate = (from: Date | null, to: Date | null) => {
+  return {
+    type: SET_VIPPS_AGREEMENTS_FILTER_DRAFT_DATE,
+    payload: {from: from, to: to},
   };
 };
 
