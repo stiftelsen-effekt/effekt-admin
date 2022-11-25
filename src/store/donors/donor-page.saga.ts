@@ -149,7 +149,7 @@ export function* getDonorReferralAnswers(action: Action<IFetchDonorActionParams>
         getDonorReferralAnswersAction.done({
           params: action.payload,
           result: data.content.map((r) => {
-            r.timestamp = DateTime.fromISO(r.timestamp as any, { setZone: true });
+            r.timestamp = DateTime.fromISO(r.timestamp as any);
             return r;
           }),
         })
@@ -172,7 +172,7 @@ export function* getDonorTaxUnits(action: Action<IfetchDonorTaxUnitsParams>) {
         getDonorTaxUnitsAction.done({
           params: action.payload,
           result: data.content.map((r) => {
-            r.registered = DateTime.fromISO(r.registered as any, { setZone: true });
+            r.registered = DateTime.fromISO(r.registered as any);
             return r;
           }),
         })

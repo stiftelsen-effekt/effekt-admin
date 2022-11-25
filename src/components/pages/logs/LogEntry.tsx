@@ -57,7 +57,7 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
           Log entry {entry.ID} | {entry.label}
         </ResourceHeader>
         <ResourceSubHeader>
-          {longDateTime(DateTime.fromISO(entry.timestamp, { setZone: true }))}
+          {longDateTime(DateTime.fromISO(entry.timestamp))}
         </ResourceSubHeader>
 
         <JSONView

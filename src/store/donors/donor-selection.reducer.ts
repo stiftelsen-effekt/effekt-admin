@@ -26,7 +26,7 @@ export const donorSelectorReducer = (
       searchResult: action.payload.result.map((donor: IDonor) => {
         return {
           ...donor,
-          registered: DateTime.fromISO(donor.registered.toString(), { setZone: true }),
+          registered: DateTime.fromISO(donor.registered.toString()),
         };
       }),
     };

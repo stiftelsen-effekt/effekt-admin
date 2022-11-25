@@ -31,9 +31,7 @@ export const donorPageReducer = (
       ...state,
       donor: {
         ...action.payload.result,
-        registered: DateTime.fromISO(action.payload.result.registered.toString(), {
-          setZone: true,
-        }),
+        registered: DateTime.fromISO(action.payload.result.registered.toString()),
       },
     };
   } else if (isType(action, getDonorAction.started)) {
