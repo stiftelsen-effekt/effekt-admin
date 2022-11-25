@@ -79,18 +79,12 @@ export const AvtaleGiroList: React.FunctionComponent<{
       Header: 'Draft date',
       id: 'created',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.created, { setZone: true })),
-      sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
-      },
       width: 110,
     },
     {
       Header: 'Last updated',
       id: 'lastUpdated',
-      accessor: (res: any) => longDateTime(DateTime.fromISO(res.last_updated, { setZone: true })),
-      sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
-      },
+      accessor: (res: any) => longDateTime(DateTime.fromISO(res.last_updated)),
       width: 150,
     },
     {

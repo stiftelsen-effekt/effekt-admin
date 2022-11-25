@@ -31,7 +31,7 @@ export const singleDonationReducer = (
       paymentMethods: action.payload.result.map((method: IPaymentMethod) => {
         return {
           ...method,
-          lastUpdated: DateTime.fromISO(method.lastUpdated.toString(), { setZone: true }),
+          lastUpdated: DateTime.fromISO(method.lastUpdated.toString()),
         };
       }),
     };

@@ -52,9 +52,6 @@ export const VippsAgreementList: React.FunctionComponent<{
       id: 'amount',
       width: 110,
       accessor: (res: any) => thousandize(res.amount),
-      sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
-      },
     },
     {
       Header: 'Charge day',
@@ -71,10 +68,7 @@ export const VippsAgreementList: React.FunctionComponent<{
     {
       Header: 'Draft date',
       id: 'created',
-      accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created, { setZone: true })),
-      sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
-      },
+      accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created)),
       width: 120,
     },
   ];

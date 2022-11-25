@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { shortDate, thousandize } from '../../../../util/formatting';
+import { shortDate, thousandize, longDateTime } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { ITaxUnit } from '../../../../models/types';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -70,11 +70,11 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
     {
       Header: 'Registered',
       id: 'registered',
-      accessor: (res: any) => shortDate(DateTime.fromISO(res.registered, { setZone: true })),
+      accessor: (res: any) => longDateTime(DateTime.fromISO(res.registered)),
       sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
+        return DateTime.fromFormat(a, 'dd.MM.yyyy HH:mm') > DateTime.fromFormat(b, 'dd.MM.yyyy HH:mm') ? -1 : 1;
       },
-      width: 100,
+      width: 140,
     },
     {
       Header: 'Edit',

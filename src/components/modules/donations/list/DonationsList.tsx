@@ -56,9 +56,6 @@ export const DonationsList: React.FunctionComponent<Props> = ({
       Header: 'Sum',
       id: 'sum',
       accessor: (res: any) => thousandize(res.sum) + ' kr',
-      sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
-      },
       Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
       width: 140,
     },
@@ -66,19 +63,13 @@ export const DonationsList: React.FunctionComponent<Props> = ({
       Header: 'Transaction cost',
       id: 'transactionCost',
       accessor: (res: any) => thousandize(res.transactionCost),
-      sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
-      },
       Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
       width: 115,
     },
     {
       Header: 'Timestamp',
       id: 'timestamp',
-      accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp, { setZone: true })),
-      sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
-      },
+      accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp)),
       width: 100,
     },
   ];
