@@ -65,7 +65,7 @@ export const FilterDateRange = styled(EffektDateRange)`
 export const FilterDateRangeWrapper = styled.div`
   input {
     background-color: white;
-    width: 108px;
+    width: 113px;
   }
 `;
 
