@@ -7,6 +7,7 @@ import { VippsReport } from '../../modules/vipps/report/VippsReport';
 import { LogsReport } from '../../modules/logs/report/LogsReport';
 import { MonthlyDonationsReport } from '../graphing/MonthlyDonationsReport';
 import { AvtaleGiroValidationTable } from '../../modules/avtalegiro/validationtable/AvtalegiroValidationTable';
+import { TransactionCostsReport } from '../../modules/donations/reports/TransactionCostsReport';
 
 export const HomeComponent: React.FunctionComponent = (props) => {
   return (
@@ -18,6 +19,7 @@ export const HomeComponent: React.FunctionComponent = (props) => {
         <VippsReport />
         <MonthlyDonationsReport />
         <LogsReport />
+        <TransactionCostsReport />
       </HomeGrid>
     </Page>
   );

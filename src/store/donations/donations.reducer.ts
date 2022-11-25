@@ -5,6 +5,7 @@ import {
   fetchDonationAction,
   CLEAR_CURRENT_DONATION,
   fetchHistogramAction,
+  fetchTransactionCostsReportAction,
 } from './donation.actions';
 import { toastError } from '../../util/toasthelper';
 import Decimal from 'decimal.js';
@@ -20,6 +21,7 @@ import {
 
 const defaultState: DonationsState = {
   donations: [],
+  transactionCostsReport: undefined,
   loading: false,
   pages: 1,
   pagination: {
@@ -58,6 +60,15 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
     return { ...state, loading: true };
   } else if (isType(action, fetchDonationsAction.failed)) {
     return { ...state, loading: false };
+  }
+
+  /**
+   * Transaction costs
+   */
+   if (isType(action, fetchTransactionCostsReportAction.done)) {
+    return { ...state, transactionCostsReport: action.payload.result };
+   } else if (isType(action, fetchTransactionCostsReportAction.failed)) {
+    toastError('Failed to fetch transaction costs report', action.payload.error.message);
   }
 
   /**
