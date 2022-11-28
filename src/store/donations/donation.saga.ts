@@ -4,6 +4,8 @@ import {
   IFetchDonationActionParams,
   fetchHistogramAction,
   IFetchDonationsHistogramActionParams,
+  IFetchTransactionCostsReportActionParams,
+  fetchTransactionCostsReportAction,
 } from './donation.actions';
 import { Action } from 'typescript-fsa';
 import * as API from '../../util/api';
@@ -33,5 +35,21 @@ export function* fetchHistogram(action: Action<IFetchDonationsHistogramActionPar
     yield put(fetchHistogramAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
     yield put(fetchHistogramAction.failed({ params: action.payload, error: (ex as Error) }));
+  }
+}
+
+export function* fetchTransactionCostsReport(action: Action<IFetchTransactionCostsReportActionParams>) {
+  try {
+    const result: API.Response = yield call(API.call, {
+      method: API.Method.GET,
+      endpoint: '/donations/transaction_costs_report',
+      token: action.payload.token,
+    });
+    if (result.status !== 200) throw new Error(result.content);
+    yield put(
+      fetchTransactionCostsReportAction.done({ params: action.payload, result: result.content })
+    );
+  } catch (ex) {
+    yield put(fetchTransactionCostsReportAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

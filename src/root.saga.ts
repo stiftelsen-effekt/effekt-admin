@@ -22,8 +22,8 @@ import {
   deleteDonationAction,
   fetchDonationsAction,
 } from './store/donations/donations-list.actions';
-import { fetchDonationAction, fetchHistogramAction } from './store/donations/donation.actions';
-import { fetchDonation, fetchHistogram } from './store/donations/donation.saga';
+import { fetchDonationAction, fetchHistogramAction, fetchTransactionCostsReportAction } from './store/donations/donation.actions';
+import { fetchDonation, fetchHistogram, fetchTransactionCostsReport } from './store/donations/donation.saga';
 import { fetchSumByMonth, fetchTotalByPeriod } from './store/graphing/graphing.saga';
 import { fetchSumByMonthAction, fetchTotalByPeriodAction } from './store/graphing/graphing.actions';
 import { fetchDistribution, fetchDistributions } from './store/distributions/distributions.saga';
@@ -151,6 +151,7 @@ function* watchAll() {
     takeLatest(fetchDonationsAction.started.type, fetchDonations),
     takeLatest(fetchDonationAction.started.type, fetchDonation),
     takeLatest(deleteDonationAction.started.type, deleteDonation),
+    takeLatest(fetchTransactionCostsReportAction.started.type, fetchTransactionCostsReport),
 
     takeLatest(fetchTotalByPeriodAction.started.type, fetchTotalByPeriod),
     takeLatest(fetchSumByMonthAction.started.type, fetchSumByMonth),

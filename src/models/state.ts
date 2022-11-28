@@ -103,12 +103,22 @@ export interface CreateDonorState {}
 export interface DonationsState {
   currentDonation?: IDonation;
 
+  transactionCostsReport?: ITransactionCostsReport;
   histogram?: Array<IHistogramBucket>;
   pages: number;
   loading: boolean;
   pagination: IPagination;
   filter: IDonationFilter;
   donations: Array<IDonation>;
+}
+
+export interface ITransactionCostsReport {
+  costPrevMonth: string;
+  costPrevMonthPrevYear: string;
+  costCurrentMonthToDate: string;
+  costCurrentMonthToDatePrevYear: string;
+  costYTD: string;
+  costYTDPrevYear: string;
 }
 
 export interface TaxUnitsState {
