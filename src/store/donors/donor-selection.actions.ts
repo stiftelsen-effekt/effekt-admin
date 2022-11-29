@@ -15,6 +15,17 @@ export const clearSelectedDonor = () => ({ type: CLEAR_SELECTED_DONOR });
 
 const actionCreator = actionCreatorFactory();
 
-export interface IFetchSearchDonorsActionParams { query: string, token: string }
+export interface IFetchSearchDonorsActionParams {
+  query?: string,
+  registered?: {
+    from: Date | null,
+    to: Date | null,
+  },
+  totalDonations?: {
+    from: number | null,
+    to: number | null,
+  },
+  token?: string
+}
 
 export const searchDonorAction = actionCreator.async<IFetchSearchDonorsActionParams, Array<IDonor>, Error>('SEARCH_DONORS');
