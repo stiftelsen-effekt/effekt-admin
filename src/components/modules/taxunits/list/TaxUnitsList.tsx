@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactTable from 'react-table';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../models/state';
-import { shortDate, thousandize, longDateTime } from '../../../../util/formatting';
+import { thousandize, longDateTime } from '../../../../util/formatting';
 import { DateTime } from 'luxon';
 import { ITaxUnit } from '../../../../models/types';
 import { useAuth0 } from '@auth0/auth0-react';
