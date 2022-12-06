@@ -7,6 +7,7 @@ export interface IRegisterCampaignActionParams {
   campaign: {
     id: string;
     shares: Array<IDistributionShare>;
+    standardSplit?: boolean;
   };
   token: string;
 }
