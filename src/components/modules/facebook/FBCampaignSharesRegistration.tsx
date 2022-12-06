@@ -31,6 +31,7 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
   const [distributions, setDistributions] = useState<Array<IDistributionShare>>(
     mapOrgToDist(organizations)
   );
+  const [standardSplit, setStandardSplit] = useState<boolean>(false);
 
   const currentCampaign = campaigns[0];
 
@@ -44,7 +45,7 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
         dispatch(
           registerCampaignAction.started({
             token,
-            campaign: { id: currentCampaign.ID, shares: distributions },
+            campaign: { id: currentCampaign.ID, shares: distributions, standardSplit },
           })
         );
       });
@@ -68,6 +69,8 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
         distribution={distributions}
         onChange={(distribution: Array<IDistributionShare>) => setDistributions(distribution)}
         hideDonorField={true}
+        standardDistribution={standardSplit}
+        setStandardDistribution={(boolean) => setStandardSplit(boolean)}
       ></KIDComponent>
       <ButtonWrapper>
         <div>{campaigns.length} campaigns remaining </div>

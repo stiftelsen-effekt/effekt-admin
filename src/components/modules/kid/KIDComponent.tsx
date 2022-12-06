@@ -24,12 +24,15 @@ import { KIDDonorComponent } from './donor/Donor';
 import { KIDControls } from './controls/KIDControls';
 import { KIDDistribution } from './distribution/Distribution';
 import { calculateDistributionSum } from './kid.util';
+import { EffektCheck } from '../../style/elements/effekt-check/effekt-check.component';
 
 interface IProps {
   donationAmount?: number;
   organizations: Array<IOrganization>;
   KID?: string;
   distribution: Array<IDistributionShare>;
+  standardDistribution?: boolean;
+  setStandardDistribution?(boolean: boolean): void;
   onChange(distribution: Array<IDistributionShare>): void;
   hideDonorField?: boolean;
 }
@@ -40,6 +43,8 @@ export const KIDComponent: React.FunctionComponent<IProps> = ({
   KID,
   onChange,
   distribution,
+  standardDistribution,
+  setStandardDistribution,
   hideDonorField,
 }) => {
   const dispatch = useDispatch();
@@ -77,10 +82,22 @@ export const KIDComponent: React.FunctionComponent<IProps> = ({
 
         {/* Split */}
         <div>
-          <KIDDistribution
-            distribution={distribution}
-            onChange={distributionChanged}
-          ></KIDDistribution>
+          {standardDistribution !== undefined && setStandardDistribution &&
+            <EffektCheck
+              label="Standard distribution"
+              checked={standardDistribution}
+              onChange={(checked) => {
+                setStandardDistribution(checked);
+              }}
+              inverted={false}
+            />
+          }
+          {!standardDistribution &&
+            <KIDDistribution
+              distribution={distribution}
+              onChange={distributionChanged}
+            ></KIDDistribution>
+          }
         </div>
 
         {/* Controls */}
