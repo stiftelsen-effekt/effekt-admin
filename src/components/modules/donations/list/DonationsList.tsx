@@ -70,6 +70,9 @@ export const DonationsList: React.FunctionComponent<Props> = ({
       Header: 'Timestamp',
       id: 'timestamp',
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp)),
+      sortMethod: (a: any, b: any) => {
+        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
+      },
       width: 100,
     },
   ];
