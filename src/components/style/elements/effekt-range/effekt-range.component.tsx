@@ -28,7 +28,7 @@ const EffektNumberRange: React.FC<{
           <EffektTrackItem props={props} children={children} min={min} max={max} values={values}/>
         }
         renderThumb={({ index, props, isDragged }) =>
-          <EffektThumbItem index={index} props={props} isDragged={isDragged} values={values} precision={precision} />
+          <EffektThumbItem key={index} index={index} props={props} isDragged={isDragged} values={values} precision={precision} />
         }
       />
     </EffektRangeWrapper>
