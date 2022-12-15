@@ -8,6 +8,8 @@ import {
   setVippsAgreementsFilterDonor,
   setVippsAgreementsFilterKID,
   setVippsAgreementsFilterStatus,
+  setVippsAgreementsFilterDraftDate,
+  setVippsAgreementsFilterChargeDay,
 } from '../../../../store/vipps/vipps.actions';
 import {
   EffektCheckChoice,
@@ -21,8 +23,11 @@ import {
   FilterGroup,
   FilterGroupHeader,
   FilterInput,
+  FilterDateRangeWrapper,
+  FilterDateRange,
 } from '../../../style/elements/filters.component.style';
 import { HistogramInputComponent } from '../../histogram-input/HistogramInput';
+import EffektNumberRange from '../../../style/elements/effekt-range/effekt-range.component';
 
 const statusTypes = [
   { name: 'PENDING', id: 0 },
@@ -38,6 +43,7 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
   const KID = useSelector((state: AppState) => state.vippsAgreements.filter.KID);
   const donor = useSelector((state: AppState) => state.vippsAgreements.filter.donor);
   const statuses = useSelector((state: AppState) => state.vippsAgreements.filter.statuses);
+  const draftDate = useSelector((state: AppState) => state.vippsAgreements.filter.created);
   const histogram = useSelector((state: AppState) => state.vippsAgreements.histogram);
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
@@ -112,6 +118,39 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
                 dispatch(setVippsAgreementsFilterStatus(newChoices));
               }}
             ></EffektCheckForm>
+          </FilterGroup>
+
+          <FilterGroup>
+            <FilterGroupHeader>Charge day</FilterGroupHeader>
+            <EffektNumberRange
+              min={0}
+              max={28}
+              onChange={(from: number, to: number) => {
+                dispatch(
+                  setVippsAgreementsFilterChargeDay({ from: from, to: to })
+                );
+              }}
+            ></EffektNumberRange>
+          </FilterGroup>
+
+          <FilterGroup>
+            <FilterGroupHeader>Draft date</FilterGroupHeader>
+            <FilterDateRangeWrapper>
+              <FilterDateRange
+                from={draftDate ? draftDate.from : null}
+                to={draftDate ? draftDate.to : null}
+                onChangeFrom={(date) => {
+                  dispatch(setVippsAgreementsFilterDraftDate(date, draftDate ? draftDate.to : null));
+                }}
+                onChangeTo={(date) => {
+                  dispatch(setVippsAgreementsFilterDraftDate(draftDate ? draftDate.from : null, date));
+                }}
+                onChangeRange={(to, from) => {
+                  dispatch(setVippsAgreementsFilterDraftDate(to, from));
+                }}
+                inverted
+              ></FilterDateRange>
+            </FilterDateRangeWrapper>
           </FilterGroup>
         </FilterContent>
       </FilterWrapper>
