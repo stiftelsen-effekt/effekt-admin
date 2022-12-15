@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -49,9 +49,15 @@ export const KIDComponent: React.FunctionComponent<IProps> = ({
 }) => {
   const dispatch = useDispatch();
 
+  const [defaultDistribution, setDefaultDistribution] = useState<undefined | Array<IDistributionShare>>(undefined);
   const [distributionSum, setDistributionSum] = useState<Decimal>(
     calculateDistributionSum(distribution)
   );
+
+  useEffect(() => {
+    if (defaultDistribution === undefined) setDefaultDistribution(distribution);
+  }, [defaultDistribution, distribution]);
+
   //TODO: Add support for absolute values
   const distributionMax = new Decimal(100);
 
@@ -88,6 +94,8 @@ export const KIDComponent: React.FunctionComponent<IProps> = ({
               checked={standardDistribution}
               onChange={(checked) => {
                 setStandardDistribution(checked);
+                // Reset distribution input when standard distribution is checked
+                if (defaultDistribution) onChange(defaultDistribution);
               }}
               inverted={false}
             />

@@ -66,9 +66,11 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
               range={[amountRange.from, amountRange.to]}
               histogram={histogram}
               onChange={(range: any) => {
-                dispatch(
-                  setVippsAgreementsFilterAmount({ from: Math.min(...range), to: Math.max(...range) })
-                );
+                let minRange = range[0]
+                let maxRange = range[1]
+                if (isNaN(minRange)) minRange = 0
+                if (isNaN(maxRange)) maxRange = 0
+                dispatch(setVippsAgreementsFilterAmount({ from: minRange, to: maxRange }));
               }}
             ></HistogramInputComponent>
           </FilterGroup>
