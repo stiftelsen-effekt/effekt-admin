@@ -6,12 +6,14 @@ import {
   CLEAR_SELECTED_DONOR,
   SET_SELECTED_DONOR,
   searchDonorAction,
+  SET_DONOR_SELECTION_QUERY,
 } from './donor-selection.actions';
 import { IDonor } from '../../models/types';
 import { DateTime } from 'luxon';
 import { isType } from 'typescript-fsa';
 
 const initialState: DonorSelectorState = {
+  query: '',
   visible: false,
   searchResult: [],
 };
@@ -38,6 +40,11 @@ export const donorSelectorReducer = (
   }
 
   switch (action.type) {
+    case SET_DONOR_SELECTION_QUERY:
+      return {
+        ...state,
+        query: action.payload,
+      };
     case SHOW_DONOR_SELECTION_COMPONENT:
       return {
         ...state,

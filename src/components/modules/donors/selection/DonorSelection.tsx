@@ -10,6 +10,7 @@ import {
   searchDonorAction,
   setSelectedDonor,
   IFetchSearchDonorsActionParams,
+  setDonorSelectionQuery,
 } from '../../../../store/donors/donor-selection.actions';
 import { IDonor } from '../../../../models/types';
 import { EffektInput } from '../../../style/elements/input.style';
@@ -20,7 +21,16 @@ import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.c
 import { CreateDonor } from '../create/CreateDonor';
 import { useHistory } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
-import { FilterWrapper, FilterContent, FilterHeader, FilterGroup, FilterGroupHeader, FilterDateRangeWrapper, FilterDateRange, FilterInput } from '../../../style/elements/filters.component.style';
+import {
+  FilterWrapper,
+  FilterContent,
+  FilterHeader,
+  FilterGroup,
+  FilterGroupHeader,
+  FilterDateRangeWrapper,
+  FilterDateRange,
+  FilterInput,
+} from '../../../style/elements/filters.component.style';
 import { FilterOpenButton } from '../../../style/elements/filter-buttons/filter-open-button.component';
 import { DonationListWrapper } from '../../donations/list/DonationsList.style';
 
@@ -57,17 +67,18 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
 
   const dispatch = useDispatch();
   const searchResult = useSelector((state: AppState) => state.donorSelector.searchResult);
+  const searchQuery = useSelector((state: AppState) => state.donorSelector.query);
 
   const [filter, setFilter] = useState<IFetchSearchDonorsActionParams>({});
   const performSearch = (update: IFetchSearchDonorsActionParams) => {
     var updated = { ...filter, ...update };
     setFilter(updated);
     getAccessTokenSilently().then((token) => {
-      dispatch(searchDonorAction.started({ ...updated, token }))
+      dispatch(searchDonorAction.started({ ...updated, token }));
     });
-  }
+  };
   const [loaded, setLoaded] = useState(false);
-  if (!loaded) {
+  if (!loaded && searchQuery === '') {
     setLoaded(true);
     performSearch({});
   }
@@ -78,6 +89,7 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
       ...state,
       selected: null,
     });
+    dispatch(setDonorSelectionQuery(event.target.value));
     performSearch({ query: event.target.value });
   };
 
@@ -167,7 +179,12 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
               style={{ width: '47%', marginRight: '5%' }}
               value={undefined}
               onChange={(e) => {
-                performSearch({ totalDonations: { to: filter.totalDonations ? filter.totalDonations.to : null, from: parseInt(e.target.value) } });
+                performSearch({
+                  totalDonations: {
+                    to: filter.totalDonations ? filter.totalDonations.to : null,
+                    from: parseInt(e.target.value),
+                  },
+                });
               }}
             ></FilterInput>
             <FilterInput
@@ -175,7 +192,12 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
               style={{ width: '47%' }}
               value={undefined}
               onChange={(e) => {
-                performSearch({ totalDonations: { from: filter.totalDonations ? filter.totalDonations.from : null, to: parseInt(e.target.value) } });
+                performSearch({
+                  totalDonations: {
+                    from: filter.totalDonations ? filter.totalDonations.from : null,
+                    to: parseInt(e.target.value),
+                  },
+                });
               }}
             ></FilterInput>
           </FilterGroup>
@@ -187,10 +209,17 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
                 from={filter.registered ? filter.registered.from : null}
                 to={filter.registered ? filter.registered.to : null}
                 onChangeFrom={(date) => {
-                  performSearch({ registered: { to: filter.registered ? filter.registered.to : null, from: date } });
+                  performSearch({
+                    registered: { to: filter.registered ? filter.registered.to : null, from: date },
+                  });
                 }}
                 onChangeTo={(date) => {
-                  performSearch({ registered: { from: filter.registered ? filter.registered.from : null, to: date } });
+                  performSearch({
+                    registered: {
+                      from: filter.registered ? filter.registered.from : null,
+                      to: date,
+                    },
+                  });
                 }}
                 onChangeRange={(from, to) => {
                   performSearch({ registered: { from: from, to: to } });
@@ -201,10 +230,15 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
           </FilterGroup>
         </FilterContent>
       </FilterWrapper>
-      <DonationListWrapper> {/* XXX TODO move to generic FilteredListWrapper? */}
-        <div style={{ display: 'flex', marginBottom: '16px', columnGap: '10px', alignItems: 'center' }}>
+      <DonationListWrapper>
+        {' '}
+        {/* XXX TODO move to generic FilteredListWrapper? */}
+        <div
+          style={{ display: 'flex', marginBottom: '16px', columnGap: '10px', alignItems: 'center' }}
+        >
           <EffektInput
             type="text"
+            value={searchQuery}
             onChange={queryUpdated}
             placeholder="søk"
             style={{ flexGrow: 1 }}
@@ -235,8 +269,8 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
               <br />
             </p>
             <p>
-              For example, <i>+Håkon -gmail</i> will match Håkon in either name or email, where gmail is
-              not in name or email
+              For example, <i>+Håkon -gmail</i> will match Håkon in either name or email, where
+              gmail is not in name or email
               <br />
               <i>Jørgen Ljønes</i> will match either Jørgen or Ljønes in either name or email
               <br />
@@ -244,7 +278,11 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
             </p>
           </div>
 
-          <EffektModal visible={showCreate} effect="fadeInUp" onClickAway={() => setShowCreate(false)}>
+          <EffektModal
+            visible={showCreate}
+            effect="fadeInUp"
+            onClickAway={() => setShowCreate(false)}
+          >
             <CreateDonor onSubmit={() => setShowCreate(false)}></CreateDonor>
           </EffektModal>
         </div>

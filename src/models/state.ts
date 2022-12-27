@@ -56,6 +56,7 @@ export interface AppState {
 }
 
 export interface DonorSelectorState {
+  query: string;
   selectedDonor?: IDonor;
   searchResult?: Array<IDonor>;
   visible: boolean;
