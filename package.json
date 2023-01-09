@@ -18,7 +18,7 @@
     "decimal.js": "^10.2.1",
     "google-palette": "^1.1.0",
     "histoslider": "^2.0.16",
-    "luxon": "^1.25.0",
+    "luxon": "^2.5.2",
     "query-string": "^6.13.7",
     "react": "^16.14.0",
     "react-awesome-modal": "^2.0.5",
