@@ -10,7 +10,6 @@ import {
   IPaymentMethod,
   IDonor,
   IDonation,
-  IDistributionShare,
   IOrganization,
   IDistribution,
 } from '../../../models/types';

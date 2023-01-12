@@ -4,7 +4,6 @@ import Decimal from 'decimal.js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
-import styled from 'styled-components';
 import Validator from 'validator';
 import { AppState } from '../../../../models/state';
 import {
@@ -115,6 +114,7 @@ export const DistributionInput: React.FC<{
         return t.id === taxUnitInput?.value;
       }),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taxUnitInput, taxUnits]);
 
   if (!organizations) return <div>Failed fetching organizations</div>;

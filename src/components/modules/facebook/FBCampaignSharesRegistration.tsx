@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IDistribution, IDistributionShare, IOrganization } from '../../../models/types';
+import { IDistributionShare, IOrganization } from '../../../models/types';
 import { useDispatch } from 'react-redux';
 import { FBCampaign } from '../../../models/state';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -12,6 +12,8 @@ import {
 } from './FBCampaignSharesRegistration.style';
 import { registerCampaignAction } from '../../../store/facebook/facebook.actions';
 import { toastError } from '../../../util/toasthelper';
+import { DistributionSharesInput } from '../shared/distribution-input/DistributionSharesInput';
+import { EffektCheck } from '../../style/elements/effekt-check/effekt-check.component';
 
 interface IProps {
   organizations: Array<IOrganization>;
@@ -63,21 +65,13 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
         </a>
       </CampaignInfoWrapper>
 
-      {/** 
-      <KIDComponent
-        organizations={organizations}
-        distribution={{
-          donor: {},
-          shares: distributionShares,
-          standardDistribution: standardDistribution,
-        }}
-        onChange={(distribution: Omit<IDistribution, 'KID'>) => {
-          setDistributionShares(distribution.shares);
-          setStandardDistribution(distribution.standardDistribution);
-        }}
-        hideDonorField={true}
-      ></KIDComponent>
-      */}
+      <EffektCheck
+        checked={standardDistribution}
+        onChange={setStandardDistribution}
+        label={'Use standard distribution'}
+        inverted={false}
+      ></EffektCheck>
+      <DistributionSharesInput shares={distributionShares} onChange={setDistributionShares} />
       <ButtonWrapper>
         <div>{campaigns.length} campaigns remaining </div>
         <EffektButton onClick={() => submit()}>Save shares</EffektButton>
