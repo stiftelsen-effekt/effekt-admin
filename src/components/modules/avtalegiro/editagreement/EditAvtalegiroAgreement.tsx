@@ -164,6 +164,7 @@ export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ in
           distribution={newDistribution}
           onChange={(distribution) => setNewDistribution(distribution)}
         />
+        <br />
         <EffektButton
           onClick={() => {
             getAccessTokenSilently().then((token) => {

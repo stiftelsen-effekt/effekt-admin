@@ -4,30 +4,23 @@ import Decimal from 'decimal.js';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
-import styled from 'styled-components';
 import Validator from 'validator';
 import { AppState } from '../../../../models/state';
-import { IDistribution, IDistributionShare, ITaxUnit } from '../../../../models/types';
+import {
+  IDistribution,
+  IDistributionShare,
+  IOrganization,
+  ITaxUnit,
+} from '../../../../models/types';
 import {
   getDonorAction,
   getDonorTaxUnitsAction,
 } from '../../../../store/donors/donor-page.actions';
+import { showDonorSelectionComponent } from '../../../../store/donors/donor-selection.actions';
+import { EffektButton } from '../../../style/elements/button.style';
 import { EffektCheck } from '../../../style/elements/effekt-check/effekt-check.component';
 import { EffektInput } from '../../../style/elements/input.style';
-import { TextInput } from '../../../style/elements/TextInput/TextInput';
-
-export interface Organization {
-  abbriv: string;
-  name: string;
-  id: number;
-  infoUrl: string;
-  shortDesc: string;
-  standardShare: number;
-}
-
-export interface OrganizationResponse {
-  content: Organization[];
-}
+import { DistributionSharesInput } from './DistributionSharesInput';
 
 const noTaxUnit = { label: 'No tax unit', value: undefined };
 const mapTaxUnitToSelectOption = (taxUnit?: ITaxUnit) =>
@@ -47,15 +40,13 @@ export const DistributionInput: React.FC<{
 
   const taxUnits = useSelector((state: AppState) => state.distributions.distributionInput.taxUnits);
   const organizations = useSelector((state: AppState) => state.organizations.active);
+  const selectedDonor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
   const donorName = useSelector(
-    (state: AppState) => state.distributions.distributionInput.donorName
+    (state: AppState) => state.distributions.distributionInput.distribution.donor?.name
   );
 
-  const [sumPercentage, setSumPercentage] = useState<number>();
-
-  const [donorInput, setDonorInput] = useState<string>();
-  const [standardDistributionInput, setStandardDistributionInput] = useState<boolean>(
-    distribution.standardDistribution ?? false
+  const [donorInput, setDonorInput] = useState<string | undefined>(
+    selectedDonor?.id.toString() ?? ''
   );
 
   const [taxUnitInput, setTaxUnitInput] = useState<{ label: string; value?: number }>(
@@ -66,19 +57,16 @@ export const DistributionInput: React.FC<{
     let newShares: IDistributionShare[] = [];
     organizations &&
       organizations.forEach((org) => {
-        newShares.push({ ID: org.id, abbriv: org.abbriv, share: new Decimal(0) });
+        newShares.push({ id: org.id, abbriv: org.abbriv, share: new Decimal(0) });
       });
   }, [organizations]);
 
   useEffect(() => {
-    if (distribution.shares) {
-      let sum = new Decimal(0);
-      distribution.shares.forEach((org: IDistributionShare) => {
-        sum = sum.plus(org.share);
-      });
-      setSumPercentage(parseInt(sum.toFixed(0)));
+    if (selectedDonor?.id !== distribution.donor?.id) {
+      setDonorInput(selectedDonor?.id.toString() ?? '');
     }
-  }, [distribution]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDonor]);
 
   useEffect(() => {
     if (distribution.donor) {
@@ -86,30 +74,6 @@ export const DistributionInput: React.FC<{
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (standardDistributionInput) {
-      let standardShares: IDistributionShare[] = [];
-      organizations &&
-        organizations.forEach((org) => {
-          if (org.standardShare > 0) {
-            standardShares.push({
-              ID: org.id,
-              abbriv: org.abbriv,
-              share: new Decimal(org.standardShare),
-            });
-          }
-        });
-      onChange({
-        ...distribution,
-        shares: standardShares,
-        standardDistribution: standardDistributionInput,
-      });
-    } else {
-      onChange({ ...distribution, shares: [], standardDistribution: standardDistributionInput });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [standardDistributionInput]);
 
   useEffect(() => {
     if (typeof donorInput !== 'undefined' && Validator.isInt(donorInput)) {
@@ -151,106 +115,80 @@ export const DistributionInput: React.FC<{
       }),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taxUnitInput]);
+  }, [taxUnitInput, taxUnits]);
 
   if (!organizations) return <div>Failed fetching organizations</div>;
 
   return (
     <div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '10px' }}>
-        <EffektInput
-          type="text"
-          inputMode="numeric"
-          value={donorInput}
-          placeholder="Donor ID"
-          onChange={(e: any) => setDonorInput(e.target.value)}
-        ></EffektInput>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr max-content', gap: '10px' }}>
+          <EffektInput
+            type="text"
+            inputMode="numeric"
+            value={donorInput}
+            placeholder="Donor ID"
+            onChange={(e: any) => setDonorInput(e.target.value)}
+          ></EffektInput>
+          <EffektButton onClick={() => dispatch(showDonorSelectionComponent())}>
+            Find donor
+          </EffektButton>
+        </div>
         <EffektInput
           value={donorName ?? distribution.donor?.name ?? 'Navn fylles ut automatisk'}
           disabled={true}
         ></EffektInput>
       </div>
-      <div style={{ zIndex: 10, position: 'relative' }}>
+      <div style={{ zIndex: 10, position: 'relative', marginBottom: '20px' }}>
         <Select
-          options={[noTaxUnit, ...taxUnits.map((unit) => mapTaxUnitToSelectOption(unit))]}
+          options={[...taxUnits.map((unit) => mapTaxUnitToSelectOption(unit)), noTaxUnit]}
           value={mapTaxUnitToSelectOption(taxUnits.find((unit) => unit.id === taxUnitInput.value))}
           onChange={(option: any) => setTaxUnitInput(option)}
         />
       </div>
       <EffektCheck
         label="Standard distribution"
-        checked={standardDistributionInput}
+        checked={distribution.standardDistribution ?? false}
         onChange={(checked) => {
-          setStandardDistributionInput(checked);
+          if (checked) {
+            onChange({
+              ...distribution,
+              shares: getStandardShares(organizations),
+              standardDistribution: checked,
+            });
+          } else {
+            onChange({
+              ...distribution,
+              standardDistribution: checked,
+            });
+          }
         }}
         inverted={false}
       />
-      <div style={{ height: standardDistributionInput ? '0px' : 'auto', overflow: 'hidden' }}>
-        <Wrapper>
-          <div>
-            {organizations.map((org) => (
-              <div key={org.id}>
-                <TextInput
-                  label={org.name}
-                  key={org.id}
-                  type="tel"
-                  inputMode="numeric"
-                  placeholder="0"
-                  value={
-                    distribution.shares
-                      ? distribution.shares.filter((dist) => dist.ID === org.id).length === 1
-                        ? distribution.shares
-                            .filter((dist) => dist.ID === org.id)[0]
-                            .share.toString()
-                        : ''
-                      : ''
-                  }
-                  onChange={(e: { target: { value: string } }) => {
-                    let newShares: IDistributionShare[] = [
-                      ...(distribution.shares ? distribution.shares : []),
-                    ];
-
-                    organizations.forEach((org) => {
-                      if (newShares.filter((share) => share.ID === org.id).length === 0) {
-                        newShares.push({
-                          ID: org.id,
-                          abbriv: org.abbriv,
-                          share: new Decimal(0),
-                        });
-                      }
-                    });
-
-                    // Index of changed organization
-                    const index = newShares
-                      .map((s) => {
-                        return s.ID;
-                      })
-                      .indexOf(org.id);
-
-                    newShares[index].share = Validator.isInt(e.target.value)
-                      ? new Decimal(e.target.value)
-                      : new Decimal(0);
-                    onChange({
-                      ...distribution,
-                      shares: newShares.filter((s) => s.share.toNumber() > 0),
-                    });
-                  }}
-                  denomination="%"
-                  selectOnClick
-                />
-              </div>
-            ))}
-          </div>
-          {sumPercentage === 100 ? null : (
-            <strong>{`You have distributed ${sumPercentage} of 100 percent`}</strong>
-          )}
-        </Wrapper>
+      <div
+        style={{ height: distribution.standardDistribution ? '0px' : 'auto', overflow: 'hidden' }}
+      >
+        <DistributionSharesInput
+          shares={distribution.shares ?? []}
+          onChange={(shares: Array<IDistributionShare>) => {
+            onChange({ ...distribution, shares });
+          }}
+        />
       </div>
     </div>
   );
 };
 
-const Wrapper = styled.div`
-  margin-top: 10px;
-  width: 400px;
-`;
+const getStandardShares = (organizations: Array<IOrganization>): Array<IDistributionShare> => {
+  const standardShares: Array<IDistributionShare> = [];
+  organizations.forEach((org) => {
+    if (org.standardShare > 0) {
+      standardShares.push({
+        id: org.id,
+        abbriv: org.abbriv,
+        share: new Decimal(org.standardShare),
+      });
+    }
+  });
+  return standardShares;
+};

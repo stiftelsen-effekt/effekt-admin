@@ -13,7 +13,7 @@ export function* createDistribution(action: Action<ICreateDistributionActionPara
       method: API.Method.POST,
       token: action.payload.token,
       data: {
-        distribution: action.payload,
+        ...action.payload.distribution,
       },
     });
     if (data.status !== 200) throw new Error(data.content);
@@ -31,7 +31,7 @@ export function* updateDistribution(action: Action<ICreateDistributionActionPara
       method: API.Method.PUT,
       token: action.payload.token,
       data: {
-        distribution: action.payload,
+        ...action.payload.distribution,
       },
     });
     if (data.status !== 200) throw new Error(data.content);
