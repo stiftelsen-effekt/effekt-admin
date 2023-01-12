@@ -76,10 +76,14 @@ export function* createDistributionAndInsertDonation(
   action: Action<ICreateDistributionAndInsertDonationParams>
 ) {
   try {
-    let KID = yield call(createDistributionCall, action.payload.distribution, action.payload.token);
+    let kidResult = yield call(
+      createDistributionCall,
+      action.payload.distribution,
+      action.payload.token
+    );
     let donationData = {
       ...action.payload.donation,
-      KID: KID,
+      KID: kidResult.KID,
     };
     yield call(insertDonationCall, donationData, action.payload.token);
 

@@ -52,10 +52,6 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
   );
   if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined));
 
-  const selectedDonor = useSelector<AppState, IDonor | undefined>(
-    (state: AppState) => state.donorSelector.selectedDonor
-  );
-
   const distribution = useSelector(
     (state: AppState) => state.distributions.distributionInput.distribution
   );
@@ -95,7 +91,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
       if (donationInput.KID) {
         dispatch(insertDonationAction.started(donationParams));
       } else {
-        if (!selectedDonor) return toast.error('No donor selected');
+        if (!distribution.donor) return toast.error('No donor selected');
         if (!distribution || !donationInput)
           return toast.error('Error initializing distribution or input');
         if (!currentSelectedOwner) return toast.error('Missing meta owner');
