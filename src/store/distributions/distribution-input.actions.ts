@@ -17,6 +17,6 @@ export interface ICreateDistributionActionParams {
 }
 export const createDistributionAction = actionCreator.async<
   ICreateDistributionActionParams,
-  string,
+  { KID: string; newDistribution: boolean },
   Error
 >('CREATE_DISTRIBUTION');

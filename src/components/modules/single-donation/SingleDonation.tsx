@@ -1,5 +1,10 @@
 import React, { useState, useCallback } from 'react';
-import { SingleDonationWrapper, InputWrapper, ControlsWrapper } from './SingleDonation.style';
+import {
+  SingleDonationWrapper,
+  InputWrapper,
+  ControlsWrapper,
+  DistributionWrapper,
+} from './SingleDonation.style';
 
 import {
   IPaymentMethod,
@@ -7,6 +12,7 @@ import {
   IDonation,
   IDistributionShare,
   IOrganization,
+  IDistribution,
 } from '../../../models/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../models/state';
@@ -20,11 +26,11 @@ import {
 import { Decimal } from 'decimal.js';
 
 import { DonationControls } from './controls/DonationControls';
-import { KIDComponent } from '../kid/KIDComponent';
 import { DonationInput } from './input/DonationInput';
 import { toast } from 'react-toastify';
-import { mapOrgToDist } from '../kid/kid.util';
 import { useAuth0 } from '@auth0/auth0-react';
+import { DistributionInput } from '../shared/distribution-input/DistributionInput';
+import { setDistributionInputDistribution } from '../../../store/distributions/distribution-input.actions';
 
 interface IProps {
   onIgnore?(): void;
@@ -47,17 +53,25 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
   );
   if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined));
 
-  const [distribution, setDistribution] = useState<Array<IDistributionShare>>(
-    mapOrgToDist(organizations)
-  );
-
   const selectedDonor = useSelector<AppState, IDonor | undefined>(
     (state: AppState) => state.donorSelector.selectedDonor
   );
+
+  const distribution = useSelector(
+    (state: AppState) => state.distributions.distributionInput.distribution
+  );
+
   const currentSelectedOwner = useSelector((state: AppState) => state.dataOwner.current);
 
-  const getFilteredDistribution = (distribution: Array<IDistributionShare>) => {
-    return distribution.filter((dist) => !dist.share.equals(new Decimal(0)));
+  const getFilteredDistribution = (
+    distribution: Partial<IDistribution>
+  ): Partial<IDistribution> => {
+    return {
+      ...distribution,
+      shares: distribution.shares
+        ? distribution.shares.filter((dist) => !dist.share.equals(new Decimal(0)))
+        : [],
+    };
   };
 
   const getDonation = (input: Partial<IDonation>): IDonation | null => {
@@ -91,8 +105,6 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
 
         const distributionParams: ICreateDistributionParams = {
           distribution: filteredDistribution,
-          donor: selectedDonor,
-          metaOwnerID: currentSelectedOwner.id,
         };
 
         dispatch(
@@ -120,13 +132,15 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
           onChange={onDonationInputChange}
         ></DonationInput>
       </InputWrapper>
-      <KIDComponent
-        organizations={organizations}
-        donationAmount={donationInput && donationInput.sum}
-        KID={donationInput.KID}
-        distribution={distribution}
-        onChange={(distribution: Array<IDistributionShare>) => setDistribution(distribution)}
-      ></KIDComponent>
+      <DistributionWrapper>
+        {!donationInput.KID && (
+          <DistributionInput
+            distribution={distribution}
+            onChange={(distribution) => dispatch(setDistributionInputDistribution(distribution))}
+          ></DistributionInput>
+        )}
+        {donationInput.KID && <span>Using KID {donationInput.KID}</span>}
+      </DistributionWrapper>
       <ControlsWrapper>
         <DonationControls onInsert={submit} onIgnore={onIgnore}></DonationControls>
       </ControlsWrapper>

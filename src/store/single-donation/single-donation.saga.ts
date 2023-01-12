@@ -18,7 +18,7 @@ export function* fetchPaymentMethods(action: any) {
     if (data.status !== 200) throw new Error(data.content);
     yield put(fetchPaymentMethodsAction.done({ params: action.params, result: data.content }));
   } catch (ex) {
-    yield put(fetchPaymentMethodsAction.failed({ error: (ex as Error) }));
+    yield put(fetchPaymentMethodsAction.failed({ error: ex as Error }));
   }
 }
 
@@ -28,7 +28,7 @@ export function* createDistributionCall(params: ICreateDistributionParams, token
       endpoint: '/distributions/',
       method: API.Method.POST,
       token: token,
-      data: params,
+      data: params.distribution,
     });
     if (data.status !== 200) throw new Error(data.content);
     return data.content;
@@ -57,16 +57,24 @@ export function* insertDonation(action: Action<ICreateDonationParams>) {
     yield call(insertDonationCall, action.payload, action.payload.token);
     //TODO: Refactor to use common "done" action for insertion of donation
     yield put(
-      createDistribitionAndInsertDonationAction.done({ params: (action.payload as any), result: 'OK' })
+      createDistribitionAndInsertDonationAction.done({
+        params: action.payload as any,
+        result: 'OK',
+      })
     );
   } catch (ex) {
     yield put(
-      createDistribitionAndInsertDonationAction.failed({ params: (action.payload as any), error: (ex as Error) })
+      createDistribitionAndInsertDonationAction.failed({
+        params: action.payload as any,
+        error: ex as Error,
+      })
     );
   }
 }
 
-export function* createDistributionAndInsertDonation(action: Action<ICreateDistributionAndInsertDonationParams>) {
+export function* createDistributionAndInsertDonation(
+  action: Action<ICreateDistributionAndInsertDonationParams>
+) {
   try {
     let KID = yield call(createDistributionCall, action.payload.distribution, action.payload.token);
     let donationData = {
@@ -80,7 +88,10 @@ export function* createDistributionAndInsertDonation(action: Action<ICreateDistr
     );
   } catch (ex) {
     yield put(
-      createDistribitionAndInsertDonationAction.failed({ params: action.payload, error: (ex as Error) })
+      createDistribitionAndInsertDonationAction.failed({
+        params: action.payload,
+        error: ex as Error,
+      })
     );
   }
 }

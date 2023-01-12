@@ -12,6 +12,7 @@ export const SelectorWrapper = styled.div`
   height: 100vh;
   background: rgba(0, 0, 0, 0.6);
   display: none;
+  z-index: 10000;
 
   justify-content: center;
   align-items: center;

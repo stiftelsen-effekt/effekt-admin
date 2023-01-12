@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { IDistributionShare, IOrganization } from '../../../models/types';
+import { IDistribution, IDistributionShare, IOrganization } from '../../../models/types';
 import { useDispatch } from 'react-redux';
 import { FBCampaign } from '../../../models/state';
-import { KIDComponent } from '../kid/KIDComponent';
-
-import { mapOrgToDist } from '../kid/kid.util';
 import { useAuth0 } from '@auth0/auth0-react';
 import { EffektButton } from '../../style/elements/button.style';
 import {
@@ -28,15 +25,13 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
-  const [distributions, setDistributions] = useState<Array<IDistributionShare>>(
-    mapOrgToDist(organizations)
-  );
-  const [standardSplit, setStandardSplit] = useState<boolean>(false);
+  const [distributionShares, setDistributionShares] = useState<Array<IDistributionShare>>([]);
+  const [standardDistribution, setStandardDistribution] = useState<boolean>(false);
 
   const currentCampaign = campaigns[0];
 
   const submit = () => {
-    const accShares = distributions.reduce((acc, distribution) => {
+    const accShares = distributionShares.reduce((acc, distribution) => {
       acc += parseFloat(String(distribution.share));
       return acc;
     }, 0.0);
@@ -45,7 +40,11 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
         dispatch(
           registerCampaignAction.started({
             token,
-            campaign: { id: currentCampaign.ID, shares: distributions, standardSplit },
+            campaign: {
+              id: currentCampaign.ID,
+              shares: distributionShares,
+              standardSplit: standardDistribution,
+            },
           })
         );
       });
@@ -64,14 +63,21 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
         </a>
       </CampaignInfoWrapper>
 
+      {/** 
       <KIDComponent
         organizations={organizations}
-        distribution={distributions}
-        onChange={(distribution: Array<IDistributionShare>) => setDistributions(distribution)}
+        distribution={{
+          donor: {},
+          shares: distributionShares,
+          standardDistribution: standardDistribution,
+        }}
+        onChange={(distribution: Omit<IDistribution, 'KID'>) => {
+          setDistributionShares(distribution.shares);
+          setStandardDistribution(distribution.standardDistribution);
+        }}
         hideDonorField={true}
-        standardDistribution={standardSplit}
-        setStandardDistribution={(boolean) => setStandardSplit(boolean)}
       ></KIDComponent>
+      */}
       <ButtonWrapper>
         <div>{campaigns.length} campaigns remaining </div>
         <EffektButton onClick={() => submit()}>Save shares</EffektButton>

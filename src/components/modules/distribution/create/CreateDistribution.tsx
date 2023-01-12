@@ -23,17 +23,6 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
   const dispatch = useDispatch();
 
   const submit = () => {
-    /*
-    FILTER OUT SHARES WITH 0?
-
-    let filteredDistributionShares: Array<IDistributionShare> = [];
-    distributionInput.distribution.shares.forEach((share: IDistributionShare) => {
-      if (share.share.greaterThan(0)) {
-        filteredDistributionShares.push(share);
-      }
-    });
-    */
-
     if (typeof distributionInput.distribution.donor !== 'undefined') {
       getAccessTokenSilently().then((token) =>
         dispatch(

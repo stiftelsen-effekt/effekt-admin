@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import Decimal from 'decimal.js';
 import { getDonorAction, getDonorTaxUnitsAction } from '../donors/donor-page.actions';
 import { toastError } from '../../util/toasthelper';
+import { IDistribution } from '../../models/types';
 
 const defaultState: DistributionsState = {
   searchResult: [],
@@ -33,11 +34,9 @@ const defaultState: DistributionsState = {
     KID: '',
   },
   distributionInput: {
-    donorID: '',
-    donorName: '',
     distribution: {
       standardDistribution: true,
-      shares: [{ ID: 12, share: new Decimal(100) }],
+      shares: [{ id: 12, share: new Decimal(100) }],
     },
     taxUnits: [],
     valid: false,
@@ -97,10 +96,16 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
    */
 
   if (isType(action, createDistributionAction.done)) {
-    toast.success(`Created new distribution with KID ${action.payload.result}`);
+    toast.success(
+      `${
+        action.payload.result.newDistribution
+          ? 'Created new distribution'
+          : 'Found existing distribution'
+      } with KID ${action.payload.result.KID}`
+    );
     return {
       ...state,
-      filter: { ...state.filter, KID: action.payload.result },
+      filter: { ...state.filter, KID: action.payload.result.KID },
     };
   } else if (isType(action, createDistributionAction.failed)) {
     toastError("Couldn't create distribution", action.payload.error.message);
@@ -126,30 +131,83 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
   }
 
   if (isType(action, getDonorAction.done)) {
+    const distribution = {
+      ...state.distributionInput.distribution,
+      donor: action.payload.result,
+    };
+
     return {
       ...state,
       distributionInput: {
         ...state.distributionInput,
-        donorName: action.payload.result.name,
+        distribution,
+        valid: validDistribution(distribution),
       },
     };
   } else if (isType(action, getDonorAction.failed)) {
+    const distribution = {
+      ...state.distributionInput.distribution,
+      donor: undefined,
+    };
+
     return {
       ...state,
       distributionInput: {
         ...state.distributionInput,
-        donorName: `No donor found (${action.payload.error.message})`,
+        distribution,
+        valid: validDistribution(distribution),
       },
     };
   }
 
   switch (action.type) {
     case SET_DISTRIBUTION_INPUT_DISTRIBUTION:
+      const distribution = action.payload;
       return {
         ...state,
-        distributionInput: { ...state.distributionInput, distribution: action.payload },
+        distributionInput: {
+          ...state.distributionInput,
+          distribution,
+          valid: validDistribution(distribution),
+        },
       };
   }
 
   return state;
+};
+
+const validDistribution = (distribution: Partial<IDistribution>): boolean => {
+  if (!distribution.donor) {
+    return false;
+  }
+
+  if (!distribution.standardDistribution) {
+    if (!distribution.shares || distribution.shares.length === 0) {
+      console.error('No shares');
+      return false;
+    }
+    if (distribution.shares.some((share) => share.share.lessThan(0))) {
+      console.error('Share less than 0');
+      return false;
+    }
+    if (distribution.shares.some((share) => share.share.greaterThan(100))) {
+      console.error('Share greater than 100');
+      return false;
+    }
+    if (distribution.shares.some((share) => share.share.isNaN())) {
+      console.error('Share is NaN');
+      return false;
+    }
+
+    const sum = distribution.shares.reduce((acc, share) => acc.add(share.share), new Decimal(0));
+    console.log(sum.toNumber());
+    if (sum.lessThan(100)) {
+      return false;
+    }
+    if (sum.greaterThan(100)) {
+      return false;
+    }
+  }
+
+  return true;
 };

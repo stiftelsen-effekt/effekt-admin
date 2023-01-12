@@ -78,7 +78,7 @@ export interface IHistogramBucket {
 /** Distribution */
 
 export interface IDistributionShare {
-  ID: number;
+  id: number;
   share: Decimal;
   value?: Decimal;
   abbriv?: string;
