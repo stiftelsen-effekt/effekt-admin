@@ -6,13 +6,7 @@ import {
   DistributionWrapper,
 } from './SingleDonation.style';
 
-import {
-  IPaymentMethod,
-  IDonor,
-  IDonation,
-  IOrganization,
-  IDistribution,
-} from '../../../models/types';
+import { IPaymentMethod, IDonation, IOrganization, IDistribution } from '../../../models/types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../models/state';
 import {
