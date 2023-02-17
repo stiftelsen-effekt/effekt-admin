@@ -96,7 +96,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
             counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : '...'}
           />
           <EffektTabHeader
-            label="Vipps"
+            label="Vipps recurring"
             counter={data.vippsAgreements ? data.vippsAgreements.length : '...'}
           />
           <EffektTabHeader
