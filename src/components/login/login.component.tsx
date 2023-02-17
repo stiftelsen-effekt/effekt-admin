@@ -10,7 +10,7 @@ export const LoginComponent: React.FunctionComponent = () => {
     return (
       <LoginWrapper>
         <div>
-          <LoginHeader>GiEffektivt administrasjon</LoginHeader>
+          <LoginHeader>Administrasjon</LoginHeader>
           <LoginButton onClick={() => loginWithRedirect()}>Autoriser</LoginButton>
         </div>
       </LoginWrapper>
