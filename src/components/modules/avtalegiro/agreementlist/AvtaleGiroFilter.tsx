@@ -61,11 +61,11 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
         dispatch(fetchAvtaleGiroHistogramAction.started({ token }))
       );
 
-    let statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
+    const statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
       label: status.name,
       value: status.id,
       // If status is not found, set box to unchecked
-      selected: statuses.indexOf(status.id.toString()) !== -1,
+      selected: statuses.indexOf(status.id) !== -1,
     }));
 
     if (!histogram) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>;
@@ -84,13 +84,11 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
               range={[amountRange.from, amountRange.to]}
               histogram={histogram}
               onChange={(range: any) => {
-                let minRange = range[0]
-                let maxRange = range[1]
-                if (isNaN(minRange)) minRange = 0
-                if (isNaN(maxRange)) maxRange = 0
-                dispatch(
-                  setAvtalegiroFilterAmount({ from: minRange, to: maxRange })
-                );
+                let minRange = range[0];
+                let maxRange = range[1];
+                if (isNaN(minRange)) minRange = 0;
+                if (isNaN(maxRange)) maxRange = 0;
+                dispatch(setAvtalegiroFilterAmount({ from: minRange, to: maxRange }));
               }}
             ></HistogramInputComponent>
           </FilterGroup>
@@ -140,9 +138,7 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
               min={0}
               max={28}
               onChange={(from: number, to: number) => {
-                dispatch(
-                  setAvtaleGiroFilterPaymentDate({ from: from, to: to })
-                );
+                dispatch(setAvtaleGiroFilterPaymentDate({ from: from, to: to }));
               }}
             ></EffektNumberRange>
           </FilterGroup>
