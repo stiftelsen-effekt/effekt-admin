@@ -268,7 +268,7 @@ export interface IAvtaleGiroFilter {
     to: Date | null;
   };
   donor?: string;
-  statuses?: Array<string>;
+  statuses?: Array<number>;
 }
 
 export interface IAvtaleGiroDonation {
