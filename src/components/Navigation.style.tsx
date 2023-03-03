@@ -13,16 +13,19 @@ export const MainNav = styled.nav`
 
   display: inline-block;
   vertical-align: top;
-
-  position: relative;
-  overflow: hidden;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space_between; 
+  overflow: scroll;
+  
 `;
 
 export const NavMenu = styled.ul`
-  list-style: none;
   padding: 0;
   text-align: right;
   padding-right: 36px;
+  overflow: scroll;
 `;
 
 export const NavMenuItem = styled(NavLink)`
@@ -63,14 +66,17 @@ export const NavMenuItem = styled(NavLink)`
 
 export const Logout = styled.span`
   cursor: pointer;
-  position: absolute;
   bottom: 48px;
-  right: 36px;
+  padding-right: 36px;
+  left: 36px;
   font-size: 24px;
   font-weight: 300;
   color: white;
   display: flex;
   align-items: center;
+  padding-top: 0px;
+  padding-bottom: 12px;
+  align-self: flex-end;
 
   & span {
     margin-right: 14px;
