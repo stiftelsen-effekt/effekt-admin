@@ -26,13 +26,20 @@ export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUni
   const submit = () => {
     getAccessTokenSilently().then((token) => {
       if (state.name && state.ssn) {
-        dispatch(
-          UpdateTaxUnitAction.started({
-            token: token,
-            id: taxUnit.id,
-            taxUnit: { name: state.name, ssn: state.ssn },
-          })
-        );
+        const validator = require('@navikt/fnrvalidator')
+        const fnr = validator.fnr(state.ssn)
+        if (fnr.status === "valid" || state.ssn.length === 9) {
+          dispatch(
+            UpdateTaxUnitAction.started({
+              token: token,
+              id: taxUnit.id,
+              taxUnit: { name: state.name, ssn: state.ssn },
+            })
+          );
+        }
+        else {
+          alert("Invalid SSN or orgnr.");
+        }
       } else {
         alert('Please fill all fields');
       }
