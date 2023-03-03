@@ -72,6 +72,20 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
         });
       }
     });
+
+  const yearDiff = +yearlyAggregates[yearlyAggregates.length - 1].year - +yearlyAggregates[0].year + 1
+  if (yearDiff !== yearlyAggregates.length) {
+    const minYear = yearlyAggregates[0].year
+    for (let i = 0; i < yearDiff; i++) {
+      const year = (i + minYear).toString()
+      const allYears: string[] = yearlyAggregates.map(ag => ag.year)
+      if ((allYears.indexOf(year) === -1)) {
+        yearlyAggregates.push({ "year": year, "sum": 0 })
+      }
+      yearlyAggregates.sort((a, b) => parseInt(a.year) - parseInt(b.year))
+    }
+  }
+
   data.datasets.push({
     label: 'Yearly sum',
     data: yearlyAggregates.map((row) => row.sum),
