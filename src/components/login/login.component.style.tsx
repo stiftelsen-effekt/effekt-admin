@@ -2,19 +2,22 @@ import styled from 'styled-components';
 import loginBackground from '../../assets/loginbg.jpg';
 
 export const LoginWrapper = styled.div`
-  background: url(${loginBackground});
+  background-image: url(${loginBackground});
+  background-color: #000;
   background-position: center center;
-  background-size: cover;
+  background-size: 340px;
+  background-repeat: no-repeat;
 
   width: 100vw;
   height: 100vh;
 
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
   text-align: center;
 
   padding-bottom: 50px;
+  box-sizing: border-box;
 `;
 
 export const LoginButton = styled.button`
@@ -34,8 +37,9 @@ export const LoginButton = styled.button`
 
 export const LoginHeader = styled.h1`
   color: white;
-  padding-bottom: 20px;
+  padding-bottom: 0px;
   text-shadow: 0 1px black;
+  padding-top: 300px;
 `;
 
 export const LoginError = styled.div`
