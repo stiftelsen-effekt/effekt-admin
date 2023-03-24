@@ -2,28 +2,32 @@ import React from 'react';
 import { useState } from 'react';
 import { EffektInput } from '../../../style/elements/input.style';
 import { EffektButton } from '../../../style/elements/button.style';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CreateDonorWrapper } from './TaxUnitModal.style';
 import { ITaxUnit } from '../../../../models/types';
 import { Plus } from 'react-feather';
 import { useAuth0 } from '@auth0/auth0-react';
-import { UpdateTaxUnitAction } from '../../../../store/taxunits.ts/taxunits.actions';
+import { DeleteTaxUnitAction, UpdateTaxUnitAction } from '../../../../store/taxunits.ts/taxunits.actions';
+import { AppState } from '../../../../models/state';
 
 interface IProps {
   onSubmit(): void;
   taxUnit: ITaxUnit;
+  donorId: number;
 }
 
-export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUnit }) => {
+export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUnit, donorId }) => {
   const { getAccessTokenSilently } = useAuth0();
   const [state, setState] = useState<Partial<ITaxUnit>>({
     name: taxUnit.name,
     ssn: taxUnit.ssn,
   });
+  const [transferId, setTransferId] = useState<number | undefined>()
+  const taxUnits = useSelector((state: AppState) => state.donorPage.taxUnits)
 
   const dispatch = useDispatch();
 
-  const submit = () => {
+  const update = () => {
     getAccessTokenSilently().then((token) => {
       if (state.name && state.ssn) {
         const validator = require('@navikt/fnrvalidator')
@@ -47,23 +51,44 @@ export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUni
     onSubmit();
   };
 
+  const deleteUnit = () => {
+    getAccessTokenSilently().then((token) => {
+      dispatch(
+        DeleteTaxUnitAction.started({
+          token: token,
+          id: taxUnit.id,
+          donorId: donorId,
+          transferId: transferId
+        })
+      );
+    });
+    onSubmit();
+  };
+
   return (
     <CreateDonorWrapper>
       <h3>Tax unit</h3>
       <EffektInput
         value={state.name || ''}
         placeholder="name"
-        onKeyDown={(e) => e.key === 'Enter' && submit()}
+        onKeyDown={(e) => e.key === 'Enter' && update()}
         onChange={(e: any) => setState({ ...state, name: e.target.value })}
       ></EffektInput>
       <EffektInput
         value={state.ssn || ''}
         placeholder="ssn / orgnr"
-        onKeyDown={(e) => e.key === 'Enter' && submit()}
+        onKeyDown={(e) => e.key === 'Enter' && update()}
         onChange={(e: any) => setState({ ...state, ssn: e.target.value })}
       ></EffektInput>
-      <EffektButton onClick={submit}>
+      <EffektButton onClick={update}>
         Update <Plus size={16} />
+      </EffektButton>
+      <select onChange={(e) => setTransferId(parseInt(e.target.value))}>
+        {taxUnits?.filter(t => t.id !== taxUnit.id && t.archived == null).map((t) => <option value={t.id}>{t.name} ({t.ssn})</option>)}
+      </select>
+
+      <EffektButton onClick={deleteUnit}>
+        Delete <Plus size={16} />
       </EffektButton>
     </CreateDonorWrapper>
   );

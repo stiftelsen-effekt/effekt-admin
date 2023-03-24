@@ -127,7 +127,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
             <VippsAgreementList agreements={data.vippsAgreements} defaultPageSize={10} />
           </EffektTab>
           <EffektTab>
-            <TaxUnitList taxUnits={data.taxUnits} />
+            <TaxUnitList taxUnits={data.taxUnits} donorId={donorId} />
           </EffektTab>
           <EffektTab>
             <ReferralAnswerList data={data.referralAnswers} />

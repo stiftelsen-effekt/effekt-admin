@@ -14,12 +14,14 @@ interface Props {
   taxUnits: Array<ITaxUnit> | undefined;
   manual?: boolean;
   defaultPageSize?: number;
+  donorId: number;
 }
 
 export const TaxUnitList: React.FunctionComponent<Props> = ({
   taxUnits,
   manual,
   defaultPageSize,
+  donorId
 }) => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
@@ -139,6 +141,7 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
           {editTaxunit && (
             <TaxUnitModal
               taxUnit={editTaxunit}
+              donorId={donorId}
               onSubmit={() => setEditTaxunit(null)}
             ></TaxUnitModal>
           )}
@@ -164,6 +167,7 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
           {editTaxunit && (
             <TaxUnitModal
               taxUnit={editTaxunit}
+              donorId={donorId}
               onSubmit={() => setEditTaxunit(null)}
             ></TaxUnitModal>
           )}
