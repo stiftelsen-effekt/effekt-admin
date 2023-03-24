@@ -3,20 +3,20 @@ import { useState } from 'react';
 import { EffektInput } from '../../../style/elements/input.style';
 import { EffektButton } from '../../../style/elements/button.style';
 import { useDispatch } from 'react-redux';
-import { createDonorAction } from '../../../../store/donors/create-donor.actions';
+import { CreateTaxUnitAction } from '../../../../store/taxunits.ts/taxunits.actions';
 import { CreateWrapper } from '../../../style/elements/create.style';
-import { IDonor } from '../../../../models/types';
 import { Plus } from 'react-feather';
 import { useAuth0 } from '@auth0/auth0-react';
 
 interface IProps {
   onSubmit(): void;
+  donorID: number;
 }
 
-export const CreateDonor: React.FunctionComponent<IProps> = ({ onSubmit }) => {
+
+export const CreateTaxUnit: React.FunctionComponent<IProps> = ({ onSubmit, donorID }) => {
   const { getAccessTokenSilently } = useAuth0();
-  const [state, setState] = useState<Partial<IDonor>>({
-    email: '',
+  const [state, setState] = useState<{ name: string, ssn: string }>({
     name: '',
     ssn: '',
   });
@@ -26,9 +26,10 @@ export const CreateDonor: React.FunctionComponent<IProps> = ({ onSubmit }) => {
   const submit = () => {
     getAccessTokenSilently().then((token) => {
       dispatch(
-        createDonorAction.started({
+        CreateTaxUnitAction.started({
           token: token,
-          donor: { email: state.email, name: state.name, ssn: state.ssn },
+          donorID: donorID,
+          taxUnit: { name: state.name, ssn: state.ssn },
         })
       );
     });
@@ -37,12 +38,7 @@ export const CreateDonor: React.FunctionComponent<IProps> = ({ onSubmit }) => {
 
   return (
     <CreateWrapper>
-      <h3>New donor</h3>
-      <EffektInput
-        value={state.email}
-        placeholder="email"
-        onChange={(e: any) => setState({ ...state, email: e.target.value })}
-      ></EffektInput>
+      <h3>New Tax Unit</h3>
       <EffektInput
         value={state.name}
         placeholder="name"

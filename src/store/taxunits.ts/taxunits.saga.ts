@@ -1,5 +1,5 @@
 import { Action } from 'typescript-fsa';
-import { IUpdateTaxUnitActionParams, UpdateTaxUnitAction } from './taxunits.actions';
+import { IUpdateTaxUnitActionParams, UpdateTaxUnitAction, CreateTaxUnitAction, ICreateTaxUnitActionParams } from './taxunits.actions';
 import * as API from '../../util/api';
 import { call, put, select } from 'redux-saga/effects';
 import { AppState } from '../../models/state';
@@ -24,5 +24,21 @@ export function* updateTaxUnit(action: Action<IUpdateTaxUnitActionParams>) {
   const donor: IDonor | undefined = yield select((state: AppState) => state.donorPage.donor);
   if (donor) {
     yield put(getDonorTaxUnitsAction.started({ id: donor.id, token: action.payload.token }));
+  }
+}
+
+export function* createTaxUnit(action: Action<ICreateTaxUnitActionParams>) {
+  try {
+    var data: API.TypedResponse<'OK' | string> = yield call(API.call, {
+      endpoint: `/donors/${action.payload.donorID}/taxunits`,
+      method: API.Method.POST,
+      data: action.payload.taxUnit,
+      token: action.payload.token,
+    });
+    if (data.status !== 200) throw new Error(data.content);
+
+    yield put(CreateTaxUnitAction.done({ params: action.payload, result: true }));
+  } catch (ex) {
+    yield put(CreateTaxUnitAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

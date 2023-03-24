@@ -111,8 +111,8 @@ import { createDistribution } from './store/distributions/distribution-input.sag
 import { createDistributionAction } from './store/distributions/distribution-input.actions';
 import { processDonationsAction, registerCampaignAction } from './store/facebook/facebook.actions';
 import { processFBDonations, registerFBCampaign } from './store/facebook/facebook.saga';
-import { updateTaxUnit } from './store/taxunits.ts/taxunits.saga';
-import { UpdateTaxUnitAction } from './store/taxunits.ts/taxunits.actions';
+import { createTaxUnit, updateTaxUnit } from './store/taxunits.ts/taxunits.saga';
+import { UpdateTaxUnitAction, CreateTaxUnitAction } from './store/taxunits.ts/taxunits.actions';
 
 function* watchAll() {
   yield all([
@@ -147,6 +147,7 @@ function* watchAll() {
     takeLatest(updateDonorDataAction.started.type, updateDonorData),
 
     takeLatest(UpdateTaxUnitAction.started.type, updateTaxUnit),
+    takeLatest(CreateTaxUnitAction.started.type, createTaxUnit),
 
     takeLatest(fetchDonationsAction.started.type, fetchDonations),
     takeLatest(fetchDonationAction.started.type, fetchDonation),
