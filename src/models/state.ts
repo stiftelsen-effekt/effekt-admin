@@ -45,6 +45,7 @@ export interface AppState {
   donations: DonationsState;
   distributions: DistributionsState;
   taxUnits: TaxUnitsState;
+  taxUnitCreation: CreateTaxUnitState;
   dataOwner: DataOwnerState;
   receipt: ReceiptState;
   logs: LoggingState;
@@ -131,6 +132,8 @@ export interface TaxUnitsState {
   filter: ITaxUnitFilter;
   units: Array<ITaxUnit>;
 }
+
+export interface CreateTaxUnitState {}
 
 export interface VippsAgreementsState {
   activeAgreementCount: number;

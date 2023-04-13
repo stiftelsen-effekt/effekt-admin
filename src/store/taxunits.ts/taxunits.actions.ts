@@ -11,3 +11,12 @@ export interface IUpdateTaxUnitActionParams {
 export const UpdateTaxUnitAction = actionCreator.async<IUpdateTaxUnitActionParams, boolean, Error>(
   'UPDATE_TAX_UNIT'
 );
+export interface ICreateTaxUnitActionParams {
+  token: string;
+  donorID: number;
+  taxUnit: { name: string, ssn: string };
+}
+
+export const CreateTaxUnitAction = actionCreator.async<ICreateTaxUnitActionParams, Boolean, Error>(
+  'CREATE_TAX_UNIT'
+);
