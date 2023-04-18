@@ -1,11 +1,37 @@
 steps:
-- name: 'gcr.io/cloud-builders/npm'
+- id: 'install'
+  name: 'gcr.io/cloud-builders/npm'
   args: ['install']
-- name: 'gcr.io/cloud-builders/npm'
+
+- id: 'type-check'
+  name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'typecheck']
+
+- id: 'test'
+  name: 'gcr.io/cloud-builders/npm'
   env: ['CI=true']
   args: ['run', 'test']
-- name: 'gcr.io/cloud-builders/npm'
-  env: ['CI=true']
+
+- id: 'build-norway'
+  name: 'gcr.io/cloud-builders/npm'
+  env: ['CI=true', 'REACT_APP_API_URL=https://data.gieffektivt.no']
   args: ['run', 'build']
-- name: 'gcr.io/cloud-builders/gsutil'
+  waitFor: ['test']
+
+- id: 'build-sweden'
+  name: 'gcr.io/cloud-builders/npm'
+  # TODO: Swap to prod api url when available gs://admin.dev.geeffektivt.se/
+  env: ['CI=true', 'REACT_APP_API_URL=https://api.dev.geeffektivt.se']
+  args: ['run', 'build']
+  waitFor: ['test']
+
+- id: 'deploy-norway'
+  name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', 'build/*', 'gs://static.gieffektivt.no/']
+  waitFor: ['build-norway']
+
+- id: 'deploy-sweden'
+  name: 'gcr.io/cloud-builders/gsutil'
+  # TODO: Swap to prod bucket when available gs://admin.dev.geeffektivt.se/
+  args: ['-m', 'cp', '-r', 'build/*', 'gs://admin.dev.geeffektivt.se/']
+  waitFor: ['build-sweden']
