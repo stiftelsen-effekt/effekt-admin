@@ -1,11 +1,37 @@
 steps:
-- name: 'gcr.io/cloud-builders/npm'
+- id: 'install'
+  name: 'gcr.io/cloud-builders/npm'
   args: ['install']
-- name: 'gcr.io/cloud-builders/npm'
+
+- id: 'type-check'
+  name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'typecheck']
+
+- id: 'test'
+  name: 'gcr.io/cloud-builders/npm'
   env: ['CI=true']
   args: ['run', 'test']
-- name: 'gcr.io/cloud-builders/npm'
-  env: ['CI=true']
+
+  # The build and deploy steps for each region must happen in direct sequence
+  # or the wrong build might get deployed to the wrong place
+  # 1. Build for region A
+  # 2. Deploy to region A
+  # 3. Build for region B
+  # 4. Deploy to region B
+- id: 'build-norway'
+  name: 'gcr.io/cloud-builders/npm'
+  env: ['CI=true', 'REACT_APP_API_URL=https://data.gieffektivt.no']
   args: ['run', 'build']
-- name: 'gcr.io/cloud-builders/gsutil'
+
+- id: 'deploy-norway'
+  name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', 'build/*', 'gs://effekt-admin-dev/']
+
+- id: 'build-sweden'
+  name: 'gcr.io/cloud-builders/npm'
+  env: ['CI=true', 'REACT_APP_API_URL=https://api.dev.geeffektivt.se']
+  args: ['run', 'build']
+
+- id: 'deploy-sweden'
+  name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'cp', '-r', 'build/*', 'gs://admin.dev.geeffektivt.se/']

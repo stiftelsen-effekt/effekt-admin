@@ -50,6 +50,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "typecheck": "tsc --noEmit",
     "test": "",
     "eject": "react-scripts eject"
   },
