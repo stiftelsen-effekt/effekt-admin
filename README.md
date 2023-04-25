@@ -48,7 +48,7 @@ It's possible to use the admin panel together with the api running locally. Plea
 
 It's also possible, and easier if you simply want to get up and running, to use the production api or development api.
 
-They are found on these URL's respectively:
+They are found on these URL's respectively (for Norway):
 
 * https://data.gieffektivt.no
 * https://dev.data.gieffektivt.no
