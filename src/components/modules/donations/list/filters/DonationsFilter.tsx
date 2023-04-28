@@ -60,15 +60,11 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   if (!histogram)
     getAccessTokenSilently().then((token) => dispatch(fetchHistogramAction.started({ token })));
 
-  let paymentMethodChoices: Array<EffektCheckChoice> = paymentMethods.map((method) => {
-    let selected = true;
-    if (selectedPaymentMethodIDs !== undefined) {
-      selected = selectedPaymentMethodIDs.indexOf(method.id) !== -1;
-    }
+  let paymentMethodChoices: Array<EffektCheckChoice> = paymentMethods?.map((method) => {
     return {
       label: method.abbriviation,
       value: method.id,
-      selected: selected,
+      selected: selectedPaymentMethodIDs?.includes(method.id) ?? false,
     };
   });
 
