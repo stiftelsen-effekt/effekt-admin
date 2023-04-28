@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { EffektInput } from '../../../style/elements/input.style';
 import { EffektButton } from '../../../style/elements/button.style';
@@ -9,12 +9,15 @@ import { Plus } from 'react-feather';
 import { useAuth0 } from '@auth0/auth0-react';
 import { DeleteTaxUnitAction, UpdateTaxUnitAction } from '../../../../store/taxunits.ts/taxunits.actions';
 import { AppState } from '../../../../models/state';
+import { DateTime } from 'luxon';
 
 interface IProps {
   onSubmit(): void;
   taxUnit: ITaxUnit;
   donorId: number;
 }
+
+
 
 export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUnit, donorId }) => {
   const { getAccessTokenSilently } = useAuth0();
@@ -24,6 +27,7 @@ export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUni
   });
   const [transferId, setTransferId] = useState<number | undefined>()
   const taxUnits = useSelector((state: AppState) => state.donorPage.taxUnits)
+  const [printTaxUnit, setPrintTaxUnit] = useState<ITaxUnit[]>([]);
 
   const dispatch = useDispatch();
 
@@ -58,12 +62,28 @@ export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUni
           token: token,
           id: taxUnit.id,
           donorId: donorId,
-          transferId: transferId
+          transferId: transferId == -1 ? undefined : transferId,
         })
       );
     });
     onSubmit();
   };
+
+  useEffect(() => {
+    if (taxUnits && taxUnits.length > 0 && taxUnits[0].id !== -1) {
+      const now = DateTime.local();
+      const default_value: ITaxUnit = {
+        id: -1,
+        ssn: null,
+        name: "Choose tax unit",
+        numDonations: 0,
+        sumDonations: 0,
+        registered: now,
+        archived: null,
+      }
+      setPrintTaxUnit([default_value].concat(taxUnits))
+    }
+  }, [taxUnits]);
 
   return (
     <CreateDonorWrapper>
@@ -84,7 +104,7 @@ export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUni
         Update <Plus size={16} />
       </EffektButton>
       <select onChange={(e) => setTransferId(parseInt(e.target.value))}>
-        {taxUnits?.filter(t => t.id !== taxUnit.id && t.archived == null).map((t) => <option value={t.id}>{t.name} ({t.ssn})</option>)}
+        {printTaxUnit?.filter(t => t.id !== taxUnit.id && t.archived == null).map((t) => <option value={t.id}>{t.name} ({t.ssn})</option>)}
       </select>
 
       <EffektButton onClick={deleteUnit}>
