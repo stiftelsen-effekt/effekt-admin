@@ -1,14 +1,17 @@
 steps:
 - id: 'install'
-  name: 'gcr.io/cloud-builders/npm'
+  name: 'node:19.0.0'
+  entrypoint: 'npm'
   args: ['install']
 
 - id: 'type-check'
-  name: 'gcr.io/cloud-builders/npm'
+  name: 'node:19.0.0'
+  entrypoint: 'npm'
   args: ['run', 'typecheck']
 
 - id: 'test'
-  name: 'gcr.io/cloud-builders/npm'
+  name: 'node:19.0.0'
+  entrypoint: 'npm'
   env: ['CI=true']
   args: ['run', 'test']
 
@@ -19,7 +22,8 @@ steps:
   # 3. Build for region B
   # 4. Deploy to region B
 - id: 'build-norway'
-  name: 'gcr.io/cloud-builders/npm'
+  name: 'node:19.0.0'
+  entrypoint: 'npm'
   env:
     - 'CI=true'
     - 'REACT_APP_API_URL=https://data.gieffektivt.no'
