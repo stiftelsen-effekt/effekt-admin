@@ -52,7 +52,8 @@
     "build": "react-scripts build",
     "typecheck": "tsc --noEmit",
     "test": "",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write \"./**/*{js,ts,jsx,tsx,json,md,css,scss,yml,yaml}\""
   },
   "eslintConfig": {
     "extends": "react-app"
