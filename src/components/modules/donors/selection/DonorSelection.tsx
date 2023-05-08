@@ -1,26 +1,26 @@
-import { AppState } from '../../../../models/state';
-import React, { ChangeEvent, useState } from 'react';
+import { AppState } from "../../../../models/state";
+import React, { ChangeEvent, useState } from "react";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import { DateTime } from 'luxon';
-import '../../../style/elements/react-table/table.css';
-import ReactTable from 'react-table';
+import { DateTime } from "luxon";
+import "../../../style/elements/react-table/table.css";
+import ReactTable from "react-table";
 import {
   searchDonorAction,
   setSelectedDonor,
   IFetchSearchDonorsActionParams,
   setDonorSelectionQuery,
-} from '../../../../store/donors/donor-selection.actions';
-import { IDonor } from '../../../../models/types';
-import { EffektInput } from '../../../style/elements/input.style';
-import { shortDate, thousandize } from '../../../../util/formatting';
-import { HelpCircle, PlusSquare } from 'react-feather';
-import { EffektButton } from '../../../style/elements/button.style';
-import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
-import { CreateDonor } from '../create/CreateDonor';
-import { useHistory } from 'react-router';
-import { useAuth0 } from '@auth0/auth0-react';
+} from "../../../../store/donors/donor-selection.actions";
+import { IDonor } from "../../../../models/types";
+import { EffektInput } from "../../../style/elements/input.style";
+import { shortDate, thousandize } from "../../../../util/formatting";
+import { HelpCircle, PlusSquare } from "react-feather";
+import { EffektButton } from "../../../style/elements/button.style";
+import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
+import { CreateDonor } from "../create/CreateDonor";
+import { useHistory } from "react-router";
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   FilterWrapper,
   FilterContent,
@@ -30,9 +30,9 @@ import {
   FilterDateRangeWrapper,
   FilterDateRange,
   FilterInput,
-} from '../../../style/elements/filters.component.style';
-import { FilterOpenButton } from '../../../style/elements/filter-buttons/filter-open-button.component';
-import { DonationListWrapper } from '../../donations/list/DonationsList.style';
+} from "../../../style/elements/filters.component.style";
+import { FilterOpenButton } from "../../../style/elements/filter-buttons/filter-open-button.component";
+import { DonationListWrapper } from "../../donations/list/DonationsList.style";
 
 interface IDonorTableState {
   sorted: Array<any>;
@@ -78,7 +78,7 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
     });
   };
   const [loaded, setLoaded] = useState(false);
-  if (!loaded && searchQuery === '') {
+  if (!loaded && searchQuery === "") {
     setLoaded(true);
     performSearch({});
   }
@@ -95,35 +95,35 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
 
   const columnDefinitions = [
     {
-      Header: 'ID',
-      accessor: 'id',
+      Header: "ID",
+      accessor: "id",
       width: 100,
     },
     {
-      Header: 'name',
-      accessor: 'name',
+      Header: "name",
+      accessor: "name",
       width: 300,
     },
     {
-      Header: 'email',
-      accessor: 'email',
+      Header: "email",
+      accessor: "email",
       width: 500,
     },
     {
-      id: 'registered',
-      Header: 'registered',
+      id: "registered",
+      Header: "registered",
       accessor: (donor: IDonor) => shortDate(donor.registered),
       sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
+        return DateTime.fromFormat(a, "dd.MM.yyyy") > DateTime.fromFormat(b, "dd.MM.yyyy") ? -1 : 1;
       },
       width: 150,
     },
     {
-      id: 'total_donations',
-      Header: 'Total donated',
+      id: "total_donations",
+      Header: "Total donated",
       accessor: (donor: IDonor) => thousandize(donor.total_donations),
       sortMethod: (a: string, b: string) => {
-        return Number(a.replaceAll(' ', '')) - Number(b.replace(' ', ''));
+        return Number(a.replaceAll(" ", "")) - Number(b.replace(" ", ""));
       },
     },
   ];
@@ -142,8 +142,8 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
 
   const rowStyle = (rowIndex: number, selectedIndex: number) => {
     return {
-      background: rowIndex === selectedIndex ? 'black' : '',
-      color: rowIndex === selectedIndex ? 'white' : '',
+      background: rowIndex === selectedIndex ? "black" : "",
+      color: rowIndex === selectedIndex ? "white" : "",
     };
   };
 
@@ -176,7 +176,7 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
             <FilterGroupHeader>Total donated</FilterGroupHeader>
             <FilterInput
               placeholder="From"
-              style={{ width: '47%', marginRight: '5%' }}
+              style={{ width: "47%", marginRight: "5%" }}
               value={undefined}
               onChange={(e) => {
                 performSearch({
@@ -189,7 +189,7 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
             ></FilterInput>
             <FilterInput
               placeholder="To"
-              style={{ width: '47%' }}
+              style={{ width: "47%" }}
               value={undefined}
               onChange={(e) => {
                 performSearch({
@@ -231,10 +231,10 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
         </FilterContent>
       </FilterWrapper>
       <DonationListWrapper>
-        {' '}
+        {" "}
         {/* XXX TODO move to generic FilteredListWrapper? */}
         <div
-          style={{ display: 'flex', marginBottom: '16px', columnGap: '10px', alignItems: 'center' }}
+          style={{ display: "flex", marginBottom: "16px", columnGap: "10px", alignItems: "center" }}
         >
           <EffektInput
             type="text"
@@ -246,18 +246,18 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
           <HelpCircle
             size={22}
             onClick={() => setSearchHelp((help) => !help)}
-            style={{ userSelect: 'none', cursor: 'pointer' }}
+            style={{ userSelect: "none", cursor: "pointer" }}
           ></HelpCircle>
           <EffektButton onClick={() => setShowCreate(true)}>
-            <span>Create &nbsp;</span>{' '}
-            <PlusSquare color={'white'} size={18} style={{ verticalAlign: 'middle' }} />
+            <span>Create &nbsp;</span>{" "}
+            <PlusSquare color={"white"} size={18} style={{ verticalAlign: "middle" }} />
           </EffektButton>
           <div
             style={{
-              display: searchHelp ? 'flex' : 'none',
-              marginBottom: '10px',
-              columnGap: '20px',
-              fontSize: '12px',
+              display: searchHelp ? "flex" : "none",
+              marginBottom: "10px",
+              columnGap: "20px",
+              fontSize: "12px",
             }}
           >
             <p>

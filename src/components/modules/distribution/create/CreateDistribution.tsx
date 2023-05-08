@@ -1,16 +1,16 @@
-import React from 'react';
-import { EffektButton } from '../../../style/elements/button.style';
-import { useSelector, useDispatch } from 'react-redux';
-import { IDistribution } from '../../../../models/types';
-import { Plus } from 'react-feather';
-import { CreateDistributionWrapper } from './CreateDistribution.style';
-import { AppState } from '../../../../models/state';
-import { DistributionInput } from '../../shared/distribution-input/DistributionInput';
+import React from "react";
+import { EffektButton } from "../../../style/elements/button.style";
+import { useSelector, useDispatch } from "react-redux";
+import { IDistribution } from "../../../../models/types";
+import { Plus } from "react-feather";
+import { CreateDistributionWrapper } from "./CreateDistribution.style";
+import { AppState } from "../../../../models/state";
+import { DistributionInput } from "../../shared/distribution-input/DistributionInput";
 import {
   createDistributionAction,
   setDistributionInputDistribution,
-} from '../../../../store/distributions/distribution-input.actions';
-import { useAuth0 } from '@auth0/auth0-react';
+} from "../../../../store/distributions/distribution-input.actions";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface IProps {
   onSubmit(): void;
@@ -23,14 +23,14 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
   const dispatch = useDispatch();
 
   const submit = () => {
-    if (typeof distributionInput.distribution.donor !== 'undefined') {
+    if (typeof distributionInput.distribution.donor !== "undefined") {
       getAccessTokenSilently().then((token) =>
         dispatch(
           createDistributionAction.started({
             distribution: distributionInput.distribution as IDistribution,
             token,
-          })
-        )
+          }),
+        ),
       );
     }
     onSubmit();

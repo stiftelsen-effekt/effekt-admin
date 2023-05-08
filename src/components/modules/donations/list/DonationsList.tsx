@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import ReactTable from 'react-table';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import ReactTable from "react-table";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchDonationsAction,
   setDonationsPagination,
-} from '../../../../store/donations/donations-list.actions';
-import { AppState } from '../../../../models/state';
-import { shortDate, thousandize } from '../../../../util/formatting';
-import { DateTime } from 'luxon';
-import { useHistory } from 'react-router';
-import { IDonation } from '../../../../models/types';
-import { useAuth0 } from '@auth0/auth0-react';
+} from "../../../../store/donations/donations-list.actions";
+import { AppState } from "../../../../models/state";
+import { shortDate, thousandize } from "../../../../util/formatting";
+import { DateTime } from "luxon";
+import { useHistory } from "react-router";
+import { IDonation } from "../../../../models/types";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface Props {
   donations: Array<IDonation> | undefined;
@@ -43,35 +43,35 @@ export const DonationsList: React.FunctionComponent<Props> = ({
 
   const columnDefinitions: any[] = [
     {
-      Header: 'ID',
-      accessor: 'id',
+      Header: "ID",
+      accessor: "id",
       width: 100,
     },
     {
-      Header: 'Method',
-      accessor: 'paymentMethod',
+      Header: "Method",
+      accessor: "paymentMethod",
       width: 170,
     },
     {
-      Header: 'Sum',
-      id: 'sum',
-      accessor: (res: any) => thousandize(res.sum) + ' kr',
-      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      Header: "Sum",
+      id: "sum",
+      accessor: (res: any) => thousandize(res.sum) + " kr",
+      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 140,
     },
     {
-      Header: 'Transaction cost',
-      id: 'transactionCost',
+      Header: "Transaction cost",
+      id: "transactionCost",
       accessor: (res: any) => thousandize(res.transactionCost),
-      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 115,
     },
     {
-      Header: 'Timestamp',
-      id: 'timestamp',
+      Header: "Timestamp",
+      id: "timestamp",
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp)),
       sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, 'dd.MM.yyyy') > DateTime.fromFormat(b, 'dd.MM.yyyy') ? -1 : 1;
+        return DateTime.fromFormat(a, "dd.MM.yyyy") > DateTime.fromFormat(b, "dd.MM.yyyy") ? -1 : 1;
       },
       width: 100,
     },
@@ -79,22 +79,22 @@ export const DonationsList: React.FunctionComponent<Props> = ({
 
   if (!hideDonorName) {
     columnDefinitions.splice(1, 0, {
-      Header: 'Donor',
-      accessor: 'donor',
+      Header: "Donor",
+      accessor: "donor",
     });
   }
 
   if (!hideKID) {
     columnDefinitions.splice(4, 0, {
-      Header: 'KID',
-      id: 'kid',
+      Header: "KID",
+      id: "kid",
       accessor: (res) => res.kid || res.KID,
-      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 180,
     });
   }
 
-  const defaultSorting = [{ id: 'timestamp', desc: true }];
+  const defaultSorting = [{ id: "timestamp", desc: true }];
 
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {

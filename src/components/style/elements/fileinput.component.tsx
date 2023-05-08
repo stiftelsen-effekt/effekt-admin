@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { HiddenFileInput, FileInputLabel } from './fileinput.style';
+import React, { useState } from "react";
+import { HiddenFileInput, FileInputLabel } from "./fileinput.style";
 
 interface IState {
   filename: string | null;

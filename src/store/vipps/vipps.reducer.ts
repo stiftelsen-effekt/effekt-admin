@@ -1,6 +1,6 @@
-import { VippsAgreementChargeState, VippsAgreementsState } from '../../models/state';
-import { isType } from 'typescript-fsa';
-import { toastError } from '../../util/toasthelper';
+import { VippsAgreementChargeState, VippsAgreementsState } from "../../models/state";
+import { isType } from "typescript-fsa";
+import { toastError } from "../../util/toasthelper";
 import {
   fetchAgreementHistogramAction,
   fetchAgreementsReportAction,
@@ -20,8 +20,8 @@ import {
   SET_VIPPS_CHARGES_FILTER_KID,
   SET_VIPPS_CHARGES_FILTER_STATUS,
   SET_VIPPS_CHARGES_PAGINATION,
-} from './vipps.actions';
-import Decimal from 'decimal.js';
+} from "./vipps.actions";
+import Decimal from "decimal.js";
 
 const defaultAgreementState: VippsAgreementsState = {
   activeAgreementCount: 0,
@@ -43,7 +43,7 @@ const defaultAgreementState: VippsAgreementsState = {
     page: 0,
     limit: 25,
     sort: {
-      id: 'amount',
+      id: "amount",
       desc: true,
     },
   },
@@ -54,8 +54,8 @@ const defaultAgreementState: VippsAgreementsState = {
     },
     created: undefined,
     chargeDay: undefined,
-    KID: '',
-    donor: '',
+    KID: "",
+    donor: "",
     statuses: [],
   },
 };
@@ -68,7 +68,7 @@ const defaultChargeState: VippsAgreementChargeState = {
     page: 0,
     limit: 25,
     sort: {
-      id: 'amountNOK',
+      id: "amountNOK",
       desc: true,
     },
   },
@@ -78,18 +78,18 @@ const defaultChargeState: VippsAgreementChargeState = {
       to: 1000000,
     },
     dueDate: {
-      from: '',
-      to: '',
+      from: "",
+      to: "",
     },
-    KID: '',
+    KID: "",
     statuses: [],
-    donor: '',
+    donor: "",
   },
 };
 
 export const vippsAgreementReducer = (
   state = defaultAgreementState,
-  action: any
+  action: any,
 ): VippsAgreementsState => {
   // Fetch multiple agreements
   if (isType(action, fetchVippsAgreementsAction.done)) {
@@ -155,7 +155,7 @@ export const vippsAgreementReducer = (
       histogram: action.payload.result,
     };
   } else if (isType(action, fetchAgreementHistogramAction.failed)) {
-    toastError('Failed to fetch agreement histogram', action.payload.error.message);
+    toastError("Failed to fetch agreement histogram", action.payload.error.message);
   }
 
   if (isType(action, fetchChargeHistogramAction.done)) {
@@ -164,7 +164,7 @@ export const vippsAgreementReducer = (
       histogram: action.payload.result,
     };
   } else if (isType(action, fetchChargeHistogramAction.failed)) {
-    toastError('Failed to fetch charge histogram', action.payload.error.message);
+    toastError("Failed to fetch charge histogram", action.payload.error.message);
   }
 
   switch (action.type) {
@@ -211,7 +211,7 @@ export const vippsAgreementReducer = (
 
 export const vippsAgreementChargeReducer = (
   state = defaultChargeState,
-  action: any
+  action: any,
 ): VippsAgreementChargeState => {
   if (isType(action, fetchVippsAgreementChargesAction.done)) {
     return {
@@ -244,7 +244,7 @@ export const vippsAgreementChargeReducer = (
       histogram: action.payload.result,
     };
   } else if (isType(action, fetchChargeHistogramAction.failed)) {
-    toastError('Failed to fetch agreement histogram', action.payload.error.message);
+    toastError("Failed to fetch agreement histogram", action.payload.error.message);
   }
 
   if (isType(action, fetchChargeHistogramAction.done)) {
@@ -253,7 +253,7 @@ export const vippsAgreementChargeReducer = (
       histogram: action.payload.result,
     };
   } else if (isType(action, fetchChargeHistogramAction.failed)) {
-    toastError('Failed to fetch charge histogram', action.payload.error.message);
+    toastError("Failed to fetch charge histogram", action.payload.error.message);
   }
 
   switch (action.type) {

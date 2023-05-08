@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../../../models/state';
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../../../models/state";
 import {
   fetchAgreementHistogramAction,
   setVippsAgreementsFilterAmount,
@@ -10,12 +10,12 @@ import {
   setVippsAgreementsFilterStatus,
   setVippsAgreementsFilterDraftDate,
   setVippsAgreementsFilterChargeDay,
-} from '../../../../store/vipps/vipps.actions';
+} from "../../../../store/vipps/vipps.actions";
 import {
   EffektCheckChoice,
   EffektCheckForm,
-} from '../../../style/elements/effekt-check/effekt-check-form.component';
-import { FilterOpenButton } from '../../../style/elements/filter-buttons/filter-open-button.component';
+} from "../../../style/elements/effekt-check/effekt-check-form.component";
+import { FilterOpenButton } from "../../../style/elements/filter-buttons/filter-open-button.component";
 import {
   FilterWrapper,
   FilterContent,
@@ -25,15 +25,15 @@ import {
   FilterInput,
   FilterDateRangeWrapper,
   FilterDateRange,
-} from '../../../style/elements/filters.component.style';
-import { HistogramInputComponent } from '../../histogram-input/HistogramInput';
-import EffektNumberRange from '../../../style/elements/effekt-range/effekt-range.component';
+} from "../../../style/elements/filters.component.style";
+import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
+import EffektNumberRange from "../../../style/elements/effekt-range/effekt-range.component";
 
 const statusTypes = [
-  { name: 'PENDING', id: 0 },
-  { name: 'ACTIVE', id: 1 },
-  { name: 'STOPPED', id: 2 },
-  { name: 'EXPIRED', id: 3 },
+  { name: "PENDING", id: 0 },
+  { name: "ACTIVE", id: 1 },
+  { name: "STOPPED", id: 2 },
+  { name: "EXPIRED", id: 3 },
 ];
 
 export const VippsAgreementFilter: React.FunctionComponent = () => {
@@ -72,10 +72,10 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
               range={[amountRange.from, amountRange.to]}
               histogram={histogram}
               onChange={(range: any) => {
-                let minRange = range[0]
-                let maxRange = range[1]
-                if (isNaN(minRange)) minRange = 0
-                if (isNaN(maxRange)) maxRange = 0
+                let minRange = range[0];
+                let maxRange = range[1];
+                if (isNaN(minRange)) minRange = 0;
+                if (isNaN(maxRange)) maxRange = 0;
                 dispatch(setVippsAgreementsFilterAmount({ from: minRange, to: maxRange }));
               }}
             ></HistogramInputComponent>
@@ -85,8 +85,8 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
             <FilterGroupHeader>Donor like</FilterGroupHeader>
             <FilterInput
               value={donor}
-              placeholder={'Fuzzy search'}
-              style={{ width: '100%' }}
+              placeholder={"Fuzzy search"}
+              style={{ width: "100%" }}
               onChange={(e: any) => {
                 dispatch(setVippsAgreementsFilterDonor(e.target.value));
               }}
@@ -97,8 +97,8 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
             <FilterGroupHeader>KID like</FilterGroupHeader>
             <FilterInput
               value={KID}
-              placeholder={'Fuzzy search'}
-              style={{ width: '100%' }}
+              placeholder={"Fuzzy search"}
+              style={{ width: "100%" }}
               onChange={(e: any) => {
                 dispatch(setVippsAgreementsFilterKID(e.target.value));
               }}
@@ -126,9 +126,7 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
               min={0}
               max={28}
               onChange={(from: number, to: number) => {
-                dispatch(
-                  setVippsAgreementsFilterChargeDay({ from: from, to: to })
-                );
+                dispatch(setVippsAgreementsFilterChargeDay({ from: from, to: to }));
               }}
             ></EffektNumberRange>
           </FilterGroup>
@@ -140,10 +138,14 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
                 from={draftDate ? draftDate.from : null}
                 to={draftDate ? draftDate.to : null}
                 onChangeFrom={(date) => {
-                  dispatch(setVippsAgreementsFilterDraftDate(date, draftDate ? draftDate.to : null));
+                  dispatch(
+                    setVippsAgreementsFilterDraftDate(date, draftDate ? draftDate.to : null),
+                  );
                 }}
                 onChangeTo={(date) => {
-                  dispatch(setVippsAgreementsFilterDraftDate(draftDate ? draftDate.from : null, date));
+                  dispatch(
+                    setVippsAgreementsFilterDraftDate(draftDate ? draftDate.from : null, date),
+                  );
                 }}
                 onChangeRange={(to, from) => {
                   dispatch(setVippsAgreementsFilterDraftDate(to, from));
@@ -155,6 +157,5 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
         </FilterContent>
       </FilterWrapper>
     );
-  }
-  else return <div>Error loading filter</div>
+  } else return <div>Error loading filter</div>;
 };

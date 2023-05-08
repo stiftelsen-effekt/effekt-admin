@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { TabHeaderCounter, TabHeaderWrapper } from './EffektTabHeader.style';
+import React, { ReactNode } from "react";
+import { TabHeaderCounter, TabHeaderWrapper } from "./EffektTabHeader.style";
 
 /* eslint-disable jsx-a11y/no-distracting-elements */
 export const EffektTabHeader: React.FC<{
@@ -14,11 +14,11 @@ export const EffektTabHeader: React.FC<{
     <TabHeaderWrapper onClick={onClick} selected={selected}>
       <span>{label}</span>
       {children}
-      {typeof counter !== 'undefined' && (
+      {typeof counter !== "undefined" && (
         <TabHeaderCounter>
           {
             //@ts-ignore
-            typeof counter === 'string' ? <marquee>{counter}</marquee> : counter
+            typeof counter === "string" ? <marquee>{counter}</marquee> : counter
           }
         </TabHeaderCounter>
       )}

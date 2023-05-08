@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const DonorKeyInfoWrapper = styled.div`
   width: 470px;
@@ -26,7 +26,7 @@ export const DonorKeyInfoWrapper = styled.div`
       }
       &:nth-child(2) {
         min-width: 300px;
-        input:not([type='checkbox']) {
+        input:not([type="checkbox"]) {
           width: 97%;
         }
       }
@@ -41,7 +41,7 @@ export const DonorKeyInfoWrapper = styled.div`
       }
     }
   }
-  &>div {
+  & > div {
     position: absolute;
     top: 0;
     bottom: 0;

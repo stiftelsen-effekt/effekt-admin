@@ -1,5 +1,5 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { ReportProcessingState } from '../../models/state';
+import actionCreatorFactory from "typescript-fsa";
+import { ReportProcessingState } from "../../models/state";
 const actionCreator = actionCreatorFactory();
 
 export enum ReportTypes {
@@ -21,4 +21,4 @@ export const uploadReportAction = actionCreator.async<
   IUploadReportActionParams,
   ReportProcessingState,
   Error
->('REPORT_UPLOAD');
+>("REPORT_UPLOAD");

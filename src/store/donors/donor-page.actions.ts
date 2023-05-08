@@ -1,4 +1,4 @@
-import actionCreatorFactory from 'typescript-fsa';
+import actionCreatorFactory from "typescript-fsa";
 import {
   IAvtaleGiro,
   IDistributionSearchResultItem,
@@ -8,7 +8,7 @@ import {
   IVippsAgreement,
   IReferralAnswer,
   ITaxUnit,
-} from '../../models/types';
+} from "../../models/types";
 
 const actionCreator = actionCreatorFactory();
 
@@ -46,43 +46,43 @@ export interface IUpdateDonorDataParams {
 }
 
 export const getDonorAction = actionCreator.async<IFetchDonorActionParams, IDonor, Error>(
-  'FETCH_DONOR'
+  "FETCH_DONOR",
 );
 export const getDonorDonationsAction = actionCreator.async<
   IFetchDonorDonationsActionParams,
   Array<IDonation>,
   Error
->('FETCH_DONOR_DONATIONS');
+>("FETCH_DONOR_DONATIONS");
 export const getDonorDistributionsAction = actionCreator.async<
   IFetchDonorDistributionsActionParams,
   Array<IDistributionSearchResultItem>,
   Error
->('FETCH_DONOR_DISTRIBUTIONS');
+>("FETCH_DONOR_DISTRIBUTIONS");
 export const getDonorAvtalegiroAgreementsAction = actionCreator.async<
   IFetchDonorAvtalegiroAgreementsActionParams,
   Array<IAvtaleGiro>,
   Error
->('FETCH_DONOR_AVTALEGIRO_AGREEMENTS');
+>("FETCH_DONOR_AVTALEGIRO_AGREEMENTS");
 export const getDonorVippsAgreementsAction = actionCreator.async<
   IFetchDonorVippsAgreementsActionParams,
   Array<IVippsAgreement>,
   Error
->('FETCH_DONOR_VIPPS_AGREEMENTS');
+>("FETCH_DONOR_VIPPS_AGREEMENTS");
 export const getDonorYearlyAggregatesAction = actionCreator.async<
   IFetchDonorYearlyAggregatesActionParams,
   Array<IDistributionShare & { year: number }>,
   Error
->('FETCH_DONOR_YEARLY_AGGREGATES');
+>("FETCH_DONOR_YEARLY_AGGREGATES");
 export const getDonorReferralAnswersAction = actionCreator.async<
   IfetchDonorTaxUnitsParams,
   Array<IReferralAnswer>,
   Error
->('FETCH_DONOR_REFERRAL_ANSWERS');
+>("FETCH_DONOR_REFERRAL_ANSWERS");
 export const getDonorTaxUnitsAction = actionCreator.async<
   IFetchDonorActionParams,
   Array<ITaxUnit>,
   Error
->('FETCH_DONOR_TAX_UNITS');
+>("FETCH_DONOR_TAX_UNITS");
 export const updateDonorDataAction = actionCreator.async<IUpdateDonorDataParams, boolean, Error>(
-  'UPDATE_DONOR_DATA'
+  "UPDATE_DONOR_DATA",
 );

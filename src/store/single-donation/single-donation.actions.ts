@@ -1,6 +1,6 @@
-import { IPaymentMethod, IDonation, IDistribution } from '../../models/types';
+import { IPaymentMethod, IDonation, IDistribution } from "../../models/types";
 
-import actionCreatorFactory from 'typescript-fsa';
+import actionCreatorFactory from "typescript-fsa";
 
 const actionCreator = actionCreatorFactory();
 
@@ -8,7 +8,7 @@ export const fetchPaymentMethodsAction = actionCreator.async<
   undefined,
   Array<IPaymentMethod>,
   Error
->('FETCH_PAYMENT_METHODS');
+>("FETCH_PAYMENT_METHODS");
 
 export interface ICreateDistributionParams {
   distribution: Partial<IDistribution>;
@@ -29,7 +29,7 @@ export const createDistribitionAndInsertDonationAction = actionCreator.async<
   ICreateDistributionAndInsertDonationParams,
   {},
   Error
->('CREATE_DISTRIBUTION_AND_INSERT_DONATION');
+>("CREATE_DISTRIBUTION_AND_INSERT_DONATION");
 export const insertDonationAction = actionCreator.async<ICreateDonationParams, {}, Error>(
-  'INSERT_DONATION'
+  "INSERT_DONATION",
 );

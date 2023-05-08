@@ -1,7 +1,7 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { IDonation, IPagination } from '../../models/types';
+import actionCreatorFactory from "typescript-fsa";
+import { IDonation, IPagination } from "../../models/types";
 
-export const SET_DONATIONS_PAGINATION = 'SET_DONATIONS_PAGINATION';
+export const SET_DONATIONS_PAGINATION = "SET_DONATIONS_PAGINATION";
 
 const actionCreator = actionCreatorFactory();
 
@@ -22,7 +22,7 @@ export const fetchDonationsAction = actionCreator.async<
   IFetchDonationsActionParams,
   IFetchDonationsResult,
   Error
->('FETCH_DONATIONS');
+>("FETCH_DONATIONS");
 export const setDonationsPagination = (pagination: IPagination) => {
   return {
     type: SET_DONATIONS_PAGINATION,
@@ -34,4 +34,4 @@ export const deleteDonationAction = actionCreator.async<
   IDeleteDonationActionParams,
   IFetchDonationsResult,
   Error
->('DELETE_DONATION');
+>("DELETE_DONATION");

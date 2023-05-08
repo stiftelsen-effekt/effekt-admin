@@ -1,20 +1,20 @@
 /* eslint-disable no-restricted-globals */
-import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState, CurrentDistributionState } from '../../../models/state';
-import { DistributionGraphComponent } from '../../modules/distribution/Graph';
-import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../style/elements/headers.style';
-import { Page } from '../../style/elements/page.style';
-import { HorizontalPanel } from '../donations/Donation.style';
-import { fetchDistributionAction } from '../../../store/distributions/distribution.actions';
-import { DistributionKeyInfo } from './DistributionKeyInfo';
-import { DonationsList } from '../../modules/donations/list/DonationsList';
-import { EffektButton } from '../../style/elements/button.style';
-import { PieChart, User } from 'react-feather';
-import { useHistory } from 'react-router';
-import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/EffektButtonsWrapper.style';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useEffect } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState, CurrentDistributionState } from "../../../models/state";
+import { DistributionGraphComponent } from "../../modules/distribution/Graph";
+import { ResourceHeader, ResourceSubHeader, SubHeader } from "../../style/elements/headers.style";
+import { Page } from "../../style/elements/page.style";
+import { HorizontalPanel } from "../donations/Donation.style";
+import { fetchDistributionAction } from "../../../store/distributions/distribution.actions";
+import { DistributionKeyInfo } from "./DistributionKeyInfo";
+import { DonationsList } from "../../modules/donations/list/DonationsList";
+import { EffektButton } from "../../style/elements/button.style";
+import { PieChart, User } from "react-feather";
+import { useHistory } from "react-router";
+import { EffektButtonsWrapper } from "../../style/elements/buttons-wrapper/EffektButtonsWrapper.style";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface IParams {
   id: string;
@@ -24,7 +24,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
   match,
 }: RouteComponentProps<IParams>) => {
   const current: CurrentDistributionState | undefined = useSelector(
-    (state: AppState) => state.distributions.current
+    (state: AppState) => state.distributions.current,
   );
   const KID = match.params.id;
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>
-      dispatch(fetchDistributionAction.started({ kid: KID, token }))
+      dispatch(fetchDistributionAction.started({ kid: KID, token })),
     );
   }, [KID, dispatch, getAccessTokenSilently]);
 
@@ -46,7 +46,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
         <EffektButtonsWrapper>
           <EffektButton
             onClick={() => {
-              history.push('/donors/' + current.distribution?.donor.id);
+              history.push("/donors/" + current.distribution?.donor.id);
             }}
           >
             <User size={16} />
@@ -54,7 +54,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
           </EffektButton>
           <EffektButton
             onClick={() => {
-              history.push('/distributions');
+              history.push("/distributions");
             }}
           >
             <PieChart size={16} />
@@ -66,7 +66,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
         <HorizontalPanel gap={120}>
           <DistributionKeyInfo distribution={current}></DistributionKeyInfo>
 
-          <div style={{ width: '400px', height: '380px' }}>
+          <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
               distribution={current.distribution.shares}
             ></DistributionGraphComponent>

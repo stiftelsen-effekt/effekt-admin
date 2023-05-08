@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const TabHeaders = styled.div`
   display: flex;
@@ -6,5 +6,4 @@ export const TabHeaders = styled.div`
   margin-bottom: 10px;
 `;
 
-export const TabContents = styled.div`
-`;
+export const TabContents = styled.div``;

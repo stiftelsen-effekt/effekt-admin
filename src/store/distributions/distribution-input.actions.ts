@@ -1,7 +1,7 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { IDistribution } from '../../models/types';
+import actionCreatorFactory from "typescript-fsa";
+import { IDistribution } from "../../models/types";
 
-export const SET_DISTRIBUTION_INPUT_DISTRIBUTION = 'SET_DISTRIBUTION_INPUT_DISTRIBUTION';
+export const SET_DISTRIBUTION_INPUT_DISTRIBUTION = "SET_DISTRIBUTION_INPUT_DISTRIBUTION";
 export const setDistributionInputDistribution = (distribution: Partial<IDistribution>) => {
   return {
     type: SET_DISTRIBUTION_INPUT_DISTRIBUTION,
@@ -12,11 +12,11 @@ export const setDistributionInputDistribution = (distribution: Partial<IDistribu
 const actionCreator = actionCreatorFactory();
 
 export interface ICreateDistributionActionParams {
-  distribution: Omit<IDistribution, 'KID'>;
+  distribution: Omit<IDistribution, "KID">;
   token: string;
 }
 export const createDistributionAction = actionCreator.async<
   ICreateDistributionActionParams,
   { KID: string; newDistribution: boolean },
   Error
->('CREATE_DISTRIBUTION');
+>("CREATE_DISTRIBUTION");

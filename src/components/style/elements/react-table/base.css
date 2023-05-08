@@ -80,7 +80,7 @@
   -webkit-transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: inset 0 0 0 0 transparent;
-  white-space: normal !important
+  white-space: normal !important;
 }
 
 .ReactTable .rt-thead .rt-th.-sort-asc,
@@ -125,7 +125,7 @@
   left: 100%;
   top: 50%;
   border: solid transparent;
-  content: ' ';
+  content: " ";
   height: 0;
   width: 0;
   position: absolute;
@@ -238,7 +238,7 @@
 }
 
 .ReactTable .rt-expander:after {
-  content: '';
+  content: "";
   position: absolute;
   width: 0;
   height: 0;
@@ -461,14 +461,14 @@
   outline: none;
 }
 
-.ReactTable input:not([type='checkbox']):not([type='radio']),
+.ReactTable input:not([type="checkbox"]):not([type="radio"]),
 .ReactTable select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-.ReactTable input:not([type='checkbox']):not([type='radio'])::-ms-expand,
+.ReactTable input:not([type="checkbox"]):not([type="radio"])::-ms-expand,
 .ReactTable select::-ms-expand {
   display: none;
 }
@@ -484,7 +484,7 @@
 }
 
 .ReactTable .select-wrap:after {
-  content: '';
+  content: "";
   position: absolute;
   right: 8px;
   top: 50%;

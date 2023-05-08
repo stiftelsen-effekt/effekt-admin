@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 
-import Histoslider from 'histoslider';
+import Histoslider from "histoslider";
 
-import rightArrow from '../../../assets/right-arrow.svg';
-import { FilterInput } from '../../style/elements/filters.component.style';
-import { IHistogramBucket } from '../../../models/types';
+import rightArrow from "../../../assets/right-arrow.svg";
+import { FilterInput } from "../../style/elements/filters.component.style";
+import { IHistogramBucket } from "../../../models/types";
 
 interface IProps {
   range: Array<number>;
@@ -28,7 +28,7 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({
         x: index + 1,
         y: histogram[index].bar,
       })),
-    [histogram]
+    [histogram],
   );
 
   const closestIndex = (input: Array<number>, goal: number) => {
@@ -64,14 +64,21 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({
         height={120}
         step={1}
         padding={10}
-        selectedColor={'white'}
+        selectedColor={"white"}
         histogramStyle={{
-          backgroundColor: 'none',
+          backgroundColor: "none",
         }}
         showLabels={false}
         barBorderRadius={0}
       ></Histoslider>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: 'white' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          color: "white",
+        }}
+      >
         <div>
           <FilterInput
             value={range[0]}
@@ -85,10 +92,10 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({
           ></FilterInput>
           <span>&nbsp;&nbsp;kr</span>
         </div>
-        <img src={rightArrow} style={{ height: '20px', color: 'white' }} alt="arrow" />
+        <img src={rightArrow} style={{ height: "20px", color: "white" }} alt="arrow" />
         <div>
           <FilterInput
-            value={range[1] === Number.MAX_SAFE_INTEGER ? '∞' : range[1]}
+            value={range[1] === Number.MAX_SAFE_INTEGER ? "∞" : range[1]}
             style={{ width: 80 }}
             onChange={(e) => {
               try {
