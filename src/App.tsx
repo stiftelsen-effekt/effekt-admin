@@ -10,13 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './components/style/elements/datepicker/datepicker-effekt.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './components/style/elements/react-table/base.css';
-import {
-  DEV_ENVIRONMENT,
-  AUTH_DOMAIN,
-  AUTH_CLIENT_ID,
-  AUTH_AUDIENCE,
-  AUTH_SCOPE,
-} from './config/config';
+import { DEV_ENVIRONMENT, AUTH_DOMAIN, AUTH_CLIENT_ID, AUTH_AUDIENCE } from './config/config';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Auth0Provider } from '@auth0/auth0-react';
 
