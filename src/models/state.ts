@@ -24,7 +24,6 @@ import {
   IAvtaleGiroValidation,
   ILogFilter,
   IDonorStats,
-  IDistributionShare,
   IReferralAnswer,
   ITaxUnit,
   ITaxUnitFilter,
