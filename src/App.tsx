@@ -21,7 +21,6 @@ const App: React.FC = () => {
         domain={AUTH_DOMAIN}
         clientId={AUTH_CLIENT_ID}
         audience={AUTH_AUDIENCE}
-        scope="admin"
         redirectUri={typeof window !== "undefined" ? window.location.origin + "/" : undefined}
         onRedirectCallback={() => {
           window.history.replaceState({}, document.title, "/");
