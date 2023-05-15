@@ -1,14 +1,14 @@
-import { MainHeader } from '../../style/elements/headers.style';
-import React, { useEffect, useState } from 'react';
-import { Page } from '../../style/elements/page.style';
-import { RouteComponentProps } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../models/state';
-import { DonorKeyInfo } from './donor/KeyInfo';
-import { TotalDonationAmount } from './donor/TotalDonationAmount';
-import { DonationsList } from '../../modules/donations/list/DonationsList';
-import { AvtaleGiroList } from '../../modules/avtalegiro/agreementlist/AvtaleGiroList';
-import { CreateTaxUnit } from '../../modules/taxunits/create/CreateTaxUnit'
+import { MainHeader } from "../../style/elements/headers.style";
+import React, { useEffect, useState } from "react";
+import { Page } from "../../style/elements/page.style";
+import { RouteComponentProps } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../models/state";
+import { DonorKeyInfo } from "./donor/KeyInfo";
+import { TotalDonationAmount } from "./donor/TotalDonationAmount";
+import { DonationsList } from "../../modules/donations/list/DonationsList";
+import { AvtaleGiroList } from "../../modules/avtalegiro/agreementlist/AvtaleGiroList";
+import { CreateTaxUnit } from "../../modules/taxunits/create/CreateTaxUnit";
 import {
   getDonorAction,
   getDonorAvtalegiroAgreementsAction,
@@ -18,20 +18,20 @@ import {
   getDonorYearlyAggregatesAction,
   getDonorReferralAnswersAction,
   getDonorTaxUnitsAction,
-} from '../../../store/donors/donor-page.actions';
-import { DonorAggregateChart } from './donor/AggregateChart';
-import { ChartWrapper, OverviewLine } from './Donor.style';
-import { EffektTabs } from '../../modules/shared/tabs/EffektTabs';
-import { EffektTabHeader } from '../../modules/shared/tabs/EffektTabHeader';
-import { EffektTab } from '../../modules/shared/tabs/EffektTab';
-import { VippsAgreementList } from '../../modules/vipps/agreementlist/VippsAgreementList';
-import { DistributionsList } from '../../modules/distribution/list/DistributionsList';
-import { useAuth0 } from '@auth0/auth0-react';
-import { ReferralAnswerList } from '../../modules/donors/referral_answers/ReferralAnswerList';
-import { TaxUnitList } from '../../modules/taxunits/list/TaxUnitsList';
-import { EffektModal } from '../../style/elements/effekt-modal/effekt-modal.component.style';
-import { EffektButton } from '../../style/elements/button.style';
-import { PlusSquare } from 'react-feather';
+} from "../../../store/donors/donor-page.actions";
+import { DonorAggregateChart } from "./donor/AggregateChart";
+import { ChartWrapper, OverviewLine } from "./Donor.style";
+import { EffektTabs } from "../../modules/shared/tabs/EffektTabs";
+import { EffektTabHeader } from "../../modules/shared/tabs/EffektTabHeader";
+import { EffektTab } from "../../modules/shared/tabs/EffektTab";
+import { VippsAgreementList } from "../../modules/vipps/agreementlist/VippsAgreementList";
+import { DistributionsList } from "../../modules/distribution/list/DistributionsList";
+import { useAuth0 } from "@auth0/auth0-react";
+import { ReferralAnswerList } from "../../modules/donors/referral_answers/ReferralAnswerList";
+import { TaxUnitList } from "../../modules/taxunits/list/TaxUnitsList";
+import { EffektModal } from "../../style/elements/effekt-modal/effekt-modal.component.style";
+import { EffektButton } from "../../style/elements/button.style";
+import { PlusSquare } from "react-feather";
 
 interface IParams {
   id: string;
@@ -45,7 +45,6 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
   const { getAccessTokenSilently } = useAuth0();
 
   const data = useSelector((state: AppState) => state.donorPage);
-
 
   useEffect(() => {
     getAccessTokenSilently().then((token) => {
@@ -66,7 +65,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
     data.stats.sumYearlyAggregates.forEach((row) => {
       let amount = row.value ? row.value.toNumber() : 0;
       totalDonations += amount;
-      if (row.abbriv === 'Drift') operationsDonations += amount;
+      if (row.abbriv === "Drift") operationsDonations += amount;
     });
   }
   const [showCreateTaxUnit, setShowCreateTaxUnit] = useState<boolean>(false);
@@ -91,27 +90,27 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
         <div>
           <EffektTabHeader
             label="Donations"
-            counter={data.donations ? data.donations.length : '...'}
+            counter={data.donations ? data.donations.length : "..."}
           />
           <EffektTabHeader
             label="Distributions"
-            counter={data.distributions ? data.distributions.length : '...'}
+            counter={data.distributions ? data.distributions.length : "..."}
           />
           <EffektTabHeader
             label="AvtaleGiro"
-            counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : '...'}
+            counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : "..."}
           />
           <EffektTabHeader
             label="Vipps recurring"
-            counter={data.vippsAgreements ? data.vippsAgreements.length : '...'}
+            counter={data.vippsAgreements ? data.vippsAgreements.length : "..."}
           />
           <EffektTabHeader
             label="Tax units"
-            counter={data.taxUnits ? data.taxUnits.length : '...'}
+            counter={data.taxUnits ? data.taxUnits.length : "..."}
           />
           <EffektTabHeader
             label="Referrals"
-            counter={data.referralAnswers ? data.referralAnswers.length : '...'}
+            counter={data.referralAnswers ? data.referralAnswers.length : "..."}
           />
         </div>
         <div>
@@ -140,16 +139,21 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
           </EffektTab>
         </div>
       </EffektTabs>
-      <EffektButton onClick={() => setShowCreateTaxUnit(true)} style={{ marginTop: '1em' }}>
-          <span>Create Tax Unit &nbsp;</span>{' '}
-          <PlusSquare color={'white'} size={18} style={{ verticalAlign: 'middle' }} />
+      <EffektButton onClick={() => setShowCreateTaxUnit(true)} style={{ marginTop: "1em" }}>
+        <span>Create Tax Unit &nbsp;</span>{" "}
+        <PlusSquare color={"white"} size={18} style={{ verticalAlign: "middle" }} />
       </EffektButton>
       <EffektModal
-            visible={showCreateTaxUnit}
-            effect="fadeInUp"
-            onClickAway={() => setShowCreateTaxUnit(false)}
-          >
-            {data.donor && <CreateTaxUnit onSubmit={() => setShowCreateTaxUnit(false)} donorID={data.donor.id}></CreateTaxUnit>}
+        visible={showCreateTaxUnit}
+        effect="fadeInUp"
+        onClickAway={() => setShowCreateTaxUnit(false)}
+      >
+        {data.donor && (
+          <CreateTaxUnit
+            onSubmit={() => setShowCreateTaxUnit(false)}
+            donorID={data.donor.id}
+          ></CreateTaxUnit>
+        )}
       </EffektModal>
     </Page>
   );

@@ -1,10 +1,10 @@
-import { put, call } from 'redux-saga/effects';
-import * as API from '../../util/api';
+import { put, call } from "redux-saga/effects";
+import * as API from "../../util/api";
 import {
   createDistributionAction,
   ICreateDistributionActionParams,
-} from './distribution-input.actions';
-import { Action } from 'typescript-fsa';
+} from "./distribution-input.actions";
+import { Action } from "typescript-fsa";
 
 export function* createDistribution(action: Action<ICreateDistributionActionParams>) {
   try {

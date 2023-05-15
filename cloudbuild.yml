@@ -1,13 +1,13 @@
 steps:
-- id: 'install'
-  name: 'gcr.io/cloud-builders/npm'
-  args: ['install']
+  - id: "install"
+    name: "gcr.io/cloud-builders/npm"
+    args: ["install"]
 
-- id: 'type-check'
-  name: 'gcr.io/cloud-builders/npm'
-  args: ['run', 'typecheck']
+  - id: "type-check"
+    name: "gcr.io/cloud-builders/npm"
+    args: ["run", "typecheck"]
 
-- id: 'test'
-  name: 'gcr.io/cloud-builders/npm'
-  env: ['CI=true']
-  args: ['run', 'test']
+  - id: "test"
+    name: "gcr.io/cloud-builders/npm"
+    env: ["CI=true"]
+    args: ["run", "test"]

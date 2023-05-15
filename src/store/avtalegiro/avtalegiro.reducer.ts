@@ -1,8 +1,8 @@
-import Decimal from 'decimal.js';
-import { toast } from 'react-toastify';
-import { isType } from 'typescript-fsa';
-import { AvtaleGiroAgreementsState } from '../../models/state';
-import { toastError } from '../../util/toasthelper';
+import Decimal from "decimal.js";
+import { toast } from "react-toastify";
+import { isType } from "typescript-fsa";
+import { AvtaleGiroAgreementsState } from "../../models/state";
+import { toastError } from "../../util/toasthelper";
 import {
   CLEAR_CURRENT_AVTALEGIRO,
   fetchAvtaleGiroAction,
@@ -24,7 +24,7 @@ import {
   updateAvtaleGiroDistributionAction,
   updateAvtaleGiroPaymentDateAction,
   updateAvtaleGiroStatusAction,
-} from './avtalegiro.actions';
+} from "./avtalegiro.actions";
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
   agreements: [],
@@ -34,7 +34,7 @@ const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     page: 0,
     limit: 25,
     sort: {
-      id: 'created',
+      id: "created",
       desc: true,
     },
   },
@@ -43,10 +43,10 @@ const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
       from: 0,
       to: 1000000,
     },
-    KID: '',
+    KID: "",
     paymentDate: undefined,
     created: undefined,
-    donor: '',
+    donor: "",
     statuses: [],
   },
   report: {
@@ -71,7 +71,7 @@ const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
 
 export const avtaleGiroReducer = (
   state = defaultAvtaleGiroAgreementState,
-  action: any
+  action: any,
 ): AvtaleGiroAgreementsState => {
   // Fetch multiple agreements
   if (isType(action, fetchAvtaleGiroAgreementsAction.done)) {
@@ -120,7 +120,7 @@ export const avtaleGiroReducer = (
   } else if (isType(action, fetchAvtaleGiroAction.started)) {
     return { ...state, loading: true };
   } else if (isType(action, fetchAvtaleGiroAction.failed)) {
-    toastError('Kunne ikke laste inn avtale', action.payload.error.message);
+    toastError("Kunne ikke laste inn avtale", action.payload.error.message);
     return { ...state, loading: false };
   }
 
@@ -140,7 +140,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroAmountAction.done)) {
-    toast.success('Avtalegiro sum er oppdatert.');
+    toast.success("Avtalegiro sum er oppdatert.");
     return {
       ...state,
       currentAgreement: {
@@ -151,7 +151,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroAmountAction.failed)) {
-    toastError('Kunne ikke endre avtalegiromengde.', 'Oppdatering mislyktes.');
+    toastError("Kunne ikke endre avtalegiromengde.", "Oppdatering mislyktes.");
     return {
       ...state,
       currentAgreementUpdating: false,
@@ -165,7 +165,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroStatusAction.done)) {
-    toast.success('Avtalegirostatus oppdatert.');
+    toast.success("Avtalegirostatus oppdatert.");
     return {
       ...state,
       currentAgreement: {
@@ -176,7 +176,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroStatusAction.failed)) {
-    toastError('Kunne ikke endre avtalegirostatus.', 'Oppdatering mislyktes.');
+    toastError("Kunne ikke endre avtalegirostatus.", "Oppdatering mislyktes.");
     return {
       ...state,
       currentAgreementUpdating: false,
@@ -190,7 +190,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroPaymentDateAction.done)) {
-    toast.success('Avtalegiro betalingsdato er oppdatert.');
+    toast.success("Avtalegiro betalingsdato er oppdatert.");
     return {
       ...state,
       currentAgreement: {
@@ -201,7 +201,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroPaymentDateAction.failed)) {
-    toastError('Kunne ikke endre avtalegiro betalingsdato.', 'Oppdatering mislyktes.');
+    toastError("Kunne ikke endre avtalegiro betalingsdato.", "Oppdatering mislyktes.");
     return {
       ...state,
       currentAgreementUpdating: false,
@@ -215,7 +215,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroDistributionAction.done)) {
-    toast.success('Avtalegiro distribusjon oppdatert.');
+    toast.success("Avtalegiro distribusjon oppdatert.");
     return {
       ...state,
       currentAgreement: {
@@ -226,7 +226,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroDistributionAction.failed)) {
-    toastError('Kunne ikke endre distribusjon.', 'Oppdatering mislyktes.');
+    toastError("Kunne ikke endre distribusjon.", "Oppdatering mislyktes.");
     return {
       ...state,
       currentAgreementUpdating: false,
@@ -240,7 +240,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroDistributionAction.done)) {
-    toast.success('Avtalegiro distribusjon oppdatert.');
+    toast.success("Avtalegiro distribusjon oppdatert.");
     return {
       ...state,
       currentAgreement: {
@@ -251,7 +251,7 @@ export const avtaleGiroReducer = (
     };
   }
   if (isType(action, updateAvtaleGiroDistributionAction.failed)) {
-    toastError('Kunne ikke endre distribusjon.', 'Oppdatering mislyktes.');
+    toastError("Kunne ikke endre distribusjon.", "Oppdatering mislyktes.");
     return {
       ...state,
       currentAgreementUpdating: false,
@@ -355,7 +355,7 @@ export const avtaleGiroReducer = (
       histogram: action.payload.result,
     };
   } else if (isType(action, fetchAvtaleGiroHistogramAction.failed)) {
-    toastError('Failed to fetch AvtaleGiro histogram', action.payload.error.message);
+    toastError("Failed to fetch AvtaleGiro histogram", action.payload.error.message);
   }
 
   switch (action.type) {

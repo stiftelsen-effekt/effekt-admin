@@ -1,6 +1,6 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { ITransactionCostsReport } from '../../models/state';
-import { IDonation, IHistogramBucket } from '../../models/types';
+import actionCreatorFactory from "typescript-fsa";
+import { ITransactionCostsReport } from "../../models/state";
+import { IDonation, IHistogramBucket } from "../../models/types";
 
 const actionCreator = actionCreatorFactory();
 
@@ -20,18 +20,18 @@ export const fetchDonationAction = actionCreator.async<
   IFetchDonationActionParams,
   IDonation,
   Error
->('FETCH_DONATION');
+>("FETCH_DONATION");
 export const fetchHistogramAction = actionCreator.async<
   IFetchDonationsHistogramActionParams,
   Array<IHistogramBucket>,
   Error
->('FETCH_HISTOGRAM');
+>("FETCH_HISTOGRAM");
 
-export const CLEAR_CURRENT_DONATION = 'CLEAR_CURRENT_DONATION';
+export const CLEAR_CURRENT_DONATION = "CLEAR_CURRENT_DONATION";
 export const clearCurrentDonation = () => ({ type: CLEAR_CURRENT_DONATION });
 
 export const fetchTransactionCostsReportAction = actionCreator.async<
   IFetchTransactionCostsReportActionParams,
   ITransactionCostsReport,
   Error
->('FETCH_TRANSACTION_COSTS_REPORT');
+>("FETCH_TRANSACTION_COSTS_REPORT");

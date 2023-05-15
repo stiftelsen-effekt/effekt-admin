@@ -1,10 +1,10 @@
-import { ToastContainer } from 'react-toastify';
-import styled from 'styled-components';
-import { red20, green20 } from '../../colors';
+import { ToastContainer } from "react-toastify";
+import styled from "styled-components";
+import { red20, green20 } from "../../colors";
 
 export const EffektToastContainer = styled(ToastContainer)`
   .Toastify__toast {
-    font-family: 'ESKlarheitGrotesk';
+    font-family: "ESKlarheitGrotesk";
   }
 
   .Toastify__toast--error {

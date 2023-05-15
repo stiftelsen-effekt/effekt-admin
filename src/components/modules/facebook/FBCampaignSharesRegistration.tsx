@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { IDistributionShare, IOrganization } from '../../../models/types';
-import { useDispatch } from 'react-redux';
-import { FBCampaign } from '../../../models/state';
-import { useAuth0 } from '@auth0/auth0-react';
-import { EffektButton } from '../../style/elements/button.style';
+import React, { useState } from "react";
+import { IDistributionShare, IOrganization } from "../../../models/types";
+import { useDispatch } from "react-redux";
+import { FBCampaign } from "../../../models/state";
+import { useAuth0 } from "@auth0/auth0-react";
+import { EffektButton } from "../../style/elements/button.style";
 import {
   ButtonWrapper,
   CampaignInfoWrapper,
   CampaignNameWrapper,
   FBCampaignSharesRegistrationWrapper,
-} from './FBCampaignSharesRegistration.style';
-import { registerCampaignAction } from '../../../store/facebook/facebook.actions';
-import { toastError } from '../../../util/toasthelper';
-import { DistributionSharesInput } from '../shared/distribution-input/DistributionSharesInput';
-import { EffektCheck } from '../../style/elements/effekt-check/effekt-check.component';
+} from "./FBCampaignSharesRegistration.style";
+import { registerCampaignAction } from "../../../store/facebook/facebook.actions";
+import { toastError } from "../../../util/toasthelper";
+import { DistributionSharesInput } from "../shared/distribution-input/DistributionSharesInput";
+import { EffektCheck } from "../../style/elements/effekt-check/effekt-check.component";
 
 interface IProps {
   organizations: Array<IOrganization>;
@@ -47,20 +47,20 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
               shares: distributionShares,
               standardSplit: standardDistribution,
             },
-          })
+          }),
         );
       });
     } else {
-      toastError('Shares do not add up to 100', 'Accumulated shares: ' + accShares);
+      toastError("Shares do not add up to 100", "Accumulated shares: " + accShares);
     }
   };
 
   return (
     <FBCampaignSharesRegistrationWrapper>
       <CampaignInfoWrapper>
-        <CampaignNameWrapper>{currentCampaign['fundraiserTitle']}</CampaignNameWrapper>
-        <div>Owner: {currentCampaign['campaignOwnerName']}</div>
-        <a href={currentCampaign['permalink']} target="_blank" rel="noreferrer">
+        <CampaignNameWrapper>{currentCampaign["fundraiserTitle"]}</CampaignNameWrapper>
+        <div>Owner: {currentCampaign["campaignOwnerName"]}</div>
+        <a href={currentCampaign["permalink"]} target="_blank" rel="noreferrer">
           Facebook campaign
         </a>
       </CampaignInfoWrapper>
@@ -68,7 +68,7 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
       <EffektCheck
         checked={standardDistribution}
         onChange={setStandardDistribution}
-        label={'Use standard distribution'}
+        label={"Use standard distribution"}
         inverted={false}
       ></EffektCheck>
       <DistributionSharesInput shares={distributionShares} onChange={setDistributionShares} />

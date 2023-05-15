@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const CreateDistributionWrapper = styled.div`
   display: flex;

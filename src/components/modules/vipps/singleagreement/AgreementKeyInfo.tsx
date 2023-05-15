@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 import {
   KeyInfoWrapper,
   KeyInfoGroup,
@@ -8,8 +8,8 @@ import {
   KeyInfoSum,
   KeyInfoTimestamp,
   KeyInfoValue,
-} from '../../../style/elements/keyinfo/keyinfo.style';
-import { shortDate } from '../../../../util/formatting';
+} from "../../../style/elements/keyinfo/keyinfo.style";
+import { shortDate } from "../../../../util/formatting";
 
 interface AgreementInfo {
   amount: number;

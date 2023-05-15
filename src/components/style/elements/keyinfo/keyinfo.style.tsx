@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { grey15, grey70, grey30 } from '../../colors';
+import styled from "styled-components";
+import { grey15, grey70, grey30 } from "../../colors";
 
 export const KeyInfoWrapper = styled.div``;
 
@@ -21,7 +21,7 @@ export const KeyInfoHeader = styled.h4`
 export const KeyInfoSum = styled.div`
   font-size: 36px;
   font-weight: 600;
-  color: 'black';
+  color: "black";
 `;
 
 export const KeyInfoTransactionCost = styled.span`
@@ -34,7 +34,7 @@ export const KeyInfoValue = styled.span`
   display: inline-block;
   font-weight: 600;
   font-size: 14px;
-  color: 'black';
+  color: "black";
 `;
 
 export const KeyInfoTimestamp = styled(KeyInfoValue)``;

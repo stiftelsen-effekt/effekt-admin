@@ -1,5 +1,5 @@
 .ReactTable {
-  font-family: 'ESKlarheitGrotesk';
+  font-family: "ESKlarheitGrotesk";
 }
 
 .ReactTable .rt-tr {
@@ -21,7 +21,7 @@
 .ReactTable .rt-td {
   display: flex;
   align-items: center;
-  white-space: normal !important
+  white-space: normal !important;
 }
 
 .ReactTable .pagination-bottom {
@@ -37,7 +37,7 @@
 
 .ReactTable .-pagination button.-btn {
   padding: 10px 30px;
-  font-family: 'ESKlarheitGrotesk';
+  font-family: "ESKlarheitGrotesk";
   display: inline-flex;
   font-weight: 600;
   letter-spacing: 1px;

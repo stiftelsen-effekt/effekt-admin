@@ -1,23 +1,23 @@
-import React, { useState, useCallback } from 'react';
-import { Page } from '../../style/elements/page.style';
-import { MainHeader, SubHeader } from '../../style/elements/headers.style';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../../models/state';
-import { fetchPaymentMethodsAction } from '../../../store/single-donation/single-donation.actions';
+import React, { useState, useCallback } from "react";
+import { Page } from "../../style/elements/page.style";
+import { MainHeader, SubHeader } from "../../style/elements/headers.style";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../../models/state";
+import { fetchPaymentMethodsAction } from "../../../store/single-donation/single-donation.actions";
 import {
   EffektSwitch,
   SwitchSelected,
-} from '../../style/elements/effekt-switch/effekt-switch.component';
+} from "../../style/elements/effekt-switch/effekt-switch.component";
 import {
   EffektCheckChoice,
   EffektCheckForm,
-} from '../../style/elements/effekt-check/effekt-check-form.component';
-import { API_URL } from '../../../config/config';
-import { DateTime } from 'luxon';
-import { EffektButton } from '../../style/elements/button.style';
-import { grey30 } from '../../style/colors';
-import { FormSection, FormSectionHeader } from '../../style/elements/from-section';
-import { EffektDateRange } from '../../modules/range/DateRange';
+} from "../../style/elements/effekt-check/effekt-check-form.component";
+import { API_URL } from "../../../config/config";
+import { DateTime } from "luxon";
+import { EffektButton } from "../../style/elements/button.style";
+import { grey30 } from "../../style/colors";
+import { FormSection, FormSectionHeader } from "../../style/elements/from-section";
+import { EffektDateRange } from "../../modules/range/DateRange";
 
 export enum ReportFileFormats {
   EXCEL,
@@ -46,9 +46,9 @@ export const ReportsComponent: React.FunctionComponent = () => {
   const fileFormatChanged = useCallback(
     (selected: SwitchSelected) =>
       setFileFormat(
-        selected === SwitchSelected.LEFT ? ReportFileFormats.EXCEL : ReportFileFormats.JSON
+        selected === SwitchSelected.LEFT ? ReportFileFormats.EXCEL : ReportFileFormats.JSON,
       ),
-    [setFileFormat]
+    [setFileFormat],
   );
 
   const reportRangeUrl = `${API_URL}/reports/range?pretty`;
@@ -68,21 +68,24 @@ export const ReportsComponent: React.FunctionComponent = () => {
             onChangeFrom={(date: Date | null) => setFrom(date)}
             to={to}
             onChangeTo={(date: Date | null) => setTo(date)}
-            onChangeRange={(from: Date | null, to: Date | null) => {setFrom(from); setTo(to);}}
+            onChangeRange={(from: Date | null, to: Date | null) => {
+              setFrom(from);
+              setTo(to);
+            }}
           ></EffektDateRange>
-          <span style={{ color: grey30, marginLeft: '14px', fontSize: '14px' }}>
+          <span style={{ color: grey30, marginLeft: "14px", fontSize: "14px" }}>
             Date range is inclusive
           </span>
 
           <input
             type="hidden"
             name="fromDate"
-            value={from ? DateTime.fromJSDate(from).toISODate().toString() : ''}
+            value={from ? DateTime.fromJSDate(from).toISODate().toString() : ""}
           />
           <input
             type="hidden"
             name="toDate"
-            value={to ? DateTime.fromJSDate(to).toISODate().toString() : ''}
+            value={to ? DateTime.fromJSDate(to).toISODate().toString() : ""}
           />
         </FormSection>
 
@@ -93,7 +96,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
             choices={paymentMethodChoices}
             onChange={(choices) => setPaymentMethodIds(choices)}
           />
-          <input type="hidden" name="paymentMethodIDs" value={paymentMethodIds.join('|')} />
+          <input type="hidden" name="paymentMethodIDs" value={paymentMethodIds.join("|")} />
         </FormSection>
 
         <FormSection>
@@ -110,7 +113,7 @@ export const ReportsComponent: React.FunctionComponent = () => {
           <input
             type="hidden"
             name="filetype"
-            value={fileFormat === ReportFileFormats.EXCEL ? 'excel' : 'json'}
+            value={fileFormat === ReportFileFormats.EXCEL ? "excel" : "json"}
           ></input>
         </FormSection>
 

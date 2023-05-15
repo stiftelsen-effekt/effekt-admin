@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { grey15 } from '../colors';
+import styled from "styled-components";
+import { grey15 } from "../colors";
 
 export const EffektSelect = styled.select`
-  font-family: 'ESKlarheitGrotesk';
+  font-family: "ESKlarheitGrotesk";
   font-weight: 300;
   background: #eee;
   border: none;

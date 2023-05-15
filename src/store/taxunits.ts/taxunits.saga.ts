@@ -1,10 +1,15 @@
-import { Action } from 'typescript-fsa';
-import { IUpdateTaxUnitActionParams, UpdateTaxUnitAction, CreateTaxUnitAction, ICreateTaxUnitActionParams } from './taxunits.actions';
-import * as API from '../../util/api';
-import { call, put, select } from 'redux-saga/effects';
-import { AppState } from '../../models/state';
-import { getDonorTaxUnitsAction } from '../donors/donor-page.actions';
-import { IDonor } from '../../models/types';
+import { Action } from "typescript-fsa";
+import {
+  IUpdateTaxUnitActionParams,
+  UpdateTaxUnitAction,
+  CreateTaxUnitAction,
+  ICreateTaxUnitActionParams,
+} from "./taxunits.actions";
+import * as API from "../../util/api";
+import { call, put, select } from "redux-saga/effects";
+import { AppState } from "../../models/state";
+import { getDonorTaxUnitsAction } from "../donors/donor-page.actions";
+import { IDonor } from "../../models/types";
 
 export function* updateTaxUnit(action: Action<IUpdateTaxUnitActionParams>) {
   try {
@@ -29,7 +34,7 @@ export function* updateTaxUnit(action: Action<IUpdateTaxUnitActionParams>) {
 
 export function* createTaxUnit(action: Action<ICreateTaxUnitActionParams>) {
   try {
-    var data: API.TypedResponse<'OK' | string> = yield call(API.call, {
+    var data: API.TypedResponse<"OK" | string> = yield call(API.call, {
       endpoint: `/donors/${action.payload.donorID}/taxunits`,
       method: API.Method.POST,
       data: action.payload.taxUnit,

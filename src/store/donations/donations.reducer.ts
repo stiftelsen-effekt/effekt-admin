@@ -1,14 +1,14 @@
-import { DonationsState } from '../../models/state';
-import { isType } from 'typescript-fsa';
-import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from './donations-list.actions';
+import { DonationsState } from "../../models/state";
+import { isType } from "typescript-fsa";
+import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from "./donations-list.actions";
 import {
   fetchDonationAction,
   CLEAR_CURRENT_DONATION,
   fetchHistogramAction,
   fetchTransactionCostsReportAction,
-} from './donation.actions';
-import { toastError } from '../../util/toasthelper';
-import Decimal from 'decimal.js';
+} from "./donation.actions";
+import { toastError } from "../../util/toasthelper";
+import Decimal from "decimal.js";
 import {
   SET_DONATION_FILTER_DATE_RANGE,
   SET_DONATION_FILTER_SUM_RANGE,
@@ -17,7 +17,7 @@ import {
   SET_DONATION_FILTER_DONOR,
   SET_DONATION_FILTER_DONATION_ID,
   SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS,
-} from './donation-filters.actions';
+} from "./donation-filters.actions";
 
 const defaultState: DonationsState = {
   donations: [],
@@ -28,7 +28,7 @@ const defaultState: DonationsState = {
     page: 0,
     limit: 25,
     sort: {
-      id: 'timestamp',
+      id: "timestamp",
       desc: true,
     },
   },
@@ -65,10 +65,10 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
   /**
    * Transaction costs
    */
-   if (isType(action, fetchTransactionCostsReportAction.done)) {
+  if (isType(action, fetchTransactionCostsReportAction.done)) {
     return { ...state, transactionCostsReport: action.payload.result };
-   } else if (isType(action, fetchTransactionCostsReportAction.failed)) {
-    toastError('Failed to fetch transaction costs report', action.payload.error.message);
+  } else if (isType(action, fetchTransactionCostsReportAction.failed)) {
+    toastError("Failed to fetch transaction costs report", action.payload.error.message);
   }
 
   /**
@@ -96,7 +96,7 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
       },
     };
   } else if (isType(action, fetchDonationAction.failed)) {
-    toastError('Failed to fetch donation', action.payload.error.message);
+    toastError("Failed to fetch donation", action.payload.error.message);
   }
 
   /**
@@ -116,7 +116,7 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
       histogram: action.payload.result,
     };
   } else if (isType(action, fetchHistogramAction.failed)) {
-    toastError('Failed to fetch histogram', action.payload.error.message);
+    toastError("Failed to fetch histogram", action.payload.error.message);
   }
 
   switch (action.type) {

@@ -1,14 +1,14 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import { DateTime } from 'luxon';
-import React from 'react';
-import JSONTree from 'react-json-tree';
-import { useDispatch, useSelector } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
-import { AppState } from '../../../models/state';
-import { clearCurrentLogEntry, fetchLogEntryAction } from '../../../store/logs/logs.actions';
-import { longDateTime } from '../../../util/formatting';
-import { ResourceHeader, ResourceSubHeader } from '../../style/elements/headers.style';
-import { Page } from '../../style/elements/page.style';
+import { useAuth0 } from "@auth0/auth0-react";
+import { DateTime } from "luxon";
+import React from "react";
+import JSONTree from "react-json-tree";
+import { useDispatch, useSelector } from "react-redux";
+import { RouteComponentProps } from "react-router-dom";
+import { AppState } from "../../../models/state";
+import { clearCurrentLogEntry, fetchLogEntryAction } from "../../../store/logs/logs.actions";
+import { longDateTime } from "../../../util/formatting";
+import { ResourceHeader, ResourceSubHeader } from "../../style/elements/headers.style";
+import { Page } from "../../style/elements/page.style";
 
 interface IParams {
   id: string;
@@ -56,15 +56,13 @@ export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IPar
         <ResourceHeader hasSubHeader={true}>
           Log entry {entry.ID} | {entry.label}
         </ResourceHeader>
-        <ResourceSubHeader>
-          {longDateTime(DateTime.fromISO(entry.timestamp))}
-        </ResourceSubHeader>
+        <ResourceSubHeader>{longDateTime(DateTime.fromISO(entry.timestamp))}</ResourceSubHeader>
 
         <JSONView
           data={entry.result}
           valueRenderer={(value, index, keyPath) =>
-            keyPath === 'file' ? (
-              <span style={{ fontFamily: 'monospace', whiteSpace: 'pre', display: 'block' }}>
+            keyPath === "file" ? (
+              <span style={{ fontFamily: "monospace", whiteSpace: "pre", display: "block" }}>
                 {value}
               </span>
             ) : (

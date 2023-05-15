@@ -1,47 +1,47 @@
 steps:
-- id: 'install'
-  name: 'gcr.io/cloud-builders/npm'
-  args: ['install']
+  - id: "install"
+    name: "gcr.io/cloud-builders/npm"
+    args: ["install"]
 
-- id: 'type-check'
-  name: 'gcr.io/cloud-builders/npm'
-  args: ['run', 'typecheck']
+  - id: "type-check"
+    name: "gcr.io/cloud-builders/npm"
+    args: ["run", "typecheck"]
 
-- id: 'test'
-  name: 'gcr.io/cloud-builders/npm'
-  env: ['CI=true']
-  args: ['run', 'test']
+  - id: "test"
+    name: "gcr.io/cloud-builders/npm"
+    env: ["CI=true"]
+    args: ["run", "test"]
 
-  # The build and deploy steps for each region must happen in direct sequence
-  # or the wrong build might get deployed to the wrong place
-  # 1. Build for region A
-  # 2. Deploy to region A
-  # 3. Build for region B
-  # 4. Deploy to region B
-- id: 'build-norway'
-  name: 'gcr.io/cloud-builders/npm'
-  env:
-    - 'CI=true'
-    - 'REACT_APP_API_URL=https://dev.data.gieffektivt.no'
-    - 'REACT_APP_AUTH_DOMAIN=gieffektivt.eu.auth0.com'
-    - 'REACT_APP_AUTH_CLIENT_ID=jg0jOryc8mhJ0Z0FVLfrDxx5qaznd2x8'
-    - 'REACT_APP_AUTH_AUDIENCE=https://data.gieffektivt.no'
-  args: ['run', 'build']
+    # The build and deploy steps for each region must happen in direct sequence
+    # or the wrong build might get deployed to the wrong place
+    # 1. Build for region A
+    # 2. Deploy to region A
+    # 3. Build for region B
+    # 4. Deploy to region B
+  - id: "build-norway"
+    name: "gcr.io/cloud-builders/npm"
+    env:
+      - "CI=true"
+      - "REACT_APP_API_URL=https://dev.data.gieffektivt.no"
+      - "REACT_APP_AUTH_DOMAIN=gieffektivt.eu.auth0.com"
+      - "REACT_APP_AUTH_CLIENT_ID=jg0jOryc8mhJ0Z0FVLfrDxx5qaznd2x8"
+      - "REACT_APP_AUTH_AUDIENCE=https://data.gieffektivt.no"
+    args: ["run", "build"]
 
-- id: 'deploy-norway'
-  name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', 'build/*', 'gs://effekt-admin-dev/']
+  - id: "deploy-norway"
+    name: "gcr.io/cloud-builders/gsutil"
+    args: ["-m", "cp", "-r", "build/*", "gs://effekt-admin-dev/"]
 
-- id: 'build-sweden'
-  name: 'gcr.io/cloud-builders/npm'
-  env:
-    - 'CI=true'
-    - 'REACT_APP_API_URL=https://api.dev.geeffektivt.se'
-    - 'REACT_APP_AUTH_DOMAIN=geeffektivt.eu.auth0.com'
-    - 'REACT_APP_AUTH_CLIENT_ID=LFS9efinrKEt1d6AbpVMjqHVIszj6TOv'
-    - 'REACT_APP_AUTH_AUDIENCE=geeffektivt.se'
-  args: ['run', 'build']
+  - id: "build-sweden"
+    name: "gcr.io/cloud-builders/npm"
+    env:
+      - "CI=true"
+      - "REACT_APP_API_URL=https://api.dev.geeffektivt.se"
+      - "REACT_APP_AUTH_DOMAIN=geeffektivt.eu.auth0.com"
+      - "REACT_APP_AUTH_CLIENT_ID=LFS9efinrKEt1d6AbpVMjqHVIszj6TOv"
+      - "REACT_APP_AUTH_AUDIENCE=geeffektivt.se"
+    args: ["run", "build"]
 
-- id: 'deploy-sweden'
-  name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', 'build/*', 'gs://admin.dev.geeffektivt.se/']
+  - id: "deploy-sweden"
+    name: "gcr.io/cloud-builders/gsutil"
+    args: ["-m", "cp", "-r", "build/*", "gs://admin.dev.geeffektivt.se/"]

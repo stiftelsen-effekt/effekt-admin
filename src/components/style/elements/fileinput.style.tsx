@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { grey15 } from '../colors';
+import styled from "styled-components";
+import { grey15 } from "../colors";
 
 export const HiddenFileInput = styled.input`
   border: 0;
@@ -14,7 +14,7 @@ export const HiddenFileInput = styled.input`
 
 export const FileInputLabel = styled.label`
   cursor: pointer;
-  font-family: 'ESKlarheitGrotesk';
+  font-family: "ESKlarheitGrotesk";
   font-weight: 300;
   background: #eee;
   border: none;

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import {
   EffektCheckWrapper,
   EffektCheckBox,
   EffektCheckLabel,
-} from './effekt-check.component.style';
+} from "./effekt-check.component.style";
 
 interface IProps {
   checked: boolean;

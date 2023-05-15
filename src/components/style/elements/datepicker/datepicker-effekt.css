@@ -35,7 +35,7 @@
   border-radius: 0;
 }
 
-.react-datepicker-popper[data-placement$='end'] .react-datepicker__triangle {
+.react-datepicker-popper[data-placement$="end"] .react-datepicker__triangle {
   left: auto;
   right: 50px;
 }

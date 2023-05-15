@@ -1,20 +1,20 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import React, { useState } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+import React, { useState } from "react";
 
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../../../models/state';
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../../../models/state";
 import {
   fetchChargeHistogramAction,
   setVippsChargesFilterAmount,
   setVippsChargesFilterDonor,
   setVippsChargesFilterKID,
   setVippsChargesFilterStatus,
-} from '../../../../store/vipps/vipps.actions';
+} from "../../../../store/vipps/vipps.actions";
 import {
   EffektCheckChoice,
   EffektCheckForm,
-} from '../../../style/elements/effekt-check/effekt-check-form.component';
-import { FilterOpenButton } from '../../../style/elements/filter-buttons/filter-open-button.component';
+} from "../../../style/elements/effekt-check/effekt-check-form.component";
+import { FilterOpenButton } from "../../../style/elements/filter-buttons/filter-open-button.component";
 import {
   FilterWrapper,
   FilterContent,
@@ -22,19 +22,19 @@ import {
   FilterGroup,
   FilterGroupHeader,
   FilterInput,
-} from '../../../style/elements/filters.component.style';
-import { HistogramInputComponent } from '../../histogram-input/HistogramInput';
+} from "../../../style/elements/filters.component.style";
+import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
 
 const statusTypes = [
-  { name: 'CHARGED', id: 0 },
-  { name: 'PENDING', id: 1 },
-  { name: 'RESERVED', id: 2 },
-  { name: 'FAILED', id: 3 },
-  { name: 'PROCESSING', id: 4 },
-  { name: 'REFUNDED', id: 5 },
-  { name: 'PARTIALLY_REFUNDED', id: 6 },
-  { name: 'DUE', id: 7 },
-  { name: 'CANCELLED', id: 8 },
+  { name: "CHARGED", id: 0 },
+  { name: "PENDING", id: 1 },
+  { name: "RESERVED", id: 2 },
+  { name: "FAILED", id: 3 },
+  { name: "PROCESSING", id: 4 },
+  { name: "REFUNDED", id: 5 },
+  { name: "PARTIALLY_REFUNDED", id: 6 },
+  { name: "DUE", id: 7 },
+  { name: "CANCELLED", id: 8 },
 ];
 
 export const VippsChargeFilter: React.FunctionComponent = () => {
@@ -42,7 +42,7 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   const amountRange = useSelector(
-    (state: AppState) => state.vippsAgreementCharges.filter.amountNOK
+    (state: AppState) => state.vippsAgreementCharges.filter.amountNOK,
   );
   const KID = useSelector((state: AppState) => state.vippsAgreementCharges.filter.KID);
   const donor = useSelector((state: AppState) => state.vippsAgreementCharges.filter.donor);
@@ -53,7 +53,7 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
   if (statuses) {
     if (!histogram)
       getAccessTokenSilently().then((token) =>
-        dispatch(fetchChargeHistogramAction.started({ token }))
+        dispatch(fetchChargeHistogramAction.started({ token })),
       );
 
     let statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
@@ -79,7 +79,7 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
               histogram={histogram}
               onChange={(range: any) => {
                 dispatch(
-                  setVippsChargesFilterAmount({ from: Math.min(...range), to: Math.max(...range) })
+                  setVippsChargesFilterAmount({ from: Math.min(...range), to: Math.max(...range) }),
                 );
               }}
             ></HistogramInputComponent>
@@ -89,8 +89,8 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
             <FilterGroupHeader>Donor like</FilterGroupHeader>
             <FilterInput
               value={donor}
-              placeholder={'Fuzzy search'}
-              style={{ width: '100%' }}
+              placeholder={"Fuzzy search"}
+              style={{ width: "100%" }}
               onChange={(e: any) => {
                 dispatch(setVippsChargesFilterDonor(e.target.value));
               }}
@@ -101,8 +101,8 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
             <FilterGroupHeader>KID like</FilterGroupHeader>
             <FilterInput
               value={KID}
-              placeholder={'Fuzzy search'}
-              style={{ width: '100%' }}
+              placeholder={"Fuzzy search"}
+              style={{ width: "100%" }}
               onChange={(e: any) => {
                 dispatch(setVippsChargesFilterKID(e.target.value));
               }}

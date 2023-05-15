@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { grey05 } from '../colors';
+import styled from "styled-components";
+import { grey05 } from "../colors";
 
 export const FormSection = styled.div`
   padding-top: 5px;

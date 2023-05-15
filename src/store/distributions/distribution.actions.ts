@@ -1,12 +1,12 @@
-import actionCreatorFactory from 'typescript-fsa';
+import actionCreatorFactory from "typescript-fsa";
 import {
   IPagination,
   IDistributionSearchResultItem,
   IDonation,
   IDistribution,
-} from '../../models/types';
+} from "../../models/types";
 
-export const SET_DISTRIBUTIONS_PAGINATION = 'SET_DISTRIBUTIONS_PAGINATION';
+export const SET_DISTRIBUTIONS_PAGINATION = "SET_DISTRIBUTIONS_PAGINATION";
 
 const actionCreator = actionCreatorFactory();
 
@@ -32,13 +32,13 @@ export const fetchDistributionAction = actionCreator.async<
   IFetchDistributionActionParams,
   IFetchDistributionResult,
   Error
->('FETCH_DISTRIBUTION');
+>("FETCH_DISTRIBUTION");
 
 export const fetchDistributionsAction = actionCreator.async<
   IFetchDistributionsActionParams,
   IFetchDistributionsResult,
   Error
->('FETCH_DISTRIBUTIONS');
+>("FETCH_DISTRIBUTIONS");
 
 export const setDistributionPagination = (pagination: IPagination) => {
   return {
@@ -47,8 +47,8 @@ export const setDistributionPagination = (pagination: IPagination) => {
   };
 };
 
-export const SET_DISTRIBUTIONS_FILTER_DONOR = 'SET_DISTRIBUTIONS_FILTER_DONOR';
-export const SET_DISTRIBUTIONS_FILTER_KID = 'SET_DISTRIBUTIONS_FILTER_KID';
+export const SET_DISTRIBUTIONS_FILTER_DONOR = "SET_DISTRIBUTIONS_FILTER_DONOR";
+export const SET_DISTRIBUTIONS_FILTER_KID = "SET_DISTRIBUTIONS_FILTER_KID";
 
 export const setDistributionFilterDonor = (donor: string) => {
   return {
