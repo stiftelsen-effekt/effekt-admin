@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import ReactTable from 'react-table';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../../models/state';
-import { longDateTime, shortDate, thousandize } from '../../../../util/formatting';
-import { DateTime } from 'luxon';
-import { useHistory } from 'react-router';
+import React, { useEffect } from "react";
+import ReactTable from "react-table";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../../models/state";
+import { longDateTime, shortDate, thousandize } from "../../../../util/formatting";
+import { DateTime } from "luxon";
+import { useHistory } from "react-router";
 import {
   fetchAvtaleGiroAgreementsAction,
   setAvtaleGiroPagination,
-} from '../../../../store/avtalegiro/avtalegiro.actions';
-import { IAvtaleGiro } from '../../../../models/types';
-import { useAuth0 } from '@auth0/auth0-react';
+} from "../../../../store/avtalegiro/avtalegiro.actions";
+import { IAvtaleGiro } from "../../../../models/types";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const AvtaleGiroList: React.FunctionComponent<{
   agreements: Array<IAvtaleGiro> | undefined;
@@ -28,81 +28,81 @@ export const AvtaleGiroList: React.FunctionComponent<{
   useEffect(() => {
     if (manual) {
       getAccessTokenSilently().then((token) =>
-        dispatch(fetchAvtaleGiroAgreementsAction.started({ token }))
+        dispatch(fetchAvtaleGiroAgreementsAction.started({ token })),
       );
     }
   }, [pagination, manual, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions = [
     {
-      Header: 'Agreement ID',
-      accessor: 'ID',
-      id: 'id',
+      Header: "Agreement ID",
+      accessor: "ID",
+      id: "id",
       width: 120,
     },
     {
-      Header: 'Donor',
-      accessor: 'full_name',
+      Header: "Donor",
+      accessor: "full_name",
     },
     {
-      Header: 'Status',
-      id: 'active',
+      Header: "Status",
+      id: "active",
       accessor: (res: any) => {
-        if (res.active === 1) return 'ACTIVE';
-        if (res.active === 0 && res.cancelled) return 'STOPPED';
-        return 'INACTIVE';
+        if (res.active === 1) return "ACTIVE";
+        if (res.active === 0 && res.cancelled) return "STOPPED";
+        return "INACTIVE";
       },
       width: 90,
     },
     {
-      Header: 'Sum',
-      id: 'amount',
+      Header: "Sum",
+      id: "amount",
       accessor: (res: any) => thousandize(res.amount),
       sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
       },
       width: 85,
     },
     {
-      Header: 'Day',
-      accessor: 'payment_date',
-      id: 'paymentDate',
+      Header: "Day",
+      accessor: "payment_date",
+      id: "paymentDate",
       width: 60,
     },
     {
-      Header: 'KID',
-      accessor: 'KID',
-      id: 'kid',
+      Header: "KID",
+      accessor: "KID",
+      id: "kid",
       width: 160,
     },
     {
-      Header: 'Draft date',
-      id: 'created',
+      Header: "Draft date",
+      id: "created",
       accessor: (res: any) => shortDate(DateTime.fromISO(res.created, { setZone: true })),
       width: 110,
     },
     {
-      Header: 'Last updated',
-      id: 'lastUpdated',
+      Header: "Last updated",
+      id: "lastUpdated",
       accessor: (res: any) => longDateTime(DateTime.fromISO(res.last_updated)),
       width: 150,
     },
     {
-      Header: 'Cancellation date',
-      id: 'cancelled',
+      Header: "Cancellation date",
+      id: "cancelled",
       accessor: (res: any) =>
         res.cancelled && shortDate(DateTime.fromISO(res.cancelled, { setZone: true })),
       width: 115,
     },
     {
-      Header: 'Notify',
-      id: 'notice',
-      accessor: (res: any) => (res.notice === 1 ? 'YES' : 'NO'),
+      Header: "Notify",
+      id: "notice",
+      accessor: (res: any) => (res.notice === 1 ? "YES" : "NO"),
       width: 60,
     },
   ];
 
-  const defaultSorting = [{ id: 'created', desc: true }];
+  const defaultSorting = [{ id: "created", desc: true }];
 
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {

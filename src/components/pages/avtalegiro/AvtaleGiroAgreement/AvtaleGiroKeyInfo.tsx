@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 import {
   KeyInfoWrapper,
   KeyInfoGroup,
@@ -8,17 +8,17 @@ import {
   KeyInfoSum,
   KeyInfoTimestamp,
   KeyInfoValue,
-} from '../../../style/elements/keyinfo/keyinfo.style';
-import { shortDate } from '../../../../util/formatting';
-import { IAvtaleGiro, ITaxUnit } from '../../../../models/types';
+} from "../../../style/elements/keyinfo/keyinfo.style";
+import { shortDate } from "../../../../util/formatting";
+import { IAvtaleGiro, ITaxUnit } from "../../../../models/types";
 
 export const AvtaleGiroKeyInfo: React.FunctionComponent<{
   agreement: IAvtaleGiro;
 }> = ({ agreement }) => {
   const formattedTimestamp = shortDate(DateTime.fromISO(agreement.created));
-  const chargeDay = agreement.payment_date === 0 ? 'End of month' : agreement.payment_date;
-  let formattedStatus = agreement.active ? 'Active' : 'Inactive';
-  if (agreement.cancelled) formattedStatus = 'Cancelled';
+  const chargeDay = agreement.payment_date === 0 ? "End of month" : agreement.payment_date;
+  let formattedStatus = agreement.active ? "Active" : "Inactive";
+  if (agreement.cancelled) formattedStatus = "Cancelled";
 
   const formattedTaxUnitOutput = (taxUnit: ITaxUnit | null | undefined) => {
     if (!taxUnit) return <span>None</span>;

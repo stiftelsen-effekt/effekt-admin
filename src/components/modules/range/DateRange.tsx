@@ -1,8 +1,8 @@
-import React from 'react';
-import { EffektButton } from '../../style/elements/button.style';
-import { EffektDatePicker } from '../../style/elements/datepicker/datepicker.style';
-import { ArrowRight } from 'react-feather';
-import styled from 'styled-components';
+import React from "react";
+import { EffektButton } from "../../style/elements/button.style";
+import { EffektDatePicker } from "../../style/elements/datepicker/datepicker.style";
+import { ArrowRight } from "react-feather";
+import styled from "styled-components";
 
 interface IProps {
   from: Date | null;
@@ -17,7 +17,7 @@ export const DatesContainer = styled.div`
 `;
 export const RangeContainer = styled.div`
   display: flex;
-  &> button {
+  & > button {
     padding: 3px 3px 1px 4px;
     margin: 0.2em;
     font-size: 11px;
@@ -29,7 +29,7 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({
   onChangeFrom,
   onChangeTo,
   onChangeRange,
-  inverted
+  inverted,
 }) => {
   const floor = (date: Date) => {
     date.setHours(0);
@@ -47,49 +47,34 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({
   };
   const now = new Date();
   const presets = {
-    '7 days': [
-      new Date(new Date(now).setDate(now.getDate() - 6)),
-      now,
-    ],
-    '30 days': [
-      new Date(new Date(now).setDate(now.getDate() - 29)),
-      now,
-    ],
-    'This month': [
+    "7 days": [new Date(new Date(now).setDate(now.getDate() - 6)), now],
+    "30 days": [new Date(new Date(now).setDate(now.getDate() - 29)), now],
+    "This month": [
       new Date(new Date(now).setDate(1)),
       new Date(now.getFullYear(), now.getMonth() + 1, 0),
     ],
-    'Last month': [
+    "Last month": [
       new Date(now.getFullYear(), now.getMonth() - 1, 1),
       new Date(now.getFullYear(), now.getMonth(), 0),
     ],
-    'This year': [
-      new Date(now.getFullYear(), 0, 1),
-      new Date(now.getFullYear(), 12, 0),
-    ],
-    'Last year': [
-      new Date(now.getFullYear() - 1, 0, 1),
-      new Date(now.getFullYear() - 1, 12, 0),
-    ],
+    "This year": [new Date(now.getFullYear(), 0, 1), new Date(now.getFullYear(), 12, 0)],
+    "Last year": [new Date(now.getFullYear() - 1, 0, 1), new Date(now.getFullYear() - 1, 12, 0)],
   };
   return (
     <React.Fragment>
       <DatesContainer>
         <EffektDatePicker
           onChange={(data) => {
-            onChangeFrom(data ? floor(data) : null)
+            onChangeFrom(data ? floor(data) : null);
           }}
           selected={from}
           placeholderText="from"
           dateFormat="dd.MM.yyyy"
         ></EffektDatePicker>
-        <ArrowRight
-          color={inverted ? 'white' : 'black'}
-          style={{ margin: '5px' }}
-          />
+        <ArrowRight color={inverted ? "white" : "black"} style={{ margin: "5px" }} />
         <EffektDatePicker
           onChange={(data) => {
-            onChangeTo(data ? ceil(data) : null)
+            onChangeTo(data ? ceil(data) : null);
           }}
           selected={to}
           placeholderText="to"
@@ -111,7 +96,9 @@ export const EffektDateRange: React.FunctionComponent<IProps> = ({
                 onChangeRange(from, to);
               }
             }}
-          >{label}</EffektButton>
+          >
+            {label}
+          </EffektButton>
         ))}
       </RangeContainer>
     </React.Fragment>

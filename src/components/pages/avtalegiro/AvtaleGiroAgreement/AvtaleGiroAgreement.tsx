@@ -1,26 +1,26 @@
 /* eslint-disable no-restricted-globals */
-import React, { useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Page } from '../../../style/elements/page.style';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../../models/state';
-import { IAvtaleGiro } from '../../../../models/types';
-import { DistributionGraphComponent } from '../../../modules/distribution/Graph';
+import React, { useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { Page } from "../../../style/elements/page.style";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../../models/state";
+import { IAvtaleGiro } from "../../../../models/types";
+import { DistributionGraphComponent } from "../../../modules/distribution/Graph";
 import {
   ResourceHeader,
   ResourceSubHeader,
   SubHeader,
-} from '../../../style/elements/headers.style';
-import { fetchAvtaleGiroAction } from '../../../../store/avtalegiro/avtalegiro.actions';
-import { HorizontalPanel } from '../../donations/Donation.style';
-import { AvtaleGiroKeyInfo } from './AvtaleGiroKeyInfo';
-import { useAuth0 } from '@auth0/auth0-react';
-import { DonationsList } from '../../../modules/donations/list/DonationsList';
-import { EffektButton } from '../../../style/elements/button.style';
-import { FileText, PieChart, User } from 'react-feather';
-import { useHistory } from 'react-router';
-import { EditAvtaleGiroAgreement } from '../../../modules/avtalegiro/editagreement/EditAvtalegiroAgreement';
-import { EffektButtonsWrapper } from '../../../style/elements/buttons-wrapper/EffektButtonsWrapper.style';
+} from "../../../style/elements/headers.style";
+import { fetchAvtaleGiroAction } from "../../../../store/avtalegiro/avtalegiro.actions";
+import { HorizontalPanel } from "../../donations/Donation.style";
+import { AvtaleGiroKeyInfo } from "./AvtaleGiroKeyInfo";
+import { useAuth0 } from "@auth0/auth0-react";
+import { DonationsList } from "../../../modules/donations/list/DonationsList";
+import { EffektButton } from "../../../style/elements/button.style";
+import { FileText, PieChart, User } from "react-feather";
+import { useHistory } from "react-router";
+import { EditAvtaleGiroAgreement } from "../../../modules/avtalegiro/editagreement/EditAvtalegiroAgreement";
+import { EffektButtonsWrapper } from "../../../style/elements/buttons-wrapper/EffektButtonsWrapper.style";
 
 interface IParams {
   id: string;
@@ -34,7 +34,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
   const dispatch = useDispatch();
 
   const avtaleGiro: IAvtaleGiro | undefined = useSelector(
-    (state: AppState) => state.avtaleGiroAgreements.currentAgreement
+    (state: AppState) => state.avtaleGiroAgreements.currentAgreement,
   );
 
   const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false);
@@ -42,7 +42,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>
-      dispatch(fetchAvtaleGiroAction.started({ id: avtaleGiroID, token }))
+      dispatch(fetchAvtaleGiroAction.started({ id: avtaleGiroID, token })),
     );
   }, [avtaleGiroID, dispatch, getAccessTokenSilently]);
 
@@ -65,13 +65,13 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
 
           <EffektButton
             onClick={() => {
-              history.push('/distributions/' + avtaleGiro.KID);
+              history.push("/distributions/" + avtaleGiro.KID);
             }}
           >
             <PieChart size={16} />
             Distribution
           </EffektButton>
-          <EffektButton onClick={() => history.push('/avtalegiro')}>
+          <EffektButton onClick={() => history.push("/avtalegiro")}>
             <FileText size={16} /> All agreements
           </EffektButton>
         </EffektButtonsWrapper>
@@ -80,7 +80,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
         <HorizontalPanel gap={120}>
           <AvtaleGiroKeyInfo agreement={avtaleGiro}></AvtaleGiroKeyInfo>
 
-          <div style={{ width: '400px', height: '380px' }}>
+          <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
               distribution={avtaleGiro.distribution.shares}
             ></DistributionGraphComponent>
@@ -88,7 +88,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
         </HorizontalPanel>
 
         <EffektButton onClick={() => setEditMenuVisible(!editMenuVisible)}>
-          {editMenuVisible ? 'Cancel editing' : 'Edit agreement'}
+          {editMenuVisible ? "Cancel editing" : "Edit agreement"}
         </EffektButton>
         {editMenuVisible && (
           <EditAvtaleGiroAgreement initial={avtaleGiro}></EditAvtaleGiroAgreement>

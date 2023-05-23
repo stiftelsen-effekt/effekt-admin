@@ -1,6 +1,6 @@
-import React from 'react';
-import { FilterOpenButtonContainer } from './filter-open-button.component.style';
-import { Filter, X } from 'react-feather';
+import React from "react";
+import { FilterOpenButtonContainer } from "./filter-open-button.component.style";
+import { Filter, X } from "react-feather";
 
 interface IProps {
   isOpen: boolean;
@@ -12,10 +12,10 @@ export const FilterOpenButton: React.FunctionComponent<IProps> = ({ onClick, isO
       {!isOpen ? (
         <React.Fragment>
           <span>Filter</span>
-          <Filter color={'white'} size={20}></Filter>
+          <Filter color={"white"} size={20}></Filter>
         </React.Fragment>
       ) : (
-        <X color={'white'} size={20}></X>
+        <X color={"white"} size={20}></X>
       )}
     </FilterOpenButtonContainer>
   );

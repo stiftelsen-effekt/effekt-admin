@@ -1,21 +1,21 @@
-import { DistributionsState } from '../../models/state';
-import { isType } from 'typescript-fsa';
+import { DistributionsState } from "../../models/state";
+import { isType } from "typescript-fsa";
 import {
   fetchDistributionsAction,
   SET_DISTRIBUTIONS_PAGINATION,
   SET_DISTRIBUTIONS_FILTER_DONOR,
   SET_DISTRIBUTIONS_FILTER_KID,
   fetchDistributionAction,
-} from './distribution.actions';
+} from "./distribution.actions";
 import {
   createDistributionAction,
   SET_DISTRIBUTION_INPUT_DISTRIBUTION,
-} from './distribution-input.actions';
-import { toast } from 'react-toastify';
-import Decimal from 'decimal.js';
-import { getDonorAction, getDonorTaxUnitsAction } from '../donors/donor-page.actions';
-import { toastError } from '../../util/toasthelper';
-import { IDistribution } from '../../models/types';
+} from "./distribution-input.actions";
+import { toast } from "react-toastify";
+import Decimal from "decimal.js";
+import { getDonorAction, getDonorTaxUnitsAction } from "../donors/donor-page.actions";
+import { toastError } from "../../util/toasthelper";
+import { IDistribution } from "../../models/types";
 
 const defaultState: DistributionsState = {
   searchResult: [],
@@ -25,13 +25,13 @@ const defaultState: DistributionsState = {
     page: 1,
     limit: 25,
     sort: {
-      id: 'KID',
+      id: "KID",
       desc: true,
     },
   },
   filter: {
-    donor: '',
-    KID: '',
+    donor: "",
+    KID: "",
   },
   distributionInput: {
     distribution: {
@@ -99,9 +99,9 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
     toast.success(
       `${
         action.payload.result.newDistribution
-          ? 'Created new distribution'
-          : 'Found existing distribution'
-      } with KID ${action.payload.result.KID}`
+          ? "Created new distribution"
+          : "Found existing distribution"
+      } with KID ${action.payload.result.KID}`,
     );
     return {
       ...state,
@@ -183,19 +183,19 @@ const validDistribution = (distribution: Partial<IDistribution>): boolean => {
 
   if (!distribution.standardDistribution) {
     if (!distribution.shares || distribution.shares.length === 0) {
-      console.error('No shares');
+      console.error("No shares");
       return false;
     }
     if (distribution.shares.some((share) => share.share.lessThan(0))) {
-      console.error('Share less than 0');
+      console.error("Share less than 0");
       return false;
     }
     if (distribution.shares.some((share) => share.share.greaterThan(100))) {
-      console.error('Share greater than 100');
+      console.error("Share greater than 100");
       return false;
     }
     if (distribution.shares.some((share) => share.share.isNaN())) {
-      console.error('Share is NaN');
+      console.error("Share is NaN");
       return false;
     }
 

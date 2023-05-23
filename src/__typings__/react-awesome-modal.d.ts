@@ -1,11 +1,11 @@
-declare module 'react-awesome-modal' {
-  import React from 'react';
+declare module "react-awesome-modal" {
+  import React from "react";
 
   interface IProps {
     visible: boolean;
     width: number;
     height: number;
-    effect: 'fadeInDown' | 'fadeInUp' | 'fadeInLeft' | 'fadeInRight';
+    effect: "fadeInDown" | "fadeInUp" | "fadeInLeft" | "fadeInRight";
     onClickAway(): void;
   }
 

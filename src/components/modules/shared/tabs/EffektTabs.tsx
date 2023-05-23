@@ -1,10 +1,10 @@
-import React, { ReactElement, useState } from 'react';
-import { TabContents, TabHeaders } from './EffektTabs.style';
+import React, { ReactElement, useState } from "react";
+import { TabContents, TabHeaders } from "./EffektTabs.style";
 
 export const EffektTabs: React.FC<{
   children: [
     ReactElement<{ children: ReactElement[] }>,
-    ReactElement<{ children: ReactElement[] }>
+    ReactElement<{ children: ReactElement[] }>,
   ];
 }> = ({ children }) => {
   let [selectedTab, setSelectedTab] = useState(0);
@@ -23,7 +23,7 @@ export const EffektTabs: React.FC<{
       onClick: () => {
         setSelectedTab(i);
       },
-    })
+    }),
   );
 
   return (

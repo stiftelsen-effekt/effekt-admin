@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
-import ReactTable from 'react-table';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../../models/state';
-import { shortDate } from '../../../../util/formatting';
-import { DateTime } from 'luxon';
+import React, { useEffect } from "react";
+import ReactTable from "react-table";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../../models/state";
+import { shortDate } from "../../../../util/formatting";
+import { DateTime } from "luxon";
 import {
   fetchVippsAgreementChargesAction,
   refundVippsAgreementChargeAction,
   setVippsChargesPagination,
-} from '../../../../store/vipps/vipps.actions';
-import { ChargeListWrapper } from './VippsAgreementChargeList.style';
-import { VippsChargeFilter } from './VippsAgreementChargeFilter';
-import { Link } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
+} from "../../../../store/vipps/vipps.actions";
+import { ChargeListWrapper } from "./VippsAgreementChargeList.style";
+import { VippsChargeFilter } from "./VippsAgreementChargeFilter";
+import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const VippsAgreementChargeList: React.FunctionComponent = () => {
   const data = useSelector((state: AppState) => state.vippsAgreementCharges.charges);
@@ -26,69 +26,69 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>
-      dispatch(fetchVippsAgreementChargesAction.started({ token }))
+      dispatch(fetchVippsAgreementChargesAction.started({ token })),
     );
   }, [pagination, filter, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions = [
     {
-      Header: 'Due date',
-      id: 'dueDate',
+      Header: "Due date",
+      id: "dueDate",
       accessor: (res: any) => shortDate(DateTime.fromISO(res.dueDate)),
       width: 93,
     },
     {
-      Header: 'Agreement ID',
-      accessor: 'agreementID',
+      Header: "Agreement ID",
+      accessor: "agreementID",
       width: 129,
     },
     {
-      Header: 'Charge ID',
-      accessor: 'chargeID',
+      Header: "Charge ID",
+      accessor: "chargeID",
       width: 130,
     },
     {
-      Header: 'Donor',
-      accessor: 'full_name',
+      Header: "Donor",
+      accessor: "full_name",
     },
     {
-      Header: 'Status',
-      accessor: 'status',
+      Header: "Status",
+      accessor: "status",
       width: 114,
     },
     {
-      Header: 'Sum',
-      accessor: 'amountNOK',
+      Header: "Sum",
+      accessor: "amountNOK",
       width: 83,
     },
     {
-      Header: 'KID',
-      accessor: 'KID',
-      id: 'kid',
+      Header: "KID",
+      accessor: "KID",
+      id: "kid",
       width: 150,
     },
     {
-      Header: 'Created',
-      id: 'created',
+      Header: "Created",
+      id: "created",
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created)),
       width: 98,
     },
     {
-      Header: 'Refund',
-      id: 'refund',
+      Header: "Refund",
+      id: "refund",
       accessor: (res: any) => (
         <RefundButton
           agreementId={res.agreementID}
           chargeId={res.chargeID}
           amount={res.amountNOK}
-          disabled={res.status !== 'CHARGED'}
+          disabled={res.status !== "CHARGED"}
         />
       ),
       width: 75,
     },
   ];
 
-  const defaultSorting = [{ id: 'timestamp', desc: true }];
+  const defaultSorting = [{ id: "timestamp", desc: true }];
 
   return (
     <ChargeListWrapper>
@@ -131,7 +131,7 @@ const RefundButton: React.FC<{
       disabled={disabled}
       onClick={() => {
         let sure = window.confirm(
-          `Do you really want to refund the charge with ID ${chargeId} and sum ${amount} kr?`
+          `Do you really want to refund the charge with ID ${chargeId} and sum ${amount} kr?`,
         );
         if (sure) {
           getAccessTokenSilently().then((token) => {

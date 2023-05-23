@@ -1,9 +1,9 @@
-import { isType } from 'typescript-fsa';
-import { fetchLogsAction, SET_LOGS_PAGINATION } from './logs-list.actions';
-import { LoggingState } from '../../models/state';
-import { toastError } from '../../util/toasthelper';
-import { CLEAR_CURRENT_LOG_ENTRY, fetchLogEntryAction } from './logs.actions';
-import { SET_LOG_FILTER_FILESEARCH } from './logs-filter.actions';
+import { isType } from "typescript-fsa";
+import { fetchLogsAction, SET_LOGS_PAGINATION } from "./logs-list.actions";
+import { LoggingState } from "../../models/state";
+import { toastError } from "../../util/toasthelper";
+import { CLEAR_CURRENT_LOG_ENTRY, fetchLogEntryAction } from "./logs.actions";
+import { SET_LOG_FILTER_FILESEARCH } from "./logs-filter.actions";
 
 const defaultState: LoggingState = {
   entries: [],
@@ -13,13 +13,11 @@ const defaultState: LoggingState = {
     page: 0,
     limit: 20,
     sort: {
-      id: 'id',
+      id: "id",
       desc: true,
     },
   },
-  filter: {
-
-  }
+  filter: {},
 };
 
 export const loggingReducer = (state = defaultState, action: any): LoggingState => {
@@ -55,7 +53,7 @@ export const loggingReducer = (state = defaultState, action: any): LoggingState 
       currentEntry: action.payload.result,
     };
   } else if (isType(action, fetchLogEntryAction.failed)) {
-    toastError('Failed to fetch donation', action.payload.error.message);
+    toastError("Failed to fetch donation", action.payload.error.message);
   }
 
   /**
@@ -76,9 +74,9 @@ export const loggingReducer = (state = defaultState, action: any): LoggingState 
         pagination: { ...state.pagination, page: 0 },
         filter: {
           ...state.filter,
-          filesearch: action.payload
-        }
-      }
+          filesearch: action.payload,
+        },
+      };
   }
 
   return state;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 import {
   FilterWrapper,
@@ -9,15 +9,15 @@ import {
   FilterGroup,
   FilterHeader,
   FilterContent,
-} from '../../../../style/elements/filters.component.style';
-import { HistogramInputComponent } from '../../../histogram-input/HistogramInput';
+} from "../../../../style/elements/filters.component.style";
+import { HistogramInputComponent } from "../../../histogram-input/HistogramInput";
 import {
   EffektCheckForm,
   EffektCheckChoice,
-} from '../../../../style/elements/effekt-check/effekt-check-form.component';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../../../../models/state';
-import { fetchPaymentMethodsAction } from '../../../../../store/single-donation/single-donation.actions';
+} from "../../../../style/elements/effekt-check/effekt-check-form.component";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../../../../models/state";
+import { fetchPaymentMethodsAction } from "../../../../../store/single-donation/single-donation.actions";
 import {
   setDonationFilterKid,
   setDonationFilterDonor,
@@ -26,11 +26,11 @@ import {
   setDonationFilterPaymentMethodIDs,
   setDonationFilterDonationId,
   setDonationFilterOrganizationIDs,
-} from '../../../../../store/donations/donation-filters.actions';
-import { fetchHistogramAction } from '../../../../../store/donations/donation.actions';
-import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
-import { useAuth0 } from '@auth0/auth0-react';
-import { fetchAllOrganizationsAction } from '../../../../../store/organizations/organizations.action';
+} from "../../../../../store/donations/donation-filters.actions";
+import { fetchHistogramAction } from "../../../../../store/donations/donation.actions";
+import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
+import { useAuth0 } from "@auth0/auth0-react";
+import { fetchAllOrganizationsAction } from "../../../../../store/organizations/organizations.action";
 
 export const DonationsFilterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -45,12 +45,12 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   if (!organizations) dispatch(fetchAllOrganizationsAction.started(undefined));
 
   const selectedOrganizationIDs = useSelector(
-    (state: AppState) => state.donations.filter.organizationIDs
+    (state: AppState) => state.donations.filter.organizationIDs,
   );
 
   const donationId = useSelector((state: AppState) => state.donations.filter.id);
   const selectedPaymentMethodIDs = useSelector(
-    (state: AppState) => state.donations.filter.paymentMethodIDs
+    (state: AppState) => state.donations.filter.paymentMethodIDs,
   );
 
   const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods);
@@ -72,13 +72,14 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
     };
   });
 
-  const organizationChoices : Array<EffektCheckChoice> = organizations?.map((organization) => {
-    return {
-      label: organization.abbriv,
-      value: organization.id,
-      selected: selectedOrganizationIDs?.includes(organization.id) ?? false,
-    }
-  }) ?? [];
+  const organizationChoices: Array<EffektCheckChoice> =
+    organizations?.map((organization) => {
+      return {
+        label: organization.abbriv,
+        value: organization.id,
+        selected: selectedOrganizationIDs?.includes(organization.id) ?? false,
+      };
+    }) ?? [];
 
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
@@ -132,8 +133,8 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
           <FilterGroupHeader>ID like</FilterGroupHeader>
           <FilterInput
             value={donationId}
-            placeholder={'123'}
-            style={{ width: '100%' }}
+            placeholder={"123"}
+            style={{ width: "100%" }}
             onChange={(e) => {
               dispatch(setDonationFilterDonationId(e.target.value));
             }}
@@ -144,8 +145,8 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
           <FilterGroupHeader>Donor like</FilterGroupHeader>
           <FilterInput
             value={donor}
-            placeholder={'Fuzzy search'}
-            style={{ width: '100%' }}
+            placeholder={"Fuzzy search"}
+            style={{ width: "100%" }}
             onChange={(e) => {
               dispatch(setDonationFilterDonor(e.target.value));
             }}
@@ -156,8 +157,8 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
           <FilterGroupHeader>KID like</FilterGroupHeader>
           <FilterInput
             value={kid}
-            placeholder={'Fuzzy search'}
-            style={{ width: '100%' }}
+            placeholder={"Fuzzy search"}
+            style={{ width: "100%" }}
             onChange={(e) => {
               dispatch(setDonationFilterKid(e.target.value));
             }}

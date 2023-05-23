@@ -1,9 +1,9 @@
-import { ChartData, ChartOptions } from 'chart.js';
-import React, { useEffect } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../models/state';
-import { fetchSumByMonthAction } from '../../../store/graphing/graphing.actions';
+import { ChartData, ChartOptions } from "chart.js";
+import React, { useEffect } from "react";
+import { Bar } from "react-chartjs-2";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../models/state";
+import { fetchSumByMonthAction } from "../../../store/graphing/graphing.actions";
 
 export const MonthlyDonationsGraph: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,10 +19,10 @@ export const MonthlyDonationsGraph: React.FC = () => {
     datasets: [
       {
         data: monthly.map((record) => record.sum),
-        backgroundColor: 'black',
+        backgroundColor: "black",
       },
     ],
-    labels: monthly.map((record) => record.year.toString() + ' - ' + record.month.toString()),
+    labels: monthly.map((record) => record.year.toString() + " - " + record.month.toString()),
   };
 
   const options: ChartOptions<"bar"> = {
@@ -33,9 +33,9 @@ export const MonthlyDonationsGraph: React.FC = () => {
       tooltip: {
         callbacks: {
           label: (val) =>
-            new Intl.NumberFormat('no-NB', {
-              style: 'currency',
-              currency: 'NOK',
+            new Intl.NumberFormat("no-NB", {
+              style: "currency",
+              currency: "NOK",
               maximumSignificantDigits: 3,
             }).format(val.raw as number),
         },
@@ -49,18 +49,18 @@ export const MonthlyDonationsGraph: React.FC = () => {
         },
         ticks: {
           callback: (val) =>
-            new Intl.NumberFormat('no-NB', {
-              style: 'currency',
-              currency: 'NOK',
+            new Intl.NumberFormat("no-NB", {
+              style: "currency",
+              currency: "NOK",
               maximumSignificantDigits: 3,
             }).format(val as number),
         },
       },
       x: {
         grid: {
-          display: false
-        }
-      }
+          display: false,
+        },
+      },
     },
   };
 

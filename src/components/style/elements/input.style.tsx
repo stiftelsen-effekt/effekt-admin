@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { grey15, grey02 } from '../colors';
+import styled from "styled-components";
+import { grey15, grey02 } from "../colors";
 
 export const EffektInput = styled.input`
-  font-family: 'ESKlarheitGrotesk';
+  font-family: "ESKlarheitGrotesk";
   font-weight: 300;
   background: ${grey02};
   border: none;

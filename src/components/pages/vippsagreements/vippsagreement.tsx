@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { RouteComponentProps, NavLink } from 'react-router-dom';
-import { Page } from '../../style/elements/page.style';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../models/state';
-import { IVippsAgreement } from '../../../models/types';
-import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../style/elements/headers.style';
-import { HorizontalPanel } from '../donations/Donation.style';
-import { fetchVippsAgreementAction } from '../../../store/vipps/vipps.actions';
-import { AgreementKeyInfoComponent } from '../../modules/vipps/singleagreement/AgreementKeyInfo';
-import { DistributionGraphComponent } from '../../modules/distribution/Graph';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useEffect } from "react";
+import { RouteComponentProps, NavLink } from "react-router-dom";
+import { Page } from "../../style/elements/page.style";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../models/state";
+import { IVippsAgreement } from "../../../models/types";
+import { ResourceHeader, ResourceSubHeader, SubHeader } from "../../style/elements/headers.style";
+import { HorizontalPanel } from "../donations/Donation.style";
+import { fetchVippsAgreementAction } from "../../../store/vipps/vipps.actions";
+import { AgreementKeyInfoComponent } from "../../modules/vipps/singleagreement/AgreementKeyInfo";
+import { DistributionGraphComponent } from "../../modules/distribution/Graph";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface IParams {
   id: string;
@@ -23,12 +23,12 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
   const { getAccessTokenSilently } = useAuth0();
 
   const agreement: IVippsAgreement | undefined = useSelector(
-    (state: AppState) => state.vippsAgreements.currentAgreement
+    (state: AppState) => state.vippsAgreements.currentAgreement,
   );
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>
-      dispatch(fetchVippsAgreementAction.started({ id: agreementID, token }))
+      dispatch(fetchVippsAgreementAction.started({ id: agreementID, token })),
     );
   }, [agreementID, dispatch, getAccessTokenSilently]);
 
@@ -51,7 +51,7 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
         <SubHeader>Keyinfo</SubHeader>
         <HorizontalPanel>
           <AgreementKeyInfoComponent agreement={agreement} />
-          <div style={{ width: '400px', height: '380px' }}>
+          <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
               distribution={agreement.distribution}
             ></DistributionGraphComponent>
@@ -59,7 +59,7 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
         </HorizontalPanel>
 
         <SubHeader>Meta</SubHeader>
-        {agreement.status === 'ACTIVE' && (
+        {agreement.status === "ACTIVE" && (
           <div>
             <a
               target="_blank"

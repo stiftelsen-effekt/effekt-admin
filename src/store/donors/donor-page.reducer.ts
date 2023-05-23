@@ -1,11 +1,11 @@
-import Decimal from 'decimal.js';
-import { DateTime } from 'luxon';
-import { toast } from 'react-toastify';
-import { AnyAction } from 'redux';
-import { isType } from 'typescript-fsa';
-import { DonorPageState } from '../../models/state';
-import { toastError } from '../../util/toasthelper';
-import { UpdateTaxUnitAction } from '../taxunits.ts/taxunits.actions';
+import Decimal from "decimal.js";
+import { DateTime } from "luxon";
+import { toast } from "react-toastify";
+import { AnyAction } from "redux";
+import { isType } from "typescript-fsa";
+import { DonorPageState } from "../../models/state";
+import { toastError } from "../../util/toasthelper";
+import { UpdateTaxUnitAction } from "../taxunits.ts/taxunits.actions";
 import {
   getDonorAction,
   getDonorAvtalegiroAgreementsAction,
@@ -16,7 +16,7 @@ import {
   updateDonorDataAction,
   getDonorReferralAnswersAction,
   getDonorTaxUnitsAction,
-} from './donor-page.actions';
+} from "./donor-page.actions";
 
 const initialState: DonorPageState = {
   pendingUpdates: 0,
@@ -24,7 +24,7 @@ const initialState: DonorPageState = {
 
 export const donorPageReducer = (
   state: DonorPageState = initialState,
-  action: AnyAction
+  action: AnyAction,
 ): DonorPageState => {
   if (isType(action, getDonorAction.done)) {
     return {
@@ -134,10 +134,10 @@ export const donorPageReducer = (
       taxUnits: undefined,
     };
   } else if (isType(action, UpdateTaxUnitAction.done)) {
-    toast.success('Tax unit updated');
+    toast.success("Tax unit updated");
     return state;
   } else if (isType(action, UpdateTaxUnitAction.failed)) {
-    toastError('Failed to update tax unit', action.payload.error.message);
+    toastError("Failed to update tax unit", action.payload.error.message);
     return state;
   } else if (isType(action, updateDonorDataAction.started)) {
     state.pendingUpdates += 1;

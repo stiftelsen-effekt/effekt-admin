@@ -1,13 +1,13 @@
-import React from 'react';
-import { useState } from 'react';
-import { EffektInput } from '../../../style/elements/input.style';
-import { EffektButton } from '../../../style/elements/button.style';
-import { useDispatch } from 'react-redux';
-import { CreateDonorWrapper } from './TaxUnitModal.style';
-import { ITaxUnit } from '../../../../models/types';
-import { Plus } from 'react-feather';
-import { useAuth0 } from '@auth0/auth0-react';
-import { UpdateTaxUnitAction } from '../../../../store/taxunits.ts/taxunits.actions';
+import React from "react";
+import { useState } from "react";
+import { EffektInput } from "../../../style/elements/input.style";
+import { EffektButton } from "../../../style/elements/button.style";
+import { useDispatch } from "react-redux";
+import { CreateDonorWrapper } from "./TaxUnitModal.style";
+import { ITaxUnit } from "../../../../models/types";
+import { Plus } from "react-feather";
+import { useAuth0 } from "@auth0/auth0-react";
+import { UpdateTaxUnitAction } from "../../../../store/taxunits.ts/taxunits.actions";
 
 interface IProps {
   onSubmit(): void;
@@ -26,22 +26,21 @@ export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUni
   const submit = () => {
     getAccessTokenSilently().then((token) => {
       if (state.name && state.ssn) {
-        const validator = require('@navikt/fnrvalidator')
-        const fnr = validator.fnr(state.ssn)
+        const validator = require("@navikt/fnrvalidator");
+        const fnr = validator.fnr(state.ssn);
         if (fnr.status === "valid" || state.ssn.length === 9) {
           dispatch(
             UpdateTaxUnitAction.started({
               token: token,
               id: taxUnit.id,
               taxUnit: { name: state.name, ssn: state.ssn },
-            })
+            }),
           );
-        }
-        else {
+        } else {
           alert("Invalid SSN or orgnr.");
         }
       } else {
-        alert('Please fill all fields');
+        alert("Please fill all fields");
       }
     });
     onSubmit();
@@ -51,15 +50,15 @@ export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUni
     <CreateDonorWrapper>
       <h3>Tax unit</h3>
       <EffektInput
-        value={state.name || ''}
+        value={state.name || ""}
         placeholder="name"
-        onKeyDown={(e) => e.key === 'Enter' && submit()}
+        onKeyDown={(e) => e.key === "Enter" && submit()}
         onChange={(e: any) => setState({ ...state, name: e.target.value })}
       ></EffektInput>
       <EffektInput
-        value={state.ssn || ''}
+        value={state.ssn || ""}
         placeholder="ssn / orgnr"
-        onKeyDown={(e) => e.key === 'Enter' && submit()}
+        onKeyDown={(e) => e.key === "Enter" && submit()}
         onChange={(e: any) => setState({ ...state, ssn: e.target.value })}
       ></EffektInput>
       <EffektButton onClick={submit}>

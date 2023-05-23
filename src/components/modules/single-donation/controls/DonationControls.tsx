@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { EffektButton, EffektSecondaryButton } from '../../../style/elements/button.style';
-import { EffektCheck } from '../../../style/elements/effekt-check/effekt-check.component';
+import React, { useState } from "react";
+import { EffektButton, EffektSecondaryButton } from "../../../style/elements/button.style";
+import { EffektCheck } from "../../../style/elements/effekt-check/effekt-check.component";
 
 interface IProps {
   onInsert(receipt: boolean): void;
@@ -11,7 +11,7 @@ export const DonationControls: React.FunctionComponent<IProps> = (props: IProps)
   let ignoreButton;
   if (props.onIgnore !== undefined) {
     ignoreButton = (
-      <EffektSecondaryButton onClick={props.onIgnore} style={{ marginRight: '20px' }}>
+      <EffektSecondaryButton onClick={props.onIgnore} style={{ marginRight: "20px" }}>
         Ignore
       </EffektSecondaryButton>
     );
@@ -23,7 +23,7 @@ export const DonationControls: React.FunctionComponent<IProps> = (props: IProps)
     <React.Fragment>
       {ignoreButton}
       <EffektCheck
-        label={'Kvittering'}
+        label={"Kvittering"}
         checked={receipt}
         onChange={(checked) => {
           setReceipt(checked);

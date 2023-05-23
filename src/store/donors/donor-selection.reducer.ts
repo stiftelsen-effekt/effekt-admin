@@ -1,5 +1,5 @@
-import { DonorSelectorState } from '../../models/state';
-import { AnyAction } from 'redux';
+import { DonorSelectorState } from "../../models/state";
+import { AnyAction } from "redux";
 import {
   SHOW_DONOR_SELECTION_COMPONENT,
   HIDE_DONOR_SELECTION_COMPONENT,
@@ -7,20 +7,20 @@ import {
   SET_SELECTED_DONOR,
   searchDonorAction,
   SET_DONOR_SELECTION_QUERY,
-} from './donor-selection.actions';
-import { IDonor } from '../../models/types';
-import { DateTime } from 'luxon';
-import { isType } from 'typescript-fsa';
+} from "./donor-selection.actions";
+import { IDonor } from "../../models/types";
+import { DateTime } from "luxon";
+import { isType } from "typescript-fsa";
 
 const initialState: DonorSelectorState = {
-  query: '',
+  query: "",
   visible: false,
   searchResult: [],
 };
 
 export const donorSelectorReducer = (
   state: DonorSelectorState = initialState,
-  action: AnyAction
+  action: AnyAction,
 ): DonorSelectorState => {
   if (isType(action, searchDonorAction.done)) {
     return {

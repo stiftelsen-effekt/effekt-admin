@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import {
   EffektSwitchWrapper,
   EffektSwitchItem,
   EffektSwitchSlider,
-} from './effekt-switch.component.style';
+} from "./effekt-switch.component.style";
 
 export enum SwitchSelected {
   LEFT,

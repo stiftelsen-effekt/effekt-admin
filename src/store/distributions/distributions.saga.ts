@@ -3,12 +3,12 @@ import {
   fetchDistributionsAction,
   IFetchDistributionActionParams,
   IFetchDistributionsActionParams,
-} from './distribution.actions';
-import { put, call, select } from 'redux-saga/effects';
-import * as API from '../../util/api';
-import { AppState } from '../../models/state';
-import { IPagination, IDistributionFilter, IDistribution } from '../../models/types';
-import { Action } from 'typescript-fsa';
+} from "./distribution.actions";
+import { put, call, select } from "redux-saga/effects";
+import * as API from "../../util/api";
+import { AppState } from "../../models/state";
+import { IPagination, IDistributionFilter, IDistribution } from "../../models/types";
+import { Action } from "typescript-fsa";
 
 export function* fetchDistribution(action: Action<IFetchDistributionActionParams>) {
   try {
@@ -33,14 +33,14 @@ export function* fetchDistribution(action: Action<IFetchDistributionActionParams
           distribution: distributionResult.content,
           affilliatedDonations: donationsResult.content,
         },
-      })
+      }),
     );
   } catch (ex) {
     yield put(
       fetchDistributionAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }
@@ -48,14 +48,14 @@ export function* fetchDistribution(action: Action<IFetchDistributionActionParams
 export function* fetchDistributions(action: Action<IFetchDistributionsActionParams>) {
   try {
     const pagination: IPagination = yield select(
-      (state: AppState) => state.distributions.pagination
+      (state: AppState) => state.distributions.pagination,
     );
     const filter: IDistributionFilter = yield select(
-      (state: AppState) => state.distributions.filter
+      (state: AppState) => state.distributions.filter,
     );
 
     const result: API.Response = yield call(API.call, {
-      endpoint: '/distributions/search',
+      endpoint: "/distributions/search",
       method: API.Method.POST,
       token: action.payload.token,
       data: {
@@ -68,9 +68,9 @@ export function* fetchDistributions(action: Action<IFetchDistributionsActionPara
   } catch (ex) {
     yield put(
       fetchDistributionsAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }

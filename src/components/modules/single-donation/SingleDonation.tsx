@@ -1,29 +1,29 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import {
   SingleDonationWrapper,
   InputWrapper,
   ControlsWrapper,
   DistributionWrapper,
-} from './SingleDonation.style';
+} from "./SingleDonation.style";
 
-import { IPaymentMethod, IDonation, IOrganization, IDistribution } from '../../../models/types';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../../models/state';
+import { IPaymentMethod, IDonation, IOrganization, IDistribution } from "../../../models/types";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../../models/state";
 import {
   createDistribitionAndInsertDonationAction,
   ICreateDistributionParams,
   fetchPaymentMethodsAction,
   insertDonationAction,
   ICreateDonationParams,
-} from '../../../store/single-donation/single-donation.actions';
-import { Decimal } from 'decimal.js';
+} from "../../../store/single-donation/single-donation.actions";
+import { Decimal } from "decimal.js";
 
-import { DonationControls } from './controls/DonationControls';
-import { DonationInput } from './input/DonationInput';
-import { toast } from 'react-toastify';
-import { useAuth0 } from '@auth0/auth0-react';
-import { DistributionInput } from '../shared/distribution-input/DistributionInput';
-import { setDistributionInputDistribution } from '../../../store/distributions/distribution-input.actions';
+import { DonationControls } from "./controls/DonationControls";
+import { DonationInput } from "./input/DonationInput";
+import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
+import { DistributionInput } from "../shared/distribution-input/DistributionInput";
+import { setDistributionInputDistribution } from "../../../store/distributions/distribution-input.actions";
 
 interface IProps {
   onIgnore?(): void;
@@ -42,18 +42,18 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
   const [donationInput, setDonationInput] = useState<Partial<IDonation>>({});
 
   const paymentMethods = useSelector<AppState, Array<IPaymentMethod>>(
-    (state: AppState) => state.singleDonation.paymentMethods
+    (state: AppState) => state.singleDonation.paymentMethods,
   );
   if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined));
 
   const distribution = useSelector(
-    (state: AppState) => state.distributions.distributionInput.distribution
+    (state: AppState) => state.distributions.distributionInput.distribution,
   );
 
   const currentSelectedOwner = useSelector((state: AppState) => state.dataOwner.current);
 
   const getFilteredDistribution = (
-    distribution: Partial<IDistribution>
+    distribution: Partial<IDistribution>,
   ): Partial<IDistribution> => {
     return {
       ...distribution,
@@ -77,7 +77,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
   const submit = (receipt: boolean) => {
     const donation = getDonation(donationInput);
 
-    if (!donation) return toast.error('Missing fields');
+    if (!donation) return toast.error("Missing fields");
 
     getAccessTokenSilently().then((token) => {
       let donationParams: ICreateDonationParams = { ...donation, receipt: receipt, token };
@@ -85,10 +85,10 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
       if (donationInput.KID) {
         dispatch(insertDonationAction.started(donationParams));
       } else {
-        if (!distribution.donor) return toast.error('No donor selected');
+        if (!distribution.donor) return toast.error("No donor selected");
         if (!distribution || !donationInput)
-          return toast.error('Error initializing distribution or input');
-        if (!currentSelectedOwner) return toast.error('Missing meta owner');
+          return toast.error("Error initializing distribution or input");
+        if (!currentSelectedOwner) return toast.error("Missing meta owner");
 
         const filteredDistribution = getFilteredDistribution(distribution);
 
@@ -101,7 +101,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
             donation: donationParams,
             distribution: distributionParams,
             token,
-          })
+          }),
         );
       }
     });
@@ -109,7 +109,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
 
   const onDonationInputChange = useCallback(
     (donationInput: Partial<IDonation>) => setDonationInput(donationInput),
-    [setDonationInput]
+    [setDonationInput],
   );
 
   return (

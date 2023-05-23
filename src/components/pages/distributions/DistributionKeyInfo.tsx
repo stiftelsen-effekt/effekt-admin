@@ -1,7 +1,7 @@
-import React from 'react';
-import { CurrentDistributionState } from '../../../models/state';
-import { ITaxUnit } from '../../../models/types';
-import { thousandize } from '../../../util/formatting';
+import React from "react";
+import { CurrentDistributionState } from "../../../models/state";
+import { ITaxUnit } from "../../../models/types";
+import { thousandize } from "../../../util/formatting";
 import {
   KeyInfoWrapper,
   KeyInfoGroup,
@@ -9,7 +9,7 @@ import {
   KeyInfoTimestamp,
   KeyInfoValue,
   KeyInfoSum,
-} from '../../style/elements/keyinfo/keyinfo.style';
+} from "../../style/elements/keyinfo/keyinfo.style";
 
 interface IProps {
   distribution: CurrentDistributionState;
@@ -67,7 +67,7 @@ export const DistributionKeyInfo: React.FunctionComponent<IProps> = ({ distribut
         <KeyInfoGroup>
           <KeyInfoHeader>Donor email</KeyInfoHeader>
           <KeyInfoTimestamp>
-            {distribution.distribution.donor.email || 'Not registered'}
+            {distribution.distribution.donor.email || "Not registered"}
           </KeyInfoTimestamp>
         </KeyInfoGroup>
 

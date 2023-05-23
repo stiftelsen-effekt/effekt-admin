@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import { EffektDatePicker } from '../../../style/elements/datepicker/datepicker.style';
+import { EffektDatePicker } from "../../../style/elements/datepicker/datepicker.style";
 
-import Select from 'react-select';
+import Select from "react-select";
 
-import { IPaymentMethod, IDonation } from '../../../../models/types';
-import { KIDTextWrapper, DonationInputElement } from '../SingleDonation.style';
+import { IPaymentMethod, IDonation } from "../../../../models/types";
+import { KIDTextWrapper, DonationInputElement } from "../SingleDonation.style";
 
-import { OwnerSelect } from '../../owner-select/OwnerSelect';
+import { OwnerSelect } from "../../owner-select/OwnerSelect";
 
 interface IProps {
   onChange(input: Partial<IDonation>): void;
@@ -49,7 +49,7 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
     let current = getCurrentPaymentMethod();
     if (current) {
       return (
-        <div style={{ width: '120px' }}>
+        <div style={{ width: "120px" }}>
           <Select
             options={paymentMethods.map((method) => methodToOption(method))}
             value={methodToOption(current)}
@@ -76,14 +76,14 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
       <KIDTextWrapper>
         <DonationInputElement
           placeholder="KID"
-          value={state.KID || ''}
-          style={{ height: '100%' }}
+          value={state.KID || ""}
+          style={{ height: "100%" }}
           onChange={(e) => setState({ ...state, KID: e.target.value })}
         />
       </KIDTextWrapper>
 
       <DonationInputElement
-        value={state.sum || ''}
+        value={state.sum || ""}
         placeholder="Sum"
         onChange={(e) => setState({ ...state, sum: parseInt(e.target.value) })}
       />
@@ -94,7 +94,7 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
         onChange={(e) => setState({ ...state, paymentExternalRef: e.target.value })}
       />
 
-      <div style={{ width: '120px' }}>
+      <div style={{ width: "120px" }}>
         <OwnerSelect></OwnerSelect>
       </div>
 

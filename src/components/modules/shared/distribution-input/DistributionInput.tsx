@@ -1,28 +1,28 @@
 /* eslint-disable no-restricted-globals */
-import { useAuth0 } from '@auth0/auth0-react';
-import Decimal from 'decimal.js';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Select from 'react-select';
-import Validator from 'validator';
-import { AppState } from '../../../../models/state';
+import { useAuth0 } from "@auth0/auth0-react";
+import Decimal from "decimal.js";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
+import Validator from "validator";
+import { AppState } from "../../../../models/state";
 import {
   IDistribution,
   IDistributionShare,
   IOrganization,
   ITaxUnit,
-} from '../../../../models/types';
+} from "../../../../models/types";
 import {
   getDonorAction,
   getDonorTaxUnitsAction,
-} from '../../../../store/donors/donor-page.actions';
-import { showDonorSelectionComponent } from '../../../../store/donors/donor-selection.actions';
-import { EffektButton } from '../../../style/elements/button.style';
-import { EffektCheck } from '../../../style/elements/effekt-check/effekt-check.component';
-import { EffektInput } from '../../../style/elements/input.style';
-import { DistributionSharesInput } from './DistributionSharesInput';
+} from "../../../../store/donors/donor-page.actions";
+import { showDonorSelectionComponent } from "../../../../store/donors/donor-selection.actions";
+import { EffektButton } from "../../../style/elements/button.style";
+import { EffektCheck } from "../../../style/elements/effekt-check/effekt-check.component";
+import { EffektInput } from "../../../style/elements/input.style";
+import { DistributionSharesInput } from "./DistributionSharesInput";
 
-const noTaxUnit = { label: 'No tax unit', value: undefined };
+const noTaxUnit = { label: "No tax unit", value: undefined };
 const mapTaxUnitToSelectOption = (taxUnit?: ITaxUnit) =>
   taxUnit
     ? {
@@ -42,15 +42,15 @@ export const DistributionInput: React.FC<{
   const organizations = useSelector((state: AppState) => state.organizations.active);
   const selectedDonor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
   const donorName = useSelector(
-    (state: AppState) => state.distributions.distributionInput.distribution.donor?.name
+    (state: AppState) => state.distributions.distributionInput.distribution.donor?.name,
   );
 
   const [donorInput, setDonorInput] = useState<string | undefined>(
-    selectedDonor?.id.toString() ?? ''
+    selectedDonor?.id.toString() ?? "",
   );
 
   const [taxUnitInput, setTaxUnitInput] = useState<{ label: string; value?: number }>(
-    mapTaxUnitToSelectOption(distribution.taxUnit) ?? noTaxUnit
+    mapTaxUnitToSelectOption(distribution.taxUnit) ?? noTaxUnit,
   );
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const DistributionInput: React.FC<{
 
   useEffect(() => {
     if (selectedDonor?.id !== distribution.donor?.id) {
-      setDonorInput(selectedDonor?.id.toString() ?? '');
+      setDonorInput(selectedDonor?.id.toString() ?? "");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDonor]);
@@ -76,20 +76,20 @@ export const DistributionInput: React.FC<{
   }, []);
 
   useEffect(() => {
-    if (typeof donorInput !== 'undefined' && Validator.isInt(donorInput)) {
+    if (typeof donorInput !== "undefined" && Validator.isInt(donorInput)) {
       if (
-        typeof distribution.donor !== 'undefined' &&
-        typeof distribution.donor.id !== 'undefined'
+        typeof distribution.donor !== "undefined" &&
+        typeof distribution.donor.id !== "undefined"
       ) {
         getAccessTokenSilently().then((token) => {
           dispatch(
-            getDonorAction.started({ id: parseInt(donorInput) ?? distribution.donor?.name, token })
+            getDonorAction.started({ id: parseInt(donorInput) ?? distribution.donor?.name, token }),
           );
           dispatch(
             getDonorTaxUnitsAction.started({
               id: parseInt(donorInput) ?? distribution.donor?.id,
               token,
-            })
+            }),
           );
         });
       } else {
@@ -99,7 +99,7 @@ export const DistributionInput: React.FC<{
             getDonorTaxUnitsAction.started({
               id: parseInt(donorInput),
               token,
-            })
+            }),
           );
         });
       }
@@ -121,8 +121,8 @@ export const DistributionInput: React.FC<{
 
   return (
     <div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '10px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr max-content', gap: '10px' }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "10px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr max-content", gap: "10px" }}>
           <EffektInput
             type="text"
             inputMode="numeric"
@@ -135,11 +135,11 @@ export const DistributionInput: React.FC<{
           </EffektButton>
         </div>
         <EffektInput
-          value={donorName ?? distribution.donor?.name ?? 'Navn fylles ut automatisk'}
+          value={donorName ?? distribution.donor?.name ?? "Navn fylles ut automatisk"}
           disabled={true}
         ></EffektInput>
       </div>
-      <div style={{ zIndex: 10, position: 'relative', marginBottom: '20px' }}>
+      <div style={{ zIndex: 10, position: "relative", marginBottom: "20px" }}>
         <Select
           options={[...taxUnits.map((unit) => mapTaxUnitToSelectOption(unit)), noTaxUnit]}
           value={mapTaxUnitToSelectOption(taxUnits.find((unit) => unit.id === taxUnitInput.value))}
@@ -166,7 +166,7 @@ export const DistributionInput: React.FC<{
         inverted={false}
       />
       <div
-        style={{ height: distribution.standardDistribution ? '0px' : 'auto', overflow: 'hidden' }}
+        style={{ height: distribution.standardDistribution ? "0px" : "auto", overflow: "hidden" }}
       >
         <DistributionSharesInput
           shares={distribution.shares ?? []}

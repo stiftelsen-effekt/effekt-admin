@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import { grey30 } from '../colors';
+import styled from "styled-components";
+import { grey30 } from "../colors";
 
 export const MainHeader = styled.h1`
   border-left: 6px solid black;
   color: black;
-  font-family: 'ESKlarheitKurrent';
+  font-family: "ESKlarheitKurrent";
   font-size: 30px;
   font-weight: normal;
   padding: 14px 30px;
@@ -15,7 +15,7 @@ export const MainHeader = styled.h1`
 export const SubHeader = styled.h2`
   border-left: 4px solid black;
   color: black;
-  font-family: 'ESKlarheitKurrent';
+  font-family: "ESKlarheitKurrent";
   font-size: 22px;
   font-weight: normal;
   padding: 6px 15px;
@@ -58,7 +58,7 @@ interface IResourceHeaderProps {
 }
 export const ResourceHeader = styled.h1<IResourceHeaderProps>`
   color: black;
-  font-family: 'ESKlarheitKurrent';
+  font-family: "ESKlarheitKurrent";
   font-size: 36px;
   font-weight: normal;
   padding: 14px 25px;
@@ -67,12 +67,12 @@ export const ResourceHeader = styled.h1<IResourceHeaderProps>`
   box-sizing: border-box;
   max-width: 1024px;
 
-  ${(props: IResourceHeaderProps) => (props.hasSubHeader ? 'margin-bottom: 0px' : '0')}
+  ${(props: IResourceHeaderProps) => (props.hasSubHeader ? "margin-bottom: 0px" : "0")}
 `;
 
 export const ResourceSubHeader = styled.h2`
   color: ${grey30};
-  font-family: 'ESKlarheitGrotesk';
+  font-family: "ESKlarheitGrotesk";
   text-transform: uppercase;
   font-weight: 300;
   font-size: 16px;

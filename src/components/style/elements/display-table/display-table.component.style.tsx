@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { grey15 } from '../../colors';
+import styled from "styled-components";
+import { grey15 } from "../../colors";
 
 export const EffektDisplayTable = styled.table`
   border-spacing: 0px;
