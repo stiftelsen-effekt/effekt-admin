@@ -17,14 +17,14 @@ export const MainNav = styled.nav`
   display: flex;
   flex-direction: column;
   justify-content: space_between;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 export const NavMenu = styled.ul`
   padding: 0;
   text-align: right;
   padding-right: 36px;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 export const NavMenuItem = styled(NavLink)`
