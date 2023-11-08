@@ -1,8 +1,7 @@
-import { TaxUnitsState, CreateTaxUnitState } from "../../models/state";
-import { CreateTaxUnitAction } from "./taxunits.actions";
-import { isType, AnyAction } from "typescript-fsa";
+import { isType } from "typescript-fsa";
+import { TaxUnitsState } from "../../models/state";
+import { CreateTaxUnitAction, DeleteTaxUnitAction, UpdateTaxUnitAction } from "./taxunits.actions";
 import { toast } from "react-toastify";
-import { toastError } from "../../util/toasthelper";
 
 const defaultState: TaxUnitsState = {
   units: [],
@@ -19,18 +18,27 @@ const defaultState: TaxUnitsState = {
   filter: {},
 };
 export const taxUnitsReducer = (state = defaultState, action: any): TaxUnitsState => {
-  return state;
-};
-
-export const createTaxUnitReducer = (
-  state: CreateTaxUnitState = {},
-  action: AnyAction,
-): CreateTaxUnitState => {
-  if (isType(action, CreateTaxUnitAction.done)) {
-    toast.success("Created tax unit!");
-  } else if (isType(action, CreateTaxUnitAction.failed)) {
-    toastError("Failed to create tax unit!", action.payload.error.message);
+  if (isType(action, CreateTaxUnitAction.failed)) {
+    toast.error(action.payload.error.message);
+    return {
+      ...state,
+      loading: false,
+    };
+  }
+  if (isType(action, UpdateTaxUnitAction.failed)) {
+    toast.error(action.payload.error.message);
+    return {
+      ...state,
+      loading: false,
+    };
+  }
+  if (isType(action, DeleteTaxUnitAction.failed)) {
+    toast.error(action.payload.error.message);
+    return {
+      ...state,
+      loading: false,
+    };
   }
 
-  return {};
+  return state;
 };

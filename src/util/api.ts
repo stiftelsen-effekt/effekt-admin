@@ -103,6 +103,11 @@ export const call = async (params: IAPIParameters): Promise<any> => {
       options = {
         ...options,
         method: Method.DELETE,
+        headers: {
+          ...options.headers,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params.data),
       };
 
       response = await fetch(url, options);
