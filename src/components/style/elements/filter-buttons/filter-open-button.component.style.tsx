@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const FilterOpenButtonContainer = styled.div`
   background: black;
@@ -16,7 +16,7 @@ export const FilterOpenButtonContainer = styled.div`
   span {
     vertical-align: middle;
     margin-right: 10px;
-    font-family: 'ESKlarheitGrotesk';
+    font-family: "ESKlarheitGrotesk";
   }
 
   svg {

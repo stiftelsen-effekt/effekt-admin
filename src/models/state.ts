@@ -24,11 +24,10 @@ import {
   IAvtaleGiroValidation,
   ILogFilter,
   IDonorStats,
-  IDistributionShare,
   IReferralAnswer,
   ITaxUnit,
   ITaxUnitFilter,
-} from './types';
+} from "./types";
 
 export interface AppState {
   graphing: GraphingState;
@@ -45,7 +44,6 @@ export interface AppState {
   donations: DonationsState;
   distributions: DistributionsState;
   taxUnits: TaxUnitsState;
-  taxUnitCreation: CreateTaxUnitState;
   dataOwner: DataOwnerState;
   receipt: ReceiptState;
   logs: LoggingState;
@@ -132,8 +130,6 @@ export interface TaxUnitsState {
   filter: ITaxUnitFilter;
   units: Array<ITaxUnit>;
 }
-
-export interface CreateTaxUnitState {}
 
 export interface VippsAgreementsState {
   activeAgreementCount: number;

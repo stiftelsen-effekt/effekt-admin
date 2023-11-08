@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 interface ITabHeaderProps {
   selected?: boolean;
@@ -11,7 +11,7 @@ export const TabHeaderWrapper = styled.div`
   margin-right: 16px;
   padding: 8px;
   cursor: pointer;
-  border-bottom: ${((props: ITabHeaderProps) => props.selected ? '3px solid black' : 'none')};
+  border-bottom: ${(props: ITabHeaderProps) => (props.selected ? "3px solid black" : "none")};
   line-height: 26px;
   font-weight: 600;
   color: black;

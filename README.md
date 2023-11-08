@@ -10,19 +10,19 @@ Currently, the admin panel is not the source of truth for our donation data. Our
 
 **Table of Contents**
 
-* [The Effect foundation Admin panel](#the-effect-foundation-admin-panel)
-   * [Getting started](#getting-started)
-      * [API](#api)
-         * [Permissions](#permissions)
-            * [Give your user a password](#give-your-user-a-password)
-            * [Make sure your user has access to restricted permissions](#make-sure-your-user-has-access-to-restricted-permissions)
-         * [Login](#login)
-   * [Code structure and dependencies](#code-structure-and-dependencies)
-      * [Components](#components)
-      * [Types](#types)
-      * [Redux](#redux)
-      * [Redux-saga](#redux-saga)
-         * [Typescript-fsa](#typescript-fsa)
+- [The Effect foundation Admin panel](#the-effect-foundation-admin-panel)
+  - [Getting started](#getting-started)
+    - [API](#api)
+      - [Permissions](#permissions)
+        - [Give your user a password](#give-your-user-a-password)
+        - [Make sure your user has access to restricted permissions](#make-sure-your-user-has-access-to-restricted-permissions)
+      - [Login](#login)
+  - [Code structure and dependencies](#code-structure-and-dependencies)
+    - [Components](#components)
+    - [Types](#types)
+    - [Redux](#redux)
+    - [Redux-saga](#redux-saga)
+      - [Typescript-fsa](#typescript-fsa)
 
 ---
 
@@ -32,11 +32,11 @@ This project is bootstrapped with [create react app](https://create-react-app.de
 
 To run the application, you must first install the dependencies, using npm.
 
-``` npm install ```
+`npm install`
 
 You may then run the application in development mode with the command
 
-``` npm start ```.
+`npm start`.
 
 To test and use the application, we need to configure the usage of the api.
 
@@ -48,10 +48,10 @@ It's possible to use the admin panel together with the api running locally. Plea
 
 It's also possible, and easier if you simply want to get up and running, to use the production api or development api.
 
-They are found on these URL's respectively:
+They are found on these URL's respectively (for Norway):
 
-* https://data.gieffektivt.no
-* https://dev.data.gieffektivt.no
+- https://data.gieffektivt.no
+- https://dev.data.gieffektivt.no
 
 You configure which API to use in the [config.ts](src/config/config.ts) file, located in `src/config/config.ts`.
 
@@ -80,9 +80,9 @@ INSERT INTO `EffektDonasjonDB`.`ChangePass` (`userID`, `token`, `expires`) VALUE
 
 You will then be able to set a password using the change password enpoint, on the dev or prod environment depending on need.
 
-*Prod* https://data.gieffektivt.no/auth/password/change/0800fc577294c34e0b28ad2839435945
+_Prod_ https://data.gieffektivt.no/auth/password/change/0800fc577294c34e0b28ad2839435945
 
-*Dev* https://dev.data.gieffektivt.no/auth/password/change/0800fc577294c34e0b28ad2839435945
+_Dev_ https://dev.data.gieffektivt.no/auth/password/change/0800fc577294c34e0b28ad2839435945
 
 (The token you specified when inserting to the database is the last part of the URL)
 
@@ -92,7 +92,7 @@ You will then be able to set a password using the change password enpoint, on th
 
 ---
 
-Some permissions are considered *restricted*, and need to be explicitly granted for each user in the database. This includes the read all donations and write all donations permission. To do this, we need to add some records to the `Access_restricted_permissions` table. You need to add a record for permissions 1 through 4, for your userID.
+Some permissions are considered _restricted_, and need to be explicitly granted for each user in the database. This includes the read all donations and write all donations permission. To do this, we need to add some records to the `Access_restricted_permissions` table. You need to add a record for permissions 1 through 4, for your userID.
 
 ```sql
 INSERT INTO `EffektDonasjonDB`.`Access_restricted_permissions` (`Donor_ID`, `Permission_ID`) VALUES ('27', '1');
@@ -107,9 +107,9 @@ Having given your user a password and the requisite restricted permissions, you 
 
 After pressing authorize, the backend API will ask if you athorize the adminPanel application to read info about you, read all donation data and write all donation data. After loging in, you are taken to the homepage. A local access key is stored in local storage, and used to fetch an access token when needed to authorize the user for restricted endpoints.
 
-| Press authorize  | Login with your user |
-| ------------- | ------------- |
-| ![Admin panel homepage](docs/authorize.png) | ![Admin panel homepage](docs/login.png)  |
+| Press authorize                             | Login with your user                    |
+| ------------------------------------------- | --------------------------------------- |
+| ![Admin panel homepage](docs/authorize.png) | ![Admin panel homepage](docs/login.png) |
 
 You should be all good to go 🎉
 
@@ -131,7 +131,7 @@ The `/login` folder contains a component used in the login flow.
 
 `/style` contains shared styled elements, such as buttons, lists, dropdowns, datepickers etc. that are shared throughout the application.
 
-We use react functional components and hooks in our components. 
+We use react functional components and hooks in our components.
 
 ### Types
 
@@ -144,7 +144,7 @@ We define our types and interfaces in `src/models`.
 We use redux for our state managment. We store both UI state and data in the redux store. To get hold of any part of the store in a react component, we make use of the redux hooks. For example
 
 ```typescript
-const donations = useSelector((state: AppState) => state.donations.donations)
+const donations = useSelector((state: AppState) => state.donations.donations);
 ```
 
 will fetch all the donations currently in the store.

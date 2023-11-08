@@ -1,10 +1,10 @@
-import { API_URL } from '../config/config';
+import { API_URL } from "../config/config";
 
 export enum Method {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE",
 }
 
 export interface IAPIParameters {
@@ -24,13 +24,14 @@ export interface Response {
 export type OkResponse<T> = {
   status: 200; // Or any other "OK" status
   content: T;
-}
+};
 export type ErrorResponse = {
   status: 400 | 500; // Or any other error
   content: string;
-}
+};
 export type TypedResponse<T> = OkResponse<T> | ErrorResponse;
-export const isOk = <T>(response: TypedResponse<T>) : response is OkResponse<T> => response.status >= 200 && response.status < 300
+export const isOk = <T>(response: TypedResponse<T>): response is OkResponse<T> =>
+  response.status >= 200 && response.status < 300;
 
 interface IFetchOptions {
   method?: string;
@@ -47,7 +48,7 @@ export const call = async (params: IAPIParameters): Promise<any> => {
   if (params.token != null) {
     options = {
       ...options,
-      headers: { authorization: 'Bearer ' + params.token },
+      headers: { authorization: "Bearer " + params.token },
     };
   }
 
@@ -56,9 +57,9 @@ export const call = async (params: IAPIParameters): Promise<any> => {
   switch (params.method) {
     case Method.GET:
       if (params.data !== null) {
-        url += '?'
+        url += "?";
         for (let key in params.data) {
-          url += encodeURIComponent(key) + '=' + encodeURIComponent(params.data[key])
+          url += encodeURIComponent(key) + "=" + encodeURIComponent(params.data[key]);
         }
       }
 
@@ -73,7 +74,7 @@ export const call = async (params: IAPIParameters): Promise<any> => {
         method: params.method,
         headers: {
           ...options.headers,
-          Accept: 'application/json',
+          Accept: "application/json",
         },
       };
 
@@ -83,7 +84,7 @@ export const call = async (params: IAPIParameters): Promise<any> => {
           ...options,
           headers: {
             ...options.headers,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(params.data),
         };
@@ -102,6 +103,11 @@ export const call = async (params: IAPIParameters): Promise<any> => {
       options = {
         ...options,
         method: Method.DELETE,
+        headers: {
+          ...options.headers,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params.data),
       };
 
       response = await fetch(url, options);

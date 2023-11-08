@@ -1,10 +1,10 @@
-export const SET_DONATION_FILTER_SUM_RANGE = 'SET_DONATION_FILTER_SUM_RANGE';
-export const SET_DONATION_FILTER_DATE_RANGE = 'SET_DONATION_FILTER_DATE_RANGE';
-export const SET_DONATION_FILTER_DONOR = 'SET_DONATION_FILTER_DONOR';
-export const SET_DONATION_FILTER_DONATION_ID = 'SET_DONATION_FILTER_DONATION_ID';
-export const SET_DONATION_FILTER_KID = 'SET_DONATION_FILTER_KID';
-export const SET_DONATION_FILTER_PAYMENT_METHOD_IDS = 'SET_DONATION_FILTER_PAYMENT_METHOD_IDS';
-export const SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS = 'SET_DONATION_FILTER_ORGANIZATION_IDS';
+export const SET_DONATION_FILTER_SUM_RANGE = "SET_DONATION_FILTER_SUM_RANGE";
+export const SET_DONATION_FILTER_DATE_RANGE = "SET_DONATION_FILTER_DATE_RANGE";
+export const SET_DONATION_FILTER_DONOR = "SET_DONATION_FILTER_DONOR";
+export const SET_DONATION_FILTER_DONATION_ID = "SET_DONATION_FILTER_DONATION_ID";
+export const SET_DONATION_FILTER_KID = "SET_DONATION_FILTER_KID";
+export const SET_DONATION_FILTER_PAYMENT_METHOD_IDS = "SET_DONATION_FILTER_PAYMENT_METHOD_IDS";
+export const SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS = "SET_DONATION_FILTER_ORGANIZATION_IDS";
 
 export interface IActionRangeParams<T> {
   from: T;
@@ -18,7 +18,7 @@ export interface IFilterAction<T> {
 
 export const setDonationFilterSumRange = (
   from: number,
-  to: number
+  to: number,
 ): IFilterAction<IActionRangeParams<number>> => {
   return {
     type: SET_DONATION_FILTER_SUM_RANGE,
@@ -31,7 +31,7 @@ export const setDonationFilterSumRange = (
 
 export const setDonationFilterDateRange = (
   from: Date | null,
-  to: Date | null
+  to: Date | null,
 ): IFilterAction<IActionRangeParams<Date | null>> => {
   return {
     type: SET_DONATION_FILTER_DATE_RANGE,
@@ -64,7 +64,7 @@ export const setDonationFilterDonationId = (donationId: string): IFilterAction<s
 };
 
 export const setDonationFilterPaymentMethodIDs = (
-  IDs: Array<number> | undefined
+  IDs: Array<number> | undefined,
 ): IFilterAction<Array<number> | undefined> => {
   return {
     type: SET_DONATION_FILTER_PAYMENT_METHOD_IDS,
@@ -73,7 +73,7 @@ export const setDonationFilterPaymentMethodIDs = (
 };
 
 export const setDonationFilterOrganizationIDs = (
-  IDs: Array<number> | undefined
+  IDs: Array<number> | undefined,
 ): IFilterAction<Array<number> | undefined> => {
   return {
     type: SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS,

@@ -1,12 +1,12 @@
-import { ReportProcessingState } from '../../models/state';
-import { AnyAction } from 'redux';
-import { isType } from 'typescript-fsa';
-import { uploadReportAction } from '../report/report-upload.actions';
-import { toast } from 'react-toastify';
-import { POP_INVALID_TRANSACTION } from './process.actions';
-import { createDistribitionAndInsertDonationAction } from '../single-donation/single-donation.actions';
-import { toastError } from '../../util/toasthelper';
-import { processDonationsAction, registerCampaignAction } from '../facebook/facebook.actions';
+import { ReportProcessingState } from "../../models/state";
+import { AnyAction } from "redux";
+import { isType } from "typescript-fsa";
+import { uploadReportAction } from "../report/report-upload.actions";
+import { toast } from "react-toastify";
+import { POP_INVALID_TRANSACTION } from "./process.actions";
+import { createDistribitionAndInsertDonationAction } from "../single-donation/single-donation.actions";
+import { toastError } from "../../util/toasthelper";
+import { processDonationsAction, registerCampaignAction } from "../facebook/facebook.actions";
 
 const defaultState: ReportProcessingState = {
   valid: 0,
@@ -17,11 +17,11 @@ const defaultState: ReportProcessingState = {
 };
 
 const toastIfDone = (transactionsLeft: number) =>
-  transactionsLeft === 0 && toast.success('🎉 Good job, you did them all!');
+  transactionsLeft === 0 && toast.success("🎉 Good job, you did them all!");
 
 export const reportProcessingReducer = (
   state: ReportProcessingState = defaultState,
-  action: AnyAction
+  action: AnyAction,
 ): ReportProcessingState => {
   if (
     isType(action, uploadReportAction.started) ||
@@ -34,10 +34,10 @@ export const reportProcessingReducer = (
     isType(action, uploadReportAction.failed) ||
     isType(action, processDonationsAction.failed)
   ) {
-    toastError('Failed to process report', action.payload.error.message);
+    toastError("Failed to process report", action.payload.error.message);
     return { ...state, loading: false };
   } else if (isType(action, registerCampaignAction.failed)) {
-    toastError('Failed to process campaign', action.payload.error.message);
+    toastError("Failed to process campaign", action.payload.error.message);
     return { ...state, loading: false };
   } else if (
     isType(action, uploadReportAction.done) &&
@@ -53,7 +53,7 @@ export const reportProcessingReducer = (
   ) {
     if (action.payload.result.invalid > 0) {
       toast.success(
-        `🔥 inserted ${action.payload.result.valid}, ignored ${action.payload.result.invalid}`
+        `🔥 inserted ${action.payload.result.valid}, ignored ${action.payload.result.invalid}`,
       );
       return {
         ...action.payload.result,
@@ -88,7 +88,7 @@ export const reportProcessingReducer = (
     let externalRef = action.payload.params.donation.paymentExternalRef;
 
     let transactions = state.invalidTransactions.filter(
-      (invalid) => invalid.transaction.transactionID !== externalRef
+      (invalid) => invalid.transaction.transactionID !== externalRef,
     );
 
     if (transactions.length === state.invalidTransactions.length)
@@ -106,7 +106,7 @@ export const reportProcessingReducer = (
       return {
         ...state,
         fbCampaigns: state.fbCampaigns.filter(
-          (campaign) => campaign.ID !== action.payload.params.campaign.id
+          (campaign) => campaign.ID !== action.payload.params.campaign.id,
         ),
         loading: false,
       };

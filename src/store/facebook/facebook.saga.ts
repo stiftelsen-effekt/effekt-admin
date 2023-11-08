@@ -1,12 +1,12 @@
-import { put, call } from 'redux-saga/effects';
-import * as API from '../../util/api';
-import { Action } from 'typescript-fsa';
+import { put, call } from "redux-saga/effects";
+import * as API from "../../util/api";
+import { Action } from "typescript-fsa";
 import {
   IRegisterCampaignActionParams,
   registerCampaignAction,
   processDonationsAction,
   IProcessDonationsActionParams,
-} from './facebook.actions';
+} from "./facebook.actions";
 
 export function* registerFBCampaign(action: Action<IRegisterCampaignActionParams>) {
   try {
@@ -28,7 +28,7 @@ export function* registerFBCampaign(action: Action<IRegisterCampaignActionParams
 export function* processFBDonations(action: Action<IProcessDonationsActionParams>) {
   try {
     const formData = new FormData();
-    formData.append('metaOwnerID', action.payload.metaOwnerID.toString());
+    formData.append("metaOwnerID", action.payload.metaOwnerID.toString());
 
     var data: API.Response = yield call(API.call, {
       endpoint: `/facebook/register/donations`,

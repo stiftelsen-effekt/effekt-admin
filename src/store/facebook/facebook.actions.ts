@@ -1,6 +1,6 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { ReportProcessingState } from '../../models/state';
-import { IDistributionShare } from '../../models/types';
+import actionCreatorFactory from "typescript-fsa";
+import { ReportProcessingState } from "../../models/state";
+import { IDistributionShare } from "../../models/types";
 const actionCreator = actionCreatorFactory();
 
 export interface IRegisterCampaignActionParams {
@@ -21,10 +21,10 @@ export const registerCampaignAction = actionCreator.async<
   IRegisterCampaignActionParams,
   undefined,
   Error
->('REGISTER_FB_CAMPAIGN');
+>("REGISTER_FB_CAMPAIGN");
 
 export const processDonationsAction = actionCreator.async<
   IProcessDonationsActionParams,
   ReportProcessingState,
   Error
->('PROCESS_FB_DONATIONS');
+>("PROCESS_FB_DONATIONS");

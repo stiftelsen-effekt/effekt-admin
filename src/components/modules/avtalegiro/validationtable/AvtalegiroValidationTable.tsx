@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import ReactTable from 'react-table';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../../models/state';
-import { fetchAvtaleGiroValidationTableAction } from '../../../../store/avtalegiro/avtalegiro.actions';
-import { ReportContent, ReportHeader, ReportWrapper } from '../../shared/report/Report.style';
-import { useHistory } from 'react-router';
-import { DateTime } from 'luxon';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useEffect } from "react";
+import ReactTable from "react-table";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../../models/state";
+import { fetchAvtaleGiroValidationTableAction } from "../../../../store/avtalegiro/avtalegiro.actions";
+import { ReportContent, ReportHeader, ReportWrapper } from "../../shared/report/Report.style";
+import { useHistory } from "react-router";
+import { DateTime } from "luxon";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const AvtaleGiroValidationTable = () => {
   const history = useHistory();
@@ -17,37 +17,37 @@ export const AvtaleGiroValidationTable = () => {
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>
-      dispatch(fetchAvtaleGiroValidationTableAction.started({ token }))
+      dispatch(fetchAvtaleGiroValidationTableAction.started({ token })),
     );
   }, [dispatch, getAccessTokenSilently]);
 
-  const thousandize = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  const thousandize = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
   const columnDefinitions = [
     {
-      Header: 'Date',
-      accessor: 'date',
-      id: 'date',
+      Header: "Date",
+      accessor: "date",
+      id: "date",
       width: 60,
     },
     {
-      Header: 'Expected',
-      id: 'expected',
-      accessor: (res: any) => thousandize(res.expected) + ' kr',
+      Header: "Expected",
+      id: "expected",
+      accessor: (res: any) => thousandize(res.expected) + " kr",
     },
     {
-      Header: 'Actual',
-      id: 'actual',
-      accessor: (res: any) => (res.actual !== null ? thousandize(res.actual) + ' kr' : '-'),
+      Header: "Actual",
+      id: "actual",
+      accessor: (res: any) => (res.actual !== null ? thousandize(res.actual) + " kr" : "-"),
     },
     {
-      Header: 'Diff',
-      id: 'diff',
-      accessor: (res: any) => (res.actual !== null ? thousandize(res.diff) + ' kr' : '-'),
+      Header: "Diff",
+      id: "diff",
+      accessor: (res: any) => (res.actual !== null ? thousandize(res.diff) + " kr" : "-"),
     },
   ];
 
-  const defaultSorting = [{ id: 'date', desc: true }];
+  const defaultSorting = [{ id: "date", desc: true }];
   const data = avtaleGiroState.validation.validationTable;
 
   const trProps = (tableState: any, rowInfo: any) => {

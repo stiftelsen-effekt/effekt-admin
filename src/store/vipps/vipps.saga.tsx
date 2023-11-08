@@ -1,13 +1,13 @@
-import { put, call, select } from 'redux-saga/effects';
-import { Action } from 'typescript-fsa';
-import { AppState } from '../../models/state';
+import { put, call, select } from "redux-saga/effects";
+import { Action } from "typescript-fsa";
+import { AppState } from "../../models/state";
 import {
   IPagination,
   IVippsAgreement,
   IVippsAgreementChargeFilter,
   IVippsAgreementFilter,
-} from '../../models/types';
-import * as API from './../../util/api';
+} from "../../models/types";
+import * as API from "./../../util/api";
 import {
   fetchAgreementHistogramAction,
   fetchAgreementsReportAction,
@@ -21,19 +21,19 @@ import {
   IFetchVippsAgreementsReportActionParams,
   IFetchVippsChargeHistogramActionParams,
   IRefundVippsChargeActionParams,
-} from './vipps.actions';
+} from "./vipps.actions";
 
 export function* fetchVippsAgreements(action: Action<IFetchVippsAgreementsActionParams>) {
   try {
     const pagination: IPagination = yield select(
-      (state: AppState) => state.vippsAgreements.pagination
+      (state: AppState) => state.vippsAgreements.pagination,
     );
     const filter: IVippsAgreementFilter = yield select(
-      (state: AppState) => state.vippsAgreements.filter
+      (state: AppState) => state.vippsAgreements.filter,
     );
 
     const result: API.Response = yield call(API.call, {
-      endpoint: '/vipps/agreements',
+      endpoint: "/vipps/agreements",
       method: API.Method.POST,
       token: action.payload.token,
       data: {
@@ -49,18 +49,18 @@ export function* fetchVippsAgreements(action: Action<IFetchVippsAgreementsAction
 }
 
 export function* fetchVippsAgreementCharges(
-  action: Action<IFetchVippsAgreementChargesActionParams>
+  action: Action<IFetchVippsAgreementChargesActionParams>,
 ) {
   try {
     const pagination: IPagination = yield select(
-      (state: AppState) => state.vippsAgreementCharges.pagination
+      (state: AppState) => state.vippsAgreementCharges.pagination,
     );
     const filter: IVippsAgreementChargeFilter = yield select(
-      (state: AppState) => state.vippsAgreementCharges.filter
+      (state: AppState) => state.vippsAgreementCharges.filter,
     );
 
     const result: API.Response = yield call(API.call, {
-      endpoint: '/vipps/charges',
+      endpoint: "/vipps/charges",
       method: API.Method.POST,
       token: action.payload.token,
       data: {
@@ -70,11 +70,11 @@ export function* fetchVippsAgreementCharges(
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(
-      fetchVippsAgreementChargesAction.done({ params: action.payload, result: result.content })
+      fetchVippsAgreementChargesAction.done({ params: action.payload, result: result.content }),
     );
   } catch (ex) {
     yield put(
-      fetchVippsAgreementChargesAction.failed({ params: action.payload, error: ex as Error })
+      fetchVippsAgreementChargesAction.failed({ params: action.payload, error: ex as Error }),
     );
   }
 }
@@ -83,7 +83,7 @@ export function* fetchChargeHistogram(action: Action<IFetchVippsChargeHistogramA
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
-      endpoint: '/vipps/histogram/charges',
+      endpoint: "/vipps/histogram/charges",
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchChargeHistogramAction.done({ params: action.payload, result: result.content }));
@@ -96,7 +96,7 @@ export function* fetchAgreementHistogram(action: any) {
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
-      endpoint: '/vipps/histogram/agreements',
+      endpoint: "/vipps/histogram/agreements",
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchAgreementHistogramAction.done({ result: result.content }));
@@ -109,12 +109,12 @@ export function* fetchAgreementsReport(action: Action<IFetchVippsAgreementsRepor
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
-      endpoint: '/vipps/agreements/report',
+      endpoint: "/vipps/agreements/report",
       token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(
-      fetchAgreementsReportAction.done({ params: action.payload, result: result.content[0] })
+      fetchAgreementsReportAction.done({ params: action.payload, result: result.content[0] }),
     );
   } catch (ex) {
     yield put(fetchAgreementsReportAction.failed({ params: action.payload, error: ex as Error }));

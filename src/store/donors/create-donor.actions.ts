@@ -1,5 +1,5 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { IDonor } from '../../models/types';
+import actionCreatorFactory from "typescript-fsa";
+import { IDonor } from "../../models/types";
 
 const actionCreator = actionCreatorFactory();
 
@@ -9,5 +9,5 @@ export interface ICreateDonorActionParams {
 }
 
 export const createDonorAction = actionCreator.async<ICreateDonorActionParams, Boolean, Error>(
-  'CREATE_USER'
+  "CREATE_USER",
 );

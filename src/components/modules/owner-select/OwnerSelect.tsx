@@ -1,9 +1,9 @@
-import React from 'react';
-import { IDataOwner } from '../../../models/types';
-import { useSelector, useDispatch } from 'react-redux';
-import Select from 'react-select';
-import { setCurrentOwnerAction, fetchOwnersAction } from '../../../store/owners/owners.actions';
-import { AppState } from '../../../models/state';
+import React from "react";
+import { IDataOwner } from "../../../models/types";
+import { useSelector, useDispatch } from "react-redux";
+import Select from "react-select";
+import { setCurrentOwnerAction, fetchOwnersAction } from "../../../store/owners/owners.actions";
+import { AppState } from "../../../models/state";
 
 export const OwnerSelect: React.FunctionComponent = () => {
   const dispatch = useDispatch();

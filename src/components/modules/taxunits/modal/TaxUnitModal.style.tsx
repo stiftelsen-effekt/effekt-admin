@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-export const CreateDonorWrapper = styled.div`
+export const TaxUnitModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 200px;

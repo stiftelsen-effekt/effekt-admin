@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ReportWrapper = styled.div`
   border-left: 4px solid black;
@@ -17,7 +17,7 @@ export const ReportHeader = styled.h3`
   margin-bottom: 0;
   position: relative;
   padding: 15px 20px;
-  font-family: 'ESKlarheitKurrent';
+  font-family: "ESKlarheitKurrent";
   font-weight: 400;
 `;
 
@@ -33,4 +33,4 @@ export const ReportActions = styled.div`
   justify-content: flex-end;
   padding: 10px;
   width: 100%;
-`
+`;

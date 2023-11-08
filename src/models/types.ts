@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon';
-import Decimal from 'decimal.js';
+import { DateTime } from "luxon";
+import Decimal from "decimal.js";
 
 export interface IDonor {
   id: number;
@@ -110,6 +110,7 @@ export interface ITaxUnit {
   numDonations: number;
   sumDonations: number;
   registered: DateTime;
+  archived: DateTime | null;
 }
 
 export interface ITaxUnitFilter {

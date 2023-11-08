@@ -1,15 +1,15 @@
 /* eslint-disable no-restricted-globals */
-import { put, call, select } from 'redux-saga/effects';
-import { Action } from 'typescript-fsa';
-import { AppState } from '../../models/state';
+import { put, call, select } from "redux-saga/effects";
+import { Action } from "typescript-fsa";
+import { AppState } from "../../models/state";
 import {
   IAvtaleGiro,
   IAvtaleGiroFilter,
   IDonation,
   IHistogramBucket,
   IPagination,
-} from '../../models/types';
-import * as API from './../../util/api';
+} from "../../models/types";
+import * as API from "./../../util/api";
 import {
   fetchAvtaleGiroAgreementsAction,
   fetchAvtaleGiroExpectedByDateAction,
@@ -32,20 +32,20 @@ import {
   updateAvtaleGiroDistributionAction,
   updateAvtaleGiroPaymentDateAction,
   updateAvtaleGiroStatusAction,
-} from './avtalegiro.actions';
-import { fetchAvtaleGiroAction } from './avtalegiro.actions';
+} from "./avtalegiro.actions";
+import { fetchAvtaleGiroAction } from "./avtalegiro.actions";
 
 export function* fetchAvtaleGiroAgreements(action: Action<IFetchAvtaleGiroAgreementsActionParams>) {
   try {
     const pagination: IPagination = yield select(
-      (state: AppState) => state.avtaleGiroAgreements.pagination
+      (state: AppState) => state.avtaleGiroAgreements.pagination,
     );
     const filter: IAvtaleGiroFilter = yield select(
-      (state: AppState) => state.avtaleGiroAgreements.filter
+      (state: AppState) => state.avtaleGiroAgreements.filter,
     );
 
     const result: API.Response = yield call(API.call, {
-      endpoint: '/avtalegiro/agreements',
+      endpoint: "/avtalegiro/agreements",
       method: API.Method.POST,
       token: action.payload.token,
       data: {
@@ -55,14 +55,14 @@ export function* fetchAvtaleGiroAgreements(action: Action<IFetchAvtaleGiroAgreem
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(
-      fetchAvtaleGiroAgreementsAction.done({ params: action.payload, result: result.content })
+      fetchAvtaleGiroAgreementsAction.done({ params: action.payload, result: result.content }),
     );
   } catch (ex) {
     yield put(
       fetchAvtaleGiroAgreementsAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }
@@ -71,21 +71,21 @@ export function* fetchAvtaleGiroHistogram(action: Action<IFetchAvtaleGiroHistogr
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
-      endpoint: '/avtalegiro/histogram',
+      endpoint: "/avtalegiro/histogram",
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(
       fetchAvtaleGiroHistogramAction.done({
         params: action.payload,
         result: result.content as IHistogramBucket[],
-      })
+      }),
     );
   } catch (ex) {
     yield put(
       fetchAvtaleGiroHistogramAction.failed({
         params: action.payload,
-        error: new Error(typeof ex === 'string' ? ex : ''),
-      })
+        error: new Error(typeof ex === "string" ? ex : ""),
+      }),
     );
   }
 }
@@ -94,7 +94,7 @@ export function* fetchAvtaleGiroReport(action: Action<IFetchAvtaleGiroReportActi
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
-      endpoint: '/avtalegiro/report',
+      endpoint: "/avtalegiro/report",
       token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content);
@@ -103,42 +103,42 @@ export function* fetchAvtaleGiroReport(action: Action<IFetchAvtaleGiroReportActi
     yield put(
       fetchAvtaleGiroReportAction.failed({
         params: action.payload,
-        error: new Error(typeof ex === 'string' ? ex : ''),
-      })
+        error: new Error(typeof ex === "string" ? ex : ""),
+      }),
     );
   }
 }
 
 export function* fetchAvtaleGiroValidationTable(
-  action: Action<IFetchAvtaleGiroValidationTableActionParams>
+  action: Action<IFetchAvtaleGiroValidationTableActionParams>,
 ) {
   try {
     const result: API.Response = yield call(API.call, {
       method: API.Method.GET,
-      endpoint: '/avtalegiro/validation',
+      endpoint: "/avtalegiro/validation",
       token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content);
     yield put(
-      fetchAvtaleGiroValidationTableAction.done({ params: action.payload, result: result.content })
+      fetchAvtaleGiroValidationTableAction.done({ params: action.payload, result: result.content }),
     );
   } catch (ex) {
     yield put(
       fetchAvtaleGiroValidationTableAction.failed({
         params: action.payload,
-        error: new Error(typeof ex === 'string' ? ex : ''),
-      })
+        error: new Error(typeof ex === "string" ? ex : ""),
+      }),
     );
   }
 }
 
 export function* fetchAvtaleGiroMissingByDate(
-  action: Action<IFetchAvtaleGiroDateValidationParams>
+  action: Action<IFetchAvtaleGiroDateValidationParams>,
 ) {
   try {
     const result: API.TypedResponse<Array<IAvtaleGiro>> = yield call(API.call, {
       method: API.Method.GET,
-      endpoint: '/avtalegiro/missing/',
+      endpoint: "/avtalegiro/missing/",
       data: { date: action.payload.date.toISO() },
       token: action.payload.token,
     });
@@ -147,26 +147,26 @@ export function* fetchAvtaleGiroMissingByDate(
         fetchAvtaleGiroMissingByDateAction.done({
           params: action.payload,
           result: result.content,
-        })
+        }),
       );
     else throw new Error(result.content);
   } catch (ex) {
     yield put(
       fetchAvtaleGiroMissingByDateAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }
 
 export function* fetchAvtaleGiroRecievedByDate(
-  action: Action<IFetchAvtaleGiroDateValidationParams>
+  action: Action<IFetchAvtaleGiroDateValidationParams>,
 ) {
   try {
     const result: API.TypedResponse<Array<IDonation>> = yield call(API.call, {
       method: API.Method.GET,
-      endpoint: '/avtalegiro/recieved/',
+      endpoint: "/avtalegiro/recieved/",
       data: { date: action.payload.date.toISO() },
       token: action.payload.token,
     });
@@ -175,26 +175,26 @@ export function* fetchAvtaleGiroRecievedByDate(
         fetchAvtaleGiroRecievedByDateAction.done({
           params: action.payload,
           result: result.content,
-        })
+        }),
       );
     else throw new Error(result.content);
   } catch (ex) {
     yield put(
       fetchAvtaleGiroRecievedByDateAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }
 
 export function* fetchAvtaleGiroExpectedByDate(
-  action: Action<IFetchAvtaleGiroDateValidationParams>
+  action: Action<IFetchAvtaleGiroDateValidationParams>,
 ) {
   try {
     const result: API.TypedResponse<Array<IAvtaleGiro>> = yield call(API.call, {
       method: API.Method.GET,
-      endpoint: '/avtalegiro/expected/',
+      endpoint: "/avtalegiro/expected/",
       data: { date: action.payload.date.toISO() },
       token: action.payload.token,
     });
@@ -203,15 +203,15 @@ export function* fetchAvtaleGiroExpectedByDate(
         fetchAvtaleGiroExpectedByDateAction.done({
           params: action.payload,
           result: result.content,
-        })
+        }),
       );
     else throw new Error(result.content);
   } catch (ex) {
     yield put(
       fetchAvtaleGiroExpectedByDateAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }
@@ -238,7 +238,7 @@ export function* fetchAvtaleGiro(action: Action<IFetchAgreementActionParams>) {
       fetchAvtaleGiroAction.failed({
         error: ex as Error,
         params: action.payload,
-      })
+      }),
     );
   }
 }
@@ -263,9 +263,9 @@ export function* updateAvtaleGiroAmount(action: Action<IUpdateAvtaleGiroAmountAc
   } catch (ex) {
     yield put(
       updateAvtaleGiroAmountAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }
@@ -290,15 +290,15 @@ export function* updateAvtaleGiroStatus(action: Action<IUpdateAvtaleGiroStatusAc
   } catch (ex) {
     yield put(
       updateAvtaleGiroStatusAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }
 
 export function* updateAvtaleGiroPaymentDate(
-  action: Action<IUpdateAvtaleGiroPaymentDateActionParams>
+  action: Action<IUpdateAvtaleGiroPaymentDateActionParams>,
 ) {
   const KID = action.payload.KID;
   const paymentDate = action.payload.paymentDate;
@@ -315,21 +315,21 @@ export function* updateAvtaleGiroPaymentDate(
     });
     if (result) {
       yield put(
-        updateAvtaleGiroPaymentDateAction.done({ params: action.payload, result: paymentDate })
+        updateAvtaleGiroPaymentDateAction.done({ params: action.payload, result: paymentDate }),
       );
     }
   } catch (ex) {
     yield put(
       updateAvtaleGiroPaymentDateAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }
 
 export function* updateAvtaleGiroDistribution(
-  action: Action<IUpdateAvtaleGiroDistributionActionParams>
+  action: Action<IUpdateAvtaleGiroDistributionActionParams>,
 ) {
   const KID = action.payload.KID;
   const distribution = action.payload.distribution;
@@ -349,9 +349,9 @@ export function* updateAvtaleGiroDistribution(
   } catch (ex) {
     yield put(
       updateAvtaleGiroDistributionAction.failed({
-        error: new Error(typeof ex === 'string' ? ex : ''),
+        error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
-      })
+      }),
     );
   }
 }

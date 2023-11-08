@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react';
-import Validator from 'validator';
-import { AppState } from '../../../../models/state';
-import { DateTime } from 'luxon';
-import { DonorKeyInfoWrapper } from './KeyInfo.style';
-import { DonorKeyInfoField, FieldType } from './KeyInfoField';
-import { IDonor } from '../../../../models/types';
-import { toastError } from '../../../../util/toasthelper';
-import { useSelector } from 'react-redux';
-import { EffektLoadingSpinner } from '../../../style/elements/loading-spinner';
+import React, { useEffect } from "react";
+import Validator from "validator";
+import { AppState } from "../../../../models/state";
+import { DateTime } from "luxon";
+import { DonorKeyInfoWrapper } from "./KeyInfo.style";
+import { DonorKeyInfoField, FieldType } from "./KeyInfoField";
+import { IDonor } from "../../../../models/types";
+import { toastError } from "../../../../util/toasthelper";
+import { useSelector } from "react-redux";
+import { EffektLoadingSpinner } from "../../../style/elements/loading-spinner";
 
 export const DonorKeyInfo: React.FunctionComponent<{ donor: IDonor }> = ({ donor }) => {
   const pendingUpdates = useSelector((state: AppState) => state.donorPage.pendingUpdates);
   const updateError = useSelector((state: AppState) => state.donorPage.updateError);
   useEffect(() => {
-    if (updateError?.message) toastError('Donor not modified', updateError.message);
+    if (updateError?.message) toastError("Donor not modified", updateError.message);
   }, [updateError, pendingUpdates]);
 
   return (
     <DonorKeyInfoWrapper>
-      <table className={pendingUpdates ? 'updating' : undefined} width="100%" cellSpacing={0}>
+      <table className={pendingUpdates ? "updating" : undefined} width="100%" cellSpacing={0}>
         <tbody>
           <DonorKeyInfoField donor={donor} field="name" label="Name" />
           <DonorKeyInfoField

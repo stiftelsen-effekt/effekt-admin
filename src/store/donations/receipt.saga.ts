@@ -1,7 +1,7 @@
-import { put, call } from 'redux-saga/effects';
-import { IResendReceiptPayload, resendReceiptAction } from './receipt.actions';
-import * as API from '../../util/api';
-import { Action } from 'typescript-fsa';
+import { put, call } from "redux-saga/effects";
+import { IResendReceiptPayload, resendReceiptAction } from "./receipt.actions";
+import * as API from "../../util/api";
+import { Action } from "typescript-fsa";
 
 export function* resendReceipt(action: Action<IResendReceiptPayload>) {
   try {

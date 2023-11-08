@@ -1,7 +1,7 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import React from 'react';
-import { RouteProps, Route, Redirect } from 'react-router';
-import { EffektLoadingSpinner } from '../style/elements/loading-spinner';
+import { useAuth0 } from "@auth0/auth0-react";
+import React from "react";
+import { RouteProps, Route, Redirect } from "react-router";
+import { EffektLoadingSpinner } from "../style/elements/loading-spinner";
 
 interface IPrivateRouteProps {
   component: React.FC;
@@ -20,11 +20,11 @@ export const PrivateRoute: React.FC<IPrivateRouteProps & RouteProps> = ({
         render={(props) => (
           <div
             style={{
-              width: '100vw',
-              height: '100vh',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              width: "100vw",
+              height: "100vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <EffektLoadingSpinner></EffektLoadingSpinner>
@@ -40,7 +40,7 @@ export const PrivateRoute: React.FC<IPrivateRouteProps & RouteProps> = ({
       <Route
         {...rest}
         render={(props) => (
-          <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+          <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
         )}
       />
     );

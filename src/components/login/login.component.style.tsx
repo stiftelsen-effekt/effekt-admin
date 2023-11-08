@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import loginBackground from '../../assets/loginbg.jpg';
+import styled from "styled-components";
+import loginBackground from "../../assets/loginbg.jpg";
 
 export const LoginWrapper = styled.div`
   background-image: url(${loginBackground});
@@ -26,7 +26,7 @@ export const LoginButton = styled.button`
   background: none;
   color: white;
   font-size: 16px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   background: rgba(0, 0, 0, 0.5);
   cursor: pointer;
   text-transform: uppercase;

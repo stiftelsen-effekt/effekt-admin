@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { EffektDateRange } from '../../modules/range/DateRange';
-import { EffektInput } from './input.style';
+import styled from "styled-components";
+import { EffektDateRange } from "../../modules/range/DateRange";
+import { EffektInput } from "./input.style";
 
 export const FilterHeader = styled.h2`
-  font-family: 'ESKlarheitKurrent';
+  font-family: "ESKlarheitKurrent";
   font-size: 28px;
   padding-left: 20px;
   margin-bottom: 0px;
@@ -32,7 +32,7 @@ export const FilterWrapper = styled.div<IFilterWrapperProps>`
   z-index: 10;
 
   @media (max-width: 1680px) {
-    transform: ${(props) => (props.isOpen ? 'translateX(0px);' : 'translateX(100%)')};
+    transform: ${(props) => (props.isOpen ? "translateX(0px);" : "translateX(100%)")};
   }
 `;
 

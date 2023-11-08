@@ -1,18 +1,18 @@
-import { call, put } from 'redux-saga/effects';
-import { Action } from 'typescript-fsa';
-import * as API from '../../util/api';
+import { call, put } from "redux-saga/effects";
+import { Action } from "typescript-fsa";
+import * as API from "../../util/api";
 import {
   createDistribitionAndInsertDonationAction,
   ICreateDistributionParams,
   fetchPaymentMethodsAction,
   ICreateDonationParams,
   ICreateDistributionAndInsertDonationParams,
-} from './single-donation.actions';
+} from "./single-donation.actions";
 
 export function* fetchPaymentMethods(action: any) {
   try {
     var data: API.Response = yield call(API.call, {
-      endpoint: '/payment/methods/',
+      endpoint: "/payment/methods/",
       method: API.Method.GET,
     });
     if (data.status !== 200) throw new Error(data.content);
@@ -25,7 +25,7 @@ export function* fetchPaymentMethods(action: any) {
 export function* createDistributionCall(params: ICreateDistributionParams, token: string) {
   try {
     var data: API.Response = yield call(API.call, {
-      endpoint: '/distributions/',
+      endpoint: "/distributions/",
       method: API.Method.POST,
       token: token,
       data: params.distribution,
@@ -40,7 +40,7 @@ export function* createDistributionCall(params: ICreateDistributionParams, token
 export function* insertDonationCall(params: ICreateDonationParams, token: string) {
   try {
     var data: API.Response = yield call(API.call, {
-      endpoint: '/donations/confirm',
+      endpoint: "/donations/confirm",
       method: API.Method.POST,
       token: token,
       data: params,
@@ -59,27 +59,27 @@ export function* insertDonation(action: Action<ICreateDonationParams>) {
     yield put(
       createDistribitionAndInsertDonationAction.done({
         params: action.payload as any,
-        result: 'OK',
-      })
+        result: "OK",
+      }),
     );
   } catch (ex) {
     yield put(
       createDistribitionAndInsertDonationAction.failed({
         params: action.payload as any,
         error: ex as Error,
-      })
+      }),
     );
   }
 }
 
 export function* createDistributionAndInsertDonation(
-  action: Action<ICreateDistributionAndInsertDonationParams>
+  action: Action<ICreateDistributionAndInsertDonationParams>,
 ) {
   try {
     let kidResult = yield call(
       createDistributionCall,
       action.payload.distribution,
-      action.payload.token
+      action.payload.token,
     );
     let donationData = {
       ...action.payload.donation,
@@ -88,14 +88,14 @@ export function* createDistributionAndInsertDonation(
     yield call(insertDonationCall, donationData, action.payload.token);
 
     yield put(
-      createDistribitionAndInsertDonationAction.done({ params: action.payload, result: 'OK' })
+      createDistribitionAndInsertDonationAction.done({ params: action.payload, result: "OK" }),
     );
   } catch (ex) {
     yield put(
       createDistribitionAndInsertDonationAction.failed({
         params: action.payload,
         error: ex as Error,
-      })
+      }),
     );
   }
 }
