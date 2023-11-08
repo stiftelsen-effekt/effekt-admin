@@ -63,7 +63,7 @@ export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUni
           token: token,
           id: taxUnit.id,
           donorId: donorId,
-          transferId: transferId == -1 ? undefined : transferId,
+          transferId: transferId === -1 ? undefined : transferId,
         }),
       );
     });
