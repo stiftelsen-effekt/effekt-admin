@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import ReactTable from 'react-table';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../../models/state';
-import { thousandize, longDateTime } from '../../../../util/formatting';
-import { DateTime } from 'luxon';
-import { ITaxUnit } from '../../../../models/types';
-import { useAuth0 } from '@auth0/auth0-react';
-import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
-import { TaxUnitModal } from '../modal/TaxUnitModal';
-import { Edit, Plus } from 'react-feather';
-import { EffektButton } from '../../../style/elements/button.style';
-import { NewTaxUnitModal } from '../modal/NewTaxUnitModal';
+import React, { useEffect, useState } from "react";
+import ReactTable from "react-table";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../../models/state";
+import { thousandize, longDateTime } from "../../../../util/formatting";
+import { DateTime } from "luxon";
+import { ITaxUnit } from "../../../../models/types";
+import { useAuth0 } from "@auth0/auth0-react";
+import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
+import { TaxUnitModal } from "../modal/TaxUnitModal";
+import { Edit, Plus } from "react-feather";
+import { EffektButton } from "../../../style/elements/button.style";
+import { NewTaxUnitModal } from "../modal/NewTaxUnitModal";
 
 interface Props {
   taxUnits: Array<ITaxUnit> | undefined;
@@ -23,7 +23,7 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
   taxUnits,
   manual,
   defaultPageSize,
-  donorId
+  donorId,
 }) => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
@@ -44,49 +44,52 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
 
   const columnDefinitions: any[] = [
     {
-      Header: 'ID',
-      accessor: 'id',
+      Header: "ID",
+      accessor: "id",
       width: 100,
     },
     {
-      Header: 'SSN',
-      accessor: 'ssn',
+      Header: "SSN",
+      accessor: "ssn",
       width: 170,
     },
     {
-      Header: 'Name',
-      accessor: 'name',
+      Header: "Name",
+      accessor: "name",
     },
     {
-      Header: 'Donations',
-      id: 'donations',
+      Header: "Donations",
+      id: "donations",
       accessor: (res: ITaxUnit) => thousandize(res.numDonations),
-      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 170,
     },
     {
-      Header: 'Sum donations',
-      id: 'sumdonations',
-      textAlign: 'right',
-      accessor: (res: ITaxUnit) => thousandize(res.sumDonations) + ' kr',
-      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      Header: "Sum donations",
+      id: "sumdonations",
+      textAlign: "right",
+      accessor: (res: ITaxUnit) => thousandize(res.sumDonations) + " kr",
+      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 170,
     },
     {
-      Header: 'Registered',
-      id: 'registered',
+      Header: "Registered",
+      id: "registered",
       accessor: (res: any) => longDateTime(DateTime.fromISO(res.registered)),
       sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, 'dd.MM.yyyy HH:mm') > DateTime.fromFormat(b, 'dd.MM.yyyy HH:mm') ? -1 : 1;
+        return DateTime.fromFormat(a, "dd.MM.yyyy HH:mm") >
+          DateTime.fromFormat(b, "dd.MM.yyyy HH:mm")
+          ? -1
+          : 1;
       },
       width: 140,
     },
     {
-      Header: 'Edit',
-      id: 'edit',
+      Header: "Edit",
+      id: "edit",
       accessor: (res: any) => (
         <div
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}
         >
           <button onClick={() => setEditTaxunit(res)}>
             <Edit size={14} />
@@ -97,13 +100,13 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
     },
   ];
 
-  const defaultSorting = [{ id: 'registered', desc: true }];
+  const defaultSorting = [{ id: "registered", desc: true }];
 
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          alert('Not implemented');
+          alert("Not implemented");
           // history.push(`/taxunits/${rowInfo.original.id}`);
         },
       };
@@ -153,18 +156,20 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
           visible={showAddModal}
           effect="fadeInUp"
           onClickAway={() => setShowAddModal(false)}
-          >
-            <NewTaxUnitModal
-              donorId={donorId}
-              onSubmit={() => setShowAddModal(false)}
-            ></NewTaxUnitModal>
-          </EffektModal>
+        >
+          <NewTaxUnitModal
+            donorId={donorId}
+            onSubmit={() => setShowAddModal(false)}
+          ></NewTaxUnitModal>
+        </EffektModal>
       </div>
     );
   } else {
     return (
       <div>
-        <EffektButton onClick={() => setShowAddModal(true)}>Add tax unit <Plus size={16} /></EffektButton>
+        <EffektButton onClick={() => setShowAddModal(true)}>
+          Add tax unit <Plus size={16} />
+        </EffektButton>
         <ReactTable
           data={taxUnits}
           defaultPageSize={defaultPageSize}
@@ -190,12 +195,12 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
           visible={showAddModal}
           effect="fadeInUp"
           onClickAway={() => setShowAddModal(false)}
-          >
-            <NewTaxUnitModal
-              donorId={donorId}
-              onSubmit={() => setShowAddModal(false)}
-            ></NewTaxUnitModal>
-          </EffektModal>
+        >
+          <NewTaxUnitModal
+            donorId={donorId}
+            onSubmit={() => setShowAddModal(false)}
+          ></NewTaxUnitModal>
+        </EffektModal>
       </div>
     );
   }

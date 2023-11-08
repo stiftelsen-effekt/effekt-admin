@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import ReactTable from 'react-table';
+import React, { useState } from "react";
+import ReactTable from "react-table";
 import {
   setDistributionPagination,
   fetchDistributionsAction,
-} from '../../../../store/distributions/distribution.actions';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../../../models/state';
-import { IDistributionSearchResultItem } from '../../../../models/types';
-import { thousandize } from '../../../../util/formatting';
-import { PlusSquare } from 'react-feather';
-import { EffektButton } from '../../../style/elements/button.style';
-import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
-import { CreateDistribution } from '../create/CreateDistribution';
-import { useHistory } from 'react-router';
-import { useAuth0 } from '@auth0/auth0-react';
+} from "../../../../store/distributions/distribution.actions";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../../../models/state";
+import { IDistributionSearchResultItem } from "../../../../models/types";
+import { thousandize } from "../../../../util/formatting";
+import { PlusSquare } from "react-feather";
+import { EffektButton } from "../../../style/elements/button.style";
+import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
+import { CreateDistribution } from "../create/CreateDistribution";
+import { useHistory } from "react-router";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const DistributionsList: React.FunctionComponent<{
   distributions: Array<IDistributionSearchResultItem> | undefined;
@@ -32,54 +32,54 @@ export const DistributionsList: React.FunctionComponent<{
 
   let columnDefinitions: any[] = [
     {
-      Header: 'KID',
-      accessor: 'KID',
+      Header: "KID",
+      accessor: "KID",
       width: 170,
     },
     {
-      Header: 'Total sum',
-      id: 'sum',
+      Header: "Total sum",
+      id: "sum",
       accessor: (res: any) => {
-        if (res.sum) return thousandize(res.sum) + ' kr';
-        else return '0 kr';
+        if (res.sum) return thousandize(res.sum) + " kr";
+        else return "0 kr";
       },
       sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
       },
-      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 125,
     },
     {
-      Header: 'Number of donations',
-      id: 'count',
+      Header: "Number of donations",
+      id: "count",
       accessor: (res: any) => {
         if (res.count) return thousandize(res.count);
-        else return '0';
+        else return "0";
       },
       sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(' ', '')) > parseFloat(b.replace(' ', '')) ? -1 : 1;
+        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
       },
-      Cell: (row) => <span style={{ textAlign: 'right', width: '100%' }}>{row.value}</span>,
+      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 100,
     },
   ];
 
   if (!hideName) {
     columnDefinitions.splice(1, 0, {
-      Header: 'Name',
-      accessor: 'full_name',
+      Header: "Name",
+      accessor: "full_name",
     });
   }
 
   if (!hideEmail) {
     columnDefinitions.splice(2, 0, {
-      Header: 'Email',
-      accessor: 'email',
+      Header: "Email",
+      accessor: "email",
       width: 350,
     });
   }
 
-  const defaultSorting = [{ id: 'KID', desc: true }];
+  const defaultSorting = [{ id: "KID", desc: true }];
 
   const trProps = (tableState: any, rowInfo: any) => {
     if (rowInfo && rowInfo.row) {
@@ -95,10 +95,10 @@ export const DistributionsList: React.FunctionComponent<{
   if (manual) {
     return (
       <div>
-        <div style={{ display: 'flex', marginBottom: '20px' }}>
+        <div style={{ display: "flex", marginBottom: "20px" }}>
           <EffektButton onClick={() => setShowCreate(true)}>
-            <span>Create &nbsp;</span>{' '}
-            <PlusSquare color={'white'} size={18} style={{ verticalAlign: 'middle' }} />
+            <span>Create &nbsp;</span>{" "}
+            <PlusSquare color={"white"} size={18} style={{ verticalAlign: "middle" }} />
           </EffektButton>
         </div>
 
@@ -124,10 +124,10 @@ export const DistributionsList: React.FunctionComponent<{
                 sort: state.sorted[0],
                 page: state.page,
                 limit: state.pageSize,
-              })
+              }),
             );
             getAccessTokenSilently().then((token) =>
-              dispatch(fetchDistributionsAction.started({ token }))
+              dispatch(fetchDistributionsAction.started({ token })),
             );
           }}
         />

@@ -1,7 +1,7 @@
-import React from 'react';
-import { EffektCheckFormWrapper } from './effekt-check-form.component.style';
-import { EffektCheck } from './effekt-check.component';
-import { SelectAllButton } from './effekt-check.component.style';
+import React from "react";
+import { EffektCheckFormWrapper } from "./effekt-check-form.component.style";
+import { EffektCheck } from "./effekt-check.component";
+import { SelectAllButton } from "./effekt-check.component.style";
 
 export interface EffektCheckChoice {
   label: string;
@@ -15,7 +15,11 @@ interface IProps {
   onChange(selectedValues: Array<any>): void;
 }
 
-export const EffektCheckForm: React.FunctionComponent<IProps> = ({ choices, inverted, onChange }) => {
+export const EffektCheckForm: React.FunctionComponent<IProps> = ({
+  choices,
+  inverted,
+  onChange,
+}) => {
   const isInverted: boolean = inverted ? true : false;
 
   let checkBoxes = choices.map((choice, index) => (
@@ -26,14 +30,25 @@ export const EffektCheckForm: React.FunctionComponent<IProps> = ({ choices, inve
       inverted={isInverted}
       onChange={(now_checked) => {
         choices[index].selected = now_checked;
-        onChange(choices.filter(choice => (choice.selected)).map(choice => choice.value))
+        onChange(choices.filter((choice) => choice.selected).map((choice) => choice.value));
       }}
     ></EffektCheck>
   ));
-  return <EffektCheckFormWrapper>
-  <SelectAllButton onClick={() => {
-    if (choices.filter(choice => (choice.selected)).length === choices.length){onChange(new Array<number>())}
-    else{onChange(choices.map(choice => choice.value))}}} inverted={isInverted}>Select all</SelectAllButton>
-  {checkBoxes}
-</EffektCheckFormWrapper>;
+  return (
+    <EffektCheckFormWrapper>
+      <SelectAllButton
+        onClick={() => {
+          if (choices.filter((choice) => choice.selected).length === choices.length) {
+            onChange(new Array<number>());
+          } else {
+            onChange(choices.map((choice) => choice.value));
+          }
+        }}
+        inverted={isInverted}
+      >
+        Select all
+      </SelectAllButton>
+      {checkBoxes}
+    </EffektCheckFormWrapper>
+  );
 };

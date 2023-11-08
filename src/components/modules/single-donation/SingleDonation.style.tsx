@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { grey15 } from '../../style/colors';
-import { EffektInput } from '../../style/elements/input.style';
+import styled from "styled-components";
+import { grey15 } from "../../style/colors";
+import { EffektInput } from "../../style/elements/input.style";
 
 export const SingleDonationWrapper = styled.div`
   width: 740px;
@@ -12,12 +12,12 @@ export const InputWrapper = styled.div`
   margin-bottom: 12px;
 `;
 
-const KIDTextArrowSize = '12px';
+const KIDTextArrowSize = "12px";
 export const KIDTextWrapper = styled.div`
   position: relative;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     left: calc(50% - ${KIDTextArrowSize});
     bottom: -12px;

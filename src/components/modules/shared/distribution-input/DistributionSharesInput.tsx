@@ -1,11 +1,11 @@
-import Decimal from 'decimal.js';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { AppState } from '../../../../models/state';
-import { IDistributionShare } from '../../../../models/types';
-import { TextInput } from '../../../style/elements/TextInput/TextInput';
-import Validator from 'validator';
+import Decimal from "decimal.js";
+import React from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+import { AppState } from "../../../../models/state";
+import { IDistributionShare } from "../../../../models/types";
+import { TextInput } from "../../../style/elements/TextInput/TextInput";
+import Validator from "validator";
 
 export const DistributionSharesInput: React.FC<{
   shares: Array<IDistributionShare>;
@@ -33,8 +33,8 @@ export const DistributionSharesInput: React.FC<{
                 shares
                   ? shares.filter((dist) => dist.id === org.id).length === 1
                     ? shares.filter((dist) => dist.id === org.id)[0].share.toString()
-                    : ''
-                  : ''
+                    : ""
+                  : ""
               }
               onChange={(e: { target: { value: string } }) => {
                 let newShares: IDistributionShare[] = [...(shares ? shares : [])];

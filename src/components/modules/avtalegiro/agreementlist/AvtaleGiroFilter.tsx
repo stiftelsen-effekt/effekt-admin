@@ -1,8 +1,8 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import React, { useEffect, useState } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+import React, { useEffect, useState } from "react";
 
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../../../models/state';
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../../../models/state";
 import {
   fetchAvtaleGiroAgreementsAction,
   fetchAvtaleGiroHistogramAction,
@@ -12,12 +12,12 @@ import {
   setAvtaleGiroFilterKID,
   setAvtaleGiroFilterPaymentDate,
   setAvtaleGiroFilterDraftDate,
-} from '../../../../store/avtalegiro/avtalegiro.actions';
+} from "../../../../store/avtalegiro/avtalegiro.actions";
 import {
   EffektCheckChoice,
   EffektCheckForm,
-} from '../../../style/elements/effekt-check/effekt-check-form.component';
-import { FilterOpenButton } from '../../../style/elements/filter-buttons/filter-open-button.component';
+} from "../../../style/elements/effekt-check/effekt-check-form.component";
+import { FilterOpenButton } from "../../../style/elements/filter-buttons/filter-open-button.component";
 import {
   FilterWrapper,
   FilterContent,
@@ -27,13 +27,13 @@ import {
   FilterInput,
   FilterDateRangeWrapper,
   FilterDateRange,
-} from '../../../style/elements/filters.component.style';
-import { HistogramInputComponent } from '../../histogram-input/HistogramInput';
-import EffektNumberRange from '../../../style/elements/effekt-range/effekt-range.component';
+} from "../../../style/elements/filters.component.style";
+import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
+import EffektNumberRange from "../../../style/elements/effekt-range/effekt-range.component";
 
 const statusTypes = [
-  { name: 'STOPPED', id: 0 },
-  { name: 'ACTIVE', id: 1 },
+  { name: "STOPPED", id: 0 },
+  { name: "ACTIVE", id: 1 },
 ];
 
 export const AvtaleGiroFilter: React.FunctionComponent = () => {
@@ -51,14 +51,14 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>
-      dispatch(fetchAvtaleGiroAgreementsAction.started({ token }))
+      dispatch(fetchAvtaleGiroAgreementsAction.started({ token })),
     );
   }, [filter, dispatch, getAccessTokenSilently]);
 
   if (statuses) {
     if (!histogram)
       getAccessTokenSilently().then((token) =>
-        dispatch(fetchAvtaleGiroHistogramAction.started({ token }))
+        dispatch(fetchAvtaleGiroHistogramAction.started({ token })),
       );
 
     const statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
@@ -97,8 +97,8 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
             <FilterGroupHeader>Donor like</FilterGroupHeader>
             <FilterInput
               value={donor}
-              placeholder={'Fuzzy search'}
-              style={{ width: '100%' }}
+              placeholder={"Fuzzy search"}
+              style={{ width: "100%" }}
               onChange={(e: any) => {
                 dispatch(setAvtaleGiroFilterDonor(e.target.value));
               }}
@@ -109,8 +109,8 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
             <FilterGroupHeader>KID like</FilterGroupHeader>
             <FilterInput
               value={KID}
-              placeholder={'Fuzzy search'}
-              style={{ width: '100%' }}
+              placeholder={"Fuzzy search"}
+              style={{ width: "100%" }}
               onChange={(e: any) => {
                 dispatch(setAvtaleGiroFilterKID(e.target.value));
               }}

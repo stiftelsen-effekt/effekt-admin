@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon';
-import Decimal from 'decimal.js';
+import { DateTime } from "luxon";
+import Decimal from "decimal.js";
 
 export interface IDonor {
   id: number;

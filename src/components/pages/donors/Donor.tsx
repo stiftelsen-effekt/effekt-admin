@@ -1,13 +1,12 @@
-import { MainHeader } from '../../style/elements/headers.style';
-import React, { useEffect } from 'react';
-import { Page } from '../../style/elements/page.style';
-import { RouteComponentProps } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../models/state';
-import { DonorKeyInfo } from './donor/KeyInfo';
-import { TotalDonationAmount } from './donor/TotalDonationAmount';
-import { DonationsList } from '../../modules/donations/list/DonationsList';
-import { AvtaleGiroList } from '../../modules/avtalegiro/agreementlist/AvtaleGiroList';
+import { MainHeader } from "../../style/elements/headers.style";
+import React, { useEffect } from "react";
+import { Page } from "../../style/elements/page.style";
+import { RouteComponentProps } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../models/state";
+import { DonorKeyInfo } from "./donor/KeyInfo";
+import { TotalDonationAmount } from "./donor/TotalDonationAmount";
+import { DonationsList } from "../../modules/donations/list/DonationsList";
 import {
   getDonorAction,
   getDonorAvtalegiroAgreementsAction,
@@ -17,17 +16,18 @@ import {
   getDonorYearlyAggregatesAction,
   getDonorReferralAnswersAction,
   getDonorTaxUnitsAction,
-} from '../../../store/donors/donor-page.actions';
-import { DonorAggregateChart } from './donor/AggregateChart';
-import { ChartWrapper, OverviewLine } from './Donor.style';
-import { EffektTabs } from '../../modules/shared/tabs/EffektTabs';
-import { EffektTabHeader } from '../../modules/shared/tabs/EffektTabHeader';
-import { EffektTab } from '../../modules/shared/tabs/EffektTab';
-import { VippsAgreementList } from '../../modules/vipps/agreementlist/VippsAgreementList';
-import { DistributionsList } from '../../modules/distribution/list/DistributionsList';
-import { useAuth0 } from '@auth0/auth0-react';
-import { ReferralAnswerList } from '../../modules/donors/referral_answers/ReferralAnswerList';
-import { TaxUnitList } from '../../modules/taxunits/list/TaxUnitsList';
+} from "../../../store/donors/donor-page.actions";
+import { DonorAggregateChart } from "./donor/AggregateChart";
+import { ChartWrapper, OverviewLine } from "./Donor.style";
+import { EffektTabs } from "../../modules/shared/tabs/EffektTabs";
+import { EffektTabHeader } from "../../modules/shared/tabs/EffektTabHeader";
+import { EffektTab } from "../../modules/shared/tabs/EffektTab";
+import { VippsAgreementList } from "../../modules/vipps/agreementlist/VippsAgreementList";
+import { DistributionsList } from "../../modules/distribution/list/DistributionsList";
+import { useAuth0 } from "@auth0/auth0-react";
+import { ReferralAnswerList } from "../../modules/donors/referral_answers/ReferralAnswerList";
+import { TaxUnitList } from "../../modules/taxunits/list/TaxUnitsList";
+import { AvtaleGiroList } from "../../modules/avtalegiro/agreementlist/AvtaleGiroList";
 
 interface IParams {
   id: string;
@@ -61,7 +61,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
     data.stats.sumYearlyAggregates.forEach((row) => {
       let amount = row.value ? row.value.toNumber() : 0;
       totalDonations += amount;
-      if (row.abbriv === 'Drift') operationsDonations += amount;
+      if (row.abbriv === "Drift") operationsDonations += amount;
     });
   }
 
@@ -85,27 +85,27 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
         <div>
           <EffektTabHeader
             label="Donations"
-            counter={data.donations ? data.donations.length : '...'}
+            counter={data.donations ? data.donations.length : "..."}
           />
           <EffektTabHeader
             label="Distributions"
-            counter={data.distributions ? data.distributions.length : '...'}
+            counter={data.distributions ? data.distributions.length : "..."}
           />
           <EffektTabHeader
             label="AvtaleGiro"
-            counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : '...'}
+            counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : "..."}
           />
           <EffektTabHeader
             label="Vipps recurring"
-            counter={data.vippsAgreements ? data.vippsAgreements.length : '...'}
+            counter={data.vippsAgreements ? data.vippsAgreements.length : "..."}
           />
           <EffektTabHeader
             label="Tax units"
-            counter={data.taxUnits ? data.taxUnits.length : '...'}
+            counter={data.taxUnits ? data.taxUnits.length : "..."}
           />
           <EffektTabHeader
             label="Referrals"
-            counter={data.referralAnswers ? data.referralAnswers.length : '...'}
+            counter={data.referralAnswers ? data.referralAnswers.length : "..."}
           />
         </div>
         <div>

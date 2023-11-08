@@ -1,5 +1,5 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { ITaxUnit } from '../../models/types';
+import actionCreatorFactory from "typescript-fsa";
+import { ITaxUnit } from "../../models/types";
 
 const actionCreator = actionCreatorFactory();
 
@@ -23,13 +23,13 @@ export interface IDeleteTaxUnitActionParams {
 }
 
 export const CreateTaxUnitAction = actionCreator.async<ICreateTaxUnitActionParams, boolean, Error>(
-  'CREATE_TAX_UNIT'
+  "CREATE_TAX_UNIT",
 );
 
 export const UpdateTaxUnitAction = actionCreator.async<IUpdateTaxUnitActionParams, boolean, Error>(
-  'UPDATE_TAX_UNIT'
+  "UPDATE_TAX_UNIT",
 );
 
 export const DeleteTaxUnitAction = actionCreator.async<IDeleteTaxUnitActionParams, boolean, Error>(
-  'DELETE_TAX_UNIT'
+  "DELETE_TAX_UNIT",
 );

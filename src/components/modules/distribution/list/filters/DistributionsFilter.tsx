@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   FilterHeader,
   FilterWrapper,
   FilterGroup,
   FilterGroupHeader,
   FilterInput,
-} from '../../../../style/elements/filters.component.style';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../../../models/state';
+} from "../../../../style/elements/filters.component.style";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../../../models/state";
 import {
   setDistributionFilterKid,
   setDistributionFilterDonor,
   fetchDistributionsAction,
-} from '../../../../../store/distributions/distribution.actions';
-import { FilterOpenButton } from '../../../../style/elements/filter-buttons/filter-open-button.component';
-import { useAuth0 } from '@auth0/auth0-react';
+} from "../../../../../store/distributions/distribution.actions";
+import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const DistributionsFiltersComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
         <FilterGroupHeader>KID</FilterGroupHeader>
         <FilterInput
           placeholder="Fuzzysearch"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           value={KID}
           onChange={(e) => {
             dispatch(setDistributionFilterKid(e.target.value));
@@ -53,7 +53,7 @@ export const DistributionsFiltersComponent: React.FunctionComponent = () => {
         <FilterGroupHeader>Donor</FilterGroupHeader>
         <FilterInput
           placeholder="Fuzzysearch"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           value={donor}
           onChange={(e) => {
             dispatch(setDistributionFilterDonor(e.target.value));

@@ -16,7 +16,8 @@
     "jsx": "react",
     "downlevelIteration": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "noUnusedLocals": true
   },
   "include": ["src"]
 }

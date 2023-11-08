@@ -1,7 +1,7 @@
 const Histoslider: React.FunctionComponent<HistosliderProps>;
 
-declare module 'histoslider' {
-  import * as React from 'react';
+declare module "histoslider" {
+  import * as React from "react";
 
   export interface HistosliderBucket {
     x0: number;

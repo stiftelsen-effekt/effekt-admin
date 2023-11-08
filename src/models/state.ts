@@ -24,11 +24,10 @@ import {
   IAvtaleGiroValidation,
   ILogFilter,
   IDonorStats,
-  IDistributionShare,
   IReferralAnswer,
   ITaxUnit,
   ITaxUnitFilter,
-} from './types';
+} from "./types";
 
 export interface AppState {
   graphing: GraphingState;

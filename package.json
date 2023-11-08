@@ -50,8 +50,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "typecheck": "tsc --noEmit",
     "test": "",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write \"./**/*{js,ts,jsx,tsx,json,md,css,scss,yml,yaml}\"",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -85,8 +88,13 @@
     "@types/shortid": "0.0.29",
     "@types/styled-components": "^5.1.21",
     "@types/validator": "^13.7.1",
+    "husky": "^8.0.3",
     "jest-localstorage-mock": "^2.4.3",
+    "lint-staged": "^13.2.2",
     "prettier": "^2.4.1",
     "typescript": "^3.8.3"
+  },
+  "lint-staged": {
+    "*{js,ts,jsx,tsx,json,md,css,scss,yml,yaml}": "prettier --write"
   }
 }

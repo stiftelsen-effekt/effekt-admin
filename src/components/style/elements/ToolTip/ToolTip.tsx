@@ -34,9 +34,7 @@ interface ToolTipProps {
 
 export const ToolTip: React.FC<ToolTipProps> = (props) => {
   return (
-    <ToolTipWrapper
-      style={{ marginLeft: props.marginLeft, marginTop: props.marginTop }}
-    >
+    <ToolTipWrapper style={{ marginLeft: props.marginLeft, marginTop: props.marginTop }}>
       <ToolTipIcon />
       <ToolTipText
         style={{

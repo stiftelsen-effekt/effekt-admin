@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 
-import { Page } from '../../style/elements/page.style';
-import { MainHeader, GreenBox, RedBox } from '../../style/elements/headers.style';
-import { IInvalidTransaction } from '../../../models/types';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState, ReportProcessingState } from '../../../models/state';
-import { Redirect } from 'react-router';
-import { EffektDisplayTable } from '../../style/elements/display-table/display-table.component.style';
-import { SingleDonation } from '../../modules/single-donation/SingleDonation';
-import { popInvalidTransaction } from '../../../store/process/process.actions';
-import { fetchActiveOrganizationsAction } from '../../../store/organizations/organizations.action';
+import { Page } from "../../style/elements/page.style";
+import { MainHeader, GreenBox, RedBox } from "../../style/elements/headers.style";
+import { IInvalidTransaction } from "../../../models/types";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState, ReportProcessingState } from "../../../models/state";
+import { Redirect } from "react-router";
+import { EffektDisplayTable } from "../../style/elements/display-table/display-table.component.style";
+import { SingleDonation } from "../../modules/single-donation/SingleDonation";
+import { popInvalidTransaction } from "../../../store/process/process.actions";
+import { fetchActiveOrganizationsAction } from "../../../store/organizations/organizations.action";
 
 export const ProcessDonations: React.FunctionComponent = (props) => {
   const dispatch = useDispatch();
 
   const organizations = useSelector((state: AppState) => state.organizations.active);
   const processingState: ReportProcessingState = useSelector(
-    (state: AppState) => state.reportProcessing
+    (state: AppState) => state.reportProcessing,
   );
   const current: IInvalidTransaction =
     processingState.invalidTransactions[processingState.invalidTransactions.length - 1];
@@ -39,7 +39,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
       <MainHeader>Report upload - Manual review</MainHeader>
 
       <GreenBox>
-        <strong>{processingState.valid}</strong> processed donations,{' '}
+        <strong>{processingState.valid}</strong> processed donations,{" "}
         <strong>{processingState.invalid}</strong> up for manual review
       </GreenBox>
       <RedBox>
@@ -47,7 +47,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
         <span>{current.reason}</span>
       </RedBox>
 
-      <EffektDisplayTable style={{ marginBottom: '40px', marginTop: '30px' }}>
+      <EffektDisplayTable style={{ marginBottom: "40px", marginTop: "30px" }}>
         <thead>
           <tr>
             {current.transaction.location !== undefined && <th>Saleslocation</th>}
@@ -62,7 +62,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
             {current.transaction.location !== undefined ? (
               <td>{current.transaction.location}</td>
             ) : (
-              ''
+              ""
             )}
             {current.transaction.name !== undefined && <td>{current.transaction.name}</td>}
             {current.transaction.message !== undefined && <td>{current.transaction.message}</td>}

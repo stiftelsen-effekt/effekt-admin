@@ -1,5 +1,5 @@
-import { put, call } from 'redux-saga/effects';
-import * as API from '../../util/api';
+import { put, call } from "redux-saga/effects";
+import * as API from "../../util/api";
 import {
   IAvtaleGiro,
   IDistributionSearchResultItem,
@@ -9,7 +9,7 @@ import {
   IVippsAgreement,
   IReferralAnswer,
   ITaxUnit,
-} from '../../models/types';
+} from "../../models/types";
 import {
   getDonorAction,
   getDonorAvtalegiroAgreementsAction,
@@ -28,9 +28,9 @@ import {
   IUpdateDonorDataParams,
   IfetchDonorTaxUnitsParams,
   getDonorTaxUnitsAction,
-} from './donor-page.actions';
-import { Action } from 'typescript-fsa';
-import { DateTime } from 'luxon';
+} from "./donor-page.actions";
+import { Action } from "typescript-fsa";
+import { DateTime } from "luxon";
 
 export function* getDonor(action: Action<IFetchDonorActionParams>) {
   try {
@@ -78,7 +78,7 @@ export function* getDonorDistributions(action: Action<IFetchDonorDistributionsAc
 }
 
 export function* getDonorAvtalegiroAgreements(
-  action: Action<IFetchDonorAvtalegiroAgreementsActionParams>
+  action: Action<IFetchDonorAvtalegiroAgreementsActionParams>,
 ) {
   try {
     const data: API.TypedResponse<Array<IAvtaleGiro>> = yield call(API.call, {
@@ -88,12 +88,12 @@ export function* getDonorAvtalegiroAgreements(
     });
     if (API.isOk(data))
       yield put(
-        getDonorAvtalegiroAgreementsAction.done({ params: action.payload, result: data.content })
+        getDonorAvtalegiroAgreementsAction.done({ params: action.payload, result: data.content }),
       );
     else throw new Error(data.content);
   } catch (ex) {
     yield put(
-      getDonorAvtalegiroAgreementsAction.failed({ params: action.payload, error: ex as Error })
+      getDonorAvtalegiroAgreementsAction.failed({ params: action.payload, error: ex as Error }),
     );
   }
 }
@@ -107,7 +107,7 @@ export function* getDonorVippsAgreements(action: Action<IFetchDonorVippsAgreemen
     });
     if (API.isOk(data))
       yield put(
-        getDonorVippsAgreementsAction.done({ params: action.payload, result: data.content })
+        getDonorVippsAgreementsAction.done({ params: action.payload, result: data.content }),
       );
     else throw new Error(data.content);
   } catch (ex) {
@@ -123,16 +123,16 @@ export function* getDonorYearlyAggregates(action: Action<IFetchDonorYearlyAggreg
         endpoint: `/donors/${action.payload.id}/donations/aggregated`,
         method: API.Method.GET,
         token: action.payload.token,
-      }
+      },
     );
     if (API.isOk(data))
       yield put(
-        getDonorYearlyAggregatesAction.done({ params: action.payload, result: data.content })
+        getDonorYearlyAggregatesAction.done({ params: action.payload, result: data.content }),
       );
     else throw new Error(data.content);
   } catch (ex) {
     yield put(
-      getDonorYearlyAggregatesAction.failed({ params: action.payload, error: ex as Error })
+      getDonorYearlyAggregatesAction.failed({ params: action.payload, error: ex as Error }),
     );
   }
 }
@@ -152,7 +152,7 @@ export function* getDonorReferralAnswers(action: Action<IFetchDonorActionParams>
             r.timestamp = DateTime.fromISO(r.timestamp as any);
             return r;
           }),
-        })
+        }),
       );
     else throw new Error(data.content);
   } catch (ex) {
@@ -175,7 +175,7 @@ export function* getDonorTaxUnits(action: Action<IfetchDonorTaxUnitsParams>) {
             r.registered = DateTime.fromISO(r.registered as any);
             return r;
           }),
-        })
+        }),
       );
     else throw new Error(data.content);
   } catch (ex) {

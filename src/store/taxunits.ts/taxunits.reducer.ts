@@ -1,7 +1,7 @@
-import { isType } from 'typescript-fsa';
-import { TaxUnitsState } from '../../models/state';
-import { CreateTaxUnitAction, DeleteTaxUnitAction, UpdateTaxUnitAction } from './taxunits.actions';
-import { toast } from 'react-toastify';
+import { isType } from "typescript-fsa";
+import { TaxUnitsState } from "../../models/state";
+import { CreateTaxUnitAction, DeleteTaxUnitAction, UpdateTaxUnitAction } from "./taxunits.actions";
+import { toast } from "react-toastify";
 
 const defaultState: TaxUnitsState = {
   units: [],
@@ -11,7 +11,7 @@ const defaultState: TaxUnitsState = {
     page: 0,
     limit: 25,
     sort: {
-      id: 'timestamp',
+      id: "timestamp",
       desc: true,
     },
   },

@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../../models/state';
-import { ReportContent, ReportHeader, ReportWrapper } from '../../shared/report/Report.style';
-import { setLogsPaginationAction } from '../../../../store/logs/logs-list.actions';
-import { LogsList } from '../list/LogsList';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../../models/state";
+import { ReportContent, ReportHeader, ReportWrapper } from "../../shared/report/Report.style";
+import { setLogsPaginationAction } from "../../../../store/logs/logs-list.actions";
+import { LogsList } from "../list/LogsList";
 
 export const LogsReport = () => {
   const dispatch = useDispatch();

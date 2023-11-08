@@ -1,24 +1,24 @@
-import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { Page } from '../../style/elements/page.style';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../models/state';
-import { IDonation } from '../../../models/types';
+import React from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { Page } from "../../style/elements/page.style";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../../models/state";
+import { IDonation } from "../../../models/types";
 import {
   fetchDonationAction,
   clearCurrentDonation,
-} from '../../../store/donations/donation.actions';
-import { DistributionGraphComponent } from '../../modules/distribution/Graph';
-import { ResourceHeader, ResourceSubHeader, SubHeader } from '../../style/elements/headers.style';
-import { HorizontalPanel } from './Donation.style';
-import { DonationKeyInfoComponent } from '../../modules/donations/keyinfo/KeyInfo';
-import { EffektButton } from '../../style/elements/button.style';
-import { EffektButtonsWrapper } from '../../style/elements/buttons-wrapper/EffektButtonsWrapper.style';
-import { PieChart, User } from 'react-feather';
-import { useHistory } from 'react-router';
-import { useAuth0 } from '@auth0/auth0-react';
-import { deleteDonationAction } from '../../../store/donations/donations-list.actions';
-import { RegisterReceiptComponent } from '../../modules/donations/receipt/Receipt';
+} from "../../../store/donations/donation.actions";
+import { DistributionGraphComponent } from "../../modules/distribution/Graph";
+import { ResourceHeader, ResourceSubHeader, SubHeader } from "../../style/elements/headers.style";
+import { HorizontalPanel } from "./Donation.style";
+import { DonationKeyInfoComponent } from "../../modules/donations/keyinfo/KeyInfo";
+import { EffektButton } from "../../style/elements/button.style";
+import { EffektButtonsWrapper } from "../../style/elements/buttons-wrapper/EffektButtonsWrapper.style";
+import { PieChart, User } from "react-feather";
+import { useHistory } from "react-router";
+import { useAuth0 } from "@auth0/auth0-react";
+import { deleteDonationAction } from "../../../store/donations/donations-list.actions";
+import { RegisterReceiptComponent } from "../../modules/donations/receipt/Receipt";
 
 interface IParams {
   id: string;
@@ -33,17 +33,17 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
   const { getAccessTokenSilently } = useAuth0();
 
   const donation: IDonation | undefined = useSelector(
-    (state: AppState) => state.donations.currentDonation
+    (state: AppState) => state.donations.currentDonation,
   );
 
   if (donation && donation.id !== donationID) {
     dispatch(clearCurrentDonation());
     getAccessTokenSilently().then((token) =>
-      dispatch(fetchDonationAction.started({ id: donationID, token }))
+      dispatch(fetchDonationAction.started({ id: donationID, token })),
     );
   } else if (!donation) {
     getAccessTokenSilently().then((token) =>
-      dispatch(fetchDonationAction.started({ id: donationID, token }))
+      dispatch(fetchDonationAction.started({ id: donationID, token })),
     );
   }
 
@@ -56,7 +56,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
         <EffektButtonsWrapper>
           <EffektButton
             onClick={() => {
-              history.push('/donors/' + donation.donorId);
+              history.push("/donors/" + donation.donorId);
             }}
           >
             <User size={16} />
@@ -64,7 +64,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
           </EffektButton>
           <EffektButton
             onClick={() => {
-              history.push('/distributions/' + donation.KID);
+              history.push("/distributions/" + donation.KID);
             }}
           >
             <PieChart size={16} />
@@ -76,7 +76,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
         <HorizontalPanel gap={120}>
           <DonationKeyInfoComponent donation={donation}></DonationKeyInfoComponent>
 
-          <div style={{ width: '400px', height: '380px' }}>
+          <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
               distribution={donation.distribution}
             ></DistributionGraphComponent>
@@ -104,11 +104,11 @@ const DeleteButton: React.FC<{ id: number; sum?: number }> = ({ id, sum }) => {
     <EffektButton
       onClick={() => {
         let sure = window.confirm(
-          `Do you really want to delete the donation with id ${id} and sum ${sum}`
+          `Do you really want to delete the donation with id ${id} and sum ${sum}`,
         );
         if (sure)
           getAccessTokenSilently().then((token) =>
-            dispatch(deleteDonationAction.started({ id, token }))
+            dispatch(deleteDonationAction.started({ id, token })),
           );
       }}
     >

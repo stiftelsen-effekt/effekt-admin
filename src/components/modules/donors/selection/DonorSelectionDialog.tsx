@@ -1,14 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { SelectorWrapper, DonorDialog, Controls } from './DonorSelectionDialog.style';
+import React from "react";
+import { connect } from "react-redux";
+import { SelectorWrapper, DonorDialog, Controls } from "./DonorSelectionDialog.style";
 
 import {
   hideDonorSelectionComponent,
   clearSelectedDonor,
-} from '../../../../store/donors/donor-selection.actions';
-import { AppState } from '../../../../models/state';
-import { EffektButton, EffektSecondaryButton } from '../../../style/elements/button.style';
-import { DonorSelectionComponent } from './DonorSelection';
+} from "../../../../store/donors/donor-selection.actions";
+import { AppState } from "../../../../models/state";
+import { EffektButton, EffektSecondaryButton } from "../../../style/elements/button.style";
+import { DonorSelectionComponent } from "./DonorSelection";
 
 class DonorSelectionDialogComponent extends React.Component<IStateProps & IDispatchProps> {
   props: any;

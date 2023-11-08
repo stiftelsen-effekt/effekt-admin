@@ -1,7 +1,7 @@
-import { put, call } from 'redux-saga/effects';
-import { Action } from 'typescript-fsa';
-import * as API from '../../util/api';
-import { fetchLogEntryAction, IFetchLogEntryActionParams } from './logs.actions';
+import { put, call } from "redux-saga/effects";
+import { Action } from "typescript-fsa";
+import * as API from "../../util/api";
+import { fetchLogEntryAction, IFetchLogEntryActionParams } from "./logs.actions";
 
 export function* fetchLogEntry(action: Action<IFetchLogEntryActionParams>) {
   try {
@@ -13,6 +13,6 @@ export function* fetchLogEntry(action: Action<IFetchLogEntryActionParams>) {
     if (result.status !== 200) throw new Error(result.content);
     yield put(fetchLogEntryAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
-    yield put(fetchLogEntryAction.failed({ params: action.payload, error: (ex as Error) }));
+    yield put(fetchLogEntryAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

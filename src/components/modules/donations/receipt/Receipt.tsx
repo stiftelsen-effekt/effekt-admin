@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { EffektButton } from '../../../style/elements/button.style';
-import { EffektInput } from '../../../style/elements/input.style';
-import { ResendReceiptWrapper } from './Receipt.style';
-import { useDispatch } from 'react-redux';
-import { resendReceiptAction } from '../../../../store/donations/receipt.actions';
-import { toastError } from '../../../../util/toasthelper';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useState } from "react";
+import { EffektButton } from "../../../style/elements/button.style";
+import { EffektInput } from "../../../style/elements/input.style";
+import { ResendReceiptWrapper } from "./Receipt.style";
+import { useDispatch } from "react-redux";
+import { resendReceiptAction } from "../../../../store/donations/receipt.actions";
+import { toastError } from "../../../../util/toasthelper";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface IProps {
   defaultDonationID?: number;
@@ -24,10 +24,10 @@ export const RegisterReceiptComponent: React.FunctionComponent<IProps> = ({
 
   function resendReceipt() {
     if (!donationID) {
-      toastError('Failed to send', 'Missing donationID');
+      toastError("Failed to send", "Missing donationID");
     } else {
       getAccessTokenSilently().then((token) =>
-        dispatch(resendReceiptAction.started({ donationID, email, token }))
+        dispatch(resendReceiptAction.started({ donationID, email, token })),
       );
     }
   }
@@ -39,7 +39,7 @@ export const RegisterReceiptComponent: React.FunctionComponent<IProps> = ({
           <div>Donation ID</div>
           <EffektInput
             placeholder="donationID"
-            value={donationID || ''}
+            value={donationID || ""}
             onChange={(e) => setDonationID(parseInt(e.target.value))}
           ></EffektInput>
         </div>
@@ -48,7 +48,7 @@ export const RegisterReceiptComponent: React.FunctionComponent<IProps> = ({
         <div>Optional email</div>
         <EffektInput
           placeholder="recipient"
-          value={email || ''}
+          value={email || ""}
           onChange={(e) => setEmail(e.target.value)}
         ></EffektInput>
       </div>

@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 export const MainNav = styled.nav`
   width: 240px;
@@ -13,19 +13,18 @@ export const MainNav = styled.nav`
 
   display: inline-block;
   vertical-align: top;
-  
+
   display: flex;
   flex-direction: column;
-  justify-content: space_between; 
-  overflow: scroll;
-  
+  justify-content: space_between;
+  overflow: auto;
 `;
 
 export const NavMenu = styled.ul`
   padding: 0;
   text-align: right;
   padding-right: 36px;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 export const NavMenuItem = styled(NavLink)`
@@ -39,7 +38,7 @@ export const NavMenuItem = styled(NavLink)`
   position: relative;
 
   &.active:after {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     right: -36px;

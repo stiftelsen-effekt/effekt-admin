@@ -1,8 +1,8 @@
-import { DataOwnerState } from '../../models/state';
-import { AnyAction } from 'redux';
-import { fetchOwnersAction, SET_CURRENT_OWNER } from './owners.actions';
-import { isType } from 'typescript-fsa';
-import { toastError } from '../../util/toasthelper';
+import { DataOwnerState } from "../../models/state";
+import { AnyAction } from "redux";
+import { fetchOwnersAction, SET_CURRENT_OWNER } from "./owners.actions";
+import { isType } from "typescript-fsa";
+import { toastError } from "../../util/toasthelper";
 
 const initialState: DataOwnerState = {
   current: undefined,
@@ -11,7 +11,7 @@ const initialState: DataOwnerState = {
 
 export const ownersReducer = (
   state: DataOwnerState = initialState,
-  action: AnyAction
+  action: AnyAction,
 ): DataOwnerState => {
   if (isType(action, fetchOwnersAction.done)) {
     return {
@@ -20,7 +20,7 @@ export const ownersReducer = (
       owners: action.payload.result,
     };
   } else if (isType(action, fetchOwnersAction.failed)) {
-    toastError('Failed to fetch active organizations', action.payload.error.message);
+    toastError("Failed to fetch active organizations", action.payload.error.message);
   }
 
   if (action.type === SET_CURRENT_OWNER) {

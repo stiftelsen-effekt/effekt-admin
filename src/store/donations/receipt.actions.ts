@@ -1,6 +1,6 @@
-import actionCreatorFactory from 'typescript-fsa';
+import actionCreatorFactory from "typescript-fsa";
 
-export const RESEND_RECEIPT = 'RESEND_RECEIPT';
+export const RESEND_RECEIPT = "RESEND_RECEIPT";
 
 const actionCreator = actionCreatorFactory();
 
@@ -11,5 +11,5 @@ export interface IResendReceiptPayload {
 }
 
 export const resendReceiptAction = actionCreator.async<IResendReceiptPayload, boolean, Error>(
-  RESEND_RECEIPT
+  RESEND_RECEIPT,
 );
