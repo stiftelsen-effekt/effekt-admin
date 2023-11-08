@@ -8,7 +8,9 @@ import { ITaxUnit } from '../../../../models/types';
 import { useAuth0 } from '@auth0/auth0-react';
 import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
 import { TaxUnitModal } from '../modal/TaxUnitModal';
-import { Edit } from 'react-feather';
+import { Edit, Plus } from 'react-feather';
+import { EffektButton } from '../../../style/elements/button.style';
+import { NewTaxUnitModal } from '../modal/NewTaxUnitModal';
 
 interface Props {
   taxUnits: Array<ITaxUnit> | undefined;
@@ -31,6 +33,7 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
   const pagination = useSelector((state: AppState) => state.taxUnits.pagination);
 
   const [editTaxunit, setEditTaxunit] = useState<ITaxUnit | null>(null);
+  const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (manual) {
@@ -146,11 +149,22 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
             ></TaxUnitModal>
           )}
         </EffektModal>
+        <EffektModal
+          visible={showAddModal}
+          effect="fadeInUp"
+          onClickAway={() => setShowAddModal(false)}
+          >
+            <NewTaxUnitModal
+              donorId={donorId}
+              onSubmit={() => setShowAddModal(false)}
+            ></NewTaxUnitModal>
+          </EffektModal>
       </div>
     );
   } else {
     return (
       <div>
+        <EffektButton onClick={() => setShowAddModal(true)}>Add tax unit <Plus size={16} /></EffektButton>
         <ReactTable
           data={taxUnits}
           defaultPageSize={defaultPageSize}
@@ -172,6 +186,16 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
             ></TaxUnitModal>
           )}
         </EffektModal>
+        <EffektModal
+          visible={showAddModal}
+          effect="fadeInUp"
+          onClickAway={() => setShowAddModal(false)}
+          >
+            <NewTaxUnitModal
+              donorId={donorId}
+              onSubmit={() => setShowAddModal(false)}
+            ></NewTaxUnitModal>
+          </EffektModal>
       </div>
     );
   }

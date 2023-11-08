@@ -21,6 +21,8 @@ import { EffektButton } from '../../../style/elements/button.style';
 import { EffektCheck } from '../../../style/elements/effekt-check/effekt-check.component';
 import { EffektInput } from '../../../style/elements/input.style';
 import { DistributionSharesInput } from './DistributionSharesInput';
+import { EffektModal } from '../../../style/elements/effekt-modal/effekt-modal.component.style';
+import { NewTaxUnitModal } from '../../taxunits/modal/NewTaxUnitModal';
 
 const noTaxUnit = { label: 'No tax unit', value: undefined };
 const mapTaxUnitToSelectOption = (taxUnit?: ITaxUnit) =>
@@ -45,6 +47,8 @@ export const DistributionInput: React.FC<{
     (state: AppState) => state.distributions.distributionInput.distribution.donor?.name
   );
 
+  const [showAddTaxUnitModal, setShowAddTaxUnitModal] = useState<boolean>(false);
+
   const [donorInput, setDonorInput] = useState<string | undefined>(
     selectedDonor?.id.toString() ?? ''
   );
@@ -52,6 +56,8 @@ export const DistributionInput: React.FC<{
   const [taxUnitInput, setTaxUnitInput] = useState<{ label: string; value?: number }>(
     mapTaxUnitToSelectOption(distribution.taxUnit) ?? noTaxUnit
   );
+
+  const donorId = distribution.donor?.id;
 
   useEffect(() => {
     let newShares: IDistributionShare[] = [];
@@ -145,6 +151,7 @@ export const DistributionInput: React.FC<{
           value={mapTaxUnitToSelectOption(taxUnits.find((unit) => unit.id === taxUnitInput.value))}
           onChange={(option: any) => setTaxUnitInput(option)}
         />
+        <EffektButton onClick={() => setShowAddTaxUnitModal(true)}>Add tax unit</EffektButton>
       </div>
       <EffektCheck
         label="Standard distribution"
@@ -175,6 +182,15 @@ export const DistributionInput: React.FC<{
           }}
         />
       </div>
+      <EffektModal visible={showAddTaxUnitModal}           effect="fadeInUp"
+          onClickAway={() => setShowAddTaxUnitModal(false)}>
+            {showAddTaxUnitModal && donorId && (
+              <NewTaxUnitModal
+                donorId={donorId}
+                onSubmit={() => setShowAddTaxUnitModal(false)}
+              ></NewTaxUnitModal>
+            )}
+          </EffektModal>
     </div>
   );
 };
