@@ -40,7 +40,7 @@ export const EffektFileInput: React.FunctionComponent<IProps> = (props: IProps) 
   if (state.filename) {
     label = <FileInputLabel htmlFor={props.id}>{state.filename}</FileInputLabel>;
   } else {
-    label = <FileInputLabel htmlFor={props.id}>Drag file here or click</FileInputLabel>;
+    label = <FileInputLabel htmlFor={props.id}>Click to select file</FileInputLabel>;
   }
 
   return (

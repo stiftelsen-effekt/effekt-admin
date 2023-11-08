@@ -17,6 +17,7 @@ interface IState {
   ocrReport: File | null;
   bankReport: File | null;
   facebookReport: File | null;
+  autoGiroReport: File | null;
 }
 
 export const ReportUpload: React.FunctionComponent = (props) => {
@@ -27,6 +28,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
       ocrReport: null,
       bankReport: null,
       facebookReport: null,
+      autoGiroReport: null,
     };
   };
 
@@ -174,6 +176,27 @@ export const ReportUpload: React.FunctionComponent = (props) => {
             </EffektButton>
           </td>
           {state.facebookReport !== null && loading && <EffektLoadingSpinner />}
+        </tr>
+        <tr>
+          <td>
+            <strong>AutoGiro</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) => !loading && setState({ ...state, autoGiroReport: file })}
+              id="autogiro-upload"
+            />
+          </td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(ReportTypes.AUTOGIRO, state.autoGiroReport);
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+          {state.autoGiroReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
       </tbody>
     </ReportTable>

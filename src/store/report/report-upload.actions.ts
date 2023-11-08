@@ -8,6 +8,7 @@ export enum ReportTypes {
   OCR,
   BANK,
   FACEBOOK,
+  AUTOGIRO,
 }
 
 export interface IUploadReportActionParams {

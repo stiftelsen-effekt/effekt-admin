@@ -26,6 +26,9 @@ export function* uploadReport(action: Action<IUploadReportActionParams>) {
       case ReportTypes.FACEBOOK:
         reportType = "facebook";
         break;
+      case ReportTypes.AUTOGIRO:
+        reportType = "autogiro";
+        break;
       default:
         throw new Error("Report type not supported");
     }
