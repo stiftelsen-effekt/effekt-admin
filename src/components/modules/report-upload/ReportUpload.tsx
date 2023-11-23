@@ -10,6 +10,7 @@ import { Redirect } from "react-router";
 import { OwnerSelect } from "../owner-select/OwnerSelect";
 import { EffektLoadingSpinner } from "../../style/elements/loading-spinner";
 import { useAuth0 } from "@auth0/auth0-react";
+import { EffektInput } from "../../style/elements/input.style";
 
 interface IState {
   vippsReport: File | null;
@@ -17,6 +18,9 @@ interface IState {
   ocrReport: File | null;
   bankReport: File | null;
   facebookReport: File | null;
+  adoveoFundraiserReport: File | null;
+  adoveoGiftcardReport: File | null;
+  resourceId?: string;
 }
 
 export const ReportUpload: React.FunctionComponent = (props) => {
@@ -27,6 +31,8 @@ export const ReportUpload: React.FunctionComponent = (props) => {
       ocrReport: null,
       bankReport: null,
       facebookReport: null,
+      adoveoFundraiserReport: null,
+      adoveoGiftcardReport: null,
     };
   };
 
@@ -37,14 +43,21 @@ export const ReportUpload: React.FunctionComponent = (props) => {
   const currentDataOwner = useSelector((state: AppState) => state.dataOwner.current);
   const loading = useSelector((state: AppState) => state.reportProcessing.loading);
 
-  const uploadReport = (type: ReportTypes, file: File | null) => {
-    if (!file)
-      if (loading) return toast.error("Already processing a report");
-      else return toast.error("No file selected");
+  const uploadReport = (type: ReportTypes, file: File | null, resourceId?: string) => {
+    if (loading) return toast.error("Already processing a report");
+    if (!file) return toast.error("No file selected");
     if (!currentDataOwner) return toast.error("No data owner selected");
+    if (!resourceId && type === ReportTypes.ADOVEO_FUNDRAISER)
+      return toast.error("No fundraiser ID selected");
     getAccessTokenSilently().then((token) =>
       dispatch(
-        uploadReportAction.started({ type, report: file, metaOwnerID: currentDataOwner.id, token }),
+        uploadReportAction.started({
+          type,
+          resourceId: resourceId,
+          report: file,
+          metaOwnerID: currentDataOwner.id,
+          token,
+        }),
       ),
     );
   };
@@ -76,6 +89,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               id="vipps-upload"
             />
           </td>
+          <td></td>
           <td>
             <EffektButton
               onClick={() => {
@@ -98,6 +112,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               id="paypal-upload"
             />
           </td>
+          <td></td>
           <td>
             <EffektButton
               onClick={() => {
@@ -120,6 +135,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               id="ocr-upload"
             />
           </td>
+          <td></td>
           <td>
             <EffektButton
               onClick={() => {
@@ -142,6 +158,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               id="bank-upload"
             />
           </td>
+          <td></td>
           <td>
             <EffektButton
               onClick={() => {
@@ -164,6 +181,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               id="facebook-upload"
             />
           </td>
+          <td></td>
           <td>
             <EffektButton
               onClick={() => {
@@ -174,6 +192,72 @@ export const ReportUpload: React.FunctionComponent = (props) => {
             </EffektButton>
           </td>
           {state.facebookReport !== null && loading && <EffektLoadingSpinner />}
+        </tr>
+
+        <tr>
+          <td>
+            <strong>Adoveo giftcards</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) =>
+                !loading && setState({ ...state, adoveoGiftcardReport: file })
+              }
+              id="adoveo-giftcards-upload"
+            />
+          </td>
+          <td></td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(ReportTypes.ADOVEO_GIFTCARDS, state.adoveoGiftcardReport);
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+          {state.adoveoGiftcardReport !== null && loading && <EffektLoadingSpinner />}
+        </tr>
+
+        <tr>
+          <td>
+            <strong>Adoveo fundraiser</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) =>
+                !loading &&
+                setState({
+                  ...state,
+                  adoveoFundraiserReport: file,
+                })
+              }
+              id="adoveo-fundraiser-upload"
+            />
+          </td>
+          <td>
+            <EffektInput
+              onChange={(e) => setState({ ...state, resourceId: e.target.value })}
+              placeholder="Fundraiser ID"
+              style={{
+                width: "110px",
+              }}
+            />
+          </td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(
+                  ReportTypes.ADOVEO_FUNDRAISER,
+                  state.adoveoFundraiserReport,
+                  state.resourceId,
+                );
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+          {state.adoveoFundraiserReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
       </tbody>
     </ReportTable>
