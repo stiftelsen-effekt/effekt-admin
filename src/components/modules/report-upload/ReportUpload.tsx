@@ -205,6 +205,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               id="autogiro-upload"
             />
           </td>
+          <td></td>
           <td>
             <EffektButton
               onClick={() => {

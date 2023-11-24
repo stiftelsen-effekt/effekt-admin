@@ -28,8 +28,12 @@ export interface AdoveoReportProcessingResult {
   failedTransactions: Array<any>;
 }
 
+export interface AutoGiroProcessingResult {
+  newMandates: number;
+}
+
 export const uploadReportAction = actionCreator.async<
   IUploadReportActionParams,
-  ReportProcessingState | AdoveoReportProcessingResult,
+  ReportProcessingState | AutoGiroProcessingResult | AdoveoReportProcessingResult,
   Error
 >("REPORT_UPLOAD");

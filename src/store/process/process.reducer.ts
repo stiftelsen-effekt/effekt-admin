@@ -52,6 +52,7 @@ export const reportProcessingReducer = (
     return { ...state, fbCampaigns: action.payload.result.fbCampaigns, loading: false };
   } else if (
     isType(action, uploadReportAction.done) &&
+    "newMandates" in action.payload.result &&
     action.payload.result.newMandates !== undefined
   ) {
     if (action.payload.result.newMandates > 0) {
@@ -91,7 +92,7 @@ export const reportProcessingReducer = (
         );
       }
       return { ...state, loading: false };
-    } else {
+    } else if ("valid" in action.payload.result) {
       toast.success(`🔥 inserted ${action.payload.result.valid} donations`);
       return { ...state, fbCampaigns: undefined, loading: false };
     }
