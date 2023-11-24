@@ -9,17 +9,27 @@ export enum ReportTypes {
   BANK,
   FACEBOOK,
   AUTOGIRO,
+  ADOVEO_FUNDRAISER,
+  ADOVEO_GIFTCARDS,
 }
 
 export interface IUploadReportActionParams {
   type: ReportTypes;
+  resourceId?: string;
   report: File | null;
   metaOwnerID: Number;
   token: string;
 }
 
+export interface AdoveoReportProcessingResult {
+  addedTransactions: number;
+  updatedTransactions: number;
+  addedDonations: number;
+  failedTransactions: Array<any>;
+}
+
 export const uploadReportAction = actionCreator.async<
   IUploadReportActionParams,
-  ReportProcessingState,
+  ReportProcessingState | AdoveoReportProcessingResult,
   Error
 >("REPORT_UPLOAD");

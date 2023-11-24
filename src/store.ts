@@ -17,8 +17,8 @@ import { vippsAgreementChargeReducer, vippsAgreementReducer } from "./store/vipp
 import { avtaleGiroReducer } from "./store/avtalegiro/avtalegiro.reducer";
 import { donorPageReducer } from "./store/donors/donor-page.reducer";
 import { composeWithDevTools } from "@redux-devtools/extension";
-import { createTaxUnitReducer, taxUnitsReducer } from "./store/taxunits.ts/taxunits.reducer";
 import { autoGiroReducer } from "./store/autogiro/autogiro.reducer";
+import { taxUnitsReducer } from "./store/taxunits.ts/taxunits.reducer";
 
 const rootReducer = combineReducers<AppState>({
   graphing: graphingReducer,
@@ -31,7 +31,6 @@ const rootReducer = combineReducers<AppState>({
   donations: donationsReducer,
   distributions: distributionsReducer,
   taxUnits: taxUnitsReducer,
-  taxUnitCreation: createTaxUnitReducer,
   dataOwner: ownersReducer,
   receipt: receiptReducer,
   logs: loggingReducer,

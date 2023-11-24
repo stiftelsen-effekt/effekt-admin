@@ -110,6 +110,7 @@ export interface ITaxUnit {
   numDonations: number;
   sumDonations: number;
   registered: DateTime;
+  archived: DateTime | null;
 }
 
 export interface ITaxUnitFilter {

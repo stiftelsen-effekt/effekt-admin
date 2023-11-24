@@ -43,6 +43,7 @@ export const reportProcessingReducer = (
     return { ...state, loading: false };
   } else if (
     isType(action, uploadReportAction.done) &&
+    "fbCampaigns" in action.payload.result &&
     action.payload.result.fbCampaigns !== undefined
   ) {
     if (action.payload.result.fbCampaigns.length > 0) {
@@ -61,7 +62,7 @@ export const reportProcessingReducer = (
     isType(action, uploadReportAction.done) ||
     isType(action, processDonationsAction.done)
   ) {
-    if (action.payload.result.invalid > 0) {
+    if ("invalid" in action.payload.result && action.payload.result.invalid > 0) {
       toast.success(
         `🔥 inserted ${action.payload.result.valid}, ignored ${action.payload.result.invalid}`,
       );
@@ -78,6 +79,18 @@ export const reportProcessingReducer = (
         }),
         loading: false,
       };
+    } else if ("addedTransactions" in action.payload.result) {
+      // Adoveo report
+      toast.success(
+        `🔥 added ${action.payload.result.addedTransactions} transaction, updated ${action.payload.result.updatedTransactions}, inserted ${action.payload.result.addedDonations} donations`,
+      );
+      if (action.payload.result.failedTransactions.length > 0) {
+        // Sad emoji warning saying that some transactions were invalid
+        toast.warn(
+          `😢 ${action.payload.result.failedTransactions.length} transactions could not be processed`,
+        );
+      }
+      return { ...state, loading: false };
     } else {
       toast.success(`🔥 inserted ${action.payload.result.valid} donations`);
       return { ...state, fbCampaigns: undefined, loading: false };

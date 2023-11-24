@@ -1,5 +1,5 @@
 import { MainHeader } from "../../style/elements/headers.style";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Page } from "../../style/elements/page.style";
 import { RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,8 +7,6 @@ import { AppState } from "../../../models/state";
 import { DonorKeyInfo } from "./donor/KeyInfo";
 import { TotalDonationAmount } from "./donor/TotalDonationAmount";
 import { DonationsList } from "../../modules/donations/list/DonationsList";
-import { AvtaleGiroList } from "../../modules/avtalegiro/agreementlist/AvtaleGiroList";
-import { CreateTaxUnit } from "../../modules/taxunits/create/CreateTaxUnit";
 import {
   getDonorAction,
   getDonorAvtalegiroAgreementsAction,
@@ -29,9 +27,7 @@ import { DistributionsList } from "../../modules/distribution/list/Distributions
 import { useAuth0 } from "@auth0/auth0-react";
 import { ReferralAnswerList } from "../../modules/donors/referral_answers/ReferralAnswerList";
 import { TaxUnitList } from "../../modules/taxunits/list/TaxUnitsList";
-import { EffektModal } from "../../style/elements/effekt-modal/effekt-modal.component.style";
-import { EffektButton } from "../../style/elements/button.style";
-import { PlusSquare } from "react-feather";
+import { AvtaleGiroList } from "../../modules/avtalegiro/agreementlist/AvtaleGiroList";
 
 interface IParams {
   id: string;
@@ -68,7 +64,6 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
       if (row.abbriv === "Drift") operationsDonations += amount;
     });
   }
-  const [showCreateTaxUnit, setShowCreateTaxUnit] = useState<boolean>(false);
 
   return (
     <Page>
@@ -132,29 +127,13 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
             <VippsAgreementList agreements={data.vippsAgreements} defaultPageSize={10} />
           </EffektTab>
           <EffektTab>
-            <TaxUnitList taxUnits={data.taxUnits} />
+            <TaxUnitList taxUnits={data.taxUnits} donorId={donorId} />
           </EffektTab>
           <EffektTab>
             <ReferralAnswerList data={data.referralAnswers} />
           </EffektTab>
         </div>
       </EffektTabs>
-      <EffektButton onClick={() => setShowCreateTaxUnit(true)} style={{ marginTop: "1em" }}>
-        <span>Create Tax Unit &nbsp;</span>{" "}
-        <PlusSquare color={"white"} size={18} style={{ verticalAlign: "middle" }} />
-      </EffektButton>
-      <EffektModal
-        visible={showCreateTaxUnit}
-        effect="fadeInUp"
-        onClickAway={() => setShowCreateTaxUnit(false)}
-      >
-        {data.donor && (
-          <CreateTaxUnit
-            onSubmit={() => setShowCreateTaxUnit(false)}
-            donorID={data.donor.id}
-          ></CreateTaxUnit>
-        )}
-      </EffektModal>
     </Page>
   );
 };

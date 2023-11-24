@@ -29,6 +29,12 @@ export function* uploadReport(action: Action<IUploadReportActionParams>) {
       case ReportTypes.AUTOGIRO:
         reportType = "autogiro";
         break;
+      case ReportTypes.ADOVEO_FUNDRAISER:
+        reportType = "adoveo/fundraiser/" + action.payload.resourceId;
+        break;
+      case ReportTypes.ADOVEO_GIFTCARDS:
+        reportType = "adoveo/giftcards";
+        break;
       default:
         throw new Error("Report type not supported");
     }

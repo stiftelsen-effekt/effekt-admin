@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TaxUnitModalWrapper = styled.div`
+export const NewTaxUnitModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 200px;
