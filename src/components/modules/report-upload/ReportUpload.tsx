@@ -18,6 +18,7 @@ interface IState {
   ocrReport: File | null;
   bankReport: File | null;
   facebookReport: File | null;
+  autoGiroReport: File | null;
   adoveoFundraiserReport: File | null;
   adoveoGiftcardReport: File | null;
   resourceId?: string;
@@ -31,6 +32,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
       ocrReport: null,
       bankReport: null,
       facebookReport: null,
+      autoGiroReport: null,
       adoveoFundraiserReport: null,
       adoveoGiftcardReport: null,
     };
@@ -193,7 +195,28 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           </td>
           {state.facebookReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
-
+        <tr>
+          <td>
+            <strong>AutoGiro</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) => !loading && setState({ ...state, autoGiroReport: file })}
+              id="autogiro-upload"
+            />
+          </td>
+          <td></td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(ReportTypes.AUTOGIRO, state.autoGiroReport);
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+          {state.autoGiroReport !== null && loading && <EffektLoadingSpinner />}
+        </tr>
         <tr>
           <td>
             <strong>Adoveo giftcards</strong>

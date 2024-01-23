@@ -27,6 +27,9 @@ import {
   IReferralAnswer,
   ITaxUnit,
   ITaxUnitFilter,
+  IAutoGiroValidation,
+  IAutoGiro,
+  IAutoGiroFilter,
 } from "./types";
 
 export interface AppState {
@@ -52,6 +55,7 @@ export interface AppState {
   vippsAgreementCharges: VippsAgreementChargeState;
 
   avtaleGiroAgreements: AvtaleGiroAgreementsState;
+  autoGiroAgreements: AutoGiroAgreementsState;
 }
 
 export interface DonorSelectorState {
@@ -96,6 +100,8 @@ export interface ReportProcessingState {
   invalidTransactions: Array<IInvalidTransaction>;
   loading: boolean;
   fbCampaigns?: Array<FBCampaign> | undefined;
+  newMandates?: number | undefined;
+  autoGiroShipments?: { ID: number; sent_date: string }[];
 }
 
 export interface CreateDonorState {}
@@ -174,6 +180,18 @@ export interface AvtaleGiroAgreementsState {
   pagination: IPagination;
   filter: IAvtaleGiroFilter;
   agreements: Array<IAvtaleGiro>;
+}
+
+export interface AutoGiroAgreementsState {
+  validation: IAutoGiroValidation;
+  currentAgreement?: IAutoGiro;
+  currentAgreementUpdating?: boolean;
+  histogram?: Array<IHistogramBucket>;
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
+  filter: IAutoGiroFilter;
+  agreements: Array<IAutoGiro>;
 }
 
 export interface GraphingState {

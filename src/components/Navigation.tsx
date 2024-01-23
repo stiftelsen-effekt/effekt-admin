@@ -51,7 +51,10 @@ export const MainNavigation: React.FC = () => {
           {" "}
           <span>AvtaleGiro</span> <FileText size={iconSize} color={"white"}></FileText>
         </NavMenuItem>
-
+        <NavMenuItem to={"/autogiro"}>
+          {" "}
+          <span>AutoGiro</span> <FileText size={iconSize} color={"white"}></FileText>
+        </NavMenuItem>
         <NavMenuItem to={"/register"}>
           {" "}
           <span>Register</span> <Upload size={iconSize} color={"white"}></Upload>

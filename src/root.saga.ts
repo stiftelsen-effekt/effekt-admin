@@ -99,6 +99,36 @@ import {
   updateAvtaleGiroPaymentDateAction,
   updateAvtaleGiroStatusAction,
 } from "./store/avtalegiro/avtalegiro.actions";
+
+import {
+  fetchAutoGiro,
+  fetchAutoGiroAgreements,
+  fetchAutoGiroExpectedByDate,
+  fetchAutoGiroHistogram,
+  fetchAutoGiroMissingByDate,
+  fetchAutoGiroRecievedByDate,
+  fetchAutoGiroReport,
+  fetchAutoGiroValidationTable,
+  updateAutoGiroAmount,
+  updateAutoGiroDistribution,
+  updateAutoGiroPaymentDate,
+  updateAutoGiroStatus,
+} from "./store/autogiro/autogiro.saga";
+import {
+  fetchAutoGiroAction,
+  fetchAutoGiroAgreementsAction,
+  fetchAutoGiroExpectedByDateAction,
+  fetchAutoGiroHistogramAction,
+  fetchAutoGiroMissingByDateAction,
+  fetchAutoGiroRecievedByDateAction,
+  fetchAutoGiroReportAction,
+  fetchAutoGiroValidationTableAction,
+  updateAutoGiroAmountAction,
+  updateAutoGiroDistributionAction,
+  updateAutoGiroPaymentDateAction,
+  updateAutoGiroStatusAction,
+} from "./store/autogiro/autogiro.actions";
+
 import {
   getDonorAction,
   getDonorAvtalegiroAgreementsAction,
@@ -125,6 +155,8 @@ import { createDistribution } from "./store/distributions/distribution-input.sag
 import { createDistributionAction } from "./store/distributions/distribution-input.actions";
 import { processDonationsAction, registerCampaignAction } from "./store/facebook/facebook.actions";
 import { processFBDonations, registerFBCampaign } from "./store/facebook/facebook.saga";
+import { fetchAutogiroShipmentsAction } from "./store/report/report-download.action";
+import { fetchAutogiroShipments } from "./store/report/report-download.saga";
 import { createTaxUnit, deleteTaxUnit, updateTaxUnit } from "./store/taxunits.ts/taxunits.saga";
 import {
   CreateTaxUnitAction,
@@ -206,6 +238,20 @@ function* watchAll() {
     takeLatest(updateAvtaleGiroStatusAction.started.type, updateAvtaleGiroStatus),
     takeLatest(updateAvtaleGiroPaymentDateAction.started.type, updateAvtaleGiroPaymentDate),
     takeLatest(updateAvtaleGiroDistributionAction.started.type, updateAvtaleGiroDistribution),
+
+    takeLatest(fetchAutoGiroAgreementsAction.started.type, fetchAutoGiroAgreements),
+    takeLatest(fetchAutoGiroAction.started.type, fetchAutoGiro),
+    takeLatest(fetchAutoGiroHistogramAction.started.type, fetchAutoGiroHistogram),
+    takeLatest(fetchAutoGiroReportAction.started.type, fetchAutoGiroReport),
+    takeLatest(fetchAutoGiroValidationTableAction.started.type, fetchAutoGiroValidationTable),
+    takeLatest(fetchAutoGiroMissingByDateAction.started.type, fetchAutoGiroMissingByDate),
+    takeLatest(fetchAutoGiroRecievedByDateAction.started.type, fetchAutoGiroRecievedByDate),
+    takeLatest(fetchAutoGiroExpectedByDateAction.started.type, fetchAutoGiroExpectedByDate),
+    takeLatest(updateAutoGiroAmountAction.started.type, updateAutoGiroAmount),
+    takeLatest(updateAutoGiroStatusAction.started.type, updateAutoGiroStatus),
+    takeLatest(updateAutoGiroPaymentDateAction.started.type, updateAutoGiroPaymentDate),
+    takeLatest(updateAutoGiroDistributionAction.started.type, updateAutoGiroDistribution),
+    takeLatest(fetchAutogiroShipmentsAction.started.type, fetchAutogiroShipments),
   ]);
 }
 

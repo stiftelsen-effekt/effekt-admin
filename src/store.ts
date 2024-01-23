@@ -17,6 +17,7 @@ import { vippsAgreementChargeReducer, vippsAgreementReducer } from "./store/vipp
 import { avtaleGiroReducer } from "./store/avtalegiro/avtalegiro.reducer";
 import { donorPageReducer } from "./store/donors/donor-page.reducer";
 import { composeWithDevTools } from "@redux-devtools/extension";
+import { autoGiroReducer } from "./store/autogiro/autogiro.reducer";
 import { taxUnitsReducer } from "./store/taxunits.ts/taxunits.reducer";
 
 const rootReducer = combineReducers<AppState>({
@@ -36,6 +37,7 @@ const rootReducer = combineReducers<AppState>({
   vippsAgreements: vippsAgreementReducer,
   vippsAgreementCharges: vippsAgreementChargeReducer,
   avtaleGiroAgreements: avtaleGiroReducer,
+  autoGiroAgreements: autoGiroReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

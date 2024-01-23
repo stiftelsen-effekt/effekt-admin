@@ -323,6 +323,92 @@ export interface IAvtaleGiroValidation {
   expected: Array<IAvtaleGiro>;
 }
 
+/** AutoGiro agreements */
+
+export interface IAutoGiro {
+  id: string;
+  created: string;
+  last_updated: string;
+  active: number;
+  amount: number;
+  KID: string;
+  donor: string;
+  full_name: string;
+  payment_date: number;
+  cancelled: string;
+  distribution: IDistribution;
+  affiliatedDonations: Array<IDonation>;
+}
+
+export interface IAutoGiroFilter {
+  amount: {
+    from: number;
+    to: number;
+  };
+  KID?: string;
+  paymentDate?: {
+    from: number;
+    to: number;
+  };
+  created?: {
+    from: Date | null;
+    to: Date | null;
+  };
+  donor?: string;
+  statuses?: Array<number>;
+}
+
+export interface IAutoGiroDonation {
+  chargeID: string;
+  agreementID: string;
+  status: string;
+  amountNOK: number;
+  KID: string;
+  dueDate: string;
+  timestamp: string;
+}
+
+export interface IAutoGiroDonationFilter {
+  sum: {
+    from: number;
+    to: number;
+  };
+  paymentDate: {
+    from: number;
+    to: number;
+  };
+  kid?: string;
+  statuses?: Array<number>;
+  donor: string;
+}
+
+export interface IAutoGiroValidationTableRow {
+  date: number;
+  expected: number;
+  actual: number;
+  diff: number;
+}
+
+export interface IAvtalegiroReport {
+  activeAgreementCount: number;
+  averageAgreementSum: number;
+  totalAgreementSum: number;
+  medianAgreementSum: number;
+  draftedThisMonth: number;
+  sumDraftedThisMonth: number | null;
+  activatedThisMonth: number;
+  sumActivatedThisMonth: number | null;
+  stoppedThisMonth: number;
+  sumStoppedThisMonth: number | null;
+}
+
+export interface IAutoGiroValidation {
+  validationTable: Array<IAutoGiroValidationTableRow>;
+  missing: Array<IAutoGiro>;
+  recieved: Array<IDonation>;
+  expected: Array<IAutoGiro>;
+}
+
 /** Referrals */
 
 export interface IReferralAnswer {

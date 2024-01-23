@@ -11,6 +11,7 @@ import { FBCampaignSharesRegistration } from "../../modules/facebook/FBCampaignS
 import { toast } from "react-toastify";
 import { processDonationsAction } from "../../../store/facebook/facebook.actions";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ReportDownload } from "../../modules/report-download/ReportDownload";
 
 export const RegisterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,9 @@ export const RegisterComponent: React.FunctionComponent = () => {
           ></FBCampaignSharesRegistration>
         </>
       )}
+
+      <SubHeader>Download reports</SubHeader>
+      <ReportDownload></ReportDownload>
 
       <SubHeader>Process single donation</SubHeader>
       <SingleDonation organizations={organizations}></SingleDonation>

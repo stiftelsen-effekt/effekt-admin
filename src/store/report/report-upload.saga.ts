@@ -26,6 +26,9 @@ export function* uploadReport(action: Action<IUploadReportActionParams>) {
       case ReportTypes.FACEBOOK:
         reportType = "facebook";
         break;
+      case ReportTypes.AUTOGIRO:
+        reportType = "autogiro";
+        break;
       case ReportTypes.ADOVEO_FUNDRAISER:
         reportType = "adoveo/fundraiser/" + action.payload.resourceId;
         break;

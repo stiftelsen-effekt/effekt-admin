@@ -7,6 +7,7 @@ import { POP_INVALID_TRANSACTION } from "./process.actions";
 import { createDistribitionAndInsertDonationAction } from "../single-donation/single-donation.actions";
 import { toastError } from "../../util/toasthelper";
 import { processDonationsAction, registerCampaignAction } from "../facebook/facebook.actions";
+import { fetchAutogiroShipmentsAction } from "../report/report-download.action";
 
 const defaultState: ReportProcessingState = {
   valid: 0,
@@ -14,6 +15,7 @@ const defaultState: ReportProcessingState = {
   invalidTransactions: [],
   loading: false,
   fbCampaigns: undefined,
+  autoGiroShipments: undefined,
 };
 
 const toastIfDone = (transactionsLeft: number) =>
@@ -49,6 +51,15 @@ export const reportProcessingReducer = (
     }
     return { ...state, fbCampaigns: action.payload.result.fbCampaigns, loading: false };
   } else if (
+    isType(action, uploadReportAction.done) &&
+    "newMandates" in action.payload.result &&
+    action.payload.result.newMandates !== undefined
+  ) {
+    if (action.payload.result.newMandates > 0) {
+      toast.success(`🔥 Registered ${action.payload.result.newMandates} new mandates`);
+    }
+    return { ...state, newMandates: action.payload.result.newMandates, loading: false };
+  } else if (
     isType(action, uploadReportAction.done) ||
     isType(action, processDonationsAction.done)
   ) {
@@ -81,7 +92,7 @@ export const reportProcessingReducer = (
         );
       }
       return { ...state, loading: false };
-    } else {
+    } else if ("valid" in action.payload.result) {
       toast.success(`🔥 inserted ${action.payload.result.valid} donations`);
       return { ...state, fbCampaigns: undefined, loading: false };
     }
@@ -124,6 +135,14 @@ export const reportProcessingReducer = (
         loading: false,
       };
     }
+  } else if (isType(action, fetchAutogiroShipmentsAction.done)) {
+    return {
+      ...state,
+      autoGiroShipments: action.payload.result,
+    };
+  } else if (isType(action, fetchAutogiroShipmentsAction.failed)) {
+    toastError("Failed to fetch autogiro shipments", action.payload.error.message);
+    return state;
   }
 
   return state;
