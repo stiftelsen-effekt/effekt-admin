@@ -35,3 +35,18 @@ steps:
   - id: "deploy-norway"
     name: "gcr.io/cloud-builders/gsutil"
     args: ["-m", "cp", "-r", "build/*", "gs://static.gieffektivt.no/"]
+
+  - id: "build-sweden"
+    name: "node:19.0.0"
+    entrypoint: "npm"
+    env:
+      - "CI=true"
+      - "REACT_APP_API_URL=https://api.geeffektivt.se"
+      - "REACT_APP_AUTH_DOMAIN=geeffektivt.eu.auth0.com"
+      - "REACT_APP_AUTH_CLIENT_ID=LFS9efinrKEt1d6AbpVMjqHVIszj6TOv"
+      - "REACT_APP_AUTH_AUDIENCE=geeffektivt.se"
+    args: ["run", "build"]
+
+  - id: "deploy-norway"
+    name: "gcr.io/cloud-builders/gsutil"
+    args: ["-m", "cp", "-r", "build/*", "gs://admin.geeffektivt.se/"]
