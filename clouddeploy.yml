@@ -47,6 +47,6 @@ steps:
       - "REACT_APP_AUTH_AUDIENCE=geeffektivt.se"
     args: ["run", "build"]
 
-  - id: "deploy-norway"
+  - id: "deploy-sweden"
     name: "gcr.io/cloud-builders/gsutil"
     args: ["-m", "cp", "-r", "build/*", "gs://admin.geeffektivt.se/"]
