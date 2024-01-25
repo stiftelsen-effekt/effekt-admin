@@ -8,7 +8,6 @@ import {
   fetchTransactionCostsReportAction,
 } from "./donation.actions";
 import { toastError } from "../../util/toasthelper";
-import Decimal from "decimal.js";
 import {
   SET_DONATION_FILTER_DATE_RANGE,
   SET_DONATION_FILTER_SUM_RANGE,
@@ -87,12 +86,7 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
       currentDonation: {
         ...action.payload.result,
         timestamp: new Date(action.payload.result.timestamp),
-        distribution: action.payload.result.distribution
-          ? action.payload.result.distribution.map((dist) => ({
-              ...dist,
-              share: new Decimal(dist.share),
-            }))
-          : undefined,
+        distribution: action.payload.result.distribution,
       },
     };
   } else if (isType(action, fetchDonationAction.failed)) {

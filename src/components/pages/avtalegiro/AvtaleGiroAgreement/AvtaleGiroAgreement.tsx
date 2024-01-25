@@ -82,7 +82,9 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
 
           <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
-              distribution={avtaleGiro.distribution.shares}
+              distribution={avtaleGiro.distribution.causeAreas.flatMap(
+                (causeArea) => causeArea.organizations,
+              )}
             ></DistributionGraphComponent>
           </div>
         </HorizontalPanel>

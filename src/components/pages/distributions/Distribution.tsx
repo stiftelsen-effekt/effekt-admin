@@ -37,7 +37,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
     );
   }, [KID, dispatch, getAccessTokenSilently]);
 
-  if (current && current.distribution && current.distribution.shares) {
+  if (current && current.distribution && current.distribution.causeAreas) {
     return (
       <Page>
         <ResourceHeader hasSubHeader={true}>Distribution {KID}</ResourceHeader>
@@ -68,7 +68,9 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
 
           <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
-              distribution={current.distribution.shares}
+              distribution={current.distribution.causeAreas.flatMap(
+                (causeArea) => causeArea.organizations,
+              )}
             ></DistributionGraphComponent>
           </div>
         </HorizontalPanel>

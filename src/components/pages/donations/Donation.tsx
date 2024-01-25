@@ -78,7 +78,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
 
           <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
-              distribution={donation.distribution}
+              distribution={donation.distribution?.flatMap((causeArea) => causeArea.organizations)}
             ></DistributionGraphComponent>
           </div>
         </HorizontalPanel>

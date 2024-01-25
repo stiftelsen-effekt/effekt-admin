@@ -82,7 +82,9 @@ export const AutoGiroAgreement: React.FunctionComponent<RouteComponentProps<IPar
 
           <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
-              distribution={autoGiro.distribution.shares}
+              distribution={autoGiro.distribution.causeAreas.flatMap(
+                (causeArea) => causeArea.organizations,
+              )}
             ></DistributionGraphComponent>
           </div>
         </HorizontalPanel>

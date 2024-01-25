@@ -53,7 +53,9 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
           <AgreementKeyInfoComponent agreement={agreement} />
           <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
-              distribution={agreement.distribution}
+              distribution={agreement.distribution.causeAreas.flatMap(
+                (causeArea) => causeArea.organizations,
+              )}
             ></DistributionGraphComponent>
           </div>
         </HorizontalPanel>

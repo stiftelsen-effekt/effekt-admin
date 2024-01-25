@@ -49,8 +49,27 @@ export interface IDonation {
   paymentMethod: string;
   timestamp: Date;
   KID?: string;
-  distribution?: Array<IDistributionShare>;
+  distribution?: Array<ICauseArea>;
   metaOwnerID?: number;
+}
+
+export interface IDistribution {
+  KID: string;
+  donorId: number;
+  taxUnitId: number;
+  causeAreas: Array<ICauseArea>;
+}
+
+export interface ICauseArea {
+  id: number;
+  name: string;
+  standardDistribution: boolean;
+  percentageShare: string;
+  organizations: Array<{
+    id: number;
+    name: string;
+    percentageShare: string;
+  }>;
 }
 
 export interface IDonationFilter {
@@ -191,7 +210,7 @@ export interface IVippsAgreement {
   donorID: number;
   monthly_charge_day: number;
   paused_until_date: Date;
-  distribution: Array<IDistributionShare>;
+  distribution: IDistribution;
   timestamp_created: string;
 }
 
