@@ -82,8 +82,18 @@ export const AutoGiroAgreement: React.FunctionComponent<RouteComponentProps<IPar
 
           <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
-              distribution={autoGiro.distribution.causeAreas.flatMap(
-                (causeArea) => causeArea.organizations,
+              distribution={autoGiro.distribution.causeAreas.flatMap((causeArea) =>
+                causeArea.organizations.map((org) => {
+                  return {
+                    id: org.id,
+                    name: org.name,
+                    percentageShare: (
+                      (parseFloat(org.percentageShare) / 100) *
+                      (parseFloat(causeArea.percentageShare) / 100) *
+                      100
+                    ).toString(),
+                  };
+                }),
               )}
             ></DistributionGraphComponent>
           </div>

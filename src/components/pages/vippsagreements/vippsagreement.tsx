@@ -53,8 +53,18 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
           <AgreementKeyInfoComponent agreement={agreement} />
           <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
-              distribution={agreement.distribution.causeAreas.flatMap(
-                (causeArea) => causeArea.organizations,
+              distribution={agreement.distribution.causeAreas.flatMap((causeArea) =>
+                causeArea.organizations.map((org) => {
+                  return {
+                    id: org.id,
+                    name: org.name,
+                    percentageShare: (
+                      (parseFloat(org.percentageShare) / 100) *
+                      (parseFloat(causeArea.percentageShare) / 100) *
+                      100
+                    ).toString(),
+                  };
+                }),
               )}
             ></DistributionGraphComponent>
           </div>
