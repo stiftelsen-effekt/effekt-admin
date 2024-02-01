@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { EffektButton } from "../../style/elements/button.style";
 import { ResourceSubHeader } from "../../style/elements/headers.style";
 import { ReportTable } from "./ReportDownload.style";
@@ -13,17 +13,21 @@ import { API_URL } from "../../../config/config";
 export const ReportDownload: React.FC = () => {
   const shipments = useSelector((state: AppState) => state.reportProcessing.autoGiroShipments);
   const [selectedShipment, setSelectedShipment] = React.useState<number | undefined>(
-    shipments?.sort((a, b) => (a.ID > b.ID ? -1 : 1))[0]?.ID,
+    shipments?.sort((a, b) => (b.ID > a.ID ? -1 : 1))[0]?.ID,
   );
+
+  useEffect(() => {
+    setSelectedShipment(shipments?.sort((a, b) => (b.ID > a.ID ? -1 : 1))[0]?.ID);
+  }, [shipments]);
 
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
-  if (!shipments) {
+  useEffect(() => {
     getAccessTokenSilently().then((token) => {
       dispatch(fetchAutogiroShipmentsAction.started({ token }));
     });
-  }
+  }, []);
 
   return (
     <>
