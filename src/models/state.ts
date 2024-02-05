@@ -1,6 +1,5 @@
 import {
   IDonor,
-  IOrganization,
   IPaymentMethod,
   IInvalidTransaction,
   IDonation,
@@ -30,6 +29,7 @@ import {
   IAutoGiroValidation,
   IAutoGiro,
   IAutoGiroFilter,
+  ICauseArea,
 } from "./types";
 
 export interface AppState {
@@ -39,7 +39,7 @@ export interface AppState {
   donorCreation: CreateDonorState;
   donorPage: DonorPageState;
 
-  organizations: OrganizationsState;
+  causeareas: CauseAreasState;
   singleDonation: SingleDonationState;
 
   reportProcessing: ReportProcessingState;
@@ -73,14 +73,15 @@ export interface DonorPageState {
   referralAnswers?: Array<IReferralAnswer>;
   distributions?: Array<IDistributionSearchResultItem>;
   avtalegiroAgreements?: Array<IAvtaleGiro>;
+  autoGiroAgreements?: Array<IAutoGiro>;
   vippsAgreements?: Array<IVippsAgreement>;
   updateError?: { message: string; timestamp: number };
   pendingUpdates: number;
 }
 
-export interface OrganizationsState {
-  active?: Array<IOrganization>;
-  all?: Array<IOrganization>;
+export interface CauseAreasState {
+  active?: Array<ICauseArea>;
+  all?: Array<ICauseArea>;
 }
 
 export interface SingleDonationState {

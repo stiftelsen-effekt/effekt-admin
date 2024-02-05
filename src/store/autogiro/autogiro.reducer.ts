@@ -96,9 +96,13 @@ export const autoGiroReducer = (
         ...action.payload.result,
         distribution: {
           ...action.payload.result.distribution,
-          shares: action.payload.result.distribution.shares.map((share) => ({
-            ...share,
-            share: new Decimal(share.share),
+          causeAreas: action.payload.result.distribution.causeAreas.map((ca) => ({
+            ...ca,
+            percentageShare: new Decimal(ca.percentageShare as unknown as string),
+            organizations: ca.organizations.map((org) => ({
+              ...org,
+              percentageShare: new Decimal(org.percentageShare as unknown as string),
+            })),
           })),
         },
       },

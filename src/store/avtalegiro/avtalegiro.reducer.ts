@@ -111,7 +111,7 @@ export const avtaleGiroReducer = (
           ...action.payload.result.distribution,
           shares: action.payload.result.distribution.shares.map((share) => ({
             ...share,
-            share: new Decimal(share.share),
+            share: new Decimal(share.percentageShare as unknown as string),
           })),
         },
       },

@@ -179,7 +179,7 @@ export const DonorAggregateChart: React.FunctionComponent<{ stats?: IDonorStats 
 
   return (
     <AggregateChartWrapper>
-      <Bar options={options} data={data as ChartData<"bar">} />
+      <Bar options={options} data={data as ChartData<"bar">} plugins={[ChartDataLabels]} />
     </AggregateChartWrapper>
   );
 };

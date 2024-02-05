@@ -4,6 +4,9 @@ export const ReportWrapper = styled.div`
   border-left: 4px solid black;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  grid-column: ${(props: { wide?: boolean }) => (props.wide ? "1 / span 2" : "auto")};
+  min-height: 500px;
 
   table {
     td:nth-child(2) {

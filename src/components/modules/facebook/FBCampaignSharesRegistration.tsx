@@ -34,7 +34,7 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
 
   const submit = () => {
     const accShares = distributionShares.reduce((acc, distribution) => {
-      acc += parseFloat(String(distribution.share));
+      acc += parseFloat(String(distribution.percentageShare));
       return acc;
     }, 0.0);
     if (accShares === 100) {
@@ -71,7 +71,11 @@ export const FBCampaignSharesRegistration: React.FunctionComponent<IProps> = ({
         label={"Use standard distribution"}
         inverted={false}
       ></EffektCheck>
-      <DistributionSharesInput shares={distributionShares} onChange={setDistributionShares} />
+      <DistributionSharesInput
+        causeAreaId={1}
+        shares={distributionShares}
+        onChange={setDistributionShares}
+      />
       <ButtonWrapper>
         <div>{campaigns.length} campaigns remaining </div>
         <EffektButton onClick={() => submit()}>Save shares</EffektButton>

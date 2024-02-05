@@ -1,13 +1,12 @@
 import { MainHeader, SubHeader } from "../../style/elements/headers.style";
-import React from "react";
+import React, { useEffect } from "react";
 import { Page } from "../../style/elements/page.style";
 import { SingleDonation } from "../../modules/single-donation/SingleDonation";
 import { ReportUpload } from "../../modules/report-upload/ReportUpload";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../models/state";
-import { fetchActiveOrganizationsAction } from "../../../store/organizations/organizations.action";
+import { fetchActiveCauseareasAction } from "../../../store/causeareas/causeareas.action";
 import { RegisterReceiptComponent } from "../../modules/donations/receipt/Receipt";
-import { FBCampaignSharesRegistration } from "../../modules/facebook/FBCampaignSharesRegistration";
 import { toast } from "react-toastify";
 import { processDonationsAction } from "../../../store/facebook/facebook.actions";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -17,13 +16,16 @@ export const RegisterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
-  const organizations = useSelector((state: AppState) => state.organizations.active);
+  const causeAreas = useSelector((state: AppState) => state.causeareas.active);
   const fbCampaigns = useSelector((state: AppState) => state.reportProcessing.fbCampaigns);
 
   const currentSelectedOwner = useSelector((state: AppState) => state.dataOwner.current);
 
-  if (!organizations) {
-    dispatch(fetchActiveOrganizationsAction.started(undefined));
+  useEffect(() => {
+    if (!causeAreas) dispatch(fetchActiveCauseareasAction.started(undefined));
+  }, [causeAreas]);
+
+  if (!causeAreas) {
     return <div>Loading organizations</div>;
   }
 
@@ -49,10 +51,14 @@ export const RegisterComponent: React.FunctionComponent = () => {
       {fbCampaigns !== undefined && fbCampaigns.length > 0 && (
         <>
           <SubHeader>Register Facebook campaign shares</SubHeader>
-          <FBCampaignSharesRegistration
-            organizations={organizations}
-            campaigns={fbCampaigns}
-          ></FBCampaignSharesRegistration>
+          <div>Support for multiple cause areas missing</div>
+          {/**
+           * TODO: Support multiple cause areas
+           * <FBCampaignSharesRegistration
+           * organizations={organizations}
+           * campaigns={fbCampaigns}
+           * ></FBCampaignSharesRegistration>
+           */}
         </>
       )}
 
@@ -60,7 +66,7 @@ export const RegisterComponent: React.FunctionComponent = () => {
       <ReportDownload></ReportDownload>
 
       <SubHeader>Process single donation</SubHeader>
-      <SingleDonation organizations={organizations}></SingleDonation>
+      <SingleDonation></SingleDonation>
 
       <SubHeader>Resend receipt</SubHeader>
       <RegisterReceiptComponent></RegisterReceiptComponent>

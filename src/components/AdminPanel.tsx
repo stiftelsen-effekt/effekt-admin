@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router";
 import { HomeComponent } from "./pages/home/Home";
 import { MainNavigation } from "./Navigation";
@@ -10,7 +10,7 @@ import { EffektToastContainer } from "./style/elements/toast/toast.style";
 import { ProcessDonations } from "./pages/process/ProcessDonations";
 import { ReportsComponent } from "./pages/reports/Reports";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchActiveOrganizationsAction } from "../store/organizations/organizations.action";
+import { fetchActiveCauseareasAction } from "../store/causeareas/causeareas.action";
 import { AppState } from "../models/state";
 import { DonationsPageComponent } from "./pages/donations/Donations";
 import { DonationPageComponent } from "./pages/donations/Donation";
@@ -32,8 +32,10 @@ import { AutoGiroAgreement } from "./pages/autogiro/AutoGiroAgreement/AutoGiroAg
 export const AdminPanel: React.FunctionComponent = () => {
   //TODO: Move someplace where it is run only once
   const dispatch = useDispatch();
-  const organizations = useSelector((state: AppState) => state.organizations.active);
-  if (!organizations) dispatch(fetchActiveOrganizationsAction.started(undefined));
+  const causeAreas = useSelector((state: AppState) => state.causeareas.active);
+  useEffect(() => {
+    if (!causeAreas) dispatch(fetchActiveCauseareasAction.started(undefined));
+  }, [causeAreas]);
 
   return (
     <div>

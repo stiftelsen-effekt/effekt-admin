@@ -1,28 +1,21 @@
 /* eslint-disable no-restricted-globals */
 import { useAuth0 } from "@auth0/auth0-react";
-import Decimal from "decimal.js";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import Validator from "validator";
 import { AppState } from "../../../../models/state";
-import {
-  IDistribution,
-  IDistributionShare,
-  IOrganization,
-  ITaxUnit,
-} from "../../../../models/types";
+import { IDistribution, ITaxUnit } from "../../../../models/types";
 import {
   getDonorAction,
   getDonorTaxUnitsAction,
 } from "../../../../store/donors/donor-page.actions";
 import { showDonorSelectionComponent } from "../../../../store/donors/donor-selection.actions";
 import { EffektButton } from "../../../style/elements/button.style";
-import { EffektCheck } from "../../../style/elements/effekt-check/effekt-check.component";
 import { EffektInput } from "../../../style/elements/input.style";
-import { DistributionSharesInput } from "./DistributionSharesInput";
 import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
 import { NewTaxUnitModal } from "../../taxunits/modal/NewTaxUnitModal";
+import { DistributionCauseAreaInput } from "./DistributionCauseAreaInput";
 
 const noTaxUnit = { label: "No tax unit", value: undefined };
 const mapTaxUnitToSelectOption = (taxUnit?: ITaxUnit) =>
@@ -41,7 +34,7 @@ export const DistributionInput: React.FC<{
   const { getAccessTokenSilently } = useAuth0();
 
   const taxUnits = useSelector((state: AppState) => state.distributions.distributionInput.taxUnits);
-  const organizations = useSelector((state: AppState) => state.organizations.active);
+  const causeAreas = useSelector((state: AppState) => state.causeareas.active);
   const selectedDonor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
   const donorName = useSelector(
     (state: AppState) => state.distributions.distributionInput.distribution.donor?.name,
@@ -58,14 +51,6 @@ export const DistributionInput: React.FC<{
   );
 
   const donorId = distribution.donor?.id;
-
-  useEffect(() => {
-    let newShares: IDistributionShare[] = [];
-    organizations &&
-      organizations.forEach((org) => {
-        newShares.push({ id: org.id, abbriv: org.abbriv, share: new Decimal(0) });
-      });
-  }, [organizations]);
 
   useEffect(() => {
     if (selectedDonor?.id !== distribution.donor?.id) {
@@ -123,10 +108,10 @@ export const DistributionInput: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taxUnitInput, taxUnits]);
 
-  if (!organizations) return <div>Failed fetching organizations</div>;
+  if (!causeAreas) return <div>Failed fetching organizations</div>;
 
   return (
-    <div>
+    <div style={{ borderLeft: "1px solid black", paddingLeft: "10px" }}>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "10px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr max-content", gap: "10px" }}>
           <EffektInput
@@ -153,35 +138,48 @@ export const DistributionInput: React.FC<{
         />
         <EffektButton onClick={() => setShowAddTaxUnitModal(true)}>Add tax unit</EffektButton>
       </div>
-      <EffektCheck
-        label="Standard distribution"
-        checked={distribution.standardDistribution ?? false}
-        onChange={(checked) => {
-          if (checked) {
-            onChange({
-              ...distribution,
-              shares: getStandardShares(organizations),
-              standardDistribution: checked,
-            });
-          } else {
-            onChange({
-              ...distribution,
-              standardDistribution: checked,
-            });
-          }
-        }}
-        inverted={false}
-      />
-      <div
-        style={{ height: distribution.standardDistribution ? "0px" : "auto", overflow: "hidden" }}
-      >
-        <DistributionSharesInput
-          shares={distribution.shares ?? []}
-          onChange={(shares: Array<IDistributionShare>) => {
-            onChange({ ...distribution, shares });
+      {distribution.causeAreas?.map((causeArea) => (
+        <div
+          key={causeArea.id}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            paddingLeft: "15px",
+            margin: "15px 0",
+            padding: "15px 0",
+            borderLeft: "1px solid black",
           }}
-        />
-      </div>
+        >
+          <div>
+            <strong>{causeArea.name}</strong>
+          </div>
+          <EffektInput
+            type="text"
+            value={causeArea.percentageShare.toString()}
+            placeholder="Percentage share"
+            onChange={(e: any) => {
+              onChange({
+                ...distribution,
+                causeAreas: distribution.causeAreas?.map((ca) =>
+                  ca.id === causeArea.id ? { ...ca, percentageShare: e.target.value } : ca,
+                ),
+              });
+            }}
+          ></EffektInput>
+          <DistributionCauseAreaInput
+            key={causeArea.id}
+            distributionCauseArea={causeArea}
+            onChange={(c) => {
+              onChange({
+                ...distribution,
+                causeAreas: distribution.causeAreas?.map((ca) =>
+                  ca.id === c.id ? { ...ca, ...c } : ca,
+                ),
+              });
+            }}
+          ></DistributionCauseAreaInput>
+        </div>
+      ))}
       <EffektModal
         visible={showAddTaxUnitModal}
         effect="fadeInUp"
@@ -196,18 +194,4 @@ export const DistributionInput: React.FC<{
       </EffektModal>
     </div>
   );
-};
-
-const getStandardShares = (organizations: Array<IOrganization>): Array<IDistributionShare> => {
-  const standardShares: Array<IDistributionShare> = [];
-  organizations.forEach((org) => {
-    if (org.standardShare > 0) {
-      standardShares.push({
-        id: org.id,
-        abbriv: org.abbriv,
-        share: new Decimal(org.standardShare),
-      });
-    }
-  });
-  return standardShares;
 };

@@ -16,6 +16,7 @@ import {
   updateDonorDataAction,
   getDonorReferralAnswersAction,
   getDonorTaxUnitsAction,
+  getDonorAutoGiroAgreementsAction,
 } from "./donor-page.actions";
 
 const initialState: DonorPageState = {
@@ -64,7 +65,17 @@ export const donorPageReducer = (
       distributions: undefined,
     };
   }
-
+  if (isType(action, getDonorAutoGiroAgreementsAction.done)) {
+    return {
+      ...state,
+      autoGiroAgreements: action.payload.result,
+    };
+  } else if (isType(action, getDonorAutoGiroAgreementsAction.started)) {
+    return {
+      ...state,
+      autoGiroAgreements: undefined,
+    };
+  }
   if (isType(action, getDonorAvtalegiroAgreementsAction.done)) {
     return {
       ...state,

@@ -9,10 +9,21 @@ import Validator from "validator";
 
 export const DistributionSharesInput: React.FC<{
   shares: Array<IDistributionShare>;
+  causeAreaId: number;
   onChange: (shares: Array<IDistributionShare>) => void;
-}> = ({ shares, onChange }) => {
-  const organizations = useSelector((state: AppState) => state.organizations.active);
-  const sumPercentage = shares.reduce((acc, share) => acc.add(share.share), new Decimal(0));
+}> = ({ shares, causeAreaId, onChange }) => {
+  const causeareas = useSelector((state: AppState) => state.causeareas.all);
+
+  if (!causeareas) {
+    return <span>No causeareas loaded</span>;
+  }
+
+  const organizations = causeareas.find((c) => c.id === causeAreaId)?.organizations;
+
+  const sumPercentage = shares.reduce(
+    (acc, share) => acc.add(share.percentageShare),
+    new Decimal(0),
+  );
 
   if (!organizations) {
     return <span>No organizations loaded</span>;
@@ -32,7 +43,7 @@ export const DistributionSharesInput: React.FC<{
               value={
                 shares
                   ? shares.filter((dist) => dist.id === org.id).length === 1
-                    ? shares.filter((dist) => dist.id === org.id)[0].share.toString()
+                    ? shares.filter((dist) => dist.id === org.id)[0].percentageShare.toString()
                     : ""
                   : ""
               }
@@ -44,7 +55,7 @@ export const DistributionSharesInput: React.FC<{
                     newShares.push({
                       id: org.id,
                       abbriv: org.abbriv,
-                      share: new Decimal(0),
+                      percentageShare: new Decimal(0),
                     });
                   }
                 });
@@ -56,10 +67,10 @@ export const DistributionSharesInput: React.FC<{
                   })
                   .indexOf(org.id);
 
-                newShares[index].share = Validator.isInt(e.target.value)
+                newShares[index].percentageShare = Validator.isInt(e.target.value)
                   ? new Decimal(e.target.value)
                   : new Decimal(0);
-                onChange(newShares.filter((s) => s.share.greaterThan(0)));
+                onChange(newShares.filter((s) => s.percentageShare.greaterThan(0)));
               }}
               denomination="%"
               selectOnClick

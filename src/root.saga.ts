@@ -2,13 +2,10 @@ import { all, takeLatest } from "redux-saga/effects";
 import { searchDonorAction } from "./store/donors/donor-selection.actions";
 import { searchDonors } from "./store/donors/donor-selection.saga";
 import {
-  fetchActiveOrganizationsAction,
-  fetchAllOrganizationsAction,
-} from "./store/organizations/organizations.action";
-import {
-  fetchActiveOrganizations,
-  fetchAllOrganizations,
-} from "./store/organizations/organizations.saga";
+  fetchActiveCauseareasAction,
+  fetchAllCauseareasAction,
+} from "./store/causeareas/causeareas.action";
+import { fetchActiveCauseAreas, fetchAllCauseAreas } from "./store/causeareas/causeareas.saga";
 import {
   fetchPaymentMethodsAction,
   createDistribitionAndInsertDonationAction,
@@ -139,6 +136,7 @@ import {
   getDonorReferralAnswersAction,
   updateDonorDataAction,
   getDonorTaxUnitsAction,
+  getDonorAutoGiroAgreementsAction,
 } from "./store/donors/donor-page.actions";
 import {
   getDonor,
@@ -150,6 +148,7 @@ import {
   getDonorReferralAnswers,
   updateDonorData,
   getDonorTaxUnits,
+  getDonorAutoGiroAgreements,
 } from "./store/donors/donor-page.saga";
 import { createDistribution } from "./store/distributions/distribution-input.saga";
 import { createDistributionAction } from "./store/distributions/distribution-input.actions";
@@ -168,9 +167,9 @@ function* watchAll() {
   yield all([
     takeLatest(searchDonorAction.started.type, searchDonors),
 
-    takeLatest(fetchActiveOrganizationsAction.started.type, fetchActiveOrganizations),
+    takeLatest(fetchActiveCauseareasAction.started.type, fetchActiveCauseAreas),
 
-    takeLatest(fetchAllOrganizationsAction.started.type, fetchAllOrganizations),
+    takeLatest(fetchAllCauseareasAction.started.type, fetchAllCauseAreas),
 
     takeLatest(fetchPaymentMethodsAction.started.type, fetchPaymentMethods),
 
@@ -190,6 +189,7 @@ function* watchAll() {
     takeLatest(getDonorDonationsAction.started.type, getDonorDonations),
     takeLatest(getDonorDistributionsAction.started.type, getDonorDistributions),
     takeLatest(getDonorAvtalegiroAgreementsAction.started.type, getDonorAvtalegiroAgreements),
+    takeLatest(getDonorAutoGiroAgreementsAction.started.type, getDonorAutoGiroAgreements),
     takeLatest(getDonorVippsAgreementsAction.started.type, getDonorVippsAgreements),
     takeLatest(getDonorYearlyAggregatesAction.started.type, getDonorYearlyAggregates),
     takeLatest(getDonorReferralAnswersAction.started.type, getDonorReferralAnswers),

@@ -1,6 +1,6 @@
 import actionCreatorFactory from "typescript-fsa";
 import { ITransactionCostsReport } from "../../models/state";
-import { IDonation, IHistogramBucket } from "../../models/types";
+import { IDistribution, IDonation, IHistogramBucket } from "../../models/types";
 
 const actionCreator = actionCreatorFactory();
 
@@ -18,7 +18,7 @@ export interface IFetchTransactionCostsReportActionParams {
 
 export const fetchDonationAction = actionCreator.async<
   IFetchDonationActionParams,
-  IDonation,
+  IDonation & { distribution: IDistribution },
   Error
 >("FETCH_DONATION");
 export const fetchHistogramAction = actionCreator.async<

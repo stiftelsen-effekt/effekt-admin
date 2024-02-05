@@ -16,6 +16,7 @@ import {
   getDonorYearlyAggregatesAction,
   getDonorReferralAnswersAction,
   getDonorTaxUnitsAction,
+  getDonorAutoGiroAgreementsAction,
 } from "../../../store/donors/donor-page.actions";
 import { DonorAggregateChart } from "./donor/AggregateChart";
 import { ChartWrapper, OverviewLine } from "./Donor.style";
@@ -28,6 +29,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ReferralAnswerList } from "../../modules/donors/referral_answers/ReferralAnswerList";
 import { TaxUnitList } from "../../modules/taxunits/list/TaxUnitsList";
 import { AvtaleGiroList } from "../../modules/avtalegiro/agreementlist/AvtaleGiroList";
+import { AutoGiroList } from "../../modules/autogiro/agreementlist/AutoGiroList";
 
 interface IParams {
   id: string;
@@ -48,6 +50,7 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
       dispatch(getDonorDonationsAction.started({ id: donorId, token }));
       dispatch(getDonorDistributionsAction.started({ id: donorId, token }));
       dispatch(getDonorAvtalegiroAgreementsAction.started({ id: donorId, token }));
+      dispatch(getDonorAutoGiroAgreementsAction.started({ id: donorId, token }));
       dispatch(getDonorVippsAgreementsAction.started({ id: donorId, token }));
       dispatch(getDonorYearlyAggregatesAction.started({ id: donorId, token }));
       dispatch(getDonorReferralAnswersAction.started({ id: donorId, token }));
@@ -96,6 +99,10 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
             counter={data.avtalegiroAgreements ? data.avtalegiroAgreements.length : "..."}
           />
           <EffektTabHeader
+            label="AutoGiro"
+            counter={data.autoGiroAgreements ? data.autoGiroAgreements.length : "..."}
+          />
+          <EffektTabHeader
             label="Vipps recurring"
             counter={data.vippsAgreements ? data.vippsAgreements.length : "..."}
           />
@@ -122,6 +129,9 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
           </EffektTab>
           <EffektTab>
             <AvtaleGiroList agreements={data.avtalegiroAgreements} defaultPageSize={10} />
+          </EffektTab>
+          <EffektTab>
+            <AutoGiroList agreements={data.autoGiroAgreements} defaultPageSize={10} />
           </EffektTab>
           <EffektTab>
             <VippsAgreementList agreements={data.vippsAgreements} defaultPageSize={10} />

@@ -4,6 +4,7 @@ import { Bar } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../models/state";
 import { fetchSumByMonthAction } from "../../../store/graphing/graphing.actions";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 export const MonthlyDonationsGraph: React.FC = () => {
   const dispatch = useDispatch();
@@ -40,13 +41,24 @@ export const MonthlyDonationsGraph: React.FC = () => {
             }).format(val.raw as number),
         },
       },
+      datalabels: {
+        color: "black",
+        anchor: "end",
+        align: "end",
+        formatter(value, context) {
+          return value > 0
+            ? new Intl.NumberFormat("no-NB", {
+                style: "currency",
+                currency: "NOK",
+                maximumSignificantDigits: 3,
+              }).format(value as number)
+            : "";
+        },
+      },
     },
     maintainAspectRatio: false,
     scales: {
       y: {
-        grid: {
-          drawBorder: false,
-        },
         ticks: {
           callback: (val) =>
             new Intl.NumberFormat("no-NB", {
@@ -64,5 +76,5 @@ export const MonthlyDonationsGraph: React.FC = () => {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return <Bar data={data} options={options} plugins={[ChartDataLabels]} />;
 };

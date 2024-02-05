@@ -14,10 +14,10 @@ export const HomeComponent: React.FunctionComponent = (props) => {
     <Page>
       <MainHeader>Home</MainHeader>
       <HomeGrid>
+        <MonthlyDonationsReport />
         <AvtaleGiroReport />
         <AvtaleGiroValidationTable />
         <VippsReport />
-        <MonthlyDonationsReport />
         <LogsReport />
         <TransactionCostsReport />
       </HomeGrid>

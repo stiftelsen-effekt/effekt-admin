@@ -17,6 +17,7 @@ import {
   SET_DONATION_FILTER_DONATION_ID,
   SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS,
 } from "./donation-filters.actions";
+import Decimal from "decimal.js";
 
 const defaultState: DonationsState = {
   donations: [],
@@ -86,7 +87,17 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
       currentDonation: {
         ...action.payload.result,
         timestamp: new Date(action.payload.result.timestamp),
-        distribution: action.payload.result.distribution,
+        distribution: {
+          ...action.payload.result.distribution,
+          causeAreas: action.payload.result.distribution.causeAreas.map((causeArea) => ({
+            ...causeArea,
+            percentageShare: new Decimal(causeArea.percentageShare as unknown as string),
+            organizations: causeArea.organizations.map((organization) => ({
+              ...organization,
+              percentageShare: new Decimal(organization.percentageShare as unknown as string),
+            })),
+          })),
+        },
       },
     };
   } else if (isType(action, fetchDonationAction.failed)) {

@@ -9,6 +9,7 @@ import {
   IVippsAgreement,
   IReferralAnswer,
   ITaxUnit,
+  IAutoGiro,
 } from "../../models/types";
 import {
   getDonorAction,
@@ -28,6 +29,8 @@ import {
   IUpdateDonorDataParams,
   IfetchDonorTaxUnitsParams,
   getDonorTaxUnitsAction,
+  IFetchDonorAutorGiroAgreementsActionParams,
+  getDonorAutoGiroAgreementsAction,
 } from "./donor-page.actions";
 import { Action } from "typescript-fsa";
 import { DateTime } from "luxon";
@@ -94,6 +97,27 @@ export function* getDonorAvtalegiroAgreements(
   } catch (ex) {
     yield put(
       getDonorAvtalegiroAgreementsAction.failed({ params: action.payload, error: ex as Error }),
+    );
+  }
+}
+
+export function* getDonorAutoGiroAgreements(
+  action: Action<IFetchDonorAutorGiroAgreementsActionParams>,
+) {
+  try {
+    const data: API.TypedResponse<Array<IAutoGiro>> = yield call(API.call, {
+      endpoint: `/donors/${action.payload.id}/recurring/autogiro`,
+      method: API.Method.GET,
+      token: action.payload.token,
+    });
+    if (API.isOk(data))
+      yield put(
+        getDonorAutoGiroAgreementsAction.done({ params: action.payload, result: data.content }),
+      );
+    else throw new Error(data.content);
+  } catch (ex) {
+    yield put(
+      getDonorAutoGiroAgreementsAction.failed({ params: action.payload, error: ex as Error }),
     );
   }
 }

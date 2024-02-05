@@ -8,6 +8,7 @@ import {
   IVippsAgreement,
   IReferralAnswer,
   ITaxUnit,
+  IAutoGiro,
 } from "../../models/types";
 
 const actionCreator = actionCreatorFactory();
@@ -25,6 +26,10 @@ export interface IFetchDonorDistributionsActionParams {
   token: string;
 }
 export interface IFetchDonorAvtalegiroAgreementsActionParams {
+  id: number;
+  token: string;
+}
+export interface IFetchDonorAutorGiroAgreementsActionParams {
   id: number;
   token: string;
 }
@@ -63,6 +68,11 @@ export const getDonorAvtalegiroAgreementsAction = actionCreator.async<
   Array<IAvtaleGiro>,
   Error
 >("FETCH_DONOR_AVTALEGIRO_AGREEMENTS");
+export const getDonorAutoGiroAgreementsAction = actionCreator.async<
+  IFetchDonorAutorGiroAgreementsActionParams,
+  Array<IAutoGiro>,
+  Error
+>("FETCH_DONOR_AUTOGIRO_AGREEMENTS");
 export const getDonorVippsAgreementsAction = actionCreator.async<
   IFetchDonorVippsAgreementsActionParams,
   Array<IVippsAgreement>,

@@ -77,21 +77,14 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
           <DonationKeyInfoComponent donation={donation}></DonationKeyInfoComponent>
 
           <div style={{ width: "400px", height: "380px" }}>
-            <DistributionGraphComponent
-              distribution={donation.distribution?.flatMap((causeArea) =>
-                causeArea.organizations.map((org) => {
-                  return {
-                    id: org.id,
-                    name: org.name,
-                    percentageShare: (
-                      (parseFloat(org.percentageShare) / 100) *
-                      (parseFloat(causeArea.percentageShare) / 100) *
-                      100
-                    ).toString(),
-                  };
-                }),
-              )}
-            ></DistributionGraphComponent>
+            {donation.distribution ? (
+              <DistributionGraphComponent
+                distribution={donation.distribution}
+                sum={donation.sum}
+              ></DistributionGraphComponent>
+            ) : (
+              <div>No distribution</div>
+            )}
           </div>
         </HorizontalPanel>
         {donation.id && <DeleteButton id={donation.id} sum={donation.sum} />}

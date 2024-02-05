@@ -35,8 +35,7 @@ const defaultState: DistributionsState = {
   },
   distributionInput: {
     distribution: {
-      standardDistribution: true,
-      shares: [{ id: 12, share: new Decimal(100) }],
+      causeAreas: [],
     },
     taxUnits: [],
     valid: false,
@@ -49,7 +48,17 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
       ...state,
       current: {
         ...state.current,
-        distribution: action.payload.result.distribution,
+        distribution: {
+          ...action.payload.result.distribution,
+          causeAreas: action.payload.result.distribution.causeAreas.map((causeArea) => ({
+            ...causeArea,
+            percentageShare: new Decimal(causeArea.percentageShare as unknown as string),
+            organizations: causeArea.organizations.map((organization) => ({
+              ...organization,
+              percentageShare: new Decimal(organization.percentageShare as unknown as string),
+            })),
+          })),
+        },
         affiliatedDonations: action.payload.result.affilliatedDonations,
       },
     };
@@ -186,20 +195,23 @@ const validDistribution = (distribution: Partial<IDistribution>): boolean => {
       console.error("No shares");
       return false;
     }
-    if (distribution.shares.some((share) => share.share.lessThan(0))) {
+    if (distribution.shares.some((share) => share.percentageShare.lessThan(0))) {
       console.error("Share less than 0");
       return false;
     }
-    if (distribution.shares.some((share) => share.share.greaterThan(100))) {
+    if (distribution.shares.some((share) => share.percentageShare.greaterThan(100))) {
       console.error("Share greater than 100");
       return false;
     }
-    if (distribution.shares.some((share) => share.share.isNaN())) {
+    if (distribution.shares.some((share) => share.percentageShare.isNaN())) {
       console.error("Share is NaN");
       return false;
     }
 
-    const sum = distribution.shares.reduce((acc, share) => acc.add(share.share), new Decimal(0));
+    const sum = distribution.shares.reduce(
+      (acc, share) => acc.add(share.percentageShare),
+      new Decimal(0),
+    );
     console.log(sum.toNumber());
     if (sum.lessThan(100)) {
       return false;

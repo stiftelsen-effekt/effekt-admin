@@ -55,8 +55,8 @@ export const AutoGiroAgreement: React.FunctionComponent<RouteComponentProps<IPar
         <EffektButtonsWrapper>
           <EffektButton
             onClick={() =>
-              autoGiro.distribution.donor &&
-              history.push(`/donors/${autoGiro.distribution.donor.id}`)
+              autoGiro.distribution.donorId &&
+              history.push(`/donors/${autoGiro.distribution.donorId}`)
             }
           >
             <User size={16} />
@@ -82,19 +82,7 @@ export const AutoGiroAgreement: React.FunctionComponent<RouteComponentProps<IPar
 
           <div style={{ width: "400px", height: "380px" }}>
             <DistributionGraphComponent
-              distribution={autoGiro.distribution.causeAreas.flatMap((causeArea) =>
-                causeArea.organizations.map((org) => {
-                  return {
-                    id: org.id,
-                    name: org.name,
-                    percentageShare: (
-                      (parseFloat(org.percentageShare) / 100) *
-                      (parseFloat(causeArea.percentageShare) / 100) *
-                      100
-                    ).toString(),
-                  };
-                }),
-              )}
+              distribution={autoGiro.distribution}
             ></DistributionGraphComponent>
           </div>
         </HorizontalPanel>

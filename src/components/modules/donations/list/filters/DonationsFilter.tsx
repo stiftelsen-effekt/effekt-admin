@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   FilterWrapper,
@@ -30,7 +30,7 @@ import {
 import { fetchHistogramAction } from "../../../../../store/donations/donation.actions";
 import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
 import { useAuth0 } from "@auth0/auth0-react";
-import { fetchAllOrganizationsAction } from "../../../../../store/organizations/organizations.action";
+import { fetchAllCauseareasAction } from "../../../../../store/causeareas/causeareas.action";
 
 export const DonationsFilterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -40,9 +40,11 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   const donationSumRange = useSelector((state: AppState) => state.donations.filter.sum);
   const kid = useSelector((state: AppState) => state.donations.filter.KID);
   const donor = useSelector((state: AppState) => state.donations.filter.donor);
-  const organizations = useSelector((state: AppState) => state.organizations.all);
+  const causeAreas = useSelector((state: AppState) => state.causeareas.all);
 
-  if (!organizations) dispatch(fetchAllOrganizationsAction.started(undefined));
+  useEffect(() => {
+    if (!causeAreas) dispatch(fetchAllCauseareasAction.started(undefined));
+  }, [causeAreas]);
 
   const selectedOrganizationIDs = useSelector(
     (state: AppState) => state.donations.filter.organizationIDs,
@@ -73,13 +75,15 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   });
 
   const organizationChoices: Array<EffektCheckChoice> =
-    organizations?.map((organization) => {
-      return {
-        label: organization.abbriv,
-        value: organization.id,
-        selected: selectedOrganizationIDs?.includes(organization.id) ?? false,
-      };
-    }) ?? [];
+    causeAreas
+      ?.flatMap((c) => c.organizations)
+      ?.map((organization) => {
+        return {
+          label: organization.abbriv || organization.name || "Unkown",
+          value: organization.id,
+          selected: selectedOrganizationIDs?.includes(organization.id) ?? false,
+        };
+      }) ?? [];
 
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 

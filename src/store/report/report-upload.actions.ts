@@ -7,6 +7,7 @@ export enum ReportTypes {
   PAYPAL,
   OCR,
   BANK,
+  BANK_TOTAL_IN,
   FACEBOOK,
   AUTOGIRO,
   ADOVEO_FUNDRAISER,

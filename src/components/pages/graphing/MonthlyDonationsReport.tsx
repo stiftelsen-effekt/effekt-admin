@@ -8,7 +8,7 @@ import { MonthlyDonationsGraph } from "./MonthlyDonationsGraph";
 
 export const MonthlyDonationsReport: React.FC = () => {
   return (
-    <ReportWrapper>
+    <ReportWrapper wide={true}>
       <ReportHeader>Donations</ReportHeader>
       <ReportContent>
         <MonthlyDonationsGraph />

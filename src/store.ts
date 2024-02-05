@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import createSagaMiddleware from "redux-saga";
 import watchAll from "./root.saga";
 import { donorSelectorReducer } from "./store/donors/donor-selection.reducer";
-import { organizationsReducer } from "./store/organizations/organizations.reducer";
+import { causeareasReducer } from "./store/causeareas/causeareas.reducer";
 import { singleDonationReducer } from "./store/single-donation/single-donation.reducer";
 import { reportProcessingReducer } from "./store/process/process.reducer";
 import { CreateDonorReducer } from "./store/donors/create-donor.reducer";
@@ -25,7 +25,7 @@ const rootReducer = combineReducers<AppState>({
   donorSelector: donorSelectorReducer,
   donorCreation: CreateDonorReducer,
   donorPage: donorPageReducer,
-  organizations: organizationsReducer,
+  causeareas: causeareasReducer,
   singleDonation: singleDonationReducer,
   reportProcessing: reportProcessingReducer,
   donations: donationsReducer,

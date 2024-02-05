@@ -14,6 +14,8 @@ import { EffektInput } from "../../../style/elements/input.style";
 import { EffektLoadingSpinner } from "../../../style/elements/loading-spinner";
 import { EffektSelect } from "../../../style/elements/select.style";
 import { DistributionInput } from "../../shared/distribution-input/DistributionInput";
+import Decimal from "decimal.js";
+import { fetchAllCauseareasAction } from "../../../../store/causeareas/causeareas.action";
 
 export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initial }) => {
   const { getAccessTokenSilently } = useAuth0();
@@ -22,6 +24,7 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
   const currentAgreementUpdating: boolean | undefined = useSelector(
     (state: AppState) => state.avtaleGiroAgreements.currentAgreementUpdating,
   );
+  const allCauseAreas = useSelector((state: AppState) => state.causeareas.all);
   const [newAmount, setNewAmount] = useState<number>(initial ? initial.amount : 0);
   const [newPaymentDate, setNewPaymentDate] = useState<number>(initial ? initial.payment_date : 0);
   const [newStatus, setNewStatus] = useState<number | undefined>(initial?.active);
@@ -30,13 +33,51 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
   );
 
   useEffect(() => {
-    if (initial) {
-      setNewDistribution({
+    if (initial && allCauseAreas) {
+      const inputDist = {
         ...initial.distribution,
-        shares: [...initial.distribution.shares.map((share) => ({ ...share }))],
-      });
+        causeAreas: initial.distribution?.causeAreas.map((causeArea) => ({
+          ...causeArea,
+          organizations: causeArea.organizations.map((organization) => ({
+            ...organization,
+          })),
+        })),
+      };
+
+      console.log(allCauseAreas);
+
+      for (const causeArea of allCauseAreas) {
+        const foundCauseArea = inputDist.causeAreas.find((c) => c.id === causeArea.id);
+        if (!foundCauseArea) {
+          inputDist.causeAreas.push({
+            ...causeArea,
+            percentageShare: new Decimal(0),
+            standardSplit: true,
+            organizations: causeArea.organizations
+              .filter((org) => org.standardShare > 0)
+              .map((org) => {
+                return {
+                  ...org,
+                  percentageShare: new Decimal(org.standardShare),
+                };
+              }),
+          });
+        }
+      }
+
+      setNewDistribution(inputDist);
     }
-  }, [initial]);
+  }, [initial, allCauseAreas]);
+
+  useEffect(() => {
+    if (!allCauseAreas) {
+      dispatch(fetchAllCauseareasAction.started(undefined));
+    }
+  }, [allCauseAreas, dispatch]);
+
+  if (!allCauseAreas) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div

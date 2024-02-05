@@ -6,7 +6,7 @@ import {
   DistributionWrapper,
 } from "./SingleDonation.style";
 
-import { IPaymentMethod, IDonation, IOrganization, IDistribution } from "../../../models/types";
+import { IPaymentMethod, IDonation, IDistribution } from "../../../models/types";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../models/state";
 import {
@@ -27,15 +27,10 @@ import { setDistributionInputDistribution } from "../../../store/distributions/d
 
 interface IProps {
   onIgnore?(): void;
-  organizations: Array<IOrganization>;
   suggestedValues?: Partial<IDonation>;
 }
 
-export const SingleDonation: React.FunctionComponent<IProps> = ({
-  organizations,
-  onIgnore,
-  suggestedValues,
-}) => {
+export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, suggestedValues }) => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -58,7 +53,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({
     return {
       ...distribution,
       shares: distribution.shares
-        ? distribution.shares.filter((dist) => !dist.share.equals(new Decimal(0)))
+        ? distribution.shares.filter((dist) => !dist.percentageShare.equals(new Decimal(0)))
         : [],
     };
   };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Page } from "../../style/elements/page.style";
 import { MainHeader, GreenBox, RedBox } from "../../style/elements/headers.style";
@@ -9,20 +9,23 @@ import { Redirect } from "react-router";
 import { EffektDisplayTable } from "../../style/elements/display-table/display-table.component.style";
 import { SingleDonation } from "../../modules/single-donation/SingleDonation";
 import { popInvalidTransaction } from "../../../store/process/process.actions";
-import { fetchActiveOrganizationsAction } from "../../../store/organizations/organizations.action";
+import { fetchActiveCauseareasAction } from "../../../store/causeareas/causeareas.action";
 
 export const ProcessDonations: React.FunctionComponent = (props) => {
   const dispatch = useDispatch();
 
-  const organizations = useSelector((state: AppState) => state.organizations.active);
+  const causeAreas = useSelector((state: AppState) => state.causeareas.active);
   const processingState: ReportProcessingState = useSelector(
     (state: AppState) => state.reportProcessing,
   );
   const current: IInvalidTransaction =
     processingState.invalidTransactions[processingState.invalidTransactions.length - 1];
 
-  if (!organizations) {
-    dispatch(fetchActiveOrganizationsAction.started(undefined));
+  useEffect(() => {
+    if (!causeAreas) dispatch(fetchActiveCauseareasAction.started(undefined));
+  }, [causeAreas]);
+
+  if (!causeAreas) {
     return <div>Loading organizations</div>;
   }
 
@@ -87,7 +90,6 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
           paymentId: current.transaction.paymentID,
           timestamp: current.transaction.date,
         }}
-        organizations={organizations}
         onIgnore={ignoreTransaction}
       ></SingleDonation>
     </Page>

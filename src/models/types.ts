@@ -21,7 +21,7 @@ export interface IDonorStats {
 export interface IOrganization {
   id: number;
   name: string;
-  abbriv: string;
+  abbreviation: string;
   shortDesc: string;
   standardShare: number;
   infoUrl: string;
@@ -49,7 +49,7 @@ export interface IDonation {
   paymentMethod: string;
   timestamp: Date;
   KID?: string;
-  distribution?: Array<ICauseArea>;
+  distribution?: IDistribution;
   metaOwnerID?: number;
 }
 
@@ -57,19 +57,32 @@ export interface IDistribution {
   KID: string;
   donorId: number;
   taxUnitId: number;
-  causeAreas: Array<ICauseArea>;
+  causeAreas: Array<IDistributionCauseArea>;
+}
+
+export interface IDistributionCauseArea {
+  id: number;
+  name?: string;
+  standardSplit: boolean;
+  percentageShare: Decimal;
+  organizations: Array<IDistributionShare>;
 }
 
 export interface ICauseArea {
   id: number;
   name: string;
-  standardDistribution: boolean;
-  percentageShare: string;
-  organizations: Array<{
-    id: number;
-    name: string;
-    percentageShare: string;
-  }>;
+  standardSplit: boolean;
+  percentageShare: Decimal;
+  organizations: Array<IOrganization>;
+}
+
+export interface IOrganization {
+  id: number;
+  name: string;
+  abbriv: string;
+  shortDesc: string;
+  standardShare: number;
+  infoUrl: string;
 }
 
 export interface IDonationFilter {
@@ -98,9 +111,10 @@ export interface IHistogramBucket {
 
 export interface IDistributionShare {
   id: number;
-  share: Decimal;
+  percentageShare: Decimal;
   value?: Decimal;
   abbriv?: string;
+  name?: string;
 }
 
 export interface IDistribution {

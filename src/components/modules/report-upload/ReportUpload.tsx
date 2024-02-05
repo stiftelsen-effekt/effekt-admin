@@ -17,6 +17,7 @@ interface IState {
   paypalReport: File | null;
   ocrReport: File | null;
   bankReport: File | null;
+  bankTotalInReport: File | null;
   facebookReport: File | null;
   autoGiroReport: File | null;
   adoveoFundraiserReport: File | null;
@@ -31,6 +32,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
       paypalReport: null,
       ocrReport: null,
       bankReport: null,
+      bankTotalInReport: null,
       facebookReport: null,
       autoGiroReport: null,
       adoveoFundraiserReport: null,
@@ -83,7 +85,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
         </tr>
         <tr>
           <td>
-            <strong>Vipps</strong>
+            <strong>🇳🇴 Vipps</strong>
           </td>
           <td>
             <EffektFileInput
@@ -106,7 +108,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
 
         <tr>
           <td>
-            <strong>Paypal</strong>
+            <strong>🇳🇴 Paypal</strong>
           </td>
           <td>
             <EffektFileInput
@@ -129,7 +131,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
 
         <tr>
           <td>
-            <strong>Bank OCR</strong>
+            <strong>🇳🇴 Bank OCR</strong>
           </td>
           <td>
             <EffektFileInput
@@ -149,10 +151,9 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           </td>
           {state.ocrReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
-
         <tr>
           <td>
-            <strong>Bank custom</strong>
+            <strong>🇳🇴 Bank custom</strong>
           </td>
           <td>
             <EffektFileInput
@@ -172,10 +173,9 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           </td>
           {state.bankReport !== null && loading && <EffektLoadingSpinner />}
         </tr>
-
         <tr>
           <td>
-            <strong>Facebook</strong>
+            <strong>🇳🇴 Facebook</strong>
           </td>
           <td>
             <EffektFileInput
@@ -197,7 +197,28 @@ export const ReportUpload: React.FunctionComponent = (props) => {
         </tr>
         <tr>
           <td>
-            <strong>AutoGiro</strong>
+            <strong>🇸🇪 Bank total in</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) => !loading && setState({ ...state, bankTotalInReport: file })}
+              id="bank-totalin-upload"
+            />
+          </td>
+          <td></td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                uploadReport(ReportTypes.BANK_TOTAL_IN, state.bankTotalInReport);
+              }}
+            >
+              Process
+            </EffektButton>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>🇸🇪 AutoGiro</strong>
           </td>
           <td>
             <EffektFileInput
@@ -219,7 +240,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
         </tr>
         <tr>
           <td>
-            <strong>Adoveo giftcards</strong>
+            <strong>🇳🇴🇸🇪 Adoveo giftcards</strong>
           </td>
           <td>
             <EffektFileInput
@@ -244,7 +265,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
 
         <tr>
           <td>
-            <strong>Adoveo fundraiser</strong>
+            <strong>🇳🇴🇸🇪 Adoveo fundraiser</strong>
           </td>
           <td>
             <EffektFileInput

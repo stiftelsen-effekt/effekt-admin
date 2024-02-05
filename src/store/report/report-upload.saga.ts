@@ -21,7 +21,10 @@ export function* uploadReport(action: Action<IUploadReportActionParams>) {
         reportType = "vipps";
         break;
       case ReportTypes.BANK:
-        reportType = "bank";
+        reportType = "bank/no";
+        break;
+      case ReportTypes.BANK_TOTAL_IN:
+        reportType = "bank/se";
         break;
       case ReportTypes.FACEBOOK:
         reportType = "facebook";
