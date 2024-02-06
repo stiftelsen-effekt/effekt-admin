@@ -9,13 +9,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { fetchAutogiroShipmentsAction } from "../../../store/report/report-download.action";
 import { DateTime } from "luxon";
 import { API_URL } from "../../../config/config";
+import { infoToast } from "../../../util/toasthelper";
+import { EffektLoadingSpinner } from "../../style/elements/loading-spinner";
 
 export const ReportDownload: React.FC = () => {
   const shipments = useSelector((state: AppState) => state.reportProcessing.autoGiroShipments);
-  const [selectedShipment, setSelectedShipment] = React.useState<number | undefined>(
-    shipments?.sort((a, b) => (b.ID > a.ID ? -1 : 1))[0]?.ID,
-  );
-
+  const [selectedShipment, setSelectedShipment] = React.useState<number | undefined>();
+  const [isLoading, setIsLoading] = React.useState(false);
   useEffect(() => {
     setSelectedShipment(shipments?.sort((a, b) => (b.ID > a.ID ? -1 : 1))[0]?.ID);
   }, [shipments]);
@@ -42,7 +42,6 @@ export const ReportDownload: React.FC = () => {
             <EffektSelect
               onChange={(o) => {
                 setSelectedShipment(parseInt(o.currentTarget.value));
-                alert(o.currentTarget.value);
               }}
             >
               {shipments
@@ -56,8 +55,13 @@ export const ReportDownload: React.FC = () => {
             <EffektButton
               onClick={(e) => {
                 e.preventDefault();
+                setIsLoading(true);
                 getAccessTokenSilently().then((token) => {
-                  viewFile(`${API_URL}/autogiro/shipment/${selectedShipment}/report`, token);
+                  viewFile(`${API_URL}/autogiro/shipment/${selectedShipment}/report`, token).then(
+                    (res) => {
+                      setIsLoading(false);
+                    },
+                  );
                 });
               }}
             >
@@ -67,28 +71,58 @@ export const ReportDownload: React.FC = () => {
           <td>
             <EffektButton
               onClick={() => {
+                setIsLoading(true);
                 getAccessTokenSilently().then((token) => {
-                  viewFile(`${API_URL}/scheduled/autogiro`, token, "POST");
+                  viewFile(`${API_URL}/scheduled/autogiro`, token, "POST").then((res) => {
+                    if (res === true) {
+                      dispatch(fetchAutogiroShipmentsAction.started({ token }));
+                    } else {
+                      infoToast("No new file", res);
+                    }
+                    setIsLoading(false);
+                  });
                 });
               }}
             >
               New (BFEP.IAGAG)
             </EffektButton>
           </td>
+          <td>{isLoading && <EffektLoadingSpinner />}</td>
         </tr>
       </ReportTable>
     </>
   );
 };
 
-const viewFile = async (url, token, method: "GET" | "POST" = "GET") => {
-  fetch(url, { headers: { authorization: `Bearer ${token}` }, method })
-    .then((response) => response.blob())
-    .then((blob) => {
-      var _url = window.URL.createObjectURL(blob);
-      window.open(_url, "_blank")?.focus();
+const viewFile = (url, token, method: "GET" | "POST" = "GET") => {
+  return fetch(url, { headers: { authorization: `Bearer ${token}` }, method })
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      if (response.status == 200 && response.content.file) {
+        var _url = window.URL.createObjectURL(
+          new Blob([response.content.file], { type: "plain/text" }),
+        );
+        var a = document.createElement("a");
+        a.href = _url;
+        a.download = response.content.filename ?? "report.txt";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        return true;
+      } else if (
+        response.status == 200 &&
+        response.content.numCharges == 0 &&
+        response.content.mandatesToBeConfirmed == 0
+      ) {
+        return "No new charges or mandates to be confirmed";
+      } else {
+        return "Something went wrong.";
+      }
     })
     .catch((err) => {
       console.log(err);
+      return "Error";
     });
 };

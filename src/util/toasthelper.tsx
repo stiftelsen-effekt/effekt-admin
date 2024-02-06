@@ -8,3 +8,11 @@ export const toastError = (header: string, message: string) =>
       <div style={{ fontSize: "12px" }}>{message}</div>
     </div>,
   );
+
+export const infoToast = (header: string, message: string) =>
+  toast.info(
+    <div>
+      <strong>{header}</strong>
+      <div style={{ fontSize: "12px" }}>{message}</div>
+    </div>,
+  );
