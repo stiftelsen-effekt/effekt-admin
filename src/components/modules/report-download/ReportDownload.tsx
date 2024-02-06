@@ -27,7 +27,7 @@ export const ReportDownload: React.FC = () => {
     getAccessTokenSilently().then((token) => {
       dispatch(fetchAutogiroShipmentsAction.started({ token }));
     });
-  }, []);
+  }, [dispatch, getAccessTokenSilently]);
 
   return (
     <>

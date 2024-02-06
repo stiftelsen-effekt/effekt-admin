@@ -12,7 +12,7 @@ export interface EffektCheckChoice {
 interface IProps {
   choices: Array<EffektCheckChoice>;
   inverted?: boolean;
-  onChange(selectedValues: Array<any>): void;
+  onChange(selectedValues: Array<any>, allSelected: boolean): void;
 }
 
 export const EffektCheckForm: React.FunctionComponent<IProps> = ({
@@ -22,6 +22,10 @@ export const EffektCheckForm: React.FunctionComponent<IProps> = ({
 }) => {
   const isInverted: boolean = inverted ? true : false;
 
+  console.log(choices);
+  const allSelected = choices.filter((choice) => choice.selected).length === choices.length;
+  console.log("All selected: ", allSelected);
+
   let checkBoxes = choices.map((choice, index) => (
     <EffektCheck
       key={index}
@@ -30,7 +34,10 @@ export const EffektCheckForm: React.FunctionComponent<IProps> = ({
       inverted={isInverted}
       onChange={(now_checked) => {
         choices[index].selected = now_checked;
-        onChange(choices.filter((choice) => choice.selected).map((choice) => choice.value));
+        onChange(
+          choices.filter((choice) => choice.selected).map((choice) => choice.value),
+          allSelected && now_checked,
+        );
       }}
     ></EffektCheck>
   ));
@@ -38,15 +45,18 @@ export const EffektCheckForm: React.FunctionComponent<IProps> = ({
     <EffektCheckFormWrapper>
       <SelectAllButton
         onClick={() => {
-          if (choices.filter((choice) => choice.selected).length === choices.length) {
-            onChange(new Array<number>());
+          if (allSelected) {
+            onChange([], false);
           } else {
-            onChange(choices.map((choice) => choice.value));
+            onChange(
+              choices.map((choice) => choice.value),
+              allSelected,
+            );
           }
         }}
         inverted={isInverted}
       >
-        Select all
+        {allSelected ? "Clear" : "Select all"}
       </SelectAllButton>
       {checkBoxes}
     </EffektCheckFormWrapper>

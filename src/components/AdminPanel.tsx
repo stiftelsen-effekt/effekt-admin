@@ -28,6 +28,7 @@ import { DonorPage } from "./pages/donors/Donor";
 import { DistributionComponent } from "./pages/distributions/Distribution";
 import { AutoGiroPage } from "./pages/autogiro/AutoGiroPage";
 import { AutoGiroAgreement } from "./pages/autogiro/AutoGiroAgreement/AutoGiroAgreement";
+import { AutoGiroMandatesPage } from "./pages/autogiro/Mandates/AutoGiroMandatesPage";
 
 export const AdminPanel: React.FunctionComponent = () => {
   //TODO: Move someplace where it is run only once
@@ -35,7 +36,7 @@ export const AdminPanel: React.FunctionComponent = () => {
   const causeAreas = useSelector((state: AppState) => state.causeareas.active);
   useEffect(() => {
     if (!causeAreas) dispatch(fetchActiveCauseareasAction.started(undefined));
-  }, [causeAreas]);
+  }, [causeAreas, dispatch]);
 
   return (
     <div>
@@ -74,6 +75,7 @@ export const AdminPanel: React.FunctionComponent = () => {
           ></Route>
 
           <Route exact path="/autogiro" component={AutoGiroPage}></Route>
+          <Route exact path="/autogiro/mandates/" component={AutoGiroMandatesPage}></Route>
           <Route exact path="/autogiro/:id" component={AutoGiroAgreement}></Route>
 
           <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>

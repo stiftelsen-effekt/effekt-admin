@@ -30,6 +30,8 @@ import {
   IAutoGiro,
   IAutoGiroFilter,
   ICauseArea,
+  IAutoGiroMandate,
+  IAutoGiroMandateFilter,
 } from "./types";
 
 export interface AppState {
@@ -56,6 +58,7 @@ export interface AppState {
 
   avtaleGiroAgreements: AvtaleGiroAgreementsState;
   autoGiroAgreements: AutoGiroAgreementsState;
+  autoGiroMandates: AutoGiroMandatesState;
 }
 
 export interface DonorSelectorState {
@@ -117,6 +120,11 @@ export interface DonationsState {
   pagination: IPagination;
   filter: IDonationFilter;
   donations: Array<IDonation>;
+  stats: {
+    numDonations: number;
+    sumDonations: number;
+    avgDonation: number;
+  };
 }
 
 export interface ITransactionCostsReport {
@@ -193,6 +201,15 @@ export interface AutoGiroAgreementsState {
   pagination: IPagination;
   filter: IAutoGiroFilter;
   agreements: Array<IAutoGiro>;
+}
+
+export interface AutoGiroMandatesState {
+  currentMandate?: IAutoGiroMandate;
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
+  filter: IAutoGiroMandateFilter;
+  mandates: Array<IAutoGiroMandate>;
 }
 
 export interface GraphingState {

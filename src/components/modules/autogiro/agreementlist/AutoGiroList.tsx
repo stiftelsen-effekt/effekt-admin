@@ -21,9 +21,9 @@ export const AutoGiroList: React.FunctionComponent<{
   const history = useHistory();
   const { getAccessTokenSilently } = useAuth0();
 
-  const loading = useSelector((state: AppState) => state.avtaleGiroAgreements.loading);
-  const pages = useSelector((state: AppState) => state.avtaleGiroAgreements.pages);
-  const pagination = useSelector((state: AppState) => state.avtaleGiroAgreements.pagination);
+  const loading = useSelector((state: AppState) => state.autoGiroAgreements.loading);
+  const pages = useSelector((state: AppState) => state.autoGiroAgreements.pages);
+  const pagination = useSelector((state: AppState) => state.autoGiroAgreements.pagination);
 
   useEffect(() => {
     if (manual) {

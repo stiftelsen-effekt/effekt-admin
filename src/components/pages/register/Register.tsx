@@ -23,7 +23,7 @@ export const RegisterComponent: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!causeAreas) dispatch(fetchActiveCauseareasAction.started(undefined));
-  }, [causeAreas]);
+  }, [causeAreas, dispatch]);
 
   if (!causeAreas) {
     return <div>Loading organizations</div>;

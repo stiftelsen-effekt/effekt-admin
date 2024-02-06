@@ -20,7 +20,7 @@ export const DistributionGraphComponent: React.FunctionComponent<{
     if (!allCauseAreas) {
       dispatch(fetchAllCauseareasAction.started(undefined));
     }
-  }, []);
+  }, [dispatch, allCauseAreas]);
 
   if (!distribution) return <div>No distribution</div>;
 
@@ -94,7 +94,6 @@ export const DistributionGraphComponent: React.FunctionComponent<{
               return new Intl.NumberFormat("no-NB", {
                 style: "currency",
                 currency: "NOK",
-                maximumSignificantDigits: 3,
               }).format(context.raw as number);
             } else {
               return context.raw + " %";

@@ -442,6 +442,27 @@ export interface IAutoGiroValidation {
   expected: Array<IAutoGiro>;
 }
 
+export type AutoGiroMandateStatus = "DRAFTED" | "NEW" | "ACTIVE" | "STOPPED";
+
+export interface IAutoGiroMandate {
+  ID: number;
+  status: AutoGiroMandateStatus;
+  KID: string;
+  bank_account: string;
+  special_information: string;
+  name_and_address: string;
+  postal_code: string;
+  postal_label: string;
+  created: string;
+  last_updated: string;
+}
+
+export interface IAutoGiroMandateFilter {
+  KID?: string;
+  statuses?: Array<AutoGiroMandateStatus>;
+  donor?: string;
+}
+
 /** Referrals */
 
 export interface IReferralAnswer {

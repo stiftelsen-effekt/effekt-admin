@@ -23,7 +23,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
 
   useEffect(() => {
     if (!causeAreas) dispatch(fetchActiveCauseareasAction.started(undefined));
-  }, [causeAreas]);
+  }, [causeAreas, dispatch]);
 
   if (!causeAreas) {
     return <div>Loading organizations</div>;

@@ -31,7 +31,7 @@ export const FilterWrapper = styled.div<IFilterWrapperProps>`
   transition: transform 200ms;
   z-index: 10;
 
-  @media (max-width: 1680px) {
+  @media (max-width: 1679px) {
     transform: ${(props) => (props.isOpen ? "translateX(0px);" : "translateX(100%)")};
   }
 `;
@@ -71,4 +71,32 @@ export const FilterDateRangeWrapper = styled.div`
 
 export const FilterInput = styled(EffektInput)`
   background: white;
+`;
+
+export const FilterStatsTableContainer = styled.div`
+  display: flex;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  flex-direction: column;
+  padding: 20px;
+  border-top: 1px solid #333;
+  background: black;
+  color: white;
+  box-sizing: border-box;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    tr {
+      td {
+        &:last-child {
+          text-align: right;
+          /* Monospaced for number comparison clarity */
+          font-family: "Courier New", monospace;
+        }
+      }
+    }
+  }
 `;

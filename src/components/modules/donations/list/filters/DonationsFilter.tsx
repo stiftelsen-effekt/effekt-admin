@@ -9,6 +9,7 @@ import {
   FilterGroup,
   FilterHeader,
   FilterContent,
+  FilterStatsTableContainer,
 } from "../../../../style/elements/filters.component.style";
 import { HistogramInputComponent } from "../../../histogram-input/HistogramInput";
 import {
@@ -31,11 +32,13 @@ import { fetchHistogramAction } from "../../../../../store/donations/donation.ac
 import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchAllCauseareasAction } from "../../../../../store/causeareas/causeareas.action";
+import { thousandize } from "../../../../../util/formatting";
 
 export const DonationsFilterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
+  const stats = useSelector((state: AppState) => state.donations.stats);
   const donationDateRange = useSelector((state: AppState) => state.donations.filter.date);
   const donationSumRange = useSelector((state: AppState) => state.donations.filter.sum);
   const kid = useSelector((state: AppState) => state.donations.filter.KID);
@@ -44,7 +47,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (!causeAreas) dispatch(fetchAllCauseareasAction.started(undefined));
-  }, [causeAreas]);
+  }, [causeAreas, dispatch]);
 
   const selectedOrganizationIDs = useSelector(
     (state: AppState) => state.donations.filter.organizationIDs,
@@ -79,7 +82,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
       ?.flatMap((c) => c.organizations)
       ?.map((organization) => {
         return {
-          label: organization.abbriv || organization.name || "Unkown",
+          label: organization.abbreviation || organization.name || "Unkown",
           value: organization.id,
           selected: selectedOrganizationIDs?.includes(organization.id) ?? false,
         };
@@ -174,11 +177,11 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
           <EffektCheckForm
             inverted={true}
             choices={paymentMethodChoices}
-            onChange={(selected: Array<number>) => {
-              if (selected.length === 0) {
-                dispatch(setDonationFilterPaymentMethodIDs(undefined));
-              } else {
+            onChange={(selected: Array<number>, allSelected: boolean) => {
+              if (!allSelected) {
                 dispatch(setDonationFilterPaymentMethodIDs(selected));
+              } else {
+                dispatch(setDonationFilterPaymentMethodIDs(undefined));
               }
             }}
           ></EffektCheckForm>
@@ -189,8 +192,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
           <EffektCheckForm
             inverted={true}
             choices={organizationChoices}
-            onChange={(selected: Array<number>) => {
-              if (selected.length === 0) {
+            onChange={(selected: Array<number>, allSelected: boolean) => {
+              if (allSelected) {
+                console.log(allSelected);
                 dispatch(setDonationFilterOrganizationIDs(undefined));
               } else {
                 dispatch(setDonationFilterOrganizationIDs(selected));
@@ -198,6 +202,25 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
             }}
           ></EffektCheckForm>
         </FilterGroup>
+
+        <FilterStatsTableContainer>
+          <table>
+            <tbody>
+              <tr>
+                <td>Count</td>
+                <td>{thousandize(stats.numDonations)}</td>
+              </tr>
+              <tr>
+                <td>Sum</td>
+                <td>kr {thousandize(stats.sumDonations)}</td>
+              </tr>
+              <tr>
+                <td>Average</td>
+                <td>kr {thousandize(stats.avgDonation)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </FilterStatsTableContainer>
       </FilterContent>
     </FilterWrapper>
   );

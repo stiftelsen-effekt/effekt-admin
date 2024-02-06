@@ -15,6 +15,11 @@ export interface IDeleteDonationActionParams {
 
 interface IFetchDonationsResult {
   rows: Array<IDonation>;
+  stats: {
+    numDonations: number;
+    sumDonations: string;
+    avgDonation: string;
+  };
   pages: number;
 }
 

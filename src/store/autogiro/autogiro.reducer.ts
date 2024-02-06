@@ -74,20 +74,6 @@ export const autoGiroReducer = (
     return { ...state, loading: false };
   }
 
-  // Fetch multiple agreements
-  if (isType(action, fetchAutoGiroAgreementsAction.done)) {
-    return {
-      ...state,
-      loading: false,
-      agreements: action.payload.result.rows,
-      pages: action.payload.result.pages,
-    };
-  } else if (isType(action, fetchAutoGiroAgreementsAction.started)) {
-    return { ...state, loading: true };
-  } else if (isType(action, fetchAutoGiroAgreementsAction.failed)) {
-    return { ...state, loading: false };
-  }
-
   // Fetch single agreement
   if (isType(action, fetchAutoGiroAction.done)) {
     return {

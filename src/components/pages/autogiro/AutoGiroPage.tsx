@@ -6,13 +6,19 @@ import { AutoGiroFilter } from "../../modules/autogiro/agreementlist/AutoGiroFil
 import { AppState } from "../../../models/state";
 import { useSelector } from "react-redux";
 import { AutoGiroListWrapper } from "../../modules/autogiro/agreementlist/AutoGiroList.style";
+import { EffektButton } from "../../style/elements/button.style";
+import { useHistory } from "react-router";
 
 export const AutoGiroPage: React.FunctionComponent = () => {
   const allAgreements = useSelector((state: AppState) => state.autoGiroAgreements.agreements);
+  const history = useHistory();
 
   return (
     <Page>
       <MainHeader>AutoGiro</MainHeader>
+      <EffektButton onClick={() => history.push("/autogiro/mandates/")}>Mandates</EffektButton>
+      <br />
+      <br />
       <AutoGiroListWrapper>
         <AutoGiroList agreements={allAgreements} manual />
       </AutoGiroListWrapper>

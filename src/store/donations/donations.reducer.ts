@@ -44,6 +44,11 @@ const defaultState: DonationsState = {
     paymentMethodIDs: undefined,
     organizationIDs: undefined,
   },
+  stats: {
+    numDonations: 0,
+    sumDonations: 0,
+    avgDonation: 0,
+  },
 };
 export const donationsReducer = (state = defaultState, action: any): DonationsState => {
   /**
@@ -55,6 +60,11 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
       loading: false,
       donations: action.payload.result.rows,
       pages: action.payload.result.pages,
+      stats: {
+        ...action.payload.result.stats,
+        sumDonations: new Decimal(action.payload.result.stats.sumDonations).round().toNumber(),
+        avgDonation: new Decimal(action.payload.result.stats.avgDonation).round().toNumber(),
+      },
     };
   } else if (isType(action, fetchDonationsAction.started)) {
     return { ...state, loading: true };
@@ -162,6 +172,7 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
         filter: { ...state.filter, paymentMethodIDs: action.payload },
       };
     case SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS:
+      console.log(action.payload);
       return {
         ...state,
         pagination: { ...state.pagination, page: 0 },

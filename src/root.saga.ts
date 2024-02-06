@@ -162,6 +162,8 @@ import {
   DeleteTaxUnitAction,
   UpdateTaxUnitAction,
 } from "./store/taxunits.ts/taxunits.actions";
+import { fetchAutoGiroMandatesAction } from "./store/autogiro/autogiromedgivande.actions";
+import { fetchAutoGiroMandates } from "./store/autogiro/autogiromedgivande.saga";
 
 function* watchAll() {
   yield all([
@@ -252,6 +254,8 @@ function* watchAll() {
     takeLatest(updateAutoGiroPaymentDateAction.started.type, updateAutoGiroPaymentDate),
     takeLatest(updateAutoGiroDistributionAction.started.type, updateAutoGiroDistribution),
     takeLatest(fetchAutogiroShipmentsAction.started.type, fetchAutogiroShipments),
+
+    takeLatest(fetchAutoGiroMandatesAction.started.type, fetchAutoGiroMandates),
   ]);
 }
 

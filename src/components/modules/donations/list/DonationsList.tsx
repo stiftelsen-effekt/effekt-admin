@@ -109,24 +109,26 @@ export const DonationsList: React.FunctionComponent<Props> = ({
 
   if (manual) {
     return (
-      <ReactTable
-        manual
-        data={donations}
-        page={pagination.page}
-        pages={pages}
-        pageSize={defaultPageSize ? defaultPageSize : pagination.limit}
-        loading={loading}
-        columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        onPageChange={(page) => dispatch(setDonationsPagination({ ...pagination, page }))}
-        onSortedChange={(sorted) =>
-          dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))
-        }
-        onPageSizeChange={(pagesize) =>
-          dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))
-        }
-        getTrProps={trProps}
-      />
+      <>
+        <ReactTable
+          manual
+          data={donations}
+          page={pagination.page}
+          pages={pages}
+          pageSize={defaultPageSize ? defaultPageSize : pagination.limit}
+          loading={loading}
+          columns={columnDefinitions}
+          defaultSorted={defaultSorting}
+          onPageChange={(page) => dispatch(setDonationsPagination({ ...pagination, page }))}
+          onSortedChange={(sorted) =>
+            dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))
+          }
+          onPageSizeChange={(pagesize) =>
+            dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))
+          }
+          getTrProps={trProps}
+        />
+      </>
     );
   } else {
     return (
