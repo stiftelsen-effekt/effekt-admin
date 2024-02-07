@@ -55,8 +55,8 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
         <EffektButtonsWrapper>
           <EffektButton
             onClick={() =>
-              avtaleGiro.distribution.donor &&
-              history.push(`/donors/${avtaleGiro.distribution.donor.id}`)
+              avtaleGiro.distribution.donorId &&
+              history.push(`/donors/${avtaleGiro.distribution.donorId}`)
             }
           >
             <User size={16} />

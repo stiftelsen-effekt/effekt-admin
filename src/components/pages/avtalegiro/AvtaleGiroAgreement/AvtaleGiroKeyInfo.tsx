@@ -73,7 +73,15 @@ export const AvtaleGiroKeyInfo: React.FunctionComponent<{
       <KeyInfoGroup>
         <KeyInfoHeader>Tax unit</KeyInfoHeader>
         <KeyInfoTimestamp>
-          {formattedTaxUnitOutput(agreement.distribution.taxUnit)}
+          {formattedTaxUnitOutput({
+            id: agreement.distribution.taxUnitId,
+            name: "Uknown",
+            ssn: "Uknown",
+            sumDonations: -1,
+            numDonations: -1,
+            registered: DateTime.local(),
+            archived: null,
+          })}
         </KeyInfoTimestamp>
       </KeyInfoGroup>
     </KeyInfoWrapper>

@@ -186,10 +186,11 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
 };
 
 const validDistribution = (distribution: Partial<IDistribution>): boolean => {
-  if (!distribution.donor) {
+  if (!distribution.donorId) {
     return false;
   }
 
+  /*
   if (!distribution.standardDistribution) {
     if (!distribution.shares || distribution.shares.length === 0) {
       console.error("No shares");
@@ -220,6 +221,7 @@ const validDistribution = (distribution: Partial<IDistribution>): boolean => {
       return false;
     }
   }
+  */
 
   return true;
 };

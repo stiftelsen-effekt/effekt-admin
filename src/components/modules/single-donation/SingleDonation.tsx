@@ -16,7 +16,6 @@ import {
   insertDonationAction,
   ICreateDonationParams,
 } from "../../../store/single-donation/single-donation.actions";
-import { Decimal } from "decimal.js";
 
 import { DonationControls } from "./controls/DonationControls";
 import { DonationInput } from "./input/DonationInput";
@@ -52,8 +51,17 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
   ): Partial<IDistribution> => {
     return {
       ...distribution,
-      shares: distribution.shares
-        ? distribution.shares.filter((dist) => !dist.percentageShare.equals(new Decimal(0)))
+      causeAreas: distribution.causeAreas
+        ? distribution.causeAreas
+            .filter((c) => !c.percentageShare.eq(0))
+            .map((causeArea) => {
+              return {
+                ...causeArea,
+                organizations: causeArea.organizations
+                  ? causeArea.organizations.filter((org) => !org.percentageShare.eq(0))
+                  : [],
+              };
+            })
         : [],
     };
   };
@@ -80,7 +88,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
       if (donationInput.KID) {
         dispatch(insertDonationAction.started(donationParams));
       } else {
-        if (!distribution.donor) return toast.error("No donor selected");
+        if (!distribution.donorId) return toast.error("No donor selected");
         if (!distribution || !donationInput)
           return toast.error("Error initializing distribution or input");
         if (!currentSelectedOwner) return toast.error("Missing meta owner");

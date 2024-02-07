@@ -54,7 +54,7 @@ export interface IDonation {
 }
 
 export interface IDistribution {
-  KID: string;
+  kid: string;
   donorId: number;
   taxUnitId: number;
   causeAreas: Array<IDistributionCauseArea>;
@@ -115,14 +115,6 @@ export interface IDistributionShare {
   value?: Decimal;
   abbriv?: string;
   name?: string;
-}
-
-export interface IDistribution {
-  KID: string;
-  donor: Partial<IDonor>;
-  standardDistribution: boolean;
-  taxUnit?: ITaxUnit;
-  shares: Array<IDistributionShare>;
 }
 
 export interface IDistributionFilter {

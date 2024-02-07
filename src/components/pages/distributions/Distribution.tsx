@@ -41,12 +41,12 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
     return (
       <Page>
         <ResourceHeader hasSubHeader={true}>Distribution {KID}</ResourceHeader>
-        <ResourceSubHeader>{current.distribution.donor.name}</ResourceSubHeader>
+        <ResourceSubHeader>{current.distribution.donorId}</ResourceSubHeader>
 
         <EffektButtonsWrapper>
           <EffektButton
             onClick={() => {
-              history.push("/donors/" + current.distribution?.donor.id);
+              history.push("/donors/" + current.distribution?.donorId);
             }}
           >
             <User size={16} />

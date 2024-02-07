@@ -36,9 +36,6 @@ export const DistributionInput: React.FC<{
   const taxUnits = useSelector((state: AppState) => state.distributions.distributionInput.taxUnits);
   const causeAreas = useSelector((state: AppState) => state.causeareas.active);
   const selectedDonor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
-  const donorName = useSelector(
-    (state: AppState) => state.distributions.distributionInput.distribution.donor?.name,
-  );
 
   const [showAddTaxUnitModal, setShowAddTaxUnitModal] = useState<boolean>(false);
 
@@ -47,38 +44,32 @@ export const DistributionInput: React.FC<{
   );
 
   const [taxUnitInput, setTaxUnitInput] = useState<{ label: string; value?: number }>(
-    mapTaxUnitToSelectOption(distribution.taxUnit) ?? noTaxUnit,
+    mapTaxUnitToSelectOption(taxUnits.find((t) => t.id === distribution.taxUnitId)) ?? noTaxUnit,
   );
 
-  const donorId = distribution.donor?.id;
+  const donorId = distribution.donorId;
 
   useEffect(() => {
-    if (selectedDonor?.id !== distribution.donor?.id) {
+    if (selectedDonor?.id !== distribution.donorId) {
       setDonorInput(selectedDonor?.id.toString() ?? "");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDonor]);
 
   useEffect(() => {
-    if (distribution.donor) {
-      setDonorInput(distribution.donor?.id?.toString());
-    }
+    if (typeof distribution.donorId !== "undefined" && selectedDonor !== null)
+      setDonorInput(distribution.donorId.toString());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [distribution]);
 
   useEffect(() => {
     if (typeof donorInput !== "undefined" && Validator.isInt(donorInput)) {
-      if (
-        typeof distribution.donor !== "undefined" &&
-        typeof distribution.donor.id !== "undefined"
-      ) {
+      if (typeof distribution.donorId !== "undefined") {
         getAccessTokenSilently().then((token) => {
-          dispatch(
-            getDonorAction.started({ id: parseInt(donorInput) ?? distribution.donor?.name, token }),
-          );
+          dispatch(getDonorAction.started({ id: parseInt(donorInput), token }));
           dispatch(
             getDonorTaxUnitsAction.started({
-              id: parseInt(donorInput) ?? distribution.donor?.id,
+              id: parseInt(donorInput),
               token,
             }),
           );
@@ -101,9 +92,9 @@ export const DistributionInput: React.FC<{
   useEffect(() => {
     onChange({
       ...distribution,
-      taxUnit: taxUnits.find((t) => {
+      taxUnitId: taxUnits.find((t) => {
         return t.id === taxUnitInput?.value;
-      }),
+      })?.id,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taxUnitInput, taxUnits]);
@@ -125,10 +116,7 @@ export const DistributionInput: React.FC<{
             Find donor
           </EffektButton>
         </div>
-        <EffektInput
-          value={donorName ?? distribution.donor?.name ?? "Navn fylles ut automatisk"}
-          disabled={true}
-        ></EffektInput>
+        <EffektInput value={donorId ?? "Navn fylles ut automatisk"} disabled={true}></EffektInput>
       </div>
       <div style={{ zIndex: 10, position: "relative", marginBottom: "20px" }}>
         <Select

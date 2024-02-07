@@ -44,8 +44,6 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
         })),
       };
 
-      console.log(allCauseAreas);
-
       for (const causeArea of allCauseAreas) {
         const foundCauseArea = inputDist.causeAreas.find((c) => c.id === causeArea.id);
         if (!foundCauseArea) {
@@ -209,7 +207,7 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
         <EffektButton
           onClick={() => {
             getAccessTokenSilently().then((token) => {
-              if (typeof newDistribution.KID !== "undefined" && "KID" in newDistribution) {
+              if (typeof newDistribution.kid !== "undefined" && "kid" in newDistribution) {
                 dispatch(
                   updateAutoGiroDistributionAction.started({
                     distribution: newDistribution as IDistribution,

@@ -14,6 +14,7 @@ import { EffektInput } from "../../../style/elements/input.style";
 import { EffektLoadingSpinner } from "../../../style/elements/loading-spinner";
 import { EffektSelect } from "../../../style/elements/select.style";
 import { DistributionInput } from "../../shared/distribution-input/DistributionInput";
+import Decimal from "decimal.js";
 
 export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ initial }) => {
   const { getAccessTokenSilently } = useAuth0();
@@ -23,6 +24,7 @@ export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ in
     (state: AppState) => state.avtaleGiroAgreements.currentAgreementUpdating,
   );
   const [newAmount, setNewAmount] = useState<number>(initial ? initial.amount : 0);
+  const allCauseAreas = useSelector((state: AppState) => state.causeareas.all);
   const [newPaymentDate, setNewPaymentDate] = useState<number>(initial ? initial.payment_date : 0);
   const [newStatus, setNewStatus] = useState<number | undefined>(initial?.active);
   const [newDistribution, setNewDistribution] = useState<Partial<IDistribution>>(
@@ -30,13 +32,39 @@ export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ in
   );
 
   useEffect(() => {
-    if (initial) {
-      setNewDistribution({
+    if (initial && allCauseAreas) {
+      const inputDist = {
         ...initial.distribution,
-        shares: [...initial.distribution.shares.map((share) => ({ ...share }))],
-      });
+        causeAreas: initial.distribution?.causeAreas.map((causeArea) => ({
+          ...causeArea,
+          organizations: causeArea.organizations.map((organization) => ({
+            ...organization,
+          })),
+        })),
+      };
+
+      for (const causeArea of allCauseAreas) {
+        const foundCauseArea = inputDist.causeAreas.find((c) => c.id === causeArea.id);
+        if (!foundCauseArea) {
+          inputDist.causeAreas.push({
+            ...causeArea,
+            percentageShare: new Decimal(0),
+            standardSplit: true,
+            organizations: causeArea.organizations
+              .filter((org) => org.standardShare > 0)
+              .map((org) => {
+                return {
+                  ...org,
+                  percentageShare: new Decimal(org.standardShare),
+                };
+              }),
+          });
+        }
+      }
+
+      setNewDistribution(inputDist);
     }
-  }, [initial]);
+  }, [initial, allCauseAreas]);
 
   return (
     <div
@@ -168,7 +196,7 @@ export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ in
         <EffektButton
           onClick={() => {
             getAccessTokenSilently().then((token) => {
-              if (typeof newDistribution.KID !== "undefined" && "KID" in newDistribution) {
+              if (typeof newDistribution.kid !== "undefined" && "kid" in newDistribution) {
                 dispatch(
                   updateAvtaleGiroDistributionAction.started({
                     distribution: newDistribution as IDistribution,

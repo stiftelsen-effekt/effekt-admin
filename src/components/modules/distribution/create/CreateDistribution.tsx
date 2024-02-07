@@ -23,7 +23,7 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
   const dispatch = useDispatch();
 
   const submit = () => {
-    if (typeof distributionInput.distribution.donor !== "undefined") {
+    if (typeof distributionInput.distribution.donorId !== "undefined") {
       getAccessTokenSilently().then((token) =>
         dispatch(
           createDistributionAction.started({

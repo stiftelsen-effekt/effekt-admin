@@ -10,6 +10,7 @@ import {
   KeyInfoValue,
   KeyInfoSum,
 } from "../../style/elements/keyinfo/keyinfo.style";
+import { DateTime } from "luxon";
 
 interface IProps {
   distribution: CurrentDistributionState;
@@ -56,25 +57,37 @@ export const DistributionKeyInfo: React.FunctionComponent<IProps> = ({ distribut
         </KeyInfoGroup>
         <KeyInfoGroup>
           <KeyInfoHeader>KID</KeyInfoHeader>
-          <KeyInfoValue>{distribution.distribution.KID}</KeyInfoValue>
+          <KeyInfoValue>{distribution.distribution.kid}</KeyInfoValue>
         </KeyInfoGroup>
 
         <KeyInfoGroup>
           <KeyInfoHeader>Donor name</KeyInfoHeader>
-          <KeyInfoTimestamp>{distribution.distribution.donor.name}</KeyInfoTimestamp>
+          <KeyInfoTimestamp>
+            Unknown
+            {/*distribution.distribution.donor.name*/}
+          </KeyInfoTimestamp>
         </KeyInfoGroup>
 
         <KeyInfoGroup>
           <KeyInfoHeader>Donor email</KeyInfoHeader>
           <KeyInfoTimestamp>
-            {distribution.distribution.donor.email || "Not registered"}
+            Unknown
+            {/*distribution.distribution.donor.email || "Not registered"*/}
           </KeyInfoTimestamp>
         </KeyInfoGroup>
 
         <KeyInfoGroup>
           <KeyInfoHeader>Tax unit</KeyInfoHeader>
           <KeyInfoTimestamp>
-            {formattedTaxUnitOutput(distribution.distribution.taxUnit)}
+            {formattedTaxUnitOutput({
+              id: distribution.distribution.taxUnitId,
+              name: "Uknown",
+              ssn: "Uknown",
+              sumDonations: -1,
+              numDonations: -1,
+              registered: DateTime.local(),
+              archived: null,
+            })}
           </KeyInfoTimestamp>
         </KeyInfoGroup>
       </KeyInfoWrapper>
