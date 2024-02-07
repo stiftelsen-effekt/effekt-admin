@@ -21,6 +21,7 @@ import {
   SET_VIPPS_CHARGES_FILTER_STATUS,
   SET_VIPPS_CHARGES_PAGINATION,
 } from "./vipps.actions";
+import Decimal from "decimal.js";
 
 const defaultAgreementState: VippsAgreementsState = {
   activeAgreementCount: 0,
@@ -110,6 +111,17 @@ export const vippsAgreementReducer = (
       ...state,
       currentAgreement: {
         ...action.payload.result,
+        distribution: {
+          ...action.payload.result.distribution,
+          causeAreas: action.payload.result.distribution.causeAreas.map((c) => ({
+            ...c,
+            percentageShare: new Decimal(c.percentageShare),
+            organizations: c.organizations.map((o) => ({
+              ...o,
+              percentageShare: new Decimal(o.percentageShare),
+            })),
+          })),
+        },
       },
       loading: false,
     };
