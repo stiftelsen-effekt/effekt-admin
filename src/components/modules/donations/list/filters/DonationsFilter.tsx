@@ -194,7 +194,6 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
             choices={organizationChoices}
             onChange={(selected: Array<number>, allSelected: boolean) => {
               if (allSelected) {
-                console.log(allSelected);
                 dispatch(setDonationFilterOrganizationIDs(undefined));
               } else {
                 dispatch(setDonationFilterOrganizationIDs(selected));

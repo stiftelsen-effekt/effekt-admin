@@ -22,9 +22,7 @@ export const EffektCheckForm: React.FunctionComponent<IProps> = ({
 }) => {
   const isInverted: boolean = inverted ? true : false;
 
-  console.log(choices);
   const allSelected = choices.filter((choice) => choice.selected).length === choices.length;
-  console.log("All selected: ", allSelected);
 
   let checkBoxes = choices.map((choice, index) => (
     <EffektCheck

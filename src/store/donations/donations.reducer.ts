@@ -172,7 +172,6 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
         filter: { ...state.filter, paymentMethodIDs: action.payload },
       };
     case SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS:
-      console.log(action.payload);
       return {
         ...state,
         pagination: { ...state.pagination, page: 0 },
