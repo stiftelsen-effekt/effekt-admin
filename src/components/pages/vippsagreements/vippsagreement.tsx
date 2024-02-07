@@ -59,18 +59,6 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
         </HorizontalPanel>
 
         <SubHeader>Meta</SubHeader>
-        {agreement.status === "ACTIVE" && (
-          <div>
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href={`https://minside.gieffektivt.no/${agreement.agreement_url_code}`}
-            >
-              Edit agreement
-            </a>
-            <br></br>
-          </div>
-        )}
         <NavLink to={`/vipps/agreements`}>See all agreements</NavLink>
         <br></br>
       </Page>
