@@ -11,8 +11,9 @@ import {
 } from "../../../../store/vipps/vipps.actions";
 import { ChargeListWrapper } from "./VippsAgreementChargeList.style";
 import { VippsChargeFilter } from "./VippsAgreementChargeFilter";
-import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { EffektButton } from "../../../style/elements/button.style";
+import { useHistory } from "react-router";
 
 export const VippsAgreementChargeList: React.FunctionComponent = () => {
   const data = useSelector((state: AppState) => state.vippsAgreementCharges.charges);
@@ -21,6 +22,7 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
   const pagination = useSelector((state: AppState) => state.vippsAgreementCharges.pagination);
   const filter = useSelector((state: AppState) => state.vippsAgreementCharges.filter);
 
+  const history = useHistory();
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -88,11 +90,13 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
     },
   ];
 
-  const defaultSorting = [{ id: "timestamp", desc: true }];
+  const defaultSorting = [{ id: "dueDate", desc: true }];
 
   return (
     <ChargeListWrapper>
-      <Link to="/vipps/agreements">See all agreements</Link>
+      <EffektButton onClick={() => history.push("/vipps/agreements")}>
+        Back to agreements
+      </EffektButton>
       <br />
       <br />
       <ReactTable

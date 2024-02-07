@@ -254,8 +254,8 @@ export interface IVippsAgreementChargeFilter {
     to: number;
   };
   dueDate: {
-    from: string;
-    to: string;
+    from: Date | null;
+    to: Date | null;
   };
   KID?: string;
   statuses?: Array<string>;

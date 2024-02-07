@@ -46,7 +46,7 @@ const defaultAutoGiroAgreementState: AutoGiroAgreementsState = {
     paymentDate: undefined,
     created: undefined,
     donor: "",
-    statuses: [],
+    statuses: undefined,
   },
   validation: {
     validationTable: [],

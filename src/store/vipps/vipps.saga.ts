@@ -7,7 +7,7 @@ import {
   IVippsAgreementChargeFilter,
   IVippsAgreementFilter,
 } from "../../models/types";
-import * as API from "./../../util/api";
+import * as API from "../../util/api";
 import {
   fetchAgreementHistogramAction,
   fetchAgreementsReportAction,

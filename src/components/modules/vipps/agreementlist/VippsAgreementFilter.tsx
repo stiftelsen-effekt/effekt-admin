@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../../models/state";
@@ -25,9 +25,11 @@ import {
   FilterInput,
   FilterDateRangeWrapper,
   FilterDateRange,
+  FilterStatsTableContainer,
 } from "../../../style/elements/filters.component.style";
 import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
 import EffektNumberRange from "../../../style/elements/effekt-range/effekt-range.component";
+import { thousandize } from "../../../../util/formatting";
 
 const statusTypes = [
   { name: "PENDING", id: 0 },
@@ -39,6 +41,7 @@ const statusTypes = [
 export const VippsAgreementFilter: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
+  const stats = useSelector((state: AppState) => state.vippsAgreements.statistics);
   const amountRange = useSelector((state: AppState) => state.vippsAgreements.filter.amount);
   const KID = useSelector((state: AppState) => state.vippsAgreements.filter.KID);
   const donor = useSelector((state: AppState) => state.vippsAgreements.filter.donor);
@@ -47,115 +50,136 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
   const histogram = useSelector((state: AppState) => state.vippsAgreements.histogram);
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
-  if (statuses) {
+  useEffect(() => {
     if (!histogram) dispatch(fetchAgreementHistogramAction.started(undefined));
+  }, [histogram, dispatch]);
 
-    let statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
-      label: status.name,
-      value: status.id,
-      selected: statuses.indexOf(status.name) !== -1,
-    }));
+  let statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
+    label: status.name,
+    value: status.id,
+    selected: statuses ? statuses.indexOf(status.name) !== -1 : true,
+  }));
 
-    if (!histogram) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>;
-    return (
-      <FilterWrapper isOpen={filterIsOpen}>
-        <FilterContent>
-          <FilterOpenButton
-            isOpen={filterIsOpen}
-            onClick={() => setFilterIsOpen(!filterIsOpen)}
-          ></FilterOpenButton>
-          <FilterHeader>Filters</FilterHeader>
+  if (!histogram) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>;
+  return (
+    <FilterWrapper isOpen={filterIsOpen}>
+      <FilterContent>
+        <FilterOpenButton
+          isOpen={filterIsOpen}
+          onClick={() => setFilterIsOpen(!filterIsOpen)}
+        ></FilterOpenButton>
+        <FilterHeader>Filters</FilterHeader>
 
-          <FilterGroup>
-            <FilterGroupHeader>Agreement sum</FilterGroupHeader>
-            <HistogramInputComponent
-              range={[amountRange.from, amountRange.to]}
-              histogram={histogram}
-              onChange={(range: any) => {
-                let minRange = range[0];
-                let maxRange = range[1];
-                if (isNaN(minRange)) minRange = 0;
-                if (isNaN(maxRange)) maxRange = 0;
-                dispatch(setVippsAgreementsFilterAmount({ from: minRange, to: maxRange }));
-              }}
-            ></HistogramInputComponent>
-          </FilterGroup>
+        <FilterGroup>
+          <FilterGroupHeader>Agreement sum</FilterGroupHeader>
+          <HistogramInputComponent
+            range={[amountRange.from, amountRange.to]}
+            histogram={histogram}
+            onChange={(range: any) => {
+              let minRange = range[0];
+              let maxRange = range[1];
+              if (isNaN(minRange)) minRange = 0;
+              if (isNaN(maxRange)) maxRange = 0;
+              dispatch(setVippsAgreementsFilterAmount({ from: minRange, to: maxRange }));
+            }}
+          ></HistogramInputComponent>
+        </FilterGroup>
 
-          <FilterGroup>
-            <FilterGroupHeader>Donor like</FilterGroupHeader>
-            <FilterInput
-              value={donor}
-              placeholder={"Fuzzy search"}
-              style={{ width: "100%" }}
-              onChange={(e: any) => {
-                dispatch(setVippsAgreementsFilterDonor(e.target.value));
-              }}
-            ></FilterInput>
-          </FilterGroup>
+        <FilterGroup>
+          <FilterGroupHeader>Donor like</FilterGroupHeader>
+          <FilterInput
+            value={donor}
+            placeholder={"Fuzzy search"}
+            style={{ width: "100%" }}
+            onChange={(e: any) => {
+              dispatch(setVippsAgreementsFilterDonor(e.target.value));
+            }}
+          ></FilterInput>
+        </FilterGroup>
 
-          <FilterGroup>
-            <FilterGroupHeader>KID like</FilterGroupHeader>
-            <FilterInput
-              value={KID}
-              placeholder={"Fuzzy search"}
-              style={{ width: "100%" }}
-              onChange={(e: any) => {
-                dispatch(setVippsAgreementsFilterKID(e.target.value));
-              }}
-            ></FilterInput>
-          </FilterGroup>
+        <FilterGroup>
+          <FilterGroupHeader>KID like</FilterGroupHeader>
+          <FilterInput
+            value={KID}
+            placeholder={"Fuzzy search"}
+            style={{ width: "100%" }}
+            onChange={(e: any) => {
+              dispatch(setVippsAgreementsFilterKID(e.target.value));
+            }}
+          ></FilterInput>
+        </FilterGroup>
 
-          <FilterGroup>
-            <FilterGroupHeader>Status</FilterGroupHeader>
-            <EffektCheckForm
-              inverted={true}
-              choices={statusChoices}
-              onChange={(choices: Array<number>) => {
+        <FilterGroup>
+          <FilterGroupHeader>Status</FilterGroupHeader>
+          <EffektCheckForm
+            inverted={true}
+            choices={statusChoices}
+            onChange={(choices: Array<number>, allSelected: boolean) => {
+              if (allSelected) {
+                dispatch(setVippsAgreementsFilterStatus(undefined));
+              } else {
                 let newChoices: string[] = [];
                 choices.forEach((choiceID) => {
                   newChoices.push(statusTypes[choiceID].name);
                 });
                 dispatch(setVippsAgreementsFilterStatus(newChoices));
-              }}
-            ></EffektCheckForm>
-          </FilterGroup>
+              }
+            }}
+          ></EffektCheckForm>
+        </FilterGroup>
 
-          <FilterGroup>
-            <FilterGroupHeader>Charge day</FilterGroupHeader>
-            <EffektNumberRange
-              min={0}
-              max={28}
-              onChange={(from: number, to: number) => {
-                dispatch(setVippsAgreementsFilterChargeDay({ from: from, to: to }));
-              }}
-            ></EffektNumberRange>
-          </FilterGroup>
+        <FilterGroup>
+          <FilterGroupHeader>Charge day</FilterGroupHeader>
+          <EffektNumberRange
+            min={0}
+            max={28}
+            onChange={(from: number, to: number) => {
+              dispatch(setVippsAgreementsFilterChargeDay({ from: from, to: to }));
+            }}
+          ></EffektNumberRange>
+        </FilterGroup>
 
-          <FilterGroup>
-            <FilterGroupHeader>Draft date</FilterGroupHeader>
-            <FilterDateRangeWrapper>
-              <FilterDateRange
-                from={draftDate ? draftDate.from : null}
-                to={draftDate ? draftDate.to : null}
-                onChangeFrom={(date) => {
-                  dispatch(
-                    setVippsAgreementsFilterDraftDate(date, draftDate ? draftDate.to : null),
-                  );
-                }}
-                onChangeTo={(date) => {
-                  dispatch(
-                    setVippsAgreementsFilterDraftDate(draftDate ? draftDate.from : null, date),
-                  );
-                }}
-                onChangeRange={(to, from) => {
-                  dispatch(setVippsAgreementsFilterDraftDate(to, from));
-                }}
-                inverted
-              ></FilterDateRange>
-            </FilterDateRangeWrapper>
-          </FilterGroup>
-        </FilterContent>
-      </FilterWrapper>
-    );
-  } else return <div>Error loading filter</div>;
+        <FilterGroup>
+          <FilterGroupHeader>Draft date</FilterGroupHeader>
+          <FilterDateRangeWrapper>
+            <FilterDateRange
+              from={draftDate ? draftDate.from : null}
+              to={draftDate ? draftDate.to : null}
+              onChangeFrom={(date) => {
+                dispatch(setVippsAgreementsFilterDraftDate(date, draftDate ? draftDate.to : null));
+              }}
+              onChangeTo={(date) => {
+                dispatch(
+                  setVippsAgreementsFilterDraftDate(draftDate ? draftDate.from : null, date),
+                );
+              }}
+              onChangeRange={(to, from) => {
+                dispatch(setVippsAgreementsFilterDraftDate(to, from));
+              }}
+              inverted
+            ></FilterDateRange>
+          </FilterDateRangeWrapper>
+        </FilterGroup>
+
+        <FilterStatsTableContainer>
+          <table>
+            <tbody>
+              <tr>
+                <td>Count</td>
+                <td>{thousandize(stats.numAgreements)}</td>
+              </tr>
+              <tr>
+                <td>Sum</td>
+                <td>kr {thousandize(stats.sumAgreements)}</td>
+              </tr>
+              <tr>
+                <td>Average</td>
+                <td>kr {thousandize(stats.avgAgreement)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </FilterStatsTableContainer>
+      </FilterContent>
+    </FilterWrapper>
+  );
 };

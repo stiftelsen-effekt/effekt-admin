@@ -20,6 +20,7 @@ import {
   SET_VIPPS_CHARGES_FILTER_KID,
   SET_VIPPS_CHARGES_FILTER_STATUS,
   SET_VIPPS_CHARGES_PAGINATION,
+  SET_VIPPS_CHARGES_FILTER_DUE_DATE,
 } from "./vipps.actions";
 import Decimal from "decimal.js";
 
@@ -43,20 +44,25 @@ const defaultAgreementState: VippsAgreementsState = {
     page: 0,
     limit: 25,
     sort: {
-      id: "amount",
+      id: "created",
       desc: true,
     },
   },
   filter: {
     amount: {
       from: 0,
-      to: 1000000,
+      to: Number.MAX_SAFE_INTEGER,
     },
     created: undefined,
     chargeDay: undefined,
     KID: "",
     donor: "",
-    statuses: [],
+    statuses: undefined,
+  },
+  statistics: {
+    numAgreements: 0,
+    sumAgreements: 0,
+    avgAgreement: 0,
   },
 };
 
@@ -64,25 +70,30 @@ const defaultChargeState: VippsAgreementChargeState = {
   charges: [],
   loading: false,
   pages: 1,
+  statistics: {
+    numCharges: 0,
+    sumCharges: 0,
+    avgCharge: 0,
+  },
   pagination: {
     page: 0,
     limit: 25,
     sort: {
-      id: "amountNOK",
+      id: "dueDate",
       desc: true,
     },
   },
   filter: {
     amountNOK: {
       from: 0,
-      to: 1000000,
+      to: Number.MAX_SAFE_INTEGER,
     },
     dueDate: {
-      from: "",
-      to: "",
+      from: null,
+      to: null,
     },
     KID: "",
-    statuses: [],
+    statuses: undefined,
     donor: "",
   },
 };
@@ -98,6 +109,13 @@ export const vippsAgreementReducer = (
       loading: false,
       agreements: action.payload.result.rows,
       pages: action.payload.result.pages,
+      statistics: {
+        numAgreements: action.payload.result.statistics.numAgreements,
+        sumAgreements: new Decimal(action.payload.result.statistics.sumAgreements)
+          .round()
+          .toNumber(),
+        avgAgreement: new Decimal(action.payload.result.statistics.avgAgreement).round().toNumber(),
+      },
     };
   } else if (isType(action, fetchVippsAgreementsAction.started)) {
     return { ...state, loading: true };
@@ -226,6 +244,11 @@ export const vippsAgreementChargeReducer = (
       loading: false,
       charges: action.payload.result.rows,
       pages: action.payload.result.pages,
+      statistics: {
+        numCharges: action.payload.result.statistics.numCharges,
+        sumCharges: new Decimal(action.payload.result.statistics.sumCharges).round().toNumber(),
+        avgCharge: new Decimal(action.payload.result.statistics.avgCharge).round().toNumber(),
+      },
     };
   } else if (isType(action, fetchVippsAgreementChargesAction.started)) {
     return { ...state, loading: true };
@@ -269,6 +292,12 @@ export const vippsAgreementChargeReducer = (
         ...state,
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, amountNOK: action.payload },
+      };
+    case SET_VIPPS_CHARGES_FILTER_DUE_DATE:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, dueDate: action.payload },
       };
     case SET_VIPPS_CHARGES_FILTER_DONOR:
       return {

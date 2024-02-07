@@ -19,6 +19,7 @@ export const SET_VIPPS_AGREEMENTS_FILTER_STATUS = "SET_VIPPS_AGREEMENTS_FILTER_S
 export const SET_VIPPS_CHARGES_PAGINATION = "SET_VIPPS_CHARGES_PAGINATION";
 export const SET_VIPPS_CHARGES_FILTER_AMOUNT = "SET_VIPPS_CHARGES_FILTER_AMOUNT";
 export const SET_VIPPS_CHARGES_FILTER_KID = "SET_VIPPS_CHARGES_FILTER_KID";
+export const SET_VIPPS_CHARGES_FILTER_DUE_DATE = "SET_VIPPS_CHARGES_FILTER_DUE_DATE";
 export const SET_VIPPS_CHARGES_FILTER_DONOR = "SET_VIPPS_CHARGES_FILTER_DONOR";
 export const SET_VIPPS_CHARGES_FILTER_STATUS = "SET_VIPPS_CHARGES_FILTER_STATUS";
 
@@ -27,11 +28,21 @@ const actionCreator = actionCreatorFactory();
 interface IFetchVippsAgreementsResult {
   rows: Array<IVippsAgreement>;
   pages: number;
+  statistics: {
+    numAgreements: number;
+    sumAgreements: string;
+    avgAgreement: string;
+  };
 }
 
 interface IFetchVippsAgreementChargesResult {
   rows: Array<IVippsAgreementCharge>;
   pages: number;
+  statistics: {
+    numCharges: number;
+    sumCharges: string;
+    avgCharge: string;
+  };
 }
 
 interface IFetchVippsAgreementReportResult {
@@ -162,7 +173,7 @@ export const setVippsAgreementsFilterKID = (KID: string) => {
   };
 };
 
-export const setVippsAgreementsFilterStatus = (status: string[]) => {
+export const setVippsAgreementsFilterStatus = (status: string[] | undefined) => {
   return {
     type: SET_VIPPS_AGREEMENTS_FILTER_STATUS,
     payload: status,
@@ -183,6 +194,13 @@ export const setVippsChargesFilterAmount = (amountRange: AmountRange) => {
   };
 };
 
+export const setVippsChargesFilterDueDate = (from: Date | null, to: Date | null) => {
+  return {
+    type: SET_VIPPS_CHARGES_FILTER_DUE_DATE,
+    payload: { from: from, to: to },
+  };
+};
+
 export const setVippsChargesFilterDonor = (donor: string) => {
   return {
     type: SET_VIPPS_CHARGES_FILTER_DONOR,
@@ -197,7 +215,7 @@ export const setVippsChargesFilterKID = (KID: string) => {
   };
 };
 
-export const setVippsChargesFilterStatus = (status: string[]) => {
+export const setVippsChargesFilterStatus = (status: string[] | undefined) => {
   return {
     type: SET_VIPPS_CHARGES_FILTER_STATUS,
     payload: status,
