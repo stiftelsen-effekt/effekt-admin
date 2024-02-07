@@ -58,11 +58,11 @@ const defaultAgreementState: VippsAgreementsState = {
     KID: "",
     donor: "",
     statuses: undefined,
-  },
-  statistics: {
-    numAgreements: 0,
-    sumAgreements: 0,
-    avgAgreement: 0,
+    statistics: {
+      numAgreements: 0,
+      sumAgreements: 0,
+      avgAgreement: 0,
+    },
   },
 };
 
@@ -70,11 +70,7 @@ const defaultChargeState: VippsAgreementChargeState = {
   charges: [],
   loading: false,
   pages: 1,
-  statistics: {
-    numCharges: 0,
-    sumCharges: 0,
-    avgCharge: 0,
-  },
+
   pagination: {
     page: 0,
     limit: 25,
@@ -95,6 +91,11 @@ const defaultChargeState: VippsAgreementChargeState = {
     KID: "",
     statuses: undefined,
     donor: "",
+    statistics: {
+      numCharges: 0,
+      sumCharges: 0,
+      avgCharge: 0,
+    },
   },
 };
 
@@ -109,12 +110,17 @@ export const vippsAgreementReducer = (
       loading: false,
       agreements: action.payload.result.rows,
       pages: action.payload.result.pages,
-      statistics: {
-        numAgreements: action.payload.result.statistics.numAgreements,
-        sumAgreements: new Decimal(action.payload.result.statistics.sumAgreements)
-          .round()
-          .toNumber(),
-        avgAgreement: new Decimal(action.payload.result.statistics.avgAgreement).round().toNumber(),
+      filter: {
+        ...state.filter,
+        statistics: {
+          numAgreements: action.payload.result.statistics.numAgreements,
+          sumAgreements: new Decimal(action.payload.result.statistics.sumAgreements)
+            .round()
+            .toNumber(),
+          avgAgreement: new Decimal(action.payload.result.statistics.avgAgreement)
+            .round()
+            .toNumber(),
+        },
       },
     };
   } else if (isType(action, fetchVippsAgreementsAction.started)) {
@@ -244,10 +250,13 @@ export const vippsAgreementChargeReducer = (
       loading: false,
       charges: action.payload.result.rows,
       pages: action.payload.result.pages,
-      statistics: {
-        numCharges: action.payload.result.statistics.numCharges,
-        sumCharges: new Decimal(action.payload.result.statistics.sumCharges).round().toNumber(),
-        avgCharge: new Decimal(action.payload.result.statistics.avgCharge).round().toNumber(),
+      filter: {
+        ...state.filter,
+        statistics: {
+          numCharges: action.payload.result.statistics.numCharges,
+          sumCharges: new Decimal(action.payload.result.statistics.sumCharges).round().toNumber(),
+          avgCharge: new Decimal(action.payload.result.statistics.avgCharge).round().toNumber(),
+        },
       },
     };
   } else if (isType(action, fetchVippsAgreementChargesAction.started)) {

@@ -120,11 +120,6 @@ export interface DonationsState {
   pagination: IPagination;
   filter: IDonationFilter;
   donations: Array<IDonation>;
-  stats: {
-    numDonations: number;
-    sumDonations: number;
-    avgDonation: number;
-  };
 }
 
 export interface ITransactionCostsReport {
@@ -166,22 +161,12 @@ export interface VippsAgreementsState {
   pagination: IPagination;
   filter: IVippsAgreementFilter;
   agreements: Array<IVippsAgreement>;
-  statistics: {
-    numAgreements: number;
-    sumAgreements: number;
-    avgAgreement: number;
-  };
 }
 
 export interface VippsAgreementChargeState {
   currentCharge?: IVippsAgreementCharge;
   histogram?: Array<IHistogramBucket>;
   pages: number;
-  statistics: {
-    numCharges: number;
-    sumCharges: number;
-    avgCharge: number;
-  };
   loading: boolean;
   pagination: IPagination;
   filter: IVippsAgreementChargeFilter;

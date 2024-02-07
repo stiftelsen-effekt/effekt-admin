@@ -46,7 +46,7 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
-  const stats = useSelector((state: AppState) => state.vippsAgreementCharges.statistics);
+  const stats = useSelector((state: AppState) => state.vippsAgreementCharges.filter.statistics);
   const amountRange = useSelector(
     (state: AppState) => state.vippsAgreementCharges.filter.amountNOK,
   );

@@ -24,6 +24,11 @@ const actionCreator = actionCreatorFactory();
 interface IFetchAutoGirosResults {
   rows: Array<IAutoGiro>;
   pages: number;
+  statistics: {
+    numAgreements: number;
+    sumAgreements: string;
+    avgAgreement: string;
+  };
 }
 
 interface IFetchAutoGiroReportResult {
@@ -188,7 +193,7 @@ export const setAutoGiroFilterDraftDate = (from: Date | null, to: Date | null) =
   };
 };
 
-export const setAutoGiroFilterActive = (active: Array<number>) => {
+export const setAutoGiroFilterActive = (active: Array<number> | undefined) => {
   return {
     type: SET_AUTOGIRO_FILTER_ACTIVE,
     payload: active,

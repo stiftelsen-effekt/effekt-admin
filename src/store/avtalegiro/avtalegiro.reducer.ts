@@ -41,13 +41,18 @@ const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
   filter: {
     amount: {
       from: 0,
-      to: 1000000,
+      to: Number.MAX_SAFE_INTEGER,
     },
     KID: "",
     paymentDate: undefined,
     created: undefined,
     donor: "",
-    statuses: [],
+    statuses: undefined,
+    statistics: {
+      numAgreements: 0,
+      sumAgreements: 0,
+      avgAgreement: 0,
+    },
   },
   report: {
     activeAgreementCount: 0,
@@ -80,20 +85,14 @@ export const avtaleGiroReducer = (
       loading: false,
       agreements: action.payload.result.rows,
       pages: action.payload.result.pages,
-    };
-  } else if (isType(action, fetchAvtaleGiroAgreementsAction.started)) {
-    return { ...state, loading: true };
-  } else if (isType(action, fetchAvtaleGiroAgreementsAction.failed)) {
-    return { ...state, loading: false };
-  }
-
-  // Fetch multiple agreements
-  if (isType(action, fetchAvtaleGiroAgreementsAction.done)) {
-    return {
-      ...state,
-      loading: false,
-      agreements: action.payload.result.rows,
-      pages: action.payload.result.pages,
+      filter: {
+        ...state.filter,
+        statistics: {
+          numAgreements: action.payload.result.statistics.numAgreements,
+          sumAgreements: parseFloat(action.payload.result.statistics.sumAgreements),
+          avgAgreement: parseFloat(action.payload.result.statistics.avgAgreement),
+        },
+      },
     };
   } else if (isType(action, fetchAvtaleGiroAgreementsAction.started)) {
     return { ...state, loading: true };

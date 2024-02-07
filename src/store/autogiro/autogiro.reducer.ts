@@ -40,13 +40,18 @@ const defaultAutoGiroAgreementState: AutoGiroAgreementsState = {
   filter: {
     amount: {
       from: 0,
-      to: 1000000,
+      to: Number.MAX_SAFE_INTEGER,
     },
     KID: "",
     paymentDate: undefined,
     created: undefined,
     donor: "",
     statuses: undefined,
+    statistics: {
+      numAgreements: 0,
+      sumAgreements: 0,
+      avgAgreement: 0,
+    },
   },
   validation: {
     validationTable: [],
@@ -67,6 +72,18 @@ export const autoGiroReducer = (
       loading: false,
       agreements: action.payload.result.rows,
       pages: action.payload.result.pages,
+      filter: {
+        ...state.filter,
+        statistics: {
+          ...action.payload.result.statistics,
+          sumAgreements: new Decimal(action.payload.result.statistics.sumAgreements)
+            .round()
+            .toNumber(),
+          avgAgreement: new Decimal(action.payload.result.statistics.avgAgreement)
+            .round()
+            .toNumber(),
+        },
+      },
     };
   } else if (isType(action, fetchAutoGiroAgreementsAction.started)) {
     return { ...state, loading: true };

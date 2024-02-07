@@ -24,6 +24,11 @@ const actionCreator = actionCreatorFactory();
 interface IFetchAvtaleGirosResults {
   rows: Array<IAvtaleGiro>;
   pages: number;
+  statistics: {
+    numAgreements: number;
+    sumAgreements: string;
+    avgAgreement: string;
+  };
 }
 
 interface IFetchAvtaleGiroReportResult {
@@ -188,7 +193,7 @@ export const setAvtaleGiroFilterDraftDate = (from: Date | null, to: Date | null)
   };
 };
 
-export const setAvtaleGiroFilterActive = (active: Array<number>) => {
+export const setAvtaleGiroFilterActive = (active: Array<number> | undefined) => {
   return {
     type: SET_AVTALEGIRO_FILTER_ACTIVE,
     payload: active,

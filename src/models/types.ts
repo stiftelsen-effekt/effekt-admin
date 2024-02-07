@@ -99,6 +99,11 @@ export interface IDonationFilter {
   KID?: string;
   donor?: string;
   id?: string;
+  statistics: {
+    numDonations: number;
+    sumDonations: number;
+    avgDonation: number;
+  };
 }
 
 export interface IHistogramBucket {
@@ -236,6 +241,11 @@ export interface IVippsAgreementFilter {
   KID?: string;
   donor?: string;
   statuses?: Array<string>;
+  statistics: {
+    numAgreements: number;
+    sumAgreements: number;
+    avgAgreement: number;
+  };
 }
 
 export interface IVippsAgreementCharge {
@@ -260,6 +270,11 @@ export interface IVippsAgreementChargeFilter {
   KID?: string;
   statuses?: Array<string>;
   donor: string;
+  statistics: {
+    numCharges: number;
+    sumCharges: number;
+    avgCharge: number;
+  };
 }
 
 /** AvtaleGiro agreements */
@@ -295,6 +310,11 @@ export interface IAvtaleGiroFilter {
   };
   donor?: string;
   statuses?: Array<number>;
+  statistics: {
+    numAgreements: number;
+    sumAgreements: number;
+    avgAgreement: number;
+  };
 }
 
 export interface IAvtaleGiroDonation {
@@ -381,6 +401,11 @@ export interface IAutoGiroFilter {
   };
   donor?: string;
   statuses?: Array<number>;
+  statistics: {
+    numAgreements: number;
+    sumAgreements: number;
+    avgAgreement: number;
+  };
 }
 
 export interface IAutoGiroDonation {

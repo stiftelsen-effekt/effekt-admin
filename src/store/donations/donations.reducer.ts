@@ -43,11 +43,11 @@ const defaultState: DonationsState = {
     },
     paymentMethodIDs: undefined,
     organizationIDs: undefined,
-  },
-  stats: {
-    numDonations: 0,
-    sumDonations: 0,
-    avgDonation: 0,
+    statistics: {
+      numDonations: 0,
+      sumDonations: 0,
+      avgDonation: 0,
+    },
   },
 };
 export const donationsReducer = (state = defaultState, action: any): DonationsState => {
@@ -60,10 +60,15 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
       loading: false,
       donations: action.payload.result.rows,
       pages: action.payload.result.pages,
-      stats: {
-        ...action.payload.result.stats,
-        sumDonations: new Decimal(action.payload.result.stats.sumDonations).round().toNumber(),
-        avgDonation: new Decimal(action.payload.result.stats.avgDonation).round().toNumber(),
+      filter: {
+        ...state.filter,
+        statistics: {
+          ...action.payload.result.statistics,
+          sumDonations: new Decimal(action.payload.result.statistics.sumDonations)
+            .round()
+            .toNumber(),
+          avgDonation: new Decimal(action.payload.result.statistics.avgDonation).round().toNumber(),
+        },
       },
     };
   } else if (isType(action, fetchDonationsAction.started)) {

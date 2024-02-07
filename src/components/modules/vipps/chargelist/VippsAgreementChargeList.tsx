@@ -20,7 +20,6 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
   const pages = useSelector((state: AppState) => state.vippsAgreementCharges.pages);
   const loading = useSelector((state: AppState) => state.vippsAgreementCharges.loading);
   const pagination = useSelector((state: AppState) => state.vippsAgreementCharges.pagination);
-  const filter = useSelector((state: AppState) => state.vippsAgreementCharges.filter);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -30,7 +29,7 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
     getAccessTokenSilently().then((token) =>
       dispatch(fetchVippsAgreementChargesAction.started({ token })),
     );
-  }, [pagination, filter, dispatch, getAccessTokenSilently]);
+  }, [pagination, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions = [
     {

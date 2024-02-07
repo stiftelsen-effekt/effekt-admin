@@ -41,7 +41,7 @@ const statusTypes = [
 export const VippsAgreementFilter: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
-  const stats = useSelector((state: AppState) => state.vippsAgreements.statistics);
+  const stats = useSelector((state: AppState) => state.vippsAgreements.filter.statistics);
   const amountRange = useSelector((state: AppState) => state.vippsAgreements.filter.amount);
   const KID = useSelector((state: AppState) => state.vippsAgreements.filter.KID);
   const donor = useSelector((state: AppState) => state.vippsAgreements.filter.donor);

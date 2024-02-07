@@ -38,7 +38,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
-  const stats = useSelector((state: AppState) => state.donations.stats);
+  const statistics = useSelector((state: AppState) => state.donations.filter.statistics);
   const donationDateRange = useSelector((state: AppState) => state.donations.filter.date);
   const donationSumRange = useSelector((state: AppState) => state.donations.filter.sum);
   const kid = useSelector((state: AppState) => state.donations.filter.KID);
@@ -84,7 +84,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
         return {
           label: organization.abbreviation || organization.name || "Unkown",
           value: organization.id,
-          selected: selectedOrganizationIDs?.includes(organization.id) ?? false,
+          selected: selectedOrganizationIDs
+            ? selectedOrganizationIDs.includes(organization.id)
+            : true,
         };
       }) ?? [];
 
@@ -207,15 +209,15 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
             <tbody>
               <tr>
                 <td>Count</td>
-                <td>{thousandize(stats.numDonations)}</td>
+                <td>{thousandize(statistics.numDonations)}</td>
               </tr>
               <tr>
                 <td>Sum</td>
-                <td>kr {thousandize(stats.sumDonations)}</td>
+                <td>kr {thousandize(statistics.sumDonations)}</td>
               </tr>
               <tr>
                 <td>Average</td>
-                <td>kr {thousandize(stats.avgDonation)}</td>
+                <td>kr {thousandize(statistics.avgDonation)}</td>
               </tr>
             </tbody>
           </table>
