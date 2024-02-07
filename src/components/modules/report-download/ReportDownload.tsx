@@ -100,7 +100,7 @@ const viewFile = (url, token, method: "GET" | "POST" = "GET") => {
       return response.json();
     })
     .then((response) => {
-      if (response.status == 200 && response.content.file) {
+      if (response.status === 200 && response.content.file) {
         var _url = window.URL.createObjectURL(
           new Blob([response.content.file], { type: "plain/text" }),
         );
@@ -112,9 +112,9 @@ const viewFile = (url, token, method: "GET" | "POST" = "GET") => {
         a.remove();
         return true;
       } else if (
-        response.status == 200 &&
-        response.content.numCharges == 0 &&
-        response.content.mandatesToBeConfirmed == 0
+        response.status === 200 &&
+        response.content.numCharges === 0 &&
+        response.content.mandatesToBeConfirmed === 0
       ) {
         return "No new charges or mandates to be confirmed";
       } else {
