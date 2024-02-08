@@ -24,7 +24,13 @@ import {
   setAutoGiroMandateFilterStatus,
 } from "../../../../store/autogiro/autogiromedgivande.actions";
 
-const statusTypes: Array<AutoGiroMandateStatus> = ["DRAFTED", "NEW", "ACTIVE", "STOPPED"];
+const statusTypes: Array<AutoGiroMandateStatus> = [
+  "DRAFTED",
+  "NEW",
+  "PENDING",
+  "ACTIVE",
+  "STOPPED",
+];
 
 export const AutoGiroMandateFilter: React.FunctionComponent = () => {
   const dispatch = useDispatch();
