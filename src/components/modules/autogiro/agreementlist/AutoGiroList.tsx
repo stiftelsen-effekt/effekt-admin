@@ -66,7 +66,7 @@ export const AutoGiroList: React.FunctionComponent<{
     {
       Header: "Day",
       accessor: "payment_date",
-      id: "paymentDate",
+      id: "payment_date",
       width: 60,
     },
     {
@@ -83,7 +83,7 @@ export const AutoGiroList: React.FunctionComponent<{
     },
     {
       Header: "Last updated",
-      id: "lastUpdated",
+      id: "last_updated",
       accessor: (res: any) => longDateTime(DateTime.fromISO(res.last_updated)),
       width: 150,
     },

@@ -29,12 +29,29 @@ export interface AdoveoReportProcessingResult {
   failedTransactions: Array<any>;
 }
 
+export interface AutoGiroRejectedPaymentsResult {
+  rejectedCharges: number;
+  failedRejectedCharges: number;
+}
+
 export interface AutoGiroProcessingResult {
   newMandates: number;
 }
 
+export interface AutoGiroMandateConfirmationResult {
+  confirmed: number;
+  cancelled: number;
+  invalid: number;
+  rejected: number;
+  invalidMandates: Array<any>;
+}
+
 export const uploadReportAction = actionCreator.async<
   IUploadReportActionParams,
-  ReportProcessingState | AutoGiroProcessingResult | AdoveoReportProcessingResult,
+  | ReportProcessingState
+  | AutoGiroProcessingResult
+  | AdoveoReportProcessingResult
+  | AutoGiroRejectedPaymentsResult
+  | AutoGiroMandateConfirmationResult,
   Error
 >("REPORT_UPLOAD");

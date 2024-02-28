@@ -391,7 +391,7 @@ export interface IAutoGiroFilter {
     to: number;
   };
   KID?: string;
-  paymentDate?: {
+  payment_date?: {
     from: number;
     to: number;
   };

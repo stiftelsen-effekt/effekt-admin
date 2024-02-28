@@ -63,7 +63,11 @@ export const reportProcessingReducer = (
     isType(action, uploadReportAction.done) ||
     isType(action, processDonationsAction.done)
   ) {
-    if ("invalid" in action.payload.result && action.payload.result.invalid > 0) {
+    if (
+      "invalid" in action.payload.result &&
+      action.payload.result.invalid > 0 &&
+      !("invalidMandates" in action.payload.result)
+    ) {
       toast.success(
         `🔥 inserted ${action.payload.result.valid}, ignored ${action.payload.result.invalid}`,
       );
@@ -91,6 +95,30 @@ export const reportProcessingReducer = (
           `😢 ${action.payload.result.failedTransactions.length} transactions could not be processed`,
         );
       }
+      return { ...state, loading: false };
+    } else if (
+      "rejectedCharges" in action.payload.result &&
+      "failedRejectedCharges" in action.payload.result
+    ) {
+      if (
+        action.payload.result.rejectedCharges === 0 &&
+        action.payload.result.failedRejectedCharges === 0
+      ) {
+        toast.info("No new updates to autogiro charges");
+      } else {
+        toast.info(
+          `🤔 ${action.payload.result.rejectedCharges} charges were rejected ${
+            action.payload.result.failedRejectedCharges !== 0
+              ? `, failed to update status of ${action.payload.result.failedRejectedCharges} charges`
+              : ""
+          }`,
+        );
+      }
+      return { ...state, loading: false };
+    } else if ("invalidMandates" in action.payload.result) {
+      toast.info(
+        `🔥 confirmed ${action.payload.result.confirmed} mandates, cancelled ${action.payload.result.cancelled}, ${action.payload.result.rejected} new mandates were rejected, ${action.payload.result.invalid} mandate status updates failed`,
+      );
       return { ...state, loading: false };
     } else if ("valid" in action.payload.result) {
       toast.success(`🔥 inserted ${action.payload.result.valid} donations`);

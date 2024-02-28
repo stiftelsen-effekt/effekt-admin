@@ -43,7 +43,7 @@ const defaultAutoGiroAgreementState: AutoGiroAgreementsState = {
       to: Number.MAX_SAFE_INTEGER,
     },
     KID: "",
-    paymentDate: undefined,
+    payment_date: undefined,
     created: undefined,
     donor: "",
     statuses: undefined,
@@ -366,7 +366,7 @@ export const autoGiroReducer = (
       return {
         ...state,
         pagination: { ...state.pagination, page: 0 },
-        filter: { ...state.filter, paymentDate: action.payload },
+        filter: { ...state.filter, payment_date: action.payload },
       };
     case SET_AUTOGIRO_FILTER_DRAFT_DATE:
       return {
