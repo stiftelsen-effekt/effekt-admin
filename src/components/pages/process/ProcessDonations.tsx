@@ -43,7 +43,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
 
       <GreenBox>
         <strong>{processingState.valid}</strong> processed donations,{" "}
-        <strong>{processingState.invalid}</strong> up for manual review
+        <strong>{processingState.invalidTransactions.length}</strong> up for manual review
       </GreenBox>
       <RedBox>
         <div className="header">Reason for failure</div>
