@@ -43,9 +43,10 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
         distribution={distributionInput.distribution}
         onChange={(dist) => dispatch(setDistributionInputDistribution(dist))}
       />
-      <EffektButton disabled={!valid} onClick={submit}>
+      <EffektButton disabled={!valid.valid} onClick={submit}>
         Create <Plus size={16} />
       </EffektButton>
+      {distributionInput.valid.reason}
     </CreateDistributionWrapper>
   );
 };

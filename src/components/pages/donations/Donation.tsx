@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { Page } from "../../style/elements/page.style";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,11 +14,12 @@ import { HorizontalPanel } from "./Donation.style";
 import { DonationKeyInfoComponent } from "../../modules/donations/keyinfo/KeyInfo";
 import { EffektButton } from "../../style/elements/button.style";
 import { EffektButtonsWrapper } from "../../style/elements/buttons-wrapper/EffektButtonsWrapper.style";
-import { PieChart, User } from "react-feather";
+import { PieChart, User, Edit } from "react-feather";
 import { useHistory } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { deleteDonationAction } from "../../../store/donations/donations-list.actions";
 import { RegisterReceiptComponent } from "../../modules/donations/receipt/Receipt";
+import { EditDonation } from "../../modules/donation/EditDonation";
 
 interface IParams {
   id: string;
@@ -28,6 +29,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
   match,
 }: RouteComponentProps<IParams>) => {
   const donationID = parseInt(match.params.id);
+  const [showEdit, setShowEdit] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const { getAccessTokenSilently } = useAuth0();
@@ -70,7 +72,18 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
             <PieChart size={16} />
             Distribution
           </EffektButton>
+          <EffektButton onClick={() => setShowEdit(!showEdit)}>
+            <Edit size={16} />
+            Edit
+          </EffektButton>
         </EffektButtonsWrapper>
+
+        {showEdit && (
+          <>
+            <SubHeader>Edit donation</SubHeader>
+            <EditDonation inputDonation={donation}></EditDonation>
+          </>
+        )}
 
         <SubHeader>Keyinfo</SubHeader>
         <HorizontalPanel gap={120}>

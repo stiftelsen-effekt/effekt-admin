@@ -16,6 +16,7 @@ import Decimal from "decimal.js";
 import { getDonorAction, getDonorTaxUnitsAction } from "../donors/donor-page.actions";
 import { toastError } from "../../util/toasthelper";
 import { IDistribution } from "../../models/types";
+import { fetchAllCauseareasAction } from "../causeareas/causeareas.action";
 
 const defaultState: DistributionsState = {
   searchResult: [],
@@ -38,7 +39,10 @@ const defaultState: DistributionsState = {
       causeAreas: [],
     },
     taxUnits: [],
-    valid: false,
+    valid: {
+      valid: false,
+      reason: "",
+    },
   },
 };
 
@@ -142,7 +146,7 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
   if (isType(action, getDonorAction.done)) {
     const distribution = {
       ...state.distributionInput.distribution,
-      donor: action.payload.result,
+      donorId: action.payload.result.id,
     };
 
     return {
@@ -150,13 +154,14 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
       distributionInput: {
         ...state.distributionInput,
         distribution,
+        donor: action.payload.result,
         valid: validDistribution(distribution),
       },
     };
   } else if (isType(action, getDonorAction.failed)) {
     const distribution = {
       ...state.distributionInput.distribution,
-      donor: undefined,
+      donorId: undefined,
     };
 
     return {
@@ -164,6 +169,7 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
       distributionInput: {
         ...state.distributionInput,
         distribution,
+        donor: undefined,
         valid: validDistribution(distribution),
       },
     };
@@ -182,46 +188,138 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
       };
   }
 
+  if (isType(action, fetchAllCauseareasAction.done)) {
+    if (state.distributionInput.distribution.causeAreas?.length === 0) {
+      return {
+        ...state,
+        distributionInput: {
+          ...state.distributionInput,
+          distribution: {
+            ...state.distributionInput.distribution,
+            causeAreas: action.payload.result.map((causeArea) => ({
+              ...causeArea,
+              standardSplit: true,
+              percentageShare: new Decimal(0),
+              organizations: causeArea.organizations.map((organization) => ({
+                ...organization,
+                percentageShare: new Decimal(organization.standardShare || 0),
+              })),
+            })),
+          },
+        },
+      };
+    }
+  }
+
   return state;
 };
 
-const validDistribution = (distribution: Partial<IDistribution>): boolean => {
+const validDistribution = (
+  distribution: Partial<IDistribution>,
+): { valid: boolean; reason: string } => {
   if (!distribution.donorId) {
-    return false;
+    return {
+      valid: false,
+      reason: "No donor selected",
+    };
   }
 
-  /*
-  if (!distribution.standardDistribution) {
-    if (!distribution.shares || distribution.shares.length === 0) {
-      console.error("No shares");
-      return false;
-    }
-    if (distribution.shares.some((share) => share.percentageShare.lessThan(0))) {
-      console.error("Share less than 0");
-      return false;
-    }
-    if (distribution.shares.some((share) => share.percentageShare.greaterThan(100))) {
-      console.error("Share greater than 100");
-      return false;
-    }
-    if (distribution.shares.some((share) => share.percentageShare.isNaN())) {
-      console.error("Share is NaN");
-      return false;
-    }
-
-    const sum = distribution.shares.reduce(
-      (acc, share) => acc.add(share.percentageShare),
-      new Decimal(0),
-    );
-    console.log(sum.toNumber());
-    if (sum.lessThan(100)) {
-      return false;
-    }
-    if (sum.greaterThan(100)) {
-      return false;
-    }
+  if (!distribution.causeAreas) {
+    return {
+      valid: false,
+      reason: "No cause areas selected",
+    };
   }
-  */
 
-  return true;
+  if (distribution.causeAreas.length === 0) {
+    return {
+      valid: false,
+      reason: "No cause areas selected",
+    };
+  }
+
+  if (distribution.causeAreas.some((causeArea) => causeArea.percentageShare.isNaN())) {
+    return {
+      valid: false,
+      reason: "Percentage share is not a number",
+    };
+  }
+
+  if (
+    distribution.causeAreas.some((causeArea) =>
+      causeArea.organizations.some((organization) => organization.percentageShare.isNaN()),
+    )
+  ) {
+    return {
+      valid: false,
+      reason: "Percentage share is not a number",
+    };
+  }
+
+  if (
+    distribution.causeAreas.some((causeArea) =>
+      causeArea.organizations.some((organization) => organization.percentageShare.isNegative()),
+    )
+  ) {
+    return {
+      valid: false,
+      reason: "Percentage share is negative",
+    };
+  }
+
+  if (
+    distribution.causeAreas.some((causeArea) =>
+      causeArea.organizations.some((organization) => organization.percentageShare.greaterThan(100)),
+    )
+  ) {
+    return {
+      valid: false,
+      reason: "Percentage share is greater than 100",
+    };
+  }
+
+  if (distribution.causeAreas.some((causeArea) => causeArea.percentageShare.isNegative())) {
+    return {
+      valid: false,
+      reason: "Percentage share is negative",
+    };
+  }
+
+  if (distribution.causeAreas.some((causeArea) => causeArea.percentageShare.greaterThan(100))) {
+    return {
+      valid: false,
+      reason: "Percentage share is greater than 100",
+    };
+  }
+
+  /** If not summing to 100 */
+  if (
+    distribution.causeAreas
+      .reduce((acc, causeArea) => acc.plus(causeArea.percentageShare), new Decimal(0))
+      .toNumber() !== 100
+  ) {
+    return {
+      valid: false,
+      reason: "Cause areas do not sum to 100",
+    };
+  }
+
+  if (
+    distribution.causeAreas.some(
+      (causeArea) =>
+        causeArea.organizations
+          .reduce((acc, organization) => acc.plus(organization.percentageShare), new Decimal(0))
+          .toNumber() !== 100,
+    )
+  ) {
+    return {
+      valid: false,
+      reason: "Organizations do not sum to 100",
+    };
+  }
+
+  return {
+    valid: true,
+    reason: "",
+  };
 };

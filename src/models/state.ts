@@ -226,8 +226,12 @@ export interface DistributionsState {
   searchResult: Array<IDistributionSearchResultItem>;
   distributionInput: {
     distribution: Partial<IDistribution>;
+    donor?: IDonor;
     taxUnits: ITaxUnit[];
-    valid: boolean;
+    valid: {
+      valid: boolean;
+      reason: string;
+    };
   };
 }
 

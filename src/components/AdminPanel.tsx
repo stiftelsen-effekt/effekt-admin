@@ -10,7 +10,10 @@ import { EffektToastContainer } from "./style/elements/toast/toast.style";
 import { ProcessDonations } from "./pages/process/ProcessDonations";
 import { ReportsComponent } from "./pages/reports/Reports";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchActiveCauseareasAction } from "../store/causeareas/causeareas.action";
+import {
+  fetchActiveCauseareasAction,
+  fetchAllCauseareasAction,
+} from "../store/causeareas/causeareas.action";
 import { AppState } from "../models/state";
 import { DonationsPageComponent } from "./pages/donations/Donations";
 import { DonationPageComponent } from "./pages/donations/Donation";
@@ -34,9 +37,16 @@ export const AdminPanel: React.FunctionComponent = () => {
   //TODO: Move someplace where it is run only once
   const dispatch = useDispatch();
   const causeAreas = useSelector((state: AppState) => state.causeareas.active);
+
   useEffect(() => {
     if (!causeAreas) dispatch(fetchActiveCauseareasAction.started(undefined));
   }, [causeAreas, dispatch]);
+
+  const allCauseAreas = useSelector((state: AppState) => state.causeareas.all);
+
+  useEffect(() => {
+    if (!allCauseAreas) dispatch(fetchAllCauseareasAction.started(undefined));
+  }, [allCauseAreas, dispatch]);
 
   return (
     <div>

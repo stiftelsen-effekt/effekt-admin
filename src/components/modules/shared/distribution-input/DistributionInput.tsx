@@ -16,6 +16,7 @@ import { EffektInput } from "../../../style/elements/input.style";
 import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
 import { NewTaxUnitModal } from "../../taxunits/modal/NewTaxUnitModal";
 import { DistributionCauseAreaInput } from "./DistributionCauseAreaInput";
+import Decimal from "decimal.js";
 
 const noTaxUnit = { label: "No tax unit", value: undefined };
 const mapTaxUnitToSelectOption = (taxUnit?: ITaxUnit) =>
@@ -34,8 +35,11 @@ export const DistributionInput: React.FC<{
   const { getAccessTokenSilently } = useAuth0();
 
   const taxUnits = useSelector((state: AppState) => state.distributions.distributionInput.taxUnits);
-  const causeAreas = useSelector((state: AppState) => state.causeareas.active);
+  const causeAreas = useSelector((state: AppState) => state.causeareas.all);
   const selectedDonor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
+  const distributionInputDonor = useSelector(
+    (state: AppState) => state.distributions.distributionInput.donor,
+  );
 
   const [showAddTaxUnitModal, setShowAddTaxUnitModal] = useState<boolean>(false);
 
@@ -50,7 +54,7 @@ export const DistributionInput: React.FC<{
   const donorId = distribution.donorId;
 
   useEffect(() => {
-    if (selectedDonor?.id !== distribution.donorId) {
+    if (selectedDonor?.id !== distribution.donorId || donorInput === "") {
       setDonorInput(selectedDonor?.id.toString() ?? "");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,7 +103,7 @@ export const DistributionInput: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taxUnitInput, taxUnits]);
 
-  if (!causeAreas) return <div>Failed fetching organizations</div>;
+  if (!causeAreas) return <div>Failed fetching cause areas</div>;
 
   return (
     <div style={{ borderLeft: "1px solid black", paddingLeft: "10px" }}>
@@ -112,19 +116,48 @@ export const DistributionInput: React.FC<{
             placeholder="Donor ID"
             onChange={(e: any) => setDonorInput(e.target.value)}
           ></EffektInput>
-          <EffektButton onClick={() => dispatch(showDonorSelectionComponent())}>
+          <EffektButton
+            onClick={() => {
+              setDonorInput(selectedDonor?.id.toString() ?? "");
+              dispatch(showDonorSelectionComponent());
+            }}
+          >
             Find donor
           </EffektButton>
         </div>
-        <EffektInput value={donorId ?? "Navn fylles ut automatisk"} disabled={true}></EffektInput>
+        <EffektInput
+          value={distributionInputDonor?.name ?? "Navn fylles ut automatisk"}
+          disabled={true}
+        ></EffektInput>
       </div>
-      <div style={{ zIndex: 10, position: "relative", marginBottom: "20px" }}>
-        <Select
-          options={[...taxUnits.map((unit) => mapTaxUnitToSelectOption(unit)), noTaxUnit]}
-          value={mapTaxUnitToSelectOption(taxUnits.find((unit) => unit.id === taxUnitInput.value))}
-          onChange={(option: any) => setTaxUnitInput(option)}
-        />
-        <EffektButton onClick={() => setShowAddTaxUnitModal(true)}>Add tax unit</EffektButton>
+      <div
+        style={{
+          zIndex: 10,
+          position: "relative",
+          marginBottom: "20px",
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+        }}
+      >
+        <div style={{ flexGrow: 1, marginRight: "15px" }}>
+          <Select
+            options={[...taxUnits.map((unit) => mapTaxUnitToSelectOption(unit)), noTaxUnit]}
+            value={mapTaxUnitToSelectOption(
+              taxUnits.find((unit) => unit.id === taxUnitInput.value),
+            )}
+            onChange={(option: any) => setTaxUnitInput(option)}
+          />
+        </div>
+        <EffektButton
+          onClick={() => {
+            if (donorId) setShowAddTaxUnitModal(true);
+            else alert("Please select a donor first");
+          }}
+          style={{ alignSelf: "end" }}
+        >
+          Add tax unit
+        </EffektButton>
       </div>
       {distribution.causeAreas?.map((causeArea) => (
         <div
@@ -132,28 +165,42 @@ export const DistributionInput: React.FC<{
           style={{
             display: "flex",
             flexDirection: "column",
-            paddingLeft: "15px",
             margin: "15px 0",
             padding: "15px 0",
+            paddingLeft: "15px",
             borderLeft: "1px solid black",
           }}
         >
           <div>
             <strong>{causeArea.name}</strong>
           </div>
-          <EffektInput
-            type="text"
-            value={causeArea.percentageShare.toString()}
-            placeholder="Percentage share"
-            onChange={(e: any) => {
-              onChange({
-                ...distribution,
-                causeAreas: distribution.causeAreas?.map((ca) =>
-                  ca.id === causeArea.id ? { ...ca, percentageShare: e.target.value } : ca,
-                ),
-              });
+          <div
+            style={{
+              flexGrow: 1,
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
             }}
-          ></EffektInput>
+          >
+            <EffektInput
+              type="text"
+              value={causeArea.percentageShare.toString()}
+              placeholder="Percentage share"
+              style={{ flexGrow: 1, marginRight: 15 }}
+              onChange={(e: any) => {
+                onChange({
+                  ...distribution,
+                  causeAreas: distribution.causeAreas?.map((ca) =>
+                    ca.id === causeArea.id
+                      ? { ...ca, percentageShare: new Decimal(e.target.value) }
+                      : ca,
+                  ),
+                });
+              }}
+            ></EffektInput>
+            %
+          </div>
           <DistributionCauseAreaInput
             key={causeArea.id}
             distributionCauseArea={causeArea}
@@ -169,7 +216,7 @@ export const DistributionInput: React.FC<{
         </div>
       ))}
       <EffektModal
-        visible={showAddTaxUnitModal}
+        visible={showAddTaxUnitModal && donorId}
         effect="fadeInUp"
         onClickAway={() => setShowAddTaxUnitModal(false)}
       >

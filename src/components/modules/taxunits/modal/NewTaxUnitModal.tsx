@@ -25,18 +25,21 @@ export const NewTaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, don
   const dispatch = useDispatch();
 
   const add = () => {
-    if (!(state.name && state.ssn)) {
-      alert("Please fill all fields");
-      return;
-    }
-    const fnr = validator.fnr(state.ssn);
-    if (!(fnr.status === "valid" || state.ssn.length === 9)) {
-      alert("Invalid SSN or orgnr.");
-      return;
-    }
-    if (taxUnits?.some((taxUnit) => taxUnit.ssn === state.ssn)) {
-      alert("SSN or orgnr already exists.");
-      return;
+    // NO validation
+    if (state.ssn?.length !== 13) {
+      if (!(state.name && state.ssn)) {
+        alert("Please fill all fields");
+        return;
+      }
+      const fnr = validator.fnr(state.ssn);
+      if (!(fnr.status === "valid" || state.ssn.length === 9)) {
+        alert("Invalid SSN or orgnr.");
+        return;
+      }
+      if (taxUnits?.some((taxUnit) => taxUnit.ssn === state.ssn)) {
+        alert("SSN or orgnr already exists.");
+        return;
+      }
     }
     getAccessTokenSilently().then((token) => {
       if (!(state.name && state.ssn)) {
