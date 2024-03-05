@@ -459,7 +459,13 @@ export interface IAutoGiroValidation {
   expected: Array<IAutoGiro>;
 }
 
-export type AutoGiroMandateStatus = "DRAFTED" | "NEW" | "PENDING" | "ACTIVE" | "STOPPED";
+export type AutoGiroMandateStatus =
+  | "DRAFTED"
+  | "NEW"
+  | "PENDING"
+  | "ACTIVE"
+  | "STOPPED"
+  | "REJECTED";
 
 export interface IAutoGiroMandate {
   ID: number;

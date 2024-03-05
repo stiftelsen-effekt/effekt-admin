@@ -30,6 +30,7 @@ const statusTypes: Array<AutoGiroMandateStatus> = [
   "PENDING",
   "ACTIVE",
   "STOPPED",
+  "REJECTED",
 ];
 
 export const AutoGiroMandateFilter: React.FunctionComponent = () => {
