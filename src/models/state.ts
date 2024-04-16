@@ -80,6 +80,7 @@ export interface DonorPageState {
   vippsAgreements?: Array<IVippsAgreement>;
   updateError?: { message: string; timestamp: number };
   pendingUpdates: number;
+  mergedDonorTargetId?: number;
 }
 
 export interface CauseAreasState {
@@ -88,6 +89,7 @@ export interface CauseAreasState {
 }
 
 export interface SingleDonationState {
+  editSaving: boolean;
   paymentMethods: Array<IPaymentMethod>;
 }
 
@@ -227,7 +229,7 @@ export interface DistributionsState {
   distributionInput: {
     distribution: Partial<IDistribution>;
     donor?: IDonor;
-    taxUnits: ITaxUnit[];
+    taxUnits?: ITaxUnit[];
     valid: {
       valid: boolean;
       reason: string;

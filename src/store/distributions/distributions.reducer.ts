@@ -38,7 +38,6 @@ const defaultState: DistributionsState = {
     distribution: {
       causeAreas: [],
     },
-    taxUnits: [],
     valid: {
       valid: false,
       reason: "",

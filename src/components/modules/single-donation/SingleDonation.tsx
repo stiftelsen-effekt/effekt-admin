@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   SingleDonationWrapper,
   InputWrapper,
@@ -23,6 +23,8 @@ import { toast } from "react-toastify";
 import { useAuth0 } from "@auth0/auth0-react";
 import { DistributionInput } from "../shared/distribution-input/DistributionInput";
 import { setDistributionInputDistribution } from "../../../store/distributions/distribution-input.actions";
+import { fetchAllCauseareasAction } from "../../../store/causeareas/causeareas.action";
+import { getDonorTaxUnitsAction } from "../../../store/donors/donor-page.actions";
 
 interface IProps {
   onIgnore?(): void;
@@ -45,6 +47,25 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
   );
 
   const currentSelectedOwner = useSelector((state: AppState) => state.dataOwner.current);
+  const taxUnits = useSelector((state: AppState) => state.distributions.distributionInput.taxUnits);
+  const allCauseAreas = useSelector((state: AppState) => state.causeareas.all);
+
+  useEffect(() => {
+    if (!taxUnits) {
+      const donorId = donationInput.donorId;
+      if (typeof donorId !== "undefined") {
+        getAccessTokenSilently().then((token) => {
+          dispatch(getDonorTaxUnitsAction.started({ token, id: donorId }));
+        });
+      }
+    }
+  }, [donationInput.donorId, taxUnits, getAccessTokenSilently, dispatch]);
+
+  useEffect(() => {
+    if (!allCauseAreas) {
+      dispatch(fetchAllCauseareasAction.started(undefined));
+    }
+  }, [dispatch, allCauseAreas]);
 
   const getFilteredDistribution = (
     distribution: Partial<IDistribution>,
@@ -115,6 +136,14 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
     [setDonationInput],
   );
 
+  if (!taxUnits) {
+    return <span>Loading...</span>;
+  }
+
+  if (!allCauseAreas) {
+    return <span>Loading...</span>;
+  }
+
   return (
     <SingleDonationWrapper>
       <InputWrapper>
@@ -127,6 +156,8 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
       <DistributionWrapper>
         {!donationInput.KID && (
           <DistributionInput
+            causeAreas={allCauseAreas}
+            taxUnits={taxUnits}
             distribution={distribution}
             onChange={(distribution) => dispatch(setDistributionInputDistribution(distribution))}
           ></DistributionInput>

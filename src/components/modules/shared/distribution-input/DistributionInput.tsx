@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import Validator from "validator";
 import { AppState } from "../../../../models/state";
-import { IDistribution, ITaxUnit } from "../../../../models/types";
+import { ICauseArea, IDistribution, ITaxUnit } from "../../../../models/types";
 import {
   getDonorAction,
   getDonorTaxUnitsAction,
@@ -19,7 +19,10 @@ import { DistributionCauseAreaInput } from "./DistributionCauseAreaInput";
 import Decimal from "decimal.js";
 
 const noTaxUnit = { label: "No tax unit", value: undefined };
-const mapTaxUnitToSelectOption = (taxUnit?: ITaxUnit) =>
+
+type TaxUnitInput = { label: string; value: number | undefined };
+
+const mapTaxUnitToSelectOption = (taxUnit?: ITaxUnit): TaxUnitInput =>
   taxUnit
     ? {
         label: `${taxUnit.name} (${taxUnit.ssn})`,
@@ -29,13 +32,13 @@ const mapTaxUnitToSelectOption = (taxUnit?: ITaxUnit) =>
 
 export const DistributionInput: React.FC<{
   distribution: Partial<IDistribution>;
+  taxUnits: ITaxUnit[];
+  causeAreas: ICauseArea[];
   onChange: (distribution: Partial<IDistribution>) => void;
-}> = ({ distribution, onChange }) => {
+}> = ({ distribution, taxUnits, causeAreas, onChange }) => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
-  const taxUnits = useSelector((state: AppState) => state.distributions.distributionInput.taxUnits);
-  const causeAreas = useSelector((state: AppState) => state.causeareas.all);
   const selectedDonor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
   const distributionInputDonor = useSelector(
     (state: AppState) => state.distributions.distributionInput.donor,
@@ -45,10 +48,6 @@ export const DistributionInput: React.FC<{
 
   const [donorInput, setDonorInput] = useState<string | undefined>(
     selectedDonor?.id.toString() ?? "",
-  );
-
-  const [taxUnitInput, setTaxUnitInput] = useState<{ label: string; value?: number }>(
-    mapTaxUnitToSelectOption(taxUnits.find((t) => t.id === distribution.taxUnitId)) ?? noTaxUnit,
   );
 
   const donorId = distribution.donorId;
@@ -93,17 +92,33 @@ export const DistributionInput: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [donorInput]);
 
-  useEffect(() => {
-    onChange({
-      ...distribution,
-      taxUnitId: taxUnits.find((t) => {
-        return t.id === taxUnitInput?.value;
-      })?.id,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taxUnitInput, taxUnits]);
-
   if (!causeAreas) return <div>Failed fetching cause areas</div>;
+
+  const filledInDistribution: Partial<IDistribution> = {
+    ...distribution,
+    causeAreas: causeAreas.map((ca) => {
+      const existing = distribution.causeAreas?.find((dca) => dca.id === ca.id);
+      if (!existing)
+        return {
+          id: ca.id,
+          name: ca.name,
+          percentageShare: new Decimal(0),
+          standardSplit: true,
+          organizations: ca.organizations.map((org) => ({
+            id: org.id,
+            percentageShare: new Decimal(org.standardShare),
+          })),
+        };
+      return {
+        ...existing,
+        organizations: ca.organizations.map((org) => {
+          const existingOrg = existing.organizations.find((o) => o.id === org.id);
+          if (!existingOrg) return { id: org.id, percentageShare: new Decimal(0) };
+          else return existingOrg;
+        }),
+      };
+    }),
+  };
 
   return (
     <div style={{ borderLeft: "1px solid black", paddingLeft: "10px" }}>
@@ -142,11 +157,24 @@ export const DistributionInput: React.FC<{
       >
         <div style={{ flexGrow: 1, marginRight: "15px" }}>
           <Select
-            options={[...taxUnits.map((unit) => mapTaxUnitToSelectOption(unit)), noTaxUnit]}
-            value={mapTaxUnitToSelectOption(
-              taxUnits.find((unit) => unit.id === taxUnitInput.value),
-            )}
-            onChange={(option: any) => setTaxUnitInput(option)}
+            options={
+              taxUnits
+                ? [...taxUnits.map((unit) => mapTaxUnitToSelectOption(unit)), noTaxUnit]
+                : [noTaxUnit]
+            }
+            value={
+              taxUnits
+                ? mapTaxUnitToSelectOption(
+                    taxUnits.find((unit) => unit.id === distribution.taxUnitId),
+                  )
+                : noTaxUnit
+            }
+            onChange={(value: TaxUnitInput | undefined | null) =>
+              onChange({
+                ...filledInDistribution,
+                taxUnitId: value?.value,
+              })
+            }
           />
         </div>
         <EffektButton
@@ -159,7 +187,7 @@ export const DistributionInput: React.FC<{
           Add tax unit
         </EffektButton>
       </div>
-      {distribution.causeAreas?.map((causeArea) => (
+      {filledInDistribution.causeAreas?.map((causeArea) => (
         <div
           key={causeArea.id}
           style={{
@@ -190,8 +218,8 @@ export const DistributionInput: React.FC<{
               style={{ flexGrow: 1, marginRight: 15 }}
               onChange={(e: any) => {
                 onChange({
-                  ...distribution,
-                  causeAreas: distribution.causeAreas?.map((ca) =>
+                  ...filledInDistribution,
+                  causeAreas: filledInDistribution.causeAreas?.map((ca) =>
                     ca.id === causeArea.id
                       ? { ...ca, percentageShare: new Decimal(e.target.value) }
                       : ca,
@@ -206,8 +234,8 @@ export const DistributionInput: React.FC<{
             distributionCauseArea={causeArea}
             onChange={(c) => {
               onChange({
-                ...distribution,
-                causeAreas: distribution.causeAreas?.map((ca) =>
+                ...filledInDistribution,
+                causeAreas: filledInDistribution.causeAreas?.map((ca) =>
                   ca.id === c.id ? { ...ca, ...c } : ca,
                 ),
               });

@@ -17,6 +17,7 @@ import {
   getDonorReferralAnswersAction,
   getDonorTaxUnitsAction,
   getDonorAutoGiroAgreementsAction,
+  mergeDonorsAction,
 } from "./donor-page.actions";
 
 const initialState: DonorPageState = {
@@ -34,6 +35,7 @@ export const donorPageReducer = (
         ...action.payload.result,
         registered: DateTime.fromISO(action.payload.result.registered.toString()),
       },
+      mergedDonorTargetId: undefined,
     };
   } else if (isType(action, getDonorAction.started)) {
     return {
@@ -161,6 +163,25 @@ export const donorPageReducer = (
     return {
       ...state,
       updateError: { message: action.payload.error.message, timestamp: +new Date() },
+    };
+  }
+
+  if (isType(action, mergeDonorsAction.started)) {
+    return {
+      ...state,
+      pendingUpdates: state.pendingUpdates + 1,
+    };
+  } else if (isType(action, mergeDonorsAction.done)) {
+    return {
+      ...state,
+      pendingUpdates: state.pendingUpdates - 1,
+      mergedDonorTargetId: action.payload.params.destinationDonorId,
+    };
+  } else if (isType(action, mergeDonorsAction.failed)) {
+    toastError("Failed to merge donors", action.payload.error.message);
+    return {
+      ...state,
+      pendingUpdates: state.pendingUpdates - 1,
     };
   }
 

@@ -50,6 +50,12 @@ export interface IUpdateDonorDataParams {
   donor: IDonor;
 }
 
+export interface IMergeDonorsParams {
+  token: string;
+  originalDonorId: number;
+  destinationDonorId: number;
+}
+
 export const getDonorAction = actionCreator.async<IFetchDonorActionParams, IDonor, Error>(
   "FETCH_DONOR",
 );
@@ -96,3 +102,8 @@ export const getDonorTaxUnitsAction = actionCreator.async<
 export const updateDonorDataAction = actionCreator.async<IUpdateDonorDataParams, boolean, Error>(
   "UPDATE_DONOR_DATA",
 );
+export const mergeDonorsAction = actionCreator.async<
+  IMergeDonorsParams,
+  { success: boolean },
+  Error
+>("MERGE_DONORS");

@@ -9,8 +9,10 @@ import {
 import { isType } from "typescript-fsa";
 import { toast } from "react-toastify";
 import { toastError } from "../../util/toasthelper";
+import { updateDonationAction } from "../donations/donation.actions";
 
 const initialState: SingleDonationState = {
+  editSaving: false,
   paymentMethods: [],
 };
 
@@ -22,6 +24,25 @@ export const singleDonationReducer = (
     toast.success("Donation inserted");
   } else if (isType(action, createDistribitionAndInsertDonationAction.failed)) {
     toastError("Could not insert donation", action.payload.error.message);
+  }
+
+  if (isType(action, updateDonationAction.started)) {
+    return {
+      ...state,
+      editSaving: true,
+    };
+  } else if (isType(action, updateDonationAction.done)) {
+    toast.success("Donation updated");
+    return {
+      ...state,
+      editSaving: false,
+    };
+  } else if (isType(action, updateDonationAction.failed)) {
+    toastError("Could not update donation", action.payload.error.message);
+    return {
+      ...state,
+      editSaving: false,
+    };
   }
 
   //TODO: Move to another place in state

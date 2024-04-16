@@ -26,7 +26,6 @@ export const DonorKeyInfo: React.FunctionComponent<{ donor: IDonor }> = ({ donor
             field="email"
             label="Email"
             validate={Validator.isEmail}
-            editable={false}
           />
           <DonorKeyInfoField
             donor={donor}

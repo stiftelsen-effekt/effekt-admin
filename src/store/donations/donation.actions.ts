@@ -16,6 +16,11 @@ export interface IFetchTransactionCostsReportActionParams {
   token: string;
 }
 
+export interface IUpdateDonationActionParams {
+  token: string;
+  donation: IDonation & { id: number };
+}
+
 export const fetchDonationAction = actionCreator.async<
   IFetchDonationActionParams,
   IDonation & { distribution: IDistribution },
@@ -35,3 +40,9 @@ export const fetchTransactionCostsReportAction = actionCreator.async<
   ITransactionCostsReport,
   Error
 >("FETCH_TRANSACTION_COSTS_REPORT");
+
+export const updateDonationAction = actionCreator.async<
+  IUpdateDonationActionParams,
+  IDonation & { distribution: IDistribution },
+  Error
+>("SAVE_DONATION");

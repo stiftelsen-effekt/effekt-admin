@@ -38,6 +38,16 @@ export const DonationKeyInfoComponent: React.FunctionComponent<IProps> = ({ dona
         <KeyInfoHeader>Method</KeyInfoHeader>
         <KeyInfoValue>{donation.paymentMethod}</KeyInfoValue>
       </KeyInfoGroup>
+
+      <KeyInfoGroup>
+        <KeyInfoHeader>Payment external reference</KeyInfoHeader>
+        <KeyInfoValue>{donation.paymentExternalRef}</KeyInfoValue>
+      </KeyInfoGroup>
+
+      <KeyInfoGroup>
+        <KeyInfoHeader>Meta owner</KeyInfoHeader>
+        <KeyInfoValue>{donation.metaOwnerId}</KeyInfoValue>
+      </KeyInfoGroup>
     </KeyInfoWrapper>
   );
 };

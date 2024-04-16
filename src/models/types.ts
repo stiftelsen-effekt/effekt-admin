@@ -50,7 +50,7 @@ export interface IDonation {
   timestamp: Date;
   KID?: string;
   distribution?: IDistribution;
-  metaOwnerID?: number;
+  metaOwnerId?: number;
 }
 
 export interface IDistribution {

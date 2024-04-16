@@ -16,6 +16,7 @@ import { EffektSelect } from "../../../style/elements/select.style";
 import { DistributionInput } from "../../shared/distribution-input/DistributionInput";
 import Decimal from "decimal.js";
 import { fetchAllCauseareasAction } from "../../../../store/causeareas/causeareas.action";
+import { getDonorTaxUnitsAction } from "../../../../store/donors/donor-page.actions";
 
 export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initial }) => {
   const { getAccessTokenSilently } = useAuth0();
@@ -25,6 +26,8 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
     (state: AppState) => state.avtaleGiroAgreements.currentAgreementUpdating,
   );
   const allCauseAreas = useSelector((state: AppState) => state.causeareas.all);
+  const taxUnits = useSelector((state: AppState) => state.distributions.distributionInput.taxUnits);
+
   const [newAmount, setNewAmount] = useState<number>(initial ? initial.amount : 0);
   const [newPaymentDate, setNewPaymentDate] = useState<number>(initial ? initial.payment_date : 0);
   const [newStatus, setNewStatus] = useState<number | undefined>(initial?.active);
@@ -68,13 +71,28 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
   }, [initial, allCauseAreas]);
 
   useEffect(() => {
+    if (!taxUnits) {
+      const donorId = newDistribution.donorId;
+      if (typeof donorId !== "undefined") {
+        getAccessTokenSilently().then((token) => {
+          dispatch(getDonorTaxUnitsAction.started({ token, id: donorId }));
+        });
+      }
+    }
+  }, [newDistribution.donorId, taxUnits, getAccessTokenSilently, dispatch]);
+
+  useEffect(() => {
     if (!allCauseAreas) {
       dispatch(fetchAllCauseareasAction.started(undefined));
     }
-  }, [allCauseAreas, dispatch]);
+  }, [dispatch, allCauseAreas]);
+
+  if (!taxUnits) {
+    return <span>Loading...</span>;
+  }
 
   if (!allCauseAreas) {
-    return <div>Loading...</div>;
+    return <span>Loading...</span>;
   }
 
   return (
@@ -200,6 +218,8 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
       <div>
         <label>Distribution</label>
         <DistributionInput
+          causeAreas={allCauseAreas}
+          taxUnits={taxUnits}
           distribution={newDistribution}
           onChange={(distribution) => setNewDistribution(distribution)}
         />

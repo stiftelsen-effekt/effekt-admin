@@ -1,7 +1,7 @@
 import { MainHeader } from "../../style/elements/headers.style";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Page } from "../../style/elements/page.style";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../models/state";
 import { DonorKeyInfo } from "./donor/KeyInfo";
@@ -17,6 +17,7 @@ import {
   getDonorReferralAnswersAction,
   getDonorTaxUnitsAction,
   getDonorAutoGiroAgreementsAction,
+  mergeDonorsAction,
 } from "../../../store/donors/donor-page.actions";
 import { DonorAggregateChart } from "./donor/AggregateChart";
 import { ChartWrapper, OverviewLine } from "./Donor.style";
@@ -30,6 +31,9 @@ import { ReferralAnswerList } from "../../modules/donors/referral_answers/Referr
 import { TaxUnitList } from "../../modules/taxunits/list/TaxUnitsList";
 import { AvtaleGiroList } from "../../modules/avtalegiro/agreementlist/AvtaleGiroList";
 import { AutoGiroList } from "../../modules/autogiro/agreementlist/AutoGiroList";
+import { EffektButton } from "../../style/elements/button.style";
+import { EffektModal } from "../../style/elements/effekt-modal/effekt-modal.component.style";
+import { showDonorSelectionComponent } from "../../../store/donors/donor-selection.actions";
 
 interface IParams {
   id: string;
@@ -43,6 +47,22 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
   const { getAccessTokenSilently } = useAuth0();
 
   const data = useSelector((state: AppState) => state.donorPage);
+
+  const [mergeModalOpen, setMergeModalOpen] = useState<boolean>(false);
+  const selectedDonor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
+  const donor = useSelector((state: AppState) => state.donorPage.donor);
+
+  const router = useHistory();
+
+  const mergeDonorDestionationId = useSelector(
+    (state: AppState) => state.donorPage.mergedDonorTargetId,
+  );
+
+  useEffect(() => {
+    if (mergeDonorDestionationId) {
+      router.push(`/donors/${mergeDonorDestionationId}`);
+    }
+  }, [mergeDonorDestionationId, router]);
 
   useEffect(() => {
     getAccessTokenSilently().then((token) => {
@@ -71,6 +91,8 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
   return (
     <Page>
       <MainHeader>Donor {donorId}</MainHeader>
+
+      <EffektButton onClick={() => setMergeModalOpen(true)}>Merge donor</EffektButton>
 
       <OverviewLine>
         {data.donor && <DonorKeyInfo donor={data.donor} />}
@@ -144,6 +166,51 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
           </EffektTab>
         </div>
       </EffektTabs>
+
+      <EffektModal visible={mergeModalOpen}>
+        <div style={{ display: "flex", flexDirection: "column", padding: "20px", gap: "10px" }}>
+          <h2>Merge donor into</h2>
+          <span>
+            {selectedDonor ? `${selectedDonor.name} (id: ${selectedDonor.id})` : "Select donor"}
+          </span>
+          <EffektButton onClick={() => dispatch(showDonorSelectionComponent())}>
+            Select destination donor
+          </EffektButton>
+          <hr />
+          <EffektButton
+            onClick={() => {
+              if (!selectedDonor) {
+                alert("Please select a donor first");
+                return;
+              }
+              if (!donor) {
+                alert("Donor has not been loaded");
+                return;
+              }
+              // confirmation box
+              if (
+                window.confirm(
+                  `Are you sure you want to merge ${donor.name} with id ${donor.id} INTO ${selectedDonor.name} with id ${selectedDonor.id}`,
+                )
+              ) {
+                getAccessTokenSilently().then((token) => {
+                  dispatch(
+                    mergeDonorsAction.started({
+                      originalDonorId: donor.id,
+                      destinationDonorId: selectedDonor.id,
+                      token,
+                    }),
+                  );
+                  setMergeModalOpen(false);
+                });
+              }
+            }}
+          >
+            Merge into
+          </EffektButton>
+          <EffektButton onClick={() => setMergeModalOpen(false)}>Cancel</EffektButton>
+        </div>
+      </EffektModal>
     </Page>
   );
 };

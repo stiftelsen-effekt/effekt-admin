@@ -6,6 +6,8 @@ import {
   IFetchDonationsHistogramActionParams,
   IFetchTransactionCostsReportActionParams,
   fetchTransactionCostsReportAction,
+  IUpdateDonationActionParams,
+  updateDonationAction,
 } from "./donation.actions";
 import { Action } from "typescript-fsa";
 import * as API from "../../util/api";
@@ -21,6 +23,24 @@ export function* fetchDonation(action: Action<IFetchDonationActionParams>) {
     yield put(fetchDonationAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
     yield put(fetchDonationAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* updateDonation(action: Action<IUpdateDonationActionParams>) {
+  try {
+    const result: API.Response = yield call(API.call, {
+      method: API.Method.PUT,
+      endpoint: `/donations/${action.payload.donation.id}`,
+      token: action.payload.token,
+      data: action.payload.donation,
+    });
+    if (result.status !== 200) throw new Error(result.content);
+    yield put(updateDonationAction.done({ params: action.payload, result: result.content }));
+    yield put(
+      fetchDonationAction.started({ id: action.payload.donation.id, token: action.payload.token }),
+    );
+  } catch (ex) {
+    yield put(updateDonationAction.failed({ params: action.payload, error: ex as Error }));
   }
 }
 

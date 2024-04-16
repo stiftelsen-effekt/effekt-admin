@@ -29,11 +29,13 @@ import {
   fetchDonationAction,
   fetchHistogramAction,
   fetchTransactionCostsReportAction,
+  updateDonationAction,
 } from "./store/donations/donation.actions";
 import {
   fetchDonation,
   fetchHistogram,
   fetchTransactionCostsReport,
+  updateDonation,
 } from "./store/donations/donation.saga";
 import { fetchSumByMonth, fetchTotalByPeriod } from "./store/graphing/graphing.saga";
 import { fetchSumByMonthAction, fetchTotalByPeriodAction } from "./store/graphing/graphing.actions";
@@ -137,6 +139,7 @@ import {
   updateDonorDataAction,
   getDonorTaxUnitsAction,
   getDonorAutoGiroAgreementsAction,
+  mergeDonorsAction,
 } from "./store/donors/donor-page.actions";
 import {
   getDonor,
@@ -149,6 +152,7 @@ import {
   updateDonorData,
   getDonorTaxUnits,
   getDonorAutoGiroAgreements,
+  mergeDonors,
 } from "./store/donors/donor-page.saga";
 import { createDistribution } from "./store/distributions/distribution-input.saga";
 import { createDistributionAction } from "./store/distributions/distribution-input.actions";
@@ -197,6 +201,7 @@ function* watchAll() {
     takeLatest(getDonorReferralAnswersAction.started.type, getDonorReferralAnswers),
     takeLatest(getDonorTaxUnitsAction.started.type, getDonorTaxUnits),
     takeLatest(updateDonorDataAction.started.type, updateDonorData),
+    takeLatest(mergeDonorsAction.started.type, mergeDonors),
 
     takeLatest(CreateTaxUnitAction.started.type, createTaxUnit),
     takeLatest(UpdateTaxUnitAction.started.type, updateTaxUnit),
@@ -204,6 +209,7 @@ function* watchAll() {
 
     takeLatest(fetchDonationsAction.started.type, fetchDonations),
     takeLatest(fetchDonationAction.started.type, fetchDonation),
+    takeLatest(updateDonationAction.started.type, updateDonation),
     takeLatest(deleteDonationAction.started.type, deleteDonation),
     takeLatest(fetchTransactionCostsReportAction.started.type, fetchTransactionCostsReport),
 

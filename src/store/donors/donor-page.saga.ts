@@ -31,6 +31,8 @@ import {
   getDonorTaxUnitsAction,
   IFetchDonorAutorGiroAgreementsActionParams,
   getDonorAutoGiroAgreementsAction,
+  IMergeDonorsParams,
+  mergeDonorsAction,
 } from "./donor-page.actions";
 import { Action } from "typescript-fsa";
 import { DateTime } from "luxon";
@@ -228,5 +230,20 @@ export function* updateDonorData(action: Action<IUpdateDonorDataParams>) {
     else throw new Error(data.content);
   } catch (ex) {
     yield put(updateDonorDataAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* mergeDonors(action: Action<IMergeDonorsParams>) {
+  try {
+    const data: API.TypedResponse<boolean> = yield call(API.call, {
+      endpoint: `/donors/${action.payload.originalDonorId}/merge/${action.payload.destinationDonorId}`,
+      method: API.Method.POST,
+      token: action.payload.token,
+    });
+    if (API.isOk(data))
+      yield put(mergeDonorsAction.done({ params: action.payload, result: { success: true } }));
+    else throw new Error(data.content);
+  } catch (ex) {
+    yield put(mergeDonorsAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

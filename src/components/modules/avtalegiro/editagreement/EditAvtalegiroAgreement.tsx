@@ -15,6 +15,8 @@ import { EffektLoadingSpinner } from "../../../style/elements/loading-spinner";
 import { EffektSelect } from "../../../style/elements/select.style";
 import { DistributionInput } from "../../shared/distribution-input/DistributionInput";
 import Decimal from "decimal.js";
+import { getDonorTaxUnitsAction } from "../../../../store/donors/donor-page.actions";
+import { fetchAllCauseareasAction } from "../../../../store/causeareas/causeareas.action";
 
 export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ initial }) => {
   const { getAccessTokenSilently } = useAuth0();
@@ -23,6 +25,8 @@ export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ in
   const currentAgreementUpdating: boolean | undefined = useSelector(
     (state: AppState) => state.avtaleGiroAgreements.currentAgreementUpdating,
   );
+  const taxUnits = useSelector((state: AppState) => state.distributions.distributionInput.taxUnits);
+
   const [newAmount, setNewAmount] = useState<number>(initial ? initial.amount : 0);
   const allCauseAreas = useSelector((state: AppState) => state.causeareas.all);
   const [newPaymentDate, setNewPaymentDate] = useState<number>(initial ? initial.payment_date : 0);
@@ -65,6 +69,31 @@ export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ in
       setNewDistribution(inputDist);
     }
   }, [initial, allCauseAreas]);
+
+  useEffect(() => {
+    if (!taxUnits) {
+      const donorId = newDistribution.donorId;
+      if (typeof donorId !== "undefined") {
+        getAccessTokenSilently().then((token) => {
+          dispatch(getDonorTaxUnitsAction.started({ token, id: donorId }));
+        });
+      }
+    }
+  }, [newDistribution.donorId, taxUnits, getAccessTokenSilently, dispatch]);
+
+  useEffect(() => {
+    if (!allCauseAreas) {
+      dispatch(fetchAllCauseareasAction.started(undefined));
+    }
+  }, [dispatch, allCauseAreas]);
+
+  if (!taxUnits) {
+    return <span>Loading...</span>;
+  }
+
+  if (!allCauseAreas) {
+    return <span>Loading...</span>;
+  }
 
   return (
     <div
@@ -189,6 +218,8 @@ export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ in
       <div>
         <label>Distribution</label>
         <DistributionInput
+          causeAreas={allCauseAreas}
+          taxUnits={taxUnits}
           distribution={newDistribution}
           onChange={(distribution) => setNewDistribution(distribution)}
         />
