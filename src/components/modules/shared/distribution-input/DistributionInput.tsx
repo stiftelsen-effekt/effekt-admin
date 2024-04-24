@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import Validator from "validator";
 import { AppState } from "../../../../models/state";
 import { ICauseArea, IDistribution, ITaxUnit } from "../../../../models/types";
 import {
@@ -46,51 +45,33 @@ export const DistributionInput: React.FC<{
 
   const [showAddTaxUnitModal, setShowAddTaxUnitModal] = useState<boolean>(false);
 
-  const [donorInput, setDonorInput] = useState<string | undefined>(
-    selectedDonor?.id.toString() ?? "",
-  );
-
   const donorId = distribution.donorId;
 
   useEffect(() => {
-    if (selectedDonor?.id !== distribution.donorId || donorInput === "") {
-      setDonorInput(selectedDonor?.id.toString() ?? "");
+    if (typeof distribution.donorId !== "undefined") {
+      getAccessTokenSilently().then((token) => {
+        if (typeof distribution.donorId !== "undefined") {
+          dispatch(getDonorAction.started({ id: distribution.donorId, token }));
+          dispatch(
+            getDonorTaxUnitsAction.started({
+              id: distribution.donorId,
+              token,
+            }),
+          );
+        }
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [distribution.donorId]);
+
+  useEffect(() => {
+    if (selectedDonor) {
+      onChange({
+        ...distribution,
+        donorId: selectedDonor.id,
+      });
+    }
   }, [selectedDonor]);
-
-  useEffect(() => {
-    if (typeof distribution.donorId !== "undefined" && selectedDonor !== null)
-      setDonorInput(distribution.donorId.toString());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [distribution]);
-
-  useEffect(() => {
-    if (typeof donorInput !== "undefined" && Validator.isInt(donorInput)) {
-      if (typeof distribution.donorId !== "undefined") {
-        getAccessTokenSilently().then((token) => {
-          dispatch(getDonorAction.started({ id: parseInt(donorInput), token }));
-          dispatch(
-            getDonorTaxUnitsAction.started({
-              id: parseInt(donorInput),
-              token,
-            }),
-          );
-        });
-      } else {
-        getAccessTokenSilently().then((token) => {
-          dispatch(getDonorAction.started({ id: parseInt(donorInput), token }));
-          dispatch(
-            getDonorTaxUnitsAction.started({
-              id: parseInt(donorInput),
-              token,
-            }),
-          );
-        });
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [donorInput]);
 
   if (!causeAreas) return <div>Failed fetching cause areas</div>;
 
@@ -127,13 +108,11 @@ export const DistributionInput: React.FC<{
           <EffektInput
             type="text"
             inputMode="numeric"
-            value={donorInput}
+            value={distribution.donorId?.toString() ?? ""}
             placeholder="Donor ID"
-            onChange={(e: any) => setDonorInput(e.target.value)}
           ></EffektInput>
           <EffektButton
             onClick={() => {
-              setDonorInput(selectedDonor?.id.toString() ?? "");
               dispatch(showDonorSelectionComponent());
             }}
           >
