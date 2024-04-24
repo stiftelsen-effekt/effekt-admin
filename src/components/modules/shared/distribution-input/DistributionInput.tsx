@@ -71,6 +71,7 @@ export const DistributionInput: React.FC<{
         donorId: selectedDonor.id,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDonor]);
 
   if (!causeAreas) return <div>Failed fetching cause areas</div>;
