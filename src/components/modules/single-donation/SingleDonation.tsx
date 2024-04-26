@@ -6,7 +6,7 @@ import {
   DistributionWrapper,
 } from "./SingleDonation.style";
 
-import { IPaymentMethod, IDonation, IDistribution } from "../../../models/types";
+import { IPaymentMethod, IDonation, IDistribution, ITaxUnit } from "../../../models/types";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../models/state";
 import {
@@ -46,6 +46,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
     (state: AppState) => state.distributions.distributionInput.distribution,
   );
 
+  const selectedDonor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
   const currentSelectedOwner = useSelector((state: AppState) => state.dataOwner.current);
   const taxUnits = useSelector((state: AppState) => state.distributions.distributionInput.taxUnits);
   const allCauseAreas = useSelector((state: AppState) => state.causeareas.all);
@@ -136,7 +137,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
     [setDonationInput],
   );
 
-  if (!taxUnits) {
+  if (selectedDonor && !taxUnits) {
     return <span>Loading...</span>;
   }
 
@@ -157,7 +158,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
         {!donationInput.KID && (
           <DistributionInput
             causeAreas={allCauseAreas}
-            taxUnits={taxUnits}
+            taxUnits={selectedDonor ? (taxUnits as ITaxUnit[]) : []}
             distribution={distribution}
             onChange={(distribution) => dispatch(setDistributionInputDistribution(distribution))}
           ></DistributionInput>
