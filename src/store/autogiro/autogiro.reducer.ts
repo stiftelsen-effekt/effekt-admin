@@ -165,12 +165,13 @@ export const autoGiroReducer = (
       currentAgreement: {
         ...state.currentAgreement!,
         active: action.payload.params.status,
+        cancelled: action.payload.params.status === 0 ? new Date().toString() : undefined,
       },
       currentAgreementUpdating: false,
     };
   }
   if (isType(action, updateAutoGiroStatusAction.failed)) {
-    toastError("Kunne ikke endre AutoGirostatus.", "Oppdatering mislyktes.");
+    toastError("Kunne ikke endre AutoGirostatus.", action.payload.error.message);
     return {
       ...state,
       currentAgreementUpdating: false,

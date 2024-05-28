@@ -30,7 +30,7 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
 
   const [newAmount, setNewAmount] = useState<number>(initial ? initial.amount : 0);
   const [newPaymentDate, setNewPaymentDate] = useState<number>(initial ? initial.payment_date : 0);
-  const [newStatus, setNewStatus] = useState<number | undefined>(initial?.active);
+  const [newStatus, setNewStatus] = useState<number | undefined>(initial?.active ? 1 : 0);
   const [newDistribution, setNewDistribution] = useState<Partial<IDistribution>>(
     initial?.distribution ?? {},
   );
@@ -167,6 +167,7 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
             onClick={() => {
               getAccessTokenSilently().then((token) => {
                 if (typeof newStatus !== "undefined") {
+                  console.log("NEW STATUS", newStatus);
                   dispatch(
                     updateAutoGiroStatusAction.started({
                       KID: initial.KID,

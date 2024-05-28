@@ -65,6 +65,7 @@ export const DistributionInput: React.FC<{
   }, [distribution.donorId]);
 
   useEffect(() => {
+    console.log(selectedDonor);
     if (selectedDonor) {
       onChange({
         ...distribution,

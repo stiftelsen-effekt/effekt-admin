@@ -47,9 +47,10 @@ export const AutoGiroList: React.FunctionComponent<{
     {
       Header: "Status",
       id: "active",
-      accessor: (res: any) => {
-        if (res.active === 1) return "ACTIVE";
-        if (res.active === 0 && res.cancelled) return "STOPPED";
+      accessor: (res: IAutoGiro) => {
+        console.log(res.active, res.cancelled);
+        if (res.active) return "ACTIVE";
+        if (!res.active && res.cancelled) return "STOPPED";
         return "INACTIVE";
       },
       width: 90,
@@ -57,7 +58,7 @@ export const AutoGiroList: React.FunctionComponent<{
     {
       Header: "Sum",
       id: "amount",
-      accessor: (res: any) => thousandize(res.amount),
+      accessor: (res: IAutoGiro) => thousandize(res.amount),
       sortMethod: (a: any, b: any) => {
         return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
       },

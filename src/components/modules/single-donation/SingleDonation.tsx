@@ -53,14 +53,16 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
 
   useEffect(() => {
     if (!taxUnits) {
-      const donorId = donationInput.donorId;
+      const donorId = distribution.donorId || selectedDonor?.id;
       if (typeof donorId !== "undefined") {
         getAccessTokenSilently().then((token) => {
           dispatch(getDonorTaxUnitsAction.started({ token, id: donorId }));
         });
       }
     }
-  }, [donationInput.donorId, taxUnits, getAccessTokenSilently, dispatch]);
+  }, [distribution.donorId, selectedDonor, taxUnits, getAccessTokenSilently, dispatch]);
+
+  console.log(distribution);
 
   useEffect(() => {
     if (!allCauseAreas) {

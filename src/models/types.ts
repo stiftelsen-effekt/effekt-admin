@@ -380,7 +380,7 @@ export interface IAutoGiro {
   donor: string;
   full_name: string;
   payment_date: number;
-  cancelled: string;
+  cancelled?: string;
   distribution: IDistribution;
   affiliatedDonations: Array<IDonation>;
 }

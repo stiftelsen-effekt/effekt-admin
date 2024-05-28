@@ -269,14 +269,12 @@ export function* updateAutoGiroStatus(action: Action<IUpdateAutoGiroStatusAction
   const status = action.payload.status;
 
   try {
+    if (status !== 0 && status !== 1) throw new Error("Invalid status");
+
     const result: API.Response = yield call(API.call, {
-      method: API.Method.POST,
-      endpoint: `/autogiro/${action.payload.KID}/status`,
+      method: API.Method.PUT,
+      endpoint: `/autogiro/${KID}/${status === 1 ? "activate" : "cancel"}`,
       token: action.payload.token,
-      data: {
-        KID,
-        active: status,
-      },
     });
     if (result) {
       yield put(updateAutoGiroStatusAction.done({ params: action.payload, result: status }));
@@ -284,7 +282,7 @@ export function* updateAutoGiroStatus(action: Action<IUpdateAutoGiroStatusAction
   } catch (ex) {
     yield put(
       updateAutoGiroStatusAction.failed({
-        error: new Error(typeof ex === "string" ? ex : ""),
+        error: new Error(typeof ex === "string" ? ex : (ex as Error).message),
         params: action.payload,
       }),
     );
