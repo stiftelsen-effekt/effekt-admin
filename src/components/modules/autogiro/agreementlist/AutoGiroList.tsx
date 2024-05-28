@@ -98,7 +98,7 @@ export const AutoGiroList: React.FunctionComponent<{
     {
       Header: "Notify",
       id: "notice",
-      accessor: (res: any) => (res.notice === 1 ? "YES" : "NO"),
+      accessor: (res: any) => (res.notice ? "YES" : "NO"),
       width: 60,
     },
   ];
