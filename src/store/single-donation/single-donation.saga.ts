@@ -7,6 +7,7 @@ import {
   fetchPaymentMethodsAction,
   ICreateDonationParams,
   ICreateDistributionAndInsertDonationParams,
+  IInsertDonationParams,
 } from "./single-donation.actions";
 
 export function* fetchPaymentMethods(action: any) {
@@ -37,13 +38,13 @@ export function* createDistributionCall(params: ICreateDistributionParams, token
   }
 }
 
-export function* insertDonationCall(params: ICreateDonationParams, token: string) {
+export function* insertDonationCall(donation: ICreateDonationParams, token: string) {
   try {
     var data: API.Response = yield call(API.call, {
       endpoint: "/donations/confirm",
       method: API.Method.POST,
       token: token,
-      data: params,
+      data: donation,
     });
     if (data.status !== 200) throw new Error(data.content);
     return data.content;
@@ -52,9 +53,9 @@ export function* insertDonationCall(params: ICreateDonationParams, token: string
   }
 }
 
-export function* insertDonation(action: Action<ICreateDonationParams>) {
+export function* insertDonation(action: Action<IInsertDonationParams>) {
   try {
-    yield call(insertDonationCall, action.payload, action.payload.token);
+    yield call(insertDonationCall, action.payload.donation, action.payload.token);
     //TODO: Refactor to use common "done" action for insertion of donation
     yield put(
       createDistribitionAndInsertDonationAction.done({
@@ -85,8 +86,11 @@ export function* createDistributionAndInsertDonation(
       ...action.payload.donation,
       KID: kidResult.KID,
     };
+    console.log("saga", action);
+
     yield call(insertDonationCall, donationData, action.payload.token);
 
+    console.log("saga", action);
     yield put(
       createDistribitionAndInsertDonationAction.done({ params: action.payload, result: "OK" }),
     );

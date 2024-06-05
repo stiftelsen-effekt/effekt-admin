@@ -136,6 +136,7 @@ export const reportProcessingReducer = (
       loading: false,
     };
   } else if (isType(action, createDistribitionAndInsertDonationAction.done)) {
+    console.log(action);
     if (state.invalidTransactions.length === 0) return { ...state, loading: false };
     let externalRef = action.payload.params.donation.paymentExternalRef;
 

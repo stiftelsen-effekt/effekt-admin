@@ -14,7 +14,7 @@ import {
   ICreateDistributionParams,
   fetchPaymentMethodsAction,
   insertDonationAction,
-  ICreateDonationParams,
+  IInsertDonationParams,
 } from "../../../store/single-donation/single-donation.actions";
 
 import { DonationControls } from "./controls/DonationControls";
@@ -107,7 +107,8 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
     if (!donation) return toast.error("Missing fields");
 
     getAccessTokenSilently().then((token) => {
-      let donationParams: ICreateDonationParams = { ...donation, receipt: receipt, token };
+      let createDonationParams = { ...donation, receipt: receipt };
+      let donationParams: IInsertDonationParams = { donation: createDonationParams, token };
 
       if (donationInput.KID) {
         dispatch(insertDonationAction.started(donationParams));
@@ -125,7 +126,7 @@ export const SingleDonation: React.FunctionComponent<IProps> = ({ onIgnore, sugg
 
         dispatch(
           createDistribitionAndInsertDonationAction.started({
-            donation: donationParams,
+            donation: createDonationParams,
             distribution: distributionParams,
             token,
           }),

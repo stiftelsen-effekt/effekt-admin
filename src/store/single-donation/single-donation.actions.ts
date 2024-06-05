@@ -16,6 +16,10 @@ export interface ICreateDistributionParams {
 
 export interface ICreateDonationParams extends IDonation {
   receipt: boolean;
+}
+
+export interface IInsertDonationParams {
+  donation: ICreateDonationParams;
   token: string;
 }
 
@@ -30,6 +34,6 @@ export const createDistribitionAndInsertDonationAction = actionCreator.async<
   {},
   Error
 >("CREATE_DISTRIBUTION_AND_INSERT_DONATION");
-export const insertDonationAction = actionCreator.async<ICreateDonationParams, {}, Error>(
+export const insertDonationAction = actionCreator.async<IInsertDonationParams, {}, Error>(
   "INSERT_DONATION",
 );

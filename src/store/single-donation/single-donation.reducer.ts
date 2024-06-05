@@ -23,6 +23,7 @@ export const singleDonationReducer = (
   if (isType(action, createDistribitionAndInsertDonationAction.done)) {
     toast.success("Donation inserted");
   } else if (isType(action, createDistribitionAndInsertDonationAction.failed)) {
+    console.log("IN single donation reducer", action);
     toastError("Could not insert donation", action.payload.error.message);
   }
 
