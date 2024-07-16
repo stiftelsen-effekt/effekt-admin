@@ -326,11 +326,11 @@ export function* updateAutoGiroDistribution(
 
   try {
     const result: API.Response = yield call(API.call, {
-      method: API.Method.POST,
-      endpoint: `/autogiro/${KID}/distribution`,
+      method: API.Method.PUT,
+      endpoint: `/autogiro/${KID}/`,
       token: action.payload.token,
       data: {
-        distribution,
+        distribution: distribution,
       },
     });
     if (result) {
