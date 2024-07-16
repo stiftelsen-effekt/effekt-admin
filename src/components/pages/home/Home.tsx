@@ -8,16 +8,24 @@ import { LogsReport } from "../../modules/logs/report/LogsReport";
 import { MonthlyDonationsReport } from "../graphing/MonthlyDonationsReport";
 import { AvtaleGiroValidationTable } from "../../modules/avtalegiro/validationtable/AvtalegiroValidationTable";
 import { TransactionCostsReport } from "../../modules/donations/reports/TransactionCostsReport";
+import { AdminPanelLocale } from "../../../models/locale";
 
-export const HomeComponent: React.FunctionComponent = (props) => {
+const localePanels = {
+  NO: [<AvtaleGiroReport />, <AvtaleGiroValidationTable />, <VippsReport />],
+  SV: [],
+};
+
+export const HomeComponent: React.FC = () => {
+  const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
+
   return (
     <Page>
       <MainHeader>Home</MainHeader>
       <HomeGrid>
         <MonthlyDonationsReport />
-        <AvtaleGiroReport />
-        <AvtaleGiroValidationTable />
-        <VippsReport />
+        {localePanels[locale].map((panel, index) => (
+          <React.Fragment key={index}>{panel}</React.Fragment>
+        ))}
         <LogsReport />
         <TransactionCostsReport />
       </HomeGrid>

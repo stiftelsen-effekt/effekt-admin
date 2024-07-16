@@ -85,7 +85,7 @@ export const Logout = styled.span`
 export const LogoHolder = styled.img`
   display: block;
   margin: 0 auto;
-  width: 180px;
-  margin-top: 40px;
+  width: 160px;
+  margin-top: 60px;
   margin-bottom: 40px;
 `;

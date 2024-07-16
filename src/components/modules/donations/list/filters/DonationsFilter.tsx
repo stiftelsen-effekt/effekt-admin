@@ -82,7 +82,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
       ?.flatMap((c) => c.organizations)
       ?.map((organization) => {
         return {
-          label: organization.abbreviation || organization.name || "Unkown",
+          label: organization.name || organization.abbreviation || "Unkown",
           value: organization.id,
           selected: selectedOrganizationIDs
             ? selectedOrganizationIDs.includes(organization.id)
@@ -132,7 +132,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
               let minRange = range[0];
               let maxRange = range[1];
               if (isNaN(minRange)) minRange = 0;
-              if (isNaN(maxRange)) maxRange = 0;
+              if (isNaN(maxRange)) maxRange = Number.MAX_SAFE_INTEGER;
               dispatch(setDonationFilterSumRange(minRange, maxRange));
             }}
           ></HistogramInputComponent>

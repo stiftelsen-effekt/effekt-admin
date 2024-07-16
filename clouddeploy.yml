@@ -30,6 +30,7 @@ steps:
       - "REACT_APP_AUTH_DOMAIN=gieffektivt.eu.auth0.com"
       - "REACT_APP_AUTH_CLIENT_ID=jg0jOryc8mhJ0Z0FVLfrDxx5qaznd2x8"
       - "REACT_APP_AUTH_AUDIENCE=https://data.gieffektivt.no"
+      - "REACT_APP_LOCALE=NO"
     args: ["run", "build"]
 
   - id: "deploy-norway"
@@ -45,6 +46,7 @@ steps:
       - "REACT_APP_AUTH_DOMAIN=geeffektivt.eu.auth0.com"
       - "REACT_APP_AUTH_CLIENT_ID=LFS9efinrKEt1d6AbpVMjqHVIszj6TOv"
       - "REACT_APP_AUTH_AUDIENCE=geeffektivt.se"
+      - "REACT_APP_LOCALE=SV"
     args: ["run", "build"]
 
   - id: "deploy-sweden"

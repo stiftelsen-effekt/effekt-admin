@@ -32,8 +32,11 @@ import { DistributionComponent } from "./pages/distributions/Distribution";
 import { AutoGiroPage } from "./pages/autogiro/AutoGiroPage";
 import { AutoGiroAgreement } from "./pages/autogiro/AutoGiroAgreement/AutoGiroAgreement";
 import { AutoGiroMandatesPage } from "./pages/autogiro/Mandates/AutoGiroMandatesPage";
+import { AdminPanelLocale } from "../models/locale";
 
 export const AdminPanel: React.FunctionComponent = () => {
+  const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
+
   //TODO: Move someplace where it is run only once
   const dispatch = useDispatch();
   const causeAreas = useSelector((state: AppState) => state.causeareas.active);
@@ -51,7 +54,7 @@ export const AdminPanel: React.FunctionComponent = () => {
   return (
     <div>
       <AdminPanelWrapper>
-        <MainNavigation></MainNavigation>
+        <MainNavigation locale={locale}></MainNavigation>
         <Switch>
           <Route exact path="/home" component={HomeComponent}></Route>
           <Route exact path="/distributions" component={DistributionsPageComponent}></Route>

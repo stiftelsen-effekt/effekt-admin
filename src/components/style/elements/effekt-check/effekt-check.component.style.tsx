@@ -8,7 +8,8 @@ interface WrapperProps {
 }
 
 export const EffektCheckWrapper = styled.div`
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
   user-select: none;
   margin: 6px 0;
@@ -39,6 +40,9 @@ export const EffektCheckLabel = styled.div<LabelProps>`
   font-weight: 600;
   font-size: 14px;
   margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const SelectAllButton = styled.div<LabelProps>`

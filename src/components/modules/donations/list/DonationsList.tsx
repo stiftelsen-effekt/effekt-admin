@@ -11,6 +11,15 @@ import { DateTime } from "luxon";
 import { useHistory } from "react-router";
 import { IDonation } from "../../../../models/types";
 import { useAuth0 } from "@auth0/auth0-react";
+import { FilterHeader, FilterIcon } from "./DonationsList.style";
+import {
+  setDonationFilterDateRange,
+  setDonationFilterDonationId,
+  setDonationFilterDonor,
+  setDonationFilterKid,
+  setDonationFilterPaymentMethodIDs,
+  setDonationFilterSumRange,
+} from "../../../../store/donations/donation-filters.actions";
 
 interface Props {
   donations: Array<IDonation> | undefined;
@@ -34,6 +43,8 @@ export const DonationsList: React.FunctionComponent<Props> = ({
   const pages = useSelector((state: AppState) => state.donations.pages);
   const loading = useSelector((state: AppState) => state.donations.loading);
   const pagination = useSelector((state: AppState) => state.donations.pagination);
+  const filter = useSelector((state: AppState) => state.donations.filter);
+  const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods);
 
   useEffect(() => {
     if (manual) {
@@ -43,31 +54,104 @@ export const DonationsList: React.FunctionComponent<Props> = ({
 
   const columnDefinitions: any[] = [
     {
-      Header: "ID",
+      Header: () => {
+        if (manual) {
+          return filter.id ? (
+            <FilterHeader>
+              <span>ID</span>
+              <FilterIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(setDonationFilterDonationId(""));
+                }}
+              ></FilterIcon>
+            </FilterHeader>
+          ) : (
+            "ID"
+          );
+        } else {
+          return "ID";
+        }
+      },
       accessor: "id",
       width: 100,
     },
     {
-      Header: "Method",
+      Header: () => {
+        if (manual) {
+          return filter.paymentMethodIDs &&
+            filter.paymentMethodIDs.length !== paymentMethods.length ? (
+            <FilterHeader>
+              <span>Method</span>
+              <FilterIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(setDonationFilterPaymentMethodIDs(undefined));
+                }}
+              ></FilterIcon>
+            </FilterHeader>
+          ) : (
+            "Method"
+          );
+        } else {
+          return "Method";
+        }
+      },
       accessor: "paymentMethod",
       width: 170,
     },
     {
-      Header: "Sum",
+      Header: () => {
+        if (manual) {
+          return filter.sum.from > 0 || filter.sum.to !== Number.MAX_SAFE_INTEGER ? (
+            <FilterHeader>
+              <span>Amount</span>
+              <FilterIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(setDonationFilterSumRange(0, Number.MAX_SAFE_INTEGER));
+                }}
+              ></FilterIcon>
+            </FilterHeader>
+          ) : (
+            "Amount"
+          );
+        } else {
+          return "Amount";
+        }
+      },
       id: "sum",
       accessor: (res: any) => thousandize(res.sum) + " kr",
       Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 140,
     },
     {
-      Header: "Transaction cost",
+      Header: "Trans. cost",
       id: "transactionCost",
       accessor: (res: any) => thousandize(res.transactionCost),
       Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 115,
     },
     {
-      Header: "Timestamp",
+      Header: () => {
+        if (manual) {
+          return filter.date.from || filter.date.to ? (
+            <FilterHeader>
+              <span>Date</span>
+              <FilterIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(setDonationFilterDateRange(null, null));
+                }}
+              ></FilterIcon>
+            </FilterHeader>
+          ) : (
+            "Date"
+          );
+        } else {
+          return "Date";
+        }
+      },
       id: "timestamp",
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp)),
       sortMethod: (a: any, b: any) => {
@@ -79,14 +163,50 @@ export const DonationsList: React.FunctionComponent<Props> = ({
 
   if (!hideDonorName) {
     columnDefinitions.splice(1, 0, {
-      Header: "Donor",
+      Header: () => {
+        if (manual) {
+          return filter.donor ? (
+            <FilterHeader>
+              <span>Donor</span>
+              <FilterIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(setDonationFilterDonor(""));
+                }}
+              ></FilterIcon>
+            </FilterHeader>
+          ) : (
+            "Donor"
+          );
+        } else {
+          return "Donor";
+        }
+      },
       accessor: "donor",
     });
   }
 
   if (!hideKID) {
     columnDefinitions.splice(4, 0, {
-      Header: "KID",
+      Header: () => {
+        if (manual) {
+          return filter.KID ? (
+            <FilterHeader>
+              <span>KID</span>
+              <FilterIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(setDonationFilterKid(""));
+                }}
+              ></FilterIcon>
+            </FilterHeader>
+          ) : (
+            "KID"
+          );
+        } else {
+          return "KID";
+        }
+      },
       id: "kid",
       accessor: (res) => res.kid || res.KID,
       Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
