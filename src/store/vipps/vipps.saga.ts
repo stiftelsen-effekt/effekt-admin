@@ -113,9 +113,8 @@ export function* fetchAgreementsReport(action: Action<IFetchVippsAgreementsRepor
       token: action.payload.token,
     });
     if (result.status !== 200) throw new Error(result.content);
-    yield put(
-      fetchAgreementsReportAction.done({ params: action.payload, result: result.content[0] }),
-    );
+
+    yield put(fetchAgreementsReportAction.done({ params: action.payload, result: result.content }));
   } catch (ex) {
     yield put(fetchAgreementsReportAction.failed({ params: action.payload, error: ex as Error }));
   }
