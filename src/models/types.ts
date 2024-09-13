@@ -23,7 +23,7 @@ export interface IOrganization {
   name: string;
   abbreviation: string;
   shortDesc: string;
-  standardShare: number;
+  standardShare: Decimal;
   infoUrl: string;
 }
 
@@ -72,17 +72,8 @@ export interface ICauseArea {
   id: number;
   name: string;
   standardSplit: boolean;
-  percentageShare: Decimal;
+  standardPercentageShare: Decimal;
   organizations: Array<IOrganization>;
-}
-
-export interface IOrganization {
-  id: number;
-  name: string;
-  abbriv: string;
-  shortDesc: string;
-  standardShare: number;
-  infoUrl: string;
 }
 
 export interface IDonationFilter {

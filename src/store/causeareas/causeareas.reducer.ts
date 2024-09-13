@@ -3,6 +3,7 @@ import { AnyAction } from "redux";
 import { fetchActiveCauseareasAction, fetchAllCauseareasAction } from "./causeareas.action";
 import { isType } from "typescript-fsa";
 import { toastError } from "../../util/toasthelper";
+import Decimal from "decimal.js";
 
 const initialState: CauseAreasState = {
   active: undefined,
@@ -23,7 +24,14 @@ export const causeareasReducer = (
   } else if (isType(action, fetchAllCauseareasAction.done)) {
     return {
       ...state,
-      all: action.payload.result,
+      all: action.payload.result.map((ca) => ({
+        ...ca,
+        standardPercentageShare: new Decimal(ca.standardPercentageShare),
+        organizations: ca.organizations.map((org) => ({
+          ...org,
+          standardShare: new Decimal(org.standardShare),
+        })),
+      })),
     };
   } else if (isType(action, fetchAllCauseareasAction.failed)) {
     toastError("Failed to fetch all organizations", action.payload.error.message);

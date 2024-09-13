@@ -97,7 +97,11 @@ export const DistributionInput: React.FC<{
         organizations: ca.organizations.map((org) => {
           const existingOrg = existing.organizations.find((o) => o.id === org.id);
           if (!existingOrg) return { id: org.id, percentageShare: new Decimal(0) };
-          else return existingOrg;
+          else
+            return {
+              id: existingOrg.id,
+              percentageShare: new Decimal(existingOrg.percentageShare),
+            };
         }),
       };
     }),

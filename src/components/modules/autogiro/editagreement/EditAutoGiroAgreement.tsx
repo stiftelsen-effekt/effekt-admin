@@ -55,7 +55,7 @@ export const EditAutoGiroAgreement: React.FC<{ initial: IAutoGiro }> = ({ initia
             percentageShare: new Decimal(0),
             standardSplit: true,
             organizations: causeArea.organizations
-              .filter((org) => org.standardShare > 0)
+              .filter((org) => org.standardShare.isPositive())
               .map((org) => {
                 return {
                   ...org,

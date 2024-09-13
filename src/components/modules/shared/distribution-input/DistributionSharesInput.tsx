@@ -54,7 +54,7 @@ export const DistributionSharesInput: React.FC<{
                   if (newShares.filter((share) => share.id === org.id).length === 0) {
                     newShares.push({
                       id: org.id,
-                      abbriv: org.abbriv,
+                      abbriv: org.abbreviation,
                       percentageShare: new Decimal(0),
                     });
                   }
@@ -70,6 +70,8 @@ export const DistributionSharesInput: React.FC<{
                 newShares[index].percentageShare = Validator.isInt(e.target.value)
                   ? new Decimal(e.target.value)
                   : new Decimal(0);
+
+                console.log(newShares);
                 onChange(newShares.filter((s) => s.percentageShare.greaterThan(0)));
               }}
               denomination="%"
