@@ -27,6 +27,7 @@ import {
   setDonationFilterPaymentMethodIDs,
   setDonationFilterDonationId,
   setDonationFilterOrganizationIDs,
+  setDonationFilterTaxUnitTypes,
 } from "../../../../../store/donations/donation-filters.actions";
 import { fetchHistogramAction } from "../../../../../store/donations/donation.actions";
 import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
@@ -44,6 +45,7 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   const kid = useSelector((state: AppState) => state.donations.filter.KID);
   const donor = useSelector((state: AppState) => state.donations.filter.donor);
   const causeAreas = useSelector((state: AppState) => state.causeareas.all);
+  const taxUnitTypes = useSelector((state: AppState) => state.donations.filter.taxUnitTypes);
 
   useEffect(() => {
     if (!causeAreas) dispatch(fetchAllCauseareasAction.started(undefined));
@@ -76,6 +78,24 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
       selected: selected,
     };
   });
+
+  const taxUnitTypeChoices: Array<EffektCheckChoice> = [
+    {
+      label: "Person",
+      value: "person",
+      selected: taxUnitTypes ? taxUnitTypes.includes("person") : true,
+    },
+    {
+      label: "Organization",
+      value: "organization",
+      selected: taxUnitTypes ? taxUnitTypes.includes("organization") : true,
+    },
+    {
+      label: "Unknown",
+      value: null,
+      selected: taxUnitTypes ? taxUnitTypes.includes(null) : true,
+    },
+  ];
 
   const organizationChoices: Array<EffektCheckChoice> =
     causeAreas
@@ -184,6 +204,21 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
                 dispatch(setDonationFilterPaymentMethodIDs(selected));
               } else {
                 dispatch(setDonationFilterPaymentMethodIDs(undefined));
+              }
+            }}
+          ></EffektCheckForm>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Tax unit type</FilterGroupHeader>
+          <EffektCheckForm
+            inverted={true}
+            choices={taxUnitTypeChoices}
+            onChange={(selected: Array<string | null>, allSelected: boolean) => {
+              if (allSelected) {
+                dispatch(setDonationFilterTaxUnitTypes(undefined));
+              } else {
+                dispatch(setDonationFilterTaxUnitTypes(selected));
               }
             }}
           ></EffektCheckForm>

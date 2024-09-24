@@ -9,6 +9,9 @@ import * as API from "../../util/api";
 import { AppState } from "../../models/state";
 import { IPagination, IDonationFilter } from "../../models/types";
 import { Action } from "typescript-fsa";
+import { AdminPanelLocale } from "../../models/locale";
+
+const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
 
 export function* fetchDonations(action: Action<IFetchDonationsActionParams>) {
   try {
@@ -16,7 +19,7 @@ export function* fetchDonations(action: Action<IFetchDonationsActionParams>) {
     const filter: IDonationFilter = yield select((state: AppState) => state.donations.filter);
 
     const result: API.Response = yield call(API.call, {
-      endpoint: "/donations",
+      endpoint: `/donations?locale=${locale}`,
       method: API.Method.POST,
       token: action.payload.token,
       data: {

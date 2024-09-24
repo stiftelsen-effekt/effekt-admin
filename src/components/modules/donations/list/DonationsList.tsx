@@ -19,7 +19,9 @@ import {
   setDonationFilterKid,
   setDonationFilterPaymentMethodIDs,
   setDonationFilterSumRange,
+  setDonationFilterTaxUnitTypes,
 } from "../../../../store/donations/donation-filters.actions";
+import { Briefcase, User } from "react-feather";
 
 interface Props {
   donations: Array<IDonation> | undefined;
@@ -74,7 +76,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({
         }
       },
       accessor: "id",
-      width: 100,
+      width: 80,
     },
     {
       Header: () => {
@@ -98,7 +100,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({
         }
       },
       accessor: "paymentMethod",
-      width: 170,
+      width: 150,
     },
     {
       Header: () => {
@@ -126,11 +128,35 @@ export const DonationsList: React.FunctionComponent<Props> = ({
       width: 140,
     },
     {
-      Header: "Trans. cost",
-      id: "transactionCost",
-      accessor: (res: any) => thousandize(res.transactionCost),
-      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
-      width: 115,
+      Header: () => {
+        if (manual) {
+          return filter.taxUnitTypes ? (
+            <FilterHeader>
+              <span>Tax</span>
+              <FilterIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(setDonationFilterTaxUnitTypes(undefined));
+                }}
+              ></FilterIcon>
+            </FilterHeader>
+          ) : (
+            "Tax"
+          );
+        } else {
+          return "Tax";
+        }
+      },
+      accessor: (res: any) => {
+        if (res.taxUnitType) {
+          return res.taxUnitType === "organization" ? <Briefcase size={16} /> : <User size={16} />;
+        } else {
+          return null;
+        }
+      },
+      id: "taxUnitType",
+      width: 80,
+      Cell: (row) => <span style={{ textAlign: "center", width: "100%" }}>{row.value}</span>,
     },
     {
       Header: () => {

@@ -34,7 +34,7 @@ export const EffektCheckForm: React.FunctionComponent<IProps> = ({
         choices[index].selected = now_checked;
         onChange(
           choices.filter((choice) => choice.selected).map((choice) => choice.value),
-          allSelected && now_checked,
+          choices.filter((choice) => choice.selected).length === choices.length,
         );
       }}
     ></EffektCheck>
@@ -48,7 +48,7 @@ export const EffektCheckForm: React.FunctionComponent<IProps> = ({
           } else {
             onChange(
               choices.map((choice) => choice.value),
-              allSelected,
+              true,
             );
           }
         }}

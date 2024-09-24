@@ -86,6 +86,7 @@ export interface IDonationFilter {
     to: Date | null;
   };
   paymentMethodIDs: Array<number> | undefined;
+  taxUnitTypes: Array<string | null> | undefined;
   organizationIDs: Array<number> | undefined;
   KID?: string;
   donor?: string;
