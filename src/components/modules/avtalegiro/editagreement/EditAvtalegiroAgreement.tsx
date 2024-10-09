@@ -131,7 +131,7 @@ export const EditAvtaleGiroAgreement: React.FC<{ initial: IAvtaleGiro }> = ({ in
             onChange={(e) => setNewAmount(parseInt(e.currentTarget.value))}
           ></EffektInput>
           <EffektButton
-            disabled={newAmount < 1}
+            disabled={!Number.isInteger(newAmount)}
             onClick={() => {
               getAccessTokenSilently().then((token) =>
                 dispatch(
