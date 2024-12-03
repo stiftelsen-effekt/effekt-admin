@@ -250,11 +250,23 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               id="adoveo-giftcards-upload"
             />
           </td>
-          <td></td>
+          <td>
+            <EffektInput
+              onChange={(e) => setState({ ...state, resourceId: e.target.value })}
+              placeholder="Giftcard ID"
+              style={{
+                width: "110px",
+              }}
+            />
+          </td>
           <td>
             <EffektButton
               onClick={() => {
-                uploadReport(ReportTypes.ADOVEO_GIFTCARDS, state.adoveoGiftcardReport);
+                uploadReport(
+                  ReportTypes.ADOVEO_GIFTCARDS,
+                  state.adoveoGiftcardReport,
+                  state.resourceId,
+                );
               }}
             >
               Process
