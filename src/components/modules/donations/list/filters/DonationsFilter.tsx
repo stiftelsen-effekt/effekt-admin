@@ -28,6 +28,7 @@ import {
   setDonationFilterDonationId,
   setDonationFilterOrganizationIDs,
   setDonationFilterTaxUnitTypes,
+  setDonationFilterFundraiserId,
 } from "../../../../../store/donations/donation-filters.actions";
 import { fetchHistogramAction } from "../../../../../store/donations/donation.actions";
 import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
@@ -56,6 +57,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   );
 
   const donationId = useSelector((state: AppState) => state.donations.filter.id);
+  const donationFundraiserId = useSelector(
+    (state: AppState) => state.donations.filter.fundraiserId,
+  );
   const selectedPaymentMethodIDs = useSelector(
     (state: AppState) => state.donations.filter.paymentMethodIDs,
   );
@@ -166,6 +170,18 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
             style={{ width: "100%" }}
             onChange={(e) => {
               dispatch(setDonationFilterDonationId(e.target.value));
+            }}
+          ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Fundraiser ID like</FilterGroupHeader>
+          <FilterInput
+            value={donationFundraiserId}
+            placeholder={"123"}
+            style={{ width: "100%" }}
+            onChange={(e) => {
+              dispatch(setDonationFilterFundraiserId(e.target.value));
             }}
           ></FilterInput>
         </FilterGroup>

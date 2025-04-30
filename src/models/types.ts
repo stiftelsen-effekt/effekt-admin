@@ -91,6 +91,7 @@ export interface IDonationFilter {
   KID?: string;
   donor?: string;
   id?: string;
+  fundraiserId?: string;
   statistics: {
     numDonations: number;
     sumDonations: number;
