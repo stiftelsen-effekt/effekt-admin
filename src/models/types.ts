@@ -490,3 +490,38 @@ export interface IReferralAnswer {
   session: string;
   active: boolean;
 }
+
+/** Fundraisers */
+
+export interface IFundraiser {
+  id: number;
+  registered: string;
+  lastUpdated: string;
+  donor: {
+    id: number;
+    name: string;
+  };
+  statistics: {
+    totalSum: number;
+    donationCount: number;
+    averageDonation: number;
+  };
+}
+
+export interface IFundraiserFilter {
+  registrationDate: {
+    from: Date | null;
+    to: Date | null;
+  };
+  donationCount: {
+    from: number;
+    to: number;
+  };
+  donationSum: {
+    from: number;
+    to: number;
+  };
+  donor?: string;
+  fundraiserId?: string;
+  organizationIDs?: Array<number>;
+}

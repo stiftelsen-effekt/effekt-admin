@@ -13,6 +13,7 @@ import {
   Activity,
   Smartphone,
   FileText,
+  Award,
 } from "react-feather";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AdminPanelLocale } from "../models/locale";
@@ -44,6 +45,12 @@ const navigationItems = {
       <span>Donations</span> <List size={iconSize} color={"white"}></List>
     </NavMenuItem>
   ),
+  fundraisers: (
+    <NavMenuItem to={"/fundraisers"}>
+      {" "}
+      <span>Fundraisers</span> <Award size={iconSize} color={"white"}></Award>
+    </NavMenuItem>
+  ),
   vippsAgreements: (
     <NavMenuItem to={"/vipps/agreements"}>
       {" "}
@@ -70,6 +77,7 @@ const localeMenuItems = {
     navigationItems.donors,
     navigationItems.distributions,
     navigationItems.donations,
+    navigationItems.fundraisers,
     navigationItems.avtaleGiroAgreements,
     navigationItems.vippsAgreements,
   ],
@@ -78,6 +86,7 @@ const localeMenuItems = {
     navigationItems.donors,
     navigationItems.distributions,
     navigationItems.donations,
+    navigationItems.fundraisers,
     navigationItems.autogiroAgreements,
   ],
 };

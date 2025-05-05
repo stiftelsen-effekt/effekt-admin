@@ -33,6 +33,7 @@ import { AutoGiroPage } from "./pages/autogiro/AutoGiroPage";
 import { AutoGiroAgreement } from "./pages/autogiro/AutoGiroAgreement/AutoGiroAgreement";
 import { AutoGiroMandatesPage } from "./pages/autogiro/Mandates/AutoGiroMandatesPage";
 import { AdminPanelLocale } from "../models/locale";
+import { FundraisersPage } from "./pages/fundraisers/Fundraisers";
 
 export const AdminPanel: React.FunctionComponent = () => {
   const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
@@ -90,6 +91,8 @@ export const AdminPanel: React.FunctionComponent = () => {
           <Route exact path="/autogiro" component={AutoGiroPage}></Route>
           <Route exact path="/autogiro/mandates/" component={AutoGiroMandatesPage}></Route>
           <Route exact path="/autogiro/:id" component={AutoGiroAgreement}></Route>
+
+          <Route exact path="/fundraisers" component={FundraisersPage}></Route>
 
           <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
         </Switch>

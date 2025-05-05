@@ -20,6 +20,7 @@ import { composeWithDevTools } from "@redux-devtools/extension";
 import { autoGiroReducer } from "./store/autogiro/autogiro.reducer";
 import { taxUnitsReducer } from "./store/taxunits.ts/taxunits.reducer";
 import { autoGiroMandateReducer } from "./store/autogiro/autogiromedgivande.reducer";
+import { fundraisersReducer } from "./store/fundraisers/fundraisers.reducer";
 
 const rootReducer = combineReducers<AppState>({
   graphing: graphingReducer,
@@ -40,6 +41,7 @@ const rootReducer = combineReducers<AppState>({
   avtaleGiroAgreements: avtaleGiroReducer,
   autoGiroAgreements: autoGiroReducer,
   autoGiroMandates: autoGiroMandateReducer,
+  fundraisers: fundraisersReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();

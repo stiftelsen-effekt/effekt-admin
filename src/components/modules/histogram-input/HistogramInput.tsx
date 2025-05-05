@@ -51,26 +51,28 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({
 
   return (
     <div>
-      <Histoslider
-        data={histogramData}
-        selection={sliderIndex}
-        onChange={([bottom, top]: Array<number>) => {
-          bottom = parseInt(bottom.toString());
-          top = parseInt(top.toString());
+      {buckets.length > 1 && (
+        <Histoslider
+          data={histogramData}
+          selection={sliderIndex}
+          onChange={([bottom, top]: Array<number>) => {
+            bottom = parseInt(bottom.toString());
+            top = parseInt(top.toString());
 
-          onChange([buckets[bottom], buckets[top]]);
-        }}
-        width={260}
-        height={120}
-        step={1}
-        padding={10}
-        selectedColor={"white"}
-        histogramStyle={{
-          backgroundColor: "none",
-        }}
-        showLabels={false}
-        barBorderRadius={0}
-      ></Histoslider>
+            onChange([buckets[bottom], buckets[top]]);
+          }}
+          width={260}
+          height={120}
+          step={1}
+          padding={10}
+          selectedColor={"white"}
+          histogramStyle={{
+            backgroundColor: "none",
+          }}
+          showLabels={false}
+          barBorderRadius={0}
+        ></Histoslider>
+      )}
       <div
         style={{
           display: "flex",

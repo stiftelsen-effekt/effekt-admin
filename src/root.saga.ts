@@ -168,6 +168,9 @@ import {
 } from "./store/taxunits.ts/taxunits.actions";
 import { fetchAutoGiroMandatesAction } from "./store/autogiro/autogiromedgivande.actions";
 import { fetchAutoGiroMandates } from "./store/autogiro/autogiromedgivande.saga";
+import { fetchFundraisersAction } from "./store/fundraisers/fundraisers-list.actions";
+import { fetchFundraiserAction } from "./store/fundraisers/fundraiser.actions";
+import { fetchFundraisersSaga, fetchFundraiserSaga } from "./store/fundraisers/fundraisers.saga";
 
 function* watchAll() {
   yield all([
@@ -262,6 +265,9 @@ function* watchAll() {
     takeLatest(fetchAutogiroShipmentsAction.started.type, fetchAutogiroShipments),
 
     takeLatest(fetchAutoGiroMandatesAction.started.type, fetchAutoGiroMandates),
+
+    takeLatest(fetchFundraisersAction.started.type, fetchFundraisersSaga),
+    takeLatest(fetchFundraiserAction.started.type, fetchFundraiserSaga),
   ]);
 }
 

@@ -32,6 +32,8 @@ import {
   ICauseArea,
   IAutoGiroMandate,
   IAutoGiroMandateFilter,
+  IFundraiser,
+  IFundraiserFilter,
 } from "./types";
 
 export interface AppState {
@@ -59,6 +61,8 @@ export interface AppState {
   avtaleGiroAgreements: AvtaleGiroAgreementsState;
   autoGiroAgreements: AutoGiroAgreementsState;
   autoGiroMandates: AutoGiroMandatesState;
+
+  fundraisers: FundraisersState;
 }
 
 export interface DonorSelectorState {
@@ -251,4 +255,18 @@ export interface LoggingState {
   loading: boolean;
   pagination: IPagination;
   filter: ILogFilter;
+}
+
+export interface FundraisersState {
+  currentFundraiser?: IFundraiser;
+  fundraisers: Array<IFundraiser>;
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
+  filter: IFundraiserFilter;
+  statistics: {
+    numFundraisers: number;
+    sumDonations: number;
+    avgDonation: number;
+  };
 }
