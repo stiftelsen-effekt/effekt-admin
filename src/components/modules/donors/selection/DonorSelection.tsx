@@ -14,7 +14,7 @@ import {
 } from "../../../../store/donors/donor-selection.actions";
 import { IDonor } from "../../../../models/types";
 import { EffektInput } from "../../../style/elements/input.style";
-import { shortDate, thousandize } from "../../../../util/formatting";
+import { shortDate } from "../../../../util/formatting";
 import { HelpCircle, PlusSquare } from "react-feather";
 import { EffektButton } from "../../../style/elements/button.style";
 import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
@@ -117,14 +117,6 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
         return DateTime.fromFormat(a, "dd.MM.yyyy") > DateTime.fromFormat(b, "dd.MM.yyyy") ? -1 : 1;
       },
       width: 150,
-    },
-    {
-      id: "total_donations",
-      Header: "Total donated",
-      accessor: (donor: IDonor) => thousandize(donor.total_donations),
-      sortMethod: (a: string, b: string) => {
-        return Number(a.replaceAll(" ", "")) - Number(b.replace(" ", ""));
-      },
     },
   ];
 

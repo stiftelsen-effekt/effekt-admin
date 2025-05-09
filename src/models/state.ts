@@ -34,7 +34,9 @@ import {
   IAutoGiroMandateFilter,
   IFundraiser,
   IFundraiserFilter,
+  IReferralType,
 } from "./types";
+import { DateTime } from "luxon";
 
 export interface AppState {
   graphing: GraphingState;
@@ -44,6 +46,7 @@ export interface AppState {
   donorPage: DonorPageState;
 
   causeareas: CauseAreasState;
+  referrals: ReferralsState;
   singleDonation: SingleDonationState;
 
   reportProcessing: ReportProcessingState;
@@ -63,6 +66,8 @@ export interface AppState {
   autoGiroMandates: AutoGiroMandatesState;
 
   fundraisers: FundraisersState;
+
+  donors: DonorsState;
 }
 
 export interface DonorSelectorState {
@@ -90,6 +95,11 @@ export interface DonorPageState {
 export interface CauseAreasState {
   active?: Array<ICauseArea>;
   all?: Array<ICauseArea>;
+}
+
+export interface ReferralsState {
+  active?: Array<IReferralType>;
+  all?: Array<IReferralType>;
 }
 
 export interface SingleDonationState {
@@ -268,5 +278,52 @@ export interface FundraisersState {
     numFundraisers: number;
     sumDonations: number;
     avgDonation: number;
+  };
+}
+
+export interface DonorFiltersState {
+  name: string;
+  email: string;
+  registeredDate: {
+    from: DateTime | null;
+    to: DateTime | null;
+  };
+  donationsDateRange: {
+    from: DateTime | null;
+    to: DateTime | null;
+  };
+  lastDonationDate: {
+    from: DateTime | null;
+    to: DateTime | null;
+  };
+  donationsCount: {
+    from: number | null;
+    to: number | null;
+  };
+  donationsSum: {
+    from: number | null;
+    to: number | null;
+  };
+  referralTypeIDs?: Array<number>;
+  recipientOrgIDs?: Array<number>;
+}
+
+export interface DonorsState {
+  donors: Array<IDonor>;
+  loading: boolean;
+  pages: number;
+  pagination: {
+    page: number;
+    limit: number;
+    sort?: {
+      id: string;
+      desc: boolean;
+    };
+  };
+  filter: DonorFiltersState;
+  statistics: {
+    totalDonors: number;
+    totalDonationSum: number;
+    totalDonationCount: number;
   };
 }

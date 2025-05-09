@@ -219,7 +219,6 @@ export function* updateDonorData(action: Action<IUpdateDonorDataParams>) {
         id: action.payload.donor.id,
         name: action.payload.donor.name,
         email: action.payload.donor.email,
-        ssn: action.payload.donor.ssn,
         newsletter: Boolean(action.payload.donor.newsletter),
         trash: Boolean(action.payload.donor.trash),
         registered: action.payload.donor.registered,

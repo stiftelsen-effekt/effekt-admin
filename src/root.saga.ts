@@ -171,14 +171,19 @@ import { fetchAutoGiroMandates } from "./store/autogiro/autogiromedgivande.saga"
 import { fetchFundraisersAction } from "./store/fundraisers/fundraisers-list.actions";
 import { fetchFundraiserAction } from "./store/fundraisers/fundraiser.actions";
 import { fetchFundraisersSaga, fetchFundraiserSaga } from "./store/fundraisers/fundraisers.saga";
+import { watchDonorsList } from "./store/donors/donors-list.saga";
+import { fetchActiveRefferalsAction } from "./store/referrals/referrals.action";
+import { fetchActiveReferrals, fetchAllReferrals } from "./store/referrals/referrals.saga";
 
 function* watchAll() {
   yield all([
     takeLatest(searchDonorAction.started.type, searchDonors),
 
     takeLatest(fetchActiveCauseareasAction.started.type, fetchActiveCauseAreas),
-
     takeLatest(fetchAllCauseareasAction.started.type, fetchAllCauseAreas),
+
+    takeLatest(fetchActiveRefferalsAction.started.type, fetchActiveReferrals),
+    takeLatest(fetchAllCauseareasAction.started.type, fetchAllReferrals),
 
     takeLatest(fetchPaymentMethodsAction.started.type, fetchPaymentMethods),
 
@@ -268,6 +273,8 @@ function* watchAll() {
 
     takeLatest(fetchFundraisersAction.started.type, fetchFundraisersSaga),
     takeLatest(fetchFundraiserAction.started.type, fetchFundraiserSaga),
+
+    watchDonorsList(),
   ]);
 }
 

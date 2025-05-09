@@ -18,7 +18,6 @@ export const CreateDonor: React.FunctionComponent<IProps> = ({ onSubmit }) => {
   const [state, setState] = useState<Partial<IDonor>>({
     email: "",
     name: "",
-    ssn: "",
   });
 
   const dispatch = useDispatch();
@@ -28,7 +27,7 @@ export const CreateDonor: React.FunctionComponent<IProps> = ({ onSubmit }) => {
       dispatch(
         createDonorAction.started({
           token: token,
-          donor: { email: state.email, name: state.name, ssn: state.ssn },
+          donor: { email: state.email, name: state.name },
         }),
       );
     });
@@ -48,12 +47,6 @@ export const CreateDonor: React.FunctionComponent<IProps> = ({ onSubmit }) => {
         placeholder="name"
         onKeyDown={(e) => e.key === "Enter" && submit()}
         onChange={(e: any) => setState({ ...state, name: e.target.value })}
-      ></EffektInput>
-      <EffektInput
-        value={state.ssn}
-        placeholder="ssn / orgnr"
-        onKeyDown={(e) => e.key === "Enter" && submit()}
-        onChange={(e: any) => setState({ ...state, ssn: e.target.value })}
       ></EffektInput>
       <EffektButton onClick={submit}>
         Create <Plus size={16} />

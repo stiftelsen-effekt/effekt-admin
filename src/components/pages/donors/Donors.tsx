@@ -1,13 +1,24 @@
-import { MainHeader } from "../../style/elements/headers.style";
 import React from "react";
 import { Page } from "../../style/elements/page.style";
-import { DonorSelectionComponent } from "../../modules/donors/selection/DonorSelection";
+import { MainHeader } from "../../style/elements/headers.style";
+import { DonorsList } from "../../modules/donors/list/DonorsList";
+import { DonorsFilterComponent } from "../../modules/donors/list/filters/DonorsFilter";
+import { useSelector } from "react-redux";
+import { AppState } from "../../../models/state";
+import { DonationListWrapper } from "../../modules/donations/list/DonationsList.style";
 
 export const DonorsPageComponent: React.FunctionComponent = () => {
+  const donors = useSelector((state: AppState) => state.donors.donors);
+
+  console.log(donors);
+
   return (
     <Page>
       <MainHeader>Donors</MainHeader>
-      <DonorSelectionComponent></DonorSelectionComponent>
+      <DonorsFilterComponent></DonorsFilterComponent>
+      <DonationListWrapper>
+        <DonorsList donors={donors} manual={true} />
+      </DonationListWrapper>
     </Page>
   );
 };

@@ -6,10 +6,11 @@ export interface IDonor {
   name: string;
   email: string;
   registered: DateTime;
-  total_donations: number;
-  ssn: string;
   newsletter?: boolean;
   trash?: boolean;
+  lastDonation?: DateTime;
+  donationsCount?: number;
+  donationsSum?: number;
 }
 
 export interface IDonorStats {
@@ -489,6 +490,12 @@ export interface IReferralAnswer {
   timestamp: DateTime;
   session: string;
   active: boolean;
+}
+
+export interface IReferralType {
+  id: number;
+  name: string;
+  ordering: number;
 }
 
 /** Fundraisers */

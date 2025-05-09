@@ -52,6 +52,15 @@ export const AdminPanel: React.FunctionComponent = () => {
     if (!allCauseAreas) dispatch(fetchAllCauseareasAction.started(undefined));
   }, [allCauseAreas, dispatch]);
 
+  const allReferrals = useSelector((state: AppState) => state.referrals.all);
+  useEffect(() => {
+    if (!allReferrals) dispatch(fetchAllCauseareasAction.started(undefined));
+  }, [allReferrals, dispatch]);
+  const activeReferrals = useSelector((state: AppState) => state.referrals.active);
+  useEffect(() => {
+    if (!activeReferrals) dispatch(fetchActiveCauseareasAction.started(undefined));
+  }, [activeReferrals, dispatch]);
+
   return (
     <div>
       <AdminPanelWrapper>

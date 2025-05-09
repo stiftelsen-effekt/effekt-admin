@@ -21,6 +21,8 @@ import { autoGiroReducer } from "./store/autogiro/autogiro.reducer";
 import { taxUnitsReducer } from "./store/taxunits.ts/taxunits.reducer";
 import { autoGiroMandateReducer } from "./store/autogiro/autogiromedgivande.reducer";
 import { fundraisersReducer } from "./store/fundraisers/fundraisers.reducer";
+import { donorsReducer } from "./store/donors/donors-list.reducer";
+import { refferalsReducer } from "./store/referrals/referrals.reducer";
 
 const rootReducer = combineReducers<AppState>({
   graphing: graphingReducer,
@@ -28,6 +30,7 @@ const rootReducer = combineReducers<AppState>({
   donorCreation: CreateDonorReducer,
   donorPage: donorPageReducer,
   causeareas: causeareasReducer,
+  referrals: refferalsReducer,
   singleDonation: singleDonationReducer,
   reportProcessing: reportProcessingReducer,
   donations: donationsReducer,
@@ -42,10 +45,14 @@ const rootReducer = combineReducers<AppState>({
   autoGiroAgreements: autoGiroReducer,
   autoGiroMandates: autoGiroMandateReducer,
   fundraisers: fundraisersReducer,
+  donors: donorsReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
-const Store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+const composeEnhancers = composeWithDevTools({
+  trace: true,
+});
+const Store = createStore(rootReducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(watchAll);
 
 export default Store;
