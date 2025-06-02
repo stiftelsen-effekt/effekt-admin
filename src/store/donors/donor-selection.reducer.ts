@@ -15,27 +15,44 @@ import { isType } from "typescript-fsa";
 const initialState: DonorSelectorState = {
   query: "",
   visible: false,
-  searchResult: [],
+  searchResult: {
+    rows: [],
+    pages: 0,
+  },
+  loading: false,
 };
 
 export const donorSelectorReducer = (
   state: DonorSelectorState = initialState,
   action: AnyAction,
 ): DonorSelectorState => {
-  if (isType(action, searchDonorAction.done)) {
+  if (isType(action, searchDonorAction.started)) {
     return {
       ...state,
-      searchResult: action.payload.result.map((donor: IDonor) => {
-        return {
-          ...donor,
-          registered: DateTime.fromISO(donor.registered.toString()),
-        };
-      }),
+      loading: true,
+    };
+  } else if (isType(action, searchDonorAction.done)) {
+    return {
+      ...state,
+      searchResult: {
+        ...action.payload.result,
+        rows: action.payload.result.rows.map((donor: IDonor) => {
+          return {
+            ...donor,
+            registered: DateTime.fromISO(donor.registered.toString()),
+          };
+        }),
+      },
+      loading: false,
     };
   } else if (isType(action, searchDonorAction.failed)) {
     return {
       ...state,
-      searchResult: [],
+      searchResult: {
+        rows: [],
+        pages: 0,
+      },
+      loading: false,
     };
   }
 

@@ -2,15 +2,17 @@ import React from "react";
 import { IDataOwner } from "../../../models/types";
 import { useSelector, useDispatch } from "react-redux";
 import Select from "react-select";
-import { setCurrentOwnerAction, fetchOwnersAction } from "../../../store/owners/owners.actions";
+import { fetchOwnersAction } from "../../../store/owners/owners.actions";
 import { AppState } from "../../../models/state";
 
-export const OwnerSelect: React.FunctionComponent = () => {
+export const OwnerSelect: React.FC<{
+  value: IDataOwner | undefined;
+  onChange: (owner: IDataOwner) => void;
+}> = ({ value, onChange }) => {
   const dispatch = useDispatch();
 
   const dataOwners = useSelector((state: AppState) => state.dataOwner.owners);
-  const currentOwner = useSelector((state: AppState) => state.dataOwner.current);
-  if (!dataOwners || !currentOwner) {
+  if (!dataOwners) {
     dispatch(fetchOwnersAction.started(undefined));
     return <div>Fetching data owners...</div>;
   }
@@ -22,10 +24,12 @@ export const OwnerSelect: React.FunctionComponent = () => {
     <React.Fragment>
       <Select
         options={ownersOptions}
-        value={mapOwnerToOption(currentOwner)}
+        value={typeof value !== "undefined" ? mapOwnerToOption(value) : undefined}
         onChange={(selected: any) => {
           let selectedOwner = dataOwners.find((owner) => selected.value === owner.id);
-          if (selectedOwner) dispatch(setCurrentOwnerAction(selectedOwner));
+          if (selectedOwner) {
+            onChange(selectedOwner);
+          }
         }}
       ></Select>
     </React.Fragment>

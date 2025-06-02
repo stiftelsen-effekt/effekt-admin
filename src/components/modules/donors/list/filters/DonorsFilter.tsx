@@ -23,6 +23,7 @@ import {
   setDonorFilterDonationsDateRange,
   setDonorFilterDonationsCount,
   setDonorFilterReferralTypeIDs,
+  setDonorFilterId,
 } from "../../../../../store/donors/donor-filters.actions";
 import { DateTime } from "luxon";
 import {
@@ -102,6 +103,26 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
             style={{ width: "100%" }}
             onChange={(e) => {
               dispatch(setDonorFilterEmail(e.target.value));
+            }}
+          ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Donor ID</FilterGroupHeader>
+          <FilterInput
+            placeholder="Search by donor ID"
+            style={{ width: "100%" }}
+            onChange={(e) => {
+              if (e.target.value === "") {
+                dispatch(setDonorFilterId(null));
+                return;
+              }
+              const donorId = parseInt(e.target.value);
+              if (isNaN(donorId)) {
+                dispatch(setDonorFilterId(null));
+                return;
+              }
+              dispatch(setDonorFilterId(donorId));
             }}
           ></FilterInput>
         </FilterGroup>
@@ -300,26 +321,26 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
             }}
           ></EffektCheckForm>
         </FilterGroup>
-      </FilterContent>
 
-      <FilterStatsTableContainer>
-        <table>
-          <tbody>
-            <tr>
-              <td>Sum donations</td>
-              <td>kr {thousandize(Math.round(statistics.totalDonationSum))}</td>
-            </tr>
-            <tr>
-              <td>Count donations</td>
-              <td>{thousandize(statistics.totalDonationCount)}</td>
-            </tr>
-            <tr>
-              <td>Count donors</td>
-              <td>{thousandize(statistics.totalDonors)}</td>
-            </tr>
-          </tbody>
-        </table>
-      </FilterStatsTableContainer>
+        <FilterStatsTableContainer>
+          <table>
+            <tbody>
+              <tr>
+                <td>Sum donations</td>
+                <td>kr {thousandize(Math.round(statistics.totalDonationSum))}</td>
+              </tr>
+              <tr>
+                <td>Count donations</td>
+                <td>{thousandize(statistics.totalDonationCount)}</td>
+              </tr>
+              <tr>
+                <td>Count donors</td>
+                <td>{thousandize(statistics.totalDonors)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </FilterStatsTableContainer>
+      </FilterContent>
     </FilterWrapper>
   );
 };

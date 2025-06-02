@@ -5,6 +5,7 @@ const actionCreator = actionCreatorFactory("DONOR_FILTERS");
 
 export const setDonorFilterName = actionCreator<string>("SET_DONOR_FILTER_NAME");
 export const setDonorFilterEmail = actionCreator<string>("SET_DONOR_FILTER_EMAIL");
+export const setDonorFilterId = actionCreator<number | null>("SET_DONOR_FILTER_ID");
 export const setDonorFilterDateRange = actionCreator<{
   from: DateTime | null;
   to: DateTime | null;

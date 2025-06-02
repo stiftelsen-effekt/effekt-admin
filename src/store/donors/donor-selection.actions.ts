@@ -1,3 +1,4 @@
+import { DonorFiltersState } from "../../models/state";
 import { IDonor } from "../../models/types";
 import actionCreatorFactory from "typescript-fsa";
 
@@ -23,20 +24,21 @@ export const clearSelectedDonor = () => ({ type: CLEAR_SELECTED_DONOR });
 const actionCreator = actionCreatorFactory();
 
 export interface IFetchSearchDonorsActionParams {
-  query?: string;
-  registered?: {
-    from: Date | null;
-    to: Date | null;
-  };
-  totalDonations?: {
-    from: number | null;
-    to: number | null;
-  };
   token?: string;
+  filter: DonorFiltersState;
+  page: number;
+  limit: number;
+  sort?: {
+    id: string;
+    desc: boolean;
+  };
 }
 
 export const searchDonorAction = actionCreator.async<
   IFetchSearchDonorsActionParams,
-  Array<IDonor>,
+  {
+    rows: Array<IDonor>;
+    pages: number;
+  },
   Error
 >("SEARCH_DONORS");

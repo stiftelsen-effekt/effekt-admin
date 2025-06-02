@@ -42,8 +42,4 @@ export const Controls = styled.div`
   & Button {
     margin-left: 12px;
   }
-
-  @media (min-width: 1680px) {
-    padding-right: 320px;
-  }
 `;

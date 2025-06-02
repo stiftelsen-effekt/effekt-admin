@@ -59,6 +59,7 @@ export interface IDistribution {
   donorId: number;
   taxUnitId: number;
   causeAreas: Array<IDistributionCauseArea>;
+  metaOwnerId?: number;
 }
 
 export interface IDistributionCauseArea {

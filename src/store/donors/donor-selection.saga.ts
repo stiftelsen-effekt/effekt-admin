@@ -8,10 +8,15 @@ export function* searchDonors(action: Action<IFetchSearchDonorsActionParams>) {
   delete action.payload.token;
   try {
     var data: API.Response = yield call(API.call, {
-      endpoint: "/donors/search/",
+      endpoint: "/donors/list/",
       method: API.Method.POST,
       token: token,
-      data: action.payload,
+      data: {
+        filter: action.payload.filter,
+        page: action.payload.page,
+        limit: action.payload.limit,
+        sort: action.payload.sort,
+      },
     });
     if (data.status !== 200) throw new Error(data.content);
     yield put(searchDonorAction.done({ params: action.payload, result: data.content }));

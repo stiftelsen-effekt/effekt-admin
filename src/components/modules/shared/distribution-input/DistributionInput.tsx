@@ -16,6 +16,8 @@ import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.c
 import { NewTaxUnitModal } from "../../taxunits/modal/NewTaxUnitModal";
 import { DistributionCauseAreaInput } from "./DistributionCauseAreaInput";
 import Decimal from "decimal.js";
+import { OwnerSelect } from "../../owner-select/OwnerSelect";
+import { fetchOwnersAction } from "../../../../store/owners/owners.actions";
 
 const noTaxUnit = { label: "No tax unit", value: undefined };
 
@@ -65,7 +67,6 @@ export const DistributionInput: React.FC<{
   }, [distribution.donorId]);
 
   useEffect(() => {
-    console.log(selectedDonor);
     if (selectedDonor) {
       onChange({
         ...distribution,
@@ -74,6 +75,12 @@ export const DistributionInput: React.FC<{
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDonor]);
+
+  const dataOwners = useSelector((state: AppState) => state.dataOwner.owners);
+  if (!dataOwners) {
+    dispatch(fetchOwnersAction.started(undefined));
+    return <div>Fetching data owners...</div>;
+  }
 
   if (!causeAreas) return <div>Failed fetching cause areas</div>;
 
@@ -171,6 +178,17 @@ export const DistributionInput: React.FC<{
         >
           Add tax unit
         </EffektButton>
+      </div>
+      <div>
+        <OwnerSelect
+          value={dataOwners.find((d) => d.id === distribution.metaOwnerId)}
+          onChange={(owner) => {
+            onChange({
+              ...filledInDistribution,
+              metaOwnerId: owner?.id,
+            });
+          }}
+        ></OwnerSelect>
       </div>
       {filledInDistribution.causeAreas?.map((causeArea) => (
         <div

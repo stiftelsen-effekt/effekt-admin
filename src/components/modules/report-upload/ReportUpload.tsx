@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EffektButton } from "../../style/elements/button.style";
 import { EffektFileInput } from "../../style/elements/fileinput.component";
 import { ReportTable } from "./ReportUpload.style";
@@ -11,6 +11,7 @@ import { OwnerSelect } from "../owner-select/OwnerSelect";
 import { EffektLoadingSpinner } from "../../style/elements/loading-spinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import { EffektInput } from "../../style/elements/input.style";
+import { fetchOwnersAction, setCurrentOwnerAction } from "../../../store/owners/owners.actions";
 
 interface IState {
   vippsReport: File | null;
@@ -45,7 +46,14 @@ export const ReportUpload: React.FunctionComponent = (props) => {
   const [state, setState] = useState<IState>(getDefaultState());
 
   const currentDataOwner = useSelector((state: AppState) => state.dataOwner.current);
+  const dataOwners = useSelector((state: AppState) => state.dataOwner.owners);
   const loading = useSelector((state: AppState) => state.reportProcessing.loading);
+
+  useEffect(() => {
+    if (!dataOwners) {
+      dispatch(fetchOwnersAction.started(undefined));
+    }
+  }, [dataOwners, dispatch, getAccessTokenSilently]);
 
   const uploadReport = (type: ReportTypes, file: File | null, resourceId?: string) => {
     if (loading) return toast.error("Already processing a report");
@@ -71,6 +79,9 @@ export const ReportUpload: React.FunctionComponent = (props) => {
   );
 
   if (shouldProcess) return <Redirect to="/register/process"></Redirect>;
+  if (!dataOwners) {
+    return <p>Loading data owners...</p>;
+  }
 
   return (
     <ReportTable>
@@ -80,7 +91,10 @@ export const ReportUpload: React.FunctionComponent = (props) => {
             <strong>Eier</strong>
           </td>
           <td>
-            <OwnerSelect></OwnerSelect>
+            <OwnerSelect
+              value={currentDataOwner}
+              onChange={(owner) => dispatch(setCurrentOwnerAction(owner))}
+            ></OwnerSelect>
           </td>
         </tr>
         <tr>

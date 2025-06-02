@@ -10,6 +10,8 @@ export const InputWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
+  position: relative;
+  z-index: 100;
 `;
 
 const KIDTextArrowSize = "12px";
@@ -48,5 +50,5 @@ export const DistributionWrapper = styled.div`
 `;
 
 export const DonationInputElement = styled(EffektInput as any)`
-  width: 90px;
+  width: 110px;
 `;

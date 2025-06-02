@@ -39,6 +39,7 @@ export const FilterWrapper = styled.div<IFilterWrapperProps>`
 export const FilterContent = styled.div`
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
   overflow-y: auto;
   overflow-y: overlay;
 `;

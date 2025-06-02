@@ -73,8 +73,12 @@ export interface AppState {
 export interface DonorSelectorState {
   query: string;
   selectedDonor?: IDonor;
-  searchResult?: Array<IDonor>;
+  searchResult?: {
+    rows: Array<IDonor>;
+    pages: number;
+  };
   visible: boolean;
+  loading: boolean;
 }
 
 export interface DonorPageState {
@@ -284,6 +288,7 @@ export interface FundraisersState {
 export interface DonorFiltersState {
   name: string;
   email: string;
+  donorId: number | null;
   registeredDate: {
     from: DateTime | null;
     to: DateTime | null;

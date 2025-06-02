@@ -7,8 +7,6 @@ import Select from "react-select";
 import { IPaymentMethod, IDonation } from "../../../../models/types";
 import { KIDTextWrapper, DonationInputElement } from "../SingleDonation.style";
 
-import { OwnerSelect } from "../../owner-select/OwnerSelect";
-
 interface IProps {
   onChange(input: Partial<IDonation>): void;
   paymentMethods: Array<IPaymentMethod>;
@@ -49,7 +47,7 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
     let current = getCurrentPaymentMethod();
     if (current) {
       return (
-        <div style={{ width: "120px" }}>
+        <div style={{ width: "180px" }}>
           <Select
             options={paymentMethods.map((method) => methodToOption(method))}
             value={methodToOption(current)}
@@ -93,11 +91,6 @@ export const DonationInput: React.FunctionComponent<IProps> = ({
         placeholder="External ref."
         onChange={(e) => setState({ ...state, paymentExternalRef: e.target.value })}
       />
-
-      <div style={{ width: "120px" }}>
-        <OwnerSelect></OwnerSelect>
-      </div>
-
       {methodsSelect}
     </React.Fragment>
   );

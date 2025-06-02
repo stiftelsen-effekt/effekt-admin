@@ -9,6 +9,7 @@ import {
   setDonorFilterDonationsDateRange,
   setDonorFilterDonationsSum,
   setDonorFilterEmail,
+  setDonorFilterId,
   setDonorFilterLastDonationDate,
   setDonorFilterName,
   setDonorFilterRecipientOrgIDs,
@@ -30,6 +31,7 @@ const initialState: DonorsState = {
   filter: {
     name: "",
     email: "",
+    donorId: null,
     registeredDate: {
       from: null,
       to: null,
@@ -113,6 +115,18 @@ export const donorsReducer = (
       filter: {
         ...state.filter,
         email: action.payload,
+      },
+      pagination: {
+        ...state.pagination,
+        page: 0,
+      },
+    };
+  } else if (isType(action, setDonorFilterId)) {
+    return {
+      ...state,
+      filter: {
+        ...state.filter,
+        donorId: action.payload,
       },
       pagination: {
         ...state.pagination,
