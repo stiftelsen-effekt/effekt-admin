@@ -70,6 +70,7 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
     event.persist();
     setState({
       ...state,
+      page: 0,
       selected: null,
     });
     dispatch(setDonorSelectionQuery(event.target.value));
@@ -199,6 +200,7 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
         onPageSizeChange={(pageSize, page) => setState({ ...state, page, pageSize })}
         getTrProps={trProps}
         pages={searchResult?.pages || 0}
+        page={state.page}
         manual={true}
         loading={loading}
       ></ReactTable>
@@ -208,8 +210,9 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
 
 const getFilterFromQuery = (query: string): DonorFiltersState => {
   return {
-    name: query,
-    email: query,
+    name: "",
+    email: "",
+    query: query,
     donorId: null,
     registeredDate: {
       from: null,

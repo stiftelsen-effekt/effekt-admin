@@ -288,6 +288,7 @@ export interface FundraisersState {
 export interface DonorFiltersState {
   name: string;
   email: string;
+  query?: string;
   donorId: number | null;
   registeredDate: {
     from: DateTime | null;
