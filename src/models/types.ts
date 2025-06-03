@@ -533,3 +533,15 @@ export interface IFundraiserFilter {
   fundraiserId?: string;
   organizationIDs?: Array<number>;
 }
+
+/** Matching rules */
+export interface IVippsMatchingRule {
+  id: number;
+  salesLocation: string | null;
+  message: string | null;
+  periodFrom: DateTime;
+  periodTo: DateTime;
+  resolveKID: string;
+  resolveAdoveoFundraiserID: number | null;
+  precedence: number;
+}

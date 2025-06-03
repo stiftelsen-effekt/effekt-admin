@@ -35,6 +35,7 @@ import {
   IFundraiser,
   IFundraiserFilter,
   IReferralType,
+  IVippsMatchingRule,
 } from "./types";
 import { DateTime } from "luxon";
 
@@ -64,6 +65,8 @@ export interface AppState {
   avtaleGiroAgreements: AvtaleGiroAgreementsState;
   autoGiroAgreements: AutoGiroAgreementsState;
   autoGiroMandates: AutoGiroMandatesState;
+
+  vippsMatchingRules: VippsMatchingRulesState;
 
   fundraisers: FundraisersState;
 
@@ -225,6 +228,11 @@ export interface AutoGiroMandatesState {
   pagination: IPagination;
   filter: IAutoGiroMandateFilter;
   mandates: Array<IAutoGiroMandate>;
+}
+
+export interface VippsMatchingRulesState {
+  rules: Array<IVippsMatchingRule>;
+  loading: boolean;
 }
 
 export interface GraphingState {

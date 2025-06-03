@@ -53,21 +53,27 @@ import { fetchLogs } from "./store/logs/logs-list.saga";
 import { fetchLogEntryAction } from "./store/logs/logs.actions";
 import { fetchLogEntry } from "./store/logs/logs.saga";
 import {
+  createVippsMatchingRule,
+  deleteVippsMatchingRule,
   fetchAgreementHistogram,
   fetchAgreementsReport,
   fetchChargeHistogram,
   fetchVippsAgreement,
   fetchVippsAgreementCharges,
   fetchVippsAgreements,
+  fetchVippsMatchingRules,
   refundVippsAgreementCharge,
 } from "./store/vipps/vipps.saga";
 import {
+  createVippsMatchingRuleAction,
+  deleteVippsMatchingRuleAction,
   fetchAgreementHistogramAction,
   fetchAgreementsReportAction,
   fetchChargeHistogramAction,
   fetchVippsAgreementAction,
   fetchVippsAgreementChargesAction,
   fetchVippsAgreementsAction,
+  fetchVippsMatchingRulesAction,
   refundVippsAgreementChargeAction,
 } from "./store/vipps/vipps.actions";
 import {
@@ -241,6 +247,9 @@ function* watchAll() {
     takeLatest(fetchChargeHistogramAction.started.type, fetchChargeHistogram),
     takeLatest(fetchAgreementsReportAction.started.type, fetchAgreementsReport),
     takeLatest(refundVippsAgreementChargeAction.started.type, refundVippsAgreementCharge),
+    takeLatest(fetchVippsMatchingRulesAction.started.type, fetchVippsMatchingRules),
+    takeLatest(createVippsMatchingRuleAction.started.type, createVippsMatchingRule),
+    takeLatest(deleteVippsMatchingRuleAction.started.type, deleteVippsMatchingRule),
 
     takeLatest(fetchAvtaleGiroAgreementsAction.started.type, fetchAvtaleGiroAgreements),
     takeLatest(fetchAvtaleGiroAction.started.type, fetchAvtaleGiro),

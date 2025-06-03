@@ -9,17 +9,23 @@ import {
 } from "../../models/types";
 import * as API from "../../util/api";
 import {
+  createVippsMatchingRuleAction,
+  deleteVippsMatchingRuleAction,
   fetchAgreementHistogramAction,
   fetchAgreementsReportAction,
   fetchChargeHistogramAction,
   fetchVippsAgreementAction,
   fetchVippsAgreementChargesAction,
   fetchVippsAgreementsAction,
+  fetchVippsMatchingRulesAction,
+  ICreateVippsMatchingRuleActionParams,
+  IDeleteVippsMatchingRuleActionParams,
   IFetchAgreementActionParams,
   IFetchVippsAgreementChargesActionParams,
   IFetchVippsAgreementsActionParams,
   IFetchVippsAgreementsReportActionParams,
   IFetchVippsChargeHistogramActionParams,
+  IFetchVippsMatchingRuleActionParams,
   IRefundVippsChargeActionParams,
 } from "./vipps.actions";
 
@@ -142,5 +148,56 @@ export function* refundVippsAgreementCharge(action: Action<IRefundVippsChargeAct
     });
   } catch (ex) {
     throw ex;
+  }
+}
+
+export function* fetchVippsMatchingRules(action: Action<IFetchVippsMatchingRuleActionParams>) {
+  try {
+    const result: API.Response = yield call(API.call, {
+      method: API.Method.GET,
+      endpoint: "/vipps/matchingrules",
+      token: action.payload.token,
+    });
+    if (result.status !== 200) throw new Error(result.content);
+    yield put(
+      fetchVippsMatchingRulesAction.done({ params: action.payload, result: result.content }),
+    );
+  } catch (ex) {
+    yield put(fetchVippsMatchingRulesAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* createVippsMatchingRule(action: Action<ICreateVippsMatchingRuleActionParams>) {
+  try {
+    const result: API.Response = yield call(API.call, {
+      method: API.Method.POST,
+      endpoint: "/vipps/matchingrules",
+      token: action.payload.token,
+      data: action.payload.rule,
+    });
+    if (result.status !== 200) throw new Error(result.content);
+    yield put(
+      createVippsMatchingRuleAction.done({ params: action.payload, result: result.content }),
+    );
+    yield put(fetchVippsMatchingRulesAction.started({ token: action.payload.token }));
+  } catch (ex) {
+    yield put(createVippsMatchingRuleAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* deleteVippsMatchingRule(action: Action<IDeleteVippsMatchingRuleActionParams>) {
+  try {
+    const result: API.Response = yield call(API.call, {
+      method: API.Method.DELETE,
+      endpoint: `/vipps/matchingrules/${action.payload.id}`,
+      token: action.payload.token,
+    });
+    if (result.status !== 200) throw new Error(result.content);
+    yield put(
+      deleteVippsMatchingRuleAction.done({ params: action.payload, result: result.content }),
+    );
+    yield put(fetchVippsMatchingRulesAction.started({ token: action.payload.token }));
+  } catch (ex) {
+    yield put(deleteVippsMatchingRuleAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

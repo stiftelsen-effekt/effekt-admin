@@ -13,7 +13,11 @@ import { distributionsReducer } from "./store/distributions/distributions.reduce
 import { ownersReducer } from "./store/owners/owners.reducer";
 import { receiptReducer } from "./store/donations/receipt.reducer";
 import { loggingReducer } from "./store/logs/logs.reducer";
-import { vippsAgreementChargeReducer, vippsAgreementReducer } from "./store/vipps/vipps.reducer";
+import {
+  vippsAgreementChargeReducer,
+  vippsAgreementReducer,
+  vippsMatchingRulesReducer,
+} from "./store/vipps/vipps.reducer";
 import { avtaleGiroReducer } from "./store/avtalegiro/avtalegiro.reducer";
 import { donorPageReducer } from "./store/donors/donor-page.reducer";
 import { composeWithDevTools } from "@redux-devtools/extension";
@@ -41,6 +45,7 @@ const rootReducer = combineReducers<AppState>({
   logs: loggingReducer,
   vippsAgreements: vippsAgreementReducer,
   vippsAgreementCharges: vippsAgreementChargeReducer,
+  vippsMatchingRules: vippsMatchingRulesReducer,
   avtaleGiroAgreements: avtaleGiroReducer,
   autoGiroAgreements: autoGiroReducer,
   autoGiroMandates: autoGiroMandateReducer,

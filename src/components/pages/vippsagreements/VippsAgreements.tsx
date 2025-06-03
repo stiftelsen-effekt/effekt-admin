@@ -18,9 +18,14 @@ export const VippsAgreementsPageComponent: React.FunctionComponent = () => {
     <Page>
       <MainHeader>Vipps agreements</MainHeader>
       <AgreementListWrapper>
-        <EffektButton onClick={() => history.push("/vipps/agreements/charges")}>
-          See all charges
-        </EffektButton>
+        <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+          <EffektButton onClick={() => history.push("/vipps/agreements/charges")}>
+            See all charges
+          </EffektButton>
+          <EffektButton onClick={() => history.push("/vipps/matchingrules")}>
+            See matching rules
+          </EffektButton>
+        </div>
         <br />
         <br />
         <VippsAgreementList agreements={agreements} manual />

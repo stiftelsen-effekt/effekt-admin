@@ -1,4 +1,8 @@
-import { VippsAgreementChargeState, VippsAgreementsState } from "../../models/state";
+import {
+  VippsAgreementChargeState,
+  VippsAgreementsState,
+  VippsMatchingRulesState,
+} from "../../models/state";
 import { isType } from "typescript-fsa";
 import { toastError } from "../../util/toasthelper";
 import {
@@ -21,8 +25,12 @@ import {
   SET_VIPPS_CHARGES_FILTER_STATUS,
   SET_VIPPS_CHARGES_PAGINATION,
   SET_VIPPS_CHARGES_FILTER_DUE_DATE,
+  fetchVippsMatchingRulesAction,
+  createVippsMatchingRuleAction,
+  deleteVippsMatchingRuleAction,
 } from "./vipps.actions";
 import Decimal from "decimal.js";
+import { DateTime } from "luxon";
 
 const defaultAgreementState: VippsAgreementsState = {
   activeAgreementCount: 0,
@@ -97,6 +105,11 @@ const defaultChargeState: VippsAgreementChargeState = {
       avgCharge: 0,
     },
   },
+};
+
+const defaultVippsMatchingRulesState: VippsMatchingRulesState = {
+  rules: [],
+  loading: false,
 };
 
 export const vippsAgreementReducer = (
@@ -329,4 +342,45 @@ export const vippsAgreementChargeReducer = (
   }
 
   return state;
+};
+
+export const vippsMatchingRulesReducer = (
+  state = defaultVippsMatchingRulesState,
+  action: any,
+): VippsMatchingRulesState => {
+  if (isType(action, fetchVippsMatchingRulesAction.done)) {
+    return {
+      ...state,
+      rules: action.payload.result.map((rule: any) => ({
+        ...rule,
+        periodFrom: rule.periodFrom ? DateTime.fromISO(rule.periodFrom) : null,
+        periodTo: rule.periodTo ? DateTime.fromISO(rule.periodTo) : null,
+      })),
+      loading: false,
+    };
+  } else if (isType(action, fetchVippsMatchingRulesAction.started)) {
+    return { ...state, loading: true };
+  } else if (isType(action, fetchVippsMatchingRulesAction.failed)) {
+    return { ...state, loading: false };
+  }
+
+  if (isType(action, createVippsMatchingRuleAction.started)) {
+    return { ...state, loading: true };
+  } else if (isType(action, createVippsMatchingRuleAction.done)) {
+    return { ...state, loading: false };
+  } else if (isType(action, createVippsMatchingRuleAction.failed)) {
+    toastError("Failed to create matching rule", action.payload.error.message);
+    return { ...state, loading: false };
+  }
+
+  if (isType(action, deleteVippsMatchingRuleAction.started)) {
+    return { ...state, loading: true };
+  } else if (isType(action, deleteVippsMatchingRuleAction.done)) {
+    return { ...state, loading: false };
+  } else if (isType(action, deleteVippsMatchingRuleAction.failed)) {
+    toastError("Failed to delete matching rule", action.payload.error.message);
+    return { ...state, loading: false };
+  }
+
+  return state; // Placeholder for future implementation
 };

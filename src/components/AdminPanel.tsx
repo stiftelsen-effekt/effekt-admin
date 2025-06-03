@@ -34,6 +34,7 @@ import { AutoGiroAgreement } from "./pages/autogiro/AutoGiroAgreement/AutoGiroAg
 import { AutoGiroMandatesPage } from "./pages/autogiro/Mandates/AutoGiroMandatesPage";
 import { AdminPanelLocale } from "../models/locale";
 import { FundraisersPage } from "./pages/fundraisers/Fundraisers";
+import { VippsMatchingRulesPage } from "./pages/vippsmatchingrules/VippsMatchingRules";
 
 export const AdminPanel: React.FunctionComponent = () => {
   const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
@@ -81,6 +82,7 @@ export const AdminPanel: React.FunctionComponent = () => {
 
           <Route exact path="/logs" component={LogsPageComponent}></Route>
           <Route exact path="/logs/:id" component={LogEntryComponent}></Route>
+
           <Route exact path="/vipps/agreements" component={VippsAgreementsPageComponent}></Route>
           <Route exact path="/vipps/agreement/:id" component={VippsAgreementPageComponent}></Route>
           <Route
@@ -88,6 +90,8 @@ export const AdminPanel: React.FunctionComponent = () => {
             path="/vipps/agreements/charges"
             component={VippsAgreementChargesPageComponent}
           ></Route>
+          <Route exact path="/vipps/matchingrules" component={VippsMatchingRulesPage}></Route>
+
           <Route exact path="/avtalegiro" component={AvtaleGiroPage}></Route>
           <Route exact path="/avtalegiro/:id" component={AvtaleGiroAgreement}></Route>
 

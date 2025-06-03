@@ -4,6 +4,7 @@ import {
   IPagination,
   IVippsAgreement,
   IVippsAgreementCharge,
+  IVippsMatchingRule,
 } from "../../models/types";
 
 // Vipps agreement actions
@@ -221,3 +222,35 @@ export const setVippsChargesFilterStatus = (status: string[] | undefined) => {
     payload: status,
   };
 };
+
+export interface IFetchVippsMatchingRuleActionParams {
+  token: string;
+}
+
+export const fetchVippsMatchingRulesAction = actionCreator.async<
+  IFetchVippsMatchingRuleActionParams,
+  Array<IVippsMatchingRule>,
+  Error
+>("FETCH_VIPPS_MATCHING_RULES");
+
+export interface ICreateVippsMatchingRuleActionParams {
+  token: string;
+  rule: Omit<IVippsMatchingRule, "id">;
+}
+
+export const createVippsMatchingRuleAction = actionCreator.async<
+  ICreateVippsMatchingRuleActionParams,
+  IVippsMatchingRule,
+  Error
+>("CREATE_VIPPS_MATCHING_RULE");
+
+export interface IDeleteVippsMatchingRuleActionParams {
+  token: string;
+  id: number;
+}
+
+export const deleteVippsMatchingRuleAction = actionCreator.async<
+  IDeleteVippsMatchingRuleActionParams,
+  undefined,
+  Error
+>("DELETE_VIPPS_MATCHING_RULE");

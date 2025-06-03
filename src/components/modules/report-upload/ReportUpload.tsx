@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReportTypes, uploadReportAction } from "../../../store/report/report-upload.actions";
 import { toast } from "react-toastify";
 import { AppState } from "../../../models/state";
-import { Redirect } from "react-router";
+import { Redirect, useHistory } from "react-router";
 import { OwnerSelect } from "../owner-select/OwnerSelect";
 import { EffektLoadingSpinner } from "../../style/elements/loading-spinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import { EffektInput } from "../../style/elements/input.style";
 import { fetchOwnersAction, setCurrentOwnerAction } from "../../../store/owners/owners.actions";
+import { List } from "react-feather";
 
 interface IState {
   vippsReport: File | null;
@@ -42,6 +43,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
   };
 
   const dispatch = useDispatch();
+  const history = useHistory();
   const { getAccessTokenSilently } = useAuth0();
   const [state, setState] = useState<IState>(getDefaultState());
 
@@ -107,7 +109,15 @@ export const ReportUpload: React.FunctionComponent = (props) => {
               id="vipps-upload"
             />
           </td>
-          <td></td>
+          <td>
+            <EffektButton
+              onClick={() => {
+                history.push("/vipps/matchingrules");
+              }}
+            >
+              <List size={14} /> Matching
+            </EffektButton>
+          </td>
           <td>
             <EffektButton
               onClick={() => {
