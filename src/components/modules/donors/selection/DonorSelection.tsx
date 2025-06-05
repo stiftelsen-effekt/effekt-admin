@@ -1,5 +1,5 @@
 import { AppState, DonorFiltersState } from "../../../../models/state";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DateTime } from "luxon";
 import "../../../style/elements/react-table/table.css";
@@ -50,12 +50,15 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
   const searchQuery = useSelector((state: AppState) => state.donorSelector.query);
   const loading = useSelector((state: AppState) => state.donorSelector.loading);
 
-  const performSearch = (update: IFetchSearchDonorsActionParams) => {
-    var updated = { ...update };
-    getAccessTokenSilently().then((token) => {
-      dispatch(searchDonorAction.started({ ...updated, token }));
-    });
-  };
+  const performSearch = useCallback(
+    (update: IFetchSearchDonorsActionParams) => {
+      var updated = { ...update };
+      getAccessTokenSilently().then((token) => {
+        dispatch(searchDonorAction.started({ ...updated, token }));
+      });
+    },
+    [getAccessTokenSilently, dispatch],
+  );
 
   useEffect(() => {
     performSearch({
