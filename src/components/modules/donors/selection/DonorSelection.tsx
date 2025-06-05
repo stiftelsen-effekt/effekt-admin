@@ -64,7 +64,7 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
       sort: state.sorted.length > 0 ? state.sorted[0] : undefined,
       filter: getFilterFromQuery(searchQuery),
     });
-  }, [searchQuery, state.pageSize, state.sorted, state.page]);
+  }, [searchQuery, state.pageSize, state.sorted, state.page, performSearch]);
 
   const queryUpdated = (event: ChangeEvent<HTMLInputElement>) => {
     event.persist();
