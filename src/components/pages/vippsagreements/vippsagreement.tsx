@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps, NavLink } from "react-router-dom";
+import { RouteComponentProps, NavLink, useHistory } from "react-router-dom";
 import { Page } from "../../style/elements/page.style";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../models/state";
@@ -10,6 +10,9 @@ import { fetchVippsAgreementAction } from "../../../store/vipps/vipps.actions";
 import { AgreementKeyInfoComponent } from "../../modules/vipps/singleagreement/AgreementKeyInfo";
 import { DistributionGraphComponent } from "../../modules/distribution/Graph";
 import { useAuth0 } from "@auth0/auth0-react";
+import { EffektButtonsWrapper } from "../../style/elements/buttons-wrapper/EffektButtonsWrapper.style";
+import { EffektButton } from "../../style/elements/button.style";
+import { FileText, PieChart, User } from "react-feather";
 
 interface IParams {
   id: string;
@@ -20,6 +23,7 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
 }: RouteComponentProps<IParams>) => {
   const agreementID = match.params.id;
   const dispatch = useDispatch();
+  const history = useHistory();
   const { getAccessTokenSilently } = useAuth0();
 
   const agreement: IVippsAgreement | undefined = useSelector(
@@ -48,6 +52,30 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
         <ResourceHeader hasSubHeader={true}>Agreement {agreementID}</ResourceHeader>
         <ResourceSubHeader>Donor ID {agreement.donorID}</ResourceSubHeader>
 
+        <EffektButtonsWrapper>
+          <EffektButton
+            onClick={() =>
+              agreement.distribution.donorId &&
+              history.push(`/donors/${agreement.distribution.donorId}`)
+            }
+          >
+            <User size={16} />
+            Donor
+          </EffektButton>
+
+          <EffektButton
+            onClick={() => {
+              history.push("/distributions/" + agreement.KID);
+            }}
+          >
+            <PieChart size={16} />
+            Distribution
+          </EffektButton>
+          <EffektButton onClick={() => history.push("/vipps/agreements")}>
+            <FileText size={16} /> All agreements
+          </EffektButton>
+        </EffektButtonsWrapper>
+
         <SubHeader>Keyinfo</SubHeader>
         <HorizontalPanel>
           <AgreementKeyInfoComponent agreement={agreement} />
@@ -57,10 +85,6 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
             ></DistributionGraphComponent>
           </div>
         </HorizontalPanel>
-
-        <SubHeader>Meta</SubHeader>
-        <NavLink to={`/vipps/agreements`}>See all agreements</NavLink>
-        <br></br>
       </Page>
     );
   } else {
