@@ -28,6 +28,10 @@ import {
   fetchVippsMatchingRulesAction,
   createVippsMatchingRuleAction,
   deleteVippsMatchingRuleAction,
+  updateVippsAmountAction,
+  updateVippsStatusAction,
+  updateVippsChargeDayAction,
+  updateVippsDistributionAction,
 } from "./vipps.actions";
 import Decimal from "decimal.js";
 import { DateTime } from "luxon";
@@ -47,6 +51,7 @@ const defaultAgreementState: VippsAgreementsState = {
   sumExpiredThisMonth: 0,
   agreements: [],
   loading: false,
+  currentAgreementUpdating: false,
   pages: 1,
   pagination: {
     page: 0,
@@ -248,6 +253,54 @@ export const vippsAgreementReducer = (
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, KID: action.payload },
       };
+  }
+
+  // Update Vipps agreement actions
+  if (
+    isType(action, updateVippsAmountAction.started) ||
+    isType(action, updateVippsStatusAction.started) ||
+    isType(action, updateVippsChargeDayAction.started) ||
+    isType(action, updateVippsDistributionAction.started)
+  ) {
+    return { ...state, currentAgreementUpdating: true };
+  }
+
+  if (
+    isType(action, updateVippsAmountAction.done) ||
+    isType(action, updateVippsStatusAction.done) ||
+    isType(action, updateVippsChargeDayAction.done)
+  ) {
+    return { ...state, currentAgreementUpdating: false };
+  }
+
+  if (isType(action, updateVippsDistributionAction.done)) {
+    const newKID = action.payload.result.KID;
+    const updatedAgreement = state.currentAgreement
+      ? {
+          ...state.currentAgreement,
+          KID: newKID,
+          distribution: {
+            ...state.currentAgreement.distribution,
+            kid: newKID,
+          },
+        }
+      : undefined;
+
+    return {
+      ...state,
+      currentAgreementUpdating: false,
+      currentAgreement: updatedAgreement,
+    };
+  }
+
+  if (
+    isType(action, updateVippsAmountAction.failed) ||
+    isType(action, updateVippsStatusAction.failed) ||
+    isType(action, updateVippsChargeDayAction.failed) ||
+    isType(action, updateVippsDistributionAction.failed)
+  ) {
+    toastError("Failed to update Vipps agreement", action.payload.error.message);
+    return { ...state, currentAgreementUpdating: false };
   }
 
   return state;

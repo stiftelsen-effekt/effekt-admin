@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RouteComponentProps, NavLink, useHistory } from "react-router-dom";
 import { Page } from "../../style/elements/page.style";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { EffektButtonsWrapper } from "../../style/elements/buttons-wrapper/EffektButtonsWrapper.style";
 import { EffektButton } from "../../style/elements/button.style";
 import { FileText, PieChart, User } from "react-feather";
+import { EditVippsAgreement } from "../../modules/vipps/editagreement/EditVippsAgreement";
 
 interface IParams {
   id: string;
@@ -29,6 +30,8 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
   const agreement: IVippsAgreement | undefined = useSelector(
     (state: AppState) => state.vippsAgreements.currentAgreement,
   );
+
+  const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false);
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>
@@ -85,6 +88,11 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
             ></DistributionGraphComponent>
           </div>
         </HorizontalPanel>
+
+        <EffektButton onClick={() => setEditMenuVisible(!editMenuVisible)}>
+          {editMenuVisible ? "Cancel editing" : "Edit agreement"}
+        </EffektButton>
+        {editMenuVisible && <EditVippsAgreement initial={agreement}></EditVippsAgreement>}
       </Page>
     );
   } else {

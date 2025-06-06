@@ -178,6 +178,7 @@ export interface VippsAgreementsState {
   expiredThisMonth: number;
   sumExpiredThisMonth: null | number;
   currentAgreement?: IVippsAgreement;
+  currentAgreementUpdating?: boolean;
   histogram?: Array<IHistogramBucket>;
   pages: number;
   loading: boolean;

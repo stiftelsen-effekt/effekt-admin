@@ -5,6 +5,7 @@ import {
   IVippsAgreement,
   IVippsAgreementCharge,
   IVippsMatchingRule,
+  IDistribution,
 } from "../../models/types";
 
 // Vipps agreement actions
@@ -254,3 +255,51 @@ export const deleteVippsMatchingRuleAction = actionCreator.async<
   undefined,
   Error
 >("DELETE_VIPPS_MATCHING_RULE");
+
+// Vipps agreement edit actions
+export interface IUpdateVippsAmountActionParams {
+  urlcode: string;
+  amount: number;
+  token: string;
+}
+
+export interface IUpdateVippsStatusActionParams {
+  urlcode: string;
+  token: string;
+}
+
+export interface IUpdateVippsChargeDayActionParams {
+  urlcode: string;
+  chargeDay: number;
+  token: string;
+}
+
+export interface IUpdateVippsDistributionActionParams {
+  urlcode: string;
+  distribution: IDistribution;
+  token: string;
+}
+
+export const updateVippsAmountAction = actionCreator.async<
+  IUpdateVippsAmountActionParams,
+  undefined,
+  Error
+>("UPDATE_VIPPS_AMOUNT");
+
+export const updateVippsStatusAction = actionCreator.async<
+  IUpdateVippsStatusActionParams,
+  undefined,
+  Error
+>("UPDATE_VIPPS_STATUS");
+
+export const updateVippsChargeDayAction = actionCreator.async<
+  IUpdateVippsChargeDayActionParams,
+  undefined,
+  Error
+>("UPDATE_VIPPS_CHARGE_DAY");
+
+export const updateVippsDistributionAction = actionCreator.async<
+  IUpdateVippsDistributionActionParams,
+  { KID: string },
+  Error
+>("UPDATE_VIPPS_DISTRIBUTION");

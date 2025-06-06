@@ -1,4 +1,5 @@
 import { put, call, select } from "redux-saga/effects";
+import { toast } from "react-toastify";
 import { Action } from "typescript-fsa";
 import { AppState } from "../../models/state";
 import {
@@ -18,6 +19,10 @@ import {
   fetchVippsAgreementChargesAction,
   fetchVippsAgreementsAction,
   fetchVippsMatchingRulesAction,
+  updateVippsAmountAction,
+  updateVippsStatusAction,
+  updateVippsChargeDayAction,
+  updateVippsDistributionAction,
   ICreateVippsMatchingRuleActionParams,
   IDeleteVippsMatchingRuleActionParams,
   IFetchAgreementActionParams,
@@ -27,6 +32,10 @@ import {
   IFetchVippsChargeHistogramActionParams,
   IFetchVippsMatchingRuleActionParams,
   IRefundVippsChargeActionParams,
+  IUpdateVippsAmountActionParams,
+  IUpdateVippsStatusActionParams,
+  IUpdateVippsChargeDayActionParams,
+  IUpdateVippsDistributionActionParams,
 } from "./vipps.actions";
 
 export function* fetchVippsAgreements(action: Action<IFetchVippsAgreementsActionParams>) {
@@ -199,5 +208,132 @@ export function* deleteVippsMatchingRule(action: Action<IDeleteVippsMatchingRule
     yield put(fetchVippsMatchingRulesAction.started({ token: action.payload.token }));
   } catch (ex) {
     yield put(deleteVippsMatchingRuleAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* updateVippsAmount(action: Action<IUpdateVippsAmountActionParams>) {
+  try {
+    const result = yield call(API.call, {
+      method: API.Method.PUT,
+      endpoint: `/vipps/agreement/${action.payload.urlcode}/price`,
+      token: action.payload.token,
+      data: { price: action.payload.amount },
+    });
+    // Price endpoint returns { status: 200, content: response }
+    if (result && result.status === 200) {
+      yield put(updateVippsAmountAction.done({ params: action.payload, result: undefined }));
+      toast.success("Amount updated successfully");
+
+      // Update the agreement client-side to reflect the new amount
+      const currentAgreement: IVippsAgreement | undefined = yield select(
+        (state: AppState) => state.vippsAgreements.currentAgreement,
+      );
+
+      if (currentAgreement?.id) {
+        yield put(
+          fetchVippsAgreementAction.started({
+            id: currentAgreement.id,
+            token: action.payload.token,
+          }),
+        );
+      }
+    }
+  } catch (ex) {
+    yield put(updateVippsAmountAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* updateVippsStatus(action: Action<IUpdateVippsStatusActionParams>) {
+  try {
+    const result = yield call(API.call, {
+      method: API.Method.PUT,
+      endpoint: `/vipps/agreement/${action.payload.urlcode}/cancel`,
+      token: action.payload.token,
+    });
+    // Cancel endpoint returns { status: 200, content: response }
+    if (result && result.status === 200) {
+      yield put(updateVippsStatusAction.done({ params: action.payload, result: undefined }));
+      toast.success("Agreement cancelled successfully");
+
+      // Update the agreement client-side to reflect the new status
+      const currentAgreement: IVippsAgreement | undefined = yield select(
+        (state: AppState) => state.vippsAgreements.currentAgreement,
+      );
+
+      if (currentAgreement?.id) {
+        yield put(
+          fetchVippsAgreementAction.started({
+            id: currentAgreement.id,
+            token: action.payload.token,
+          }),
+        );
+      }
+    }
+  } catch (ex) {
+    yield put(updateVippsStatusAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* updateVippsChargeDay(action: Action<IUpdateVippsChargeDayActionParams>) {
+  try {
+    const result = yield call(API.call, {
+      method: API.Method.PUT,
+      endpoint: `/vipps/agreement/${action.payload.urlcode}/chargeday`,
+      token: action.payload.token,
+      data: { chargeDay: action.payload.chargeDay },
+    });
+    // Charge day endpoint returns just true when successful
+    if (result) {
+      yield put(updateVippsChargeDayAction.done({ params: action.payload, result: undefined }));
+      toast.success("Charge day updated successfully");
+
+      // Update the agreement client-side to reflect the new charge day
+      const currentAgreement: IVippsAgreement | undefined = yield select(
+        (state: AppState) => state.vippsAgreements.currentAgreement,
+      );
+
+      if (currentAgreement?.id) {
+        yield put(
+          fetchVippsAgreementAction.started({
+            id: currentAgreement.id,
+            token: action.payload.token,
+          }),
+        );
+      }
+    }
+  } catch (ex) {
+    yield put(updateVippsChargeDayAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* updateVippsDistribution(action: Action<IUpdateVippsDistributionActionParams>) {
+  try {
+    const result = yield call(API.call, {
+      method: API.Method.PUT,
+      endpoint: `/vipps/agreement/${action.payload.urlcode}/distribution`,
+      token: action.payload.token,
+      data: { distribution: action.payload.distribution },
+    });
+    if (result) {
+      yield put(updateVippsDistributionAction.done({ params: action.payload, result }));
+      toast.success("Distribution updated successfully");
+
+      // Fetch the current agreement to get the agreement ID for refetching
+      const currentAgreement: IVippsAgreement | undefined = yield select(
+        (state: AppState) => state.vippsAgreements.currentAgreement,
+      );
+
+      // Refetch the agreement to get the updated distribution data
+      if (currentAgreement?.id) {
+        yield put(
+          fetchVippsAgreementAction.started({
+            id: currentAgreement.id,
+            token: action.payload.token,
+          }),
+        );
+      }
+    }
+  } catch (ex) {
+    yield put(updateVippsDistributionAction.failed({ params: action.payload, error: ex as Error }));
   }
 }

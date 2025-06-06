@@ -63,6 +63,10 @@ import {
   fetchVippsAgreements,
   fetchVippsMatchingRules,
   refundVippsAgreementCharge,
+  updateVippsAmount,
+  updateVippsStatus,
+  updateVippsChargeDay,
+  updateVippsDistribution,
 } from "./store/vipps/vipps.saga";
 import {
   createVippsMatchingRuleAction,
@@ -75,6 +79,10 @@ import {
   fetchVippsAgreementsAction,
   fetchVippsMatchingRulesAction,
   refundVippsAgreementChargeAction,
+  updateVippsAmountAction,
+  updateVippsStatusAction,
+  updateVippsChargeDayAction,
+  updateVippsDistributionAction,
 } from "./store/vipps/vipps.actions";
 import {
   fetchAvtaleGiro,
@@ -250,6 +258,10 @@ function* watchAll() {
     takeLatest(fetchVippsMatchingRulesAction.started.type, fetchVippsMatchingRules),
     takeLatest(createVippsMatchingRuleAction.started.type, createVippsMatchingRule),
     takeLatest(deleteVippsMatchingRuleAction.started.type, deleteVippsMatchingRule),
+    takeLatest(updateVippsAmountAction.started.type, updateVippsAmount),
+    takeLatest(updateVippsStatusAction.started.type, updateVippsStatus),
+    takeLatest(updateVippsChargeDayAction.started.type, updateVippsChargeDay),
+    takeLatest(updateVippsDistributionAction.started.type, updateVippsDistribution),
 
     takeLatest(fetchAvtaleGiroAgreementsAction.started.type, fetchAvtaleGiroAgreements),
     takeLatest(fetchAvtaleGiroAction.started.type, fetchAvtaleGiro),
