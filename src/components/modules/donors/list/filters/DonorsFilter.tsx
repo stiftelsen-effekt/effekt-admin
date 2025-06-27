@@ -24,6 +24,7 @@ import {
   setDonorFilterDonationsCount,
   setDonorFilterReferralTypeIDs,
   setDonorFilterId,
+  setDonorFilterNewsletter,
 } from "../../../../../store/donors/donor-filters.actions";
 import { DateTime } from "luxon";
 import {
@@ -48,6 +49,7 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
   const donationsSumRange = useSelector((state: AppState) => state.donors.filter.donationsSum);
   const referralTypeIDs = useSelector((state: AppState) => state.donors.filter.referralTypeIDs);
   const recipientOrgIDs = useSelector((state: AppState) => state.donors.filter.recipientOrgIDs);
+  const newsletter = useSelector((state: AppState) => state.donors.filter.newsletter);
 
   const causeAreas = useSelector((state: AppState) => state.causeareas.all);
   const referrals = useSelector((state: AppState) => state.referrals.all);
@@ -290,6 +292,38 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
               );
             }}
           ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Newsletter</FilterGroupHeader>
+          <EffektCheckForm
+            inverted={true}
+            choices={[
+              {
+                label: "Yes",
+                value: true,
+                selected: newsletter === true || newsletter === undefined,
+              },
+              {
+                label: "No",
+                value: false,
+                selected: newsletter === false || newsletter === undefined,
+              },
+            ]}
+            onChange={(selected: Array<boolean>, allSelected: boolean) => {
+              if (allSelected) {
+                dispatch(setDonorFilterNewsletter(undefined));
+              } else if (selected.length === 1 && selected[0]) {
+                dispatch(setDonorFilterNewsletter(true));
+              } else if (selected.length === 1 && !selected[0]) {
+                dispatch(setDonorFilterNewsletter(false));
+              } else if (selected.length === 0) {
+                alert(
+                  "Please select either Yes or No or both options, clearing would give no results.",
+                );
+              }
+            }}
+          ></EffektCheckForm>
         </FilterGroup>
 
         <FilterGroup>

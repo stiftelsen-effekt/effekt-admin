@@ -36,6 +36,7 @@ import {
   IFundraiserFilter,
   IReferralType,
   IVippsMatchingRule,
+  IOrganization,
 } from "./types";
 import { DateTime } from "luxon";
 
@@ -71,6 +72,8 @@ export interface AppState {
   fundraisers: FundraisersState;
 
   donors: DonorsState;
+
+  organizations: OrganizationsState;
 }
 
 export interface DonorSelectorState {
@@ -299,6 +302,7 @@ export interface DonorFiltersState {
   email: string;
   query?: string;
   donorId: number | null;
+  newsletter?: boolean;
   registeredDate: {
     from: DateTime | null;
     to: DateTime | null;
@@ -341,4 +345,10 @@ export interface DonorsState {
     totalDonationSum: number;
     totalDonationCount: number;
   };
+}
+
+export interface OrganizationsState {
+  organizations: Array<IOrganization>;
+  currentOrganization?: IOrganization;
+  loading: boolean;
 }

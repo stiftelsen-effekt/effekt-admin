@@ -84,6 +84,12 @@ export const DonorsList: React.FunctionComponent<Props> = ({ donors, manual, def
       accessor: (donor: IDonor) => (donor.lastDonation ? shortDate(donor.lastDonation) : "-"),
       width: 100,
     },
+    {
+      id: "newsletter",
+      Header: "Newsletter",
+      accessor: (donor: IDonor) => (donor.newsletter ? "Yes" : "No"),
+      width: 100,
+    },
   ];
 
   const defaultSorting = [{ id: "lastDonationDate", desc: true }];

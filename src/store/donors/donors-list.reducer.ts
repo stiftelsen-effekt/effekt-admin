@@ -12,6 +12,7 @@ import {
   setDonorFilterId,
   setDonorFilterLastDonationDate,
   setDonorFilterName,
+  setDonorFilterNewsletter,
   setDonorFilterRecipientOrgIDs,
   setDonorFilterReferralTypeIDs,
 } from "./donor-filters.actions";
@@ -127,6 +128,18 @@ export const donorsReducer = (
       filter: {
         ...state.filter,
         donorId: action.payload,
+      },
+      pagination: {
+        ...state.pagination,
+        page: 0,
+      },
+    };
+  } else if (isType(action, setDonorFilterNewsletter)) {
+    return {
+      ...state,
+      filter: {
+        ...state.filter,
+        newsletter: action.payload,
       },
       pagination: {
         ...state.pagination,
