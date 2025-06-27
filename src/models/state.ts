@@ -72,8 +72,6 @@ export interface AppState {
   fundraisers: FundraisersState;
 
   donors: DonorsState;
-
-  organizations: OrganizationsState;
 }
 
 export interface DonorSelectorState {
