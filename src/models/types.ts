@@ -506,6 +506,7 @@ export interface IFundraiser {
   id: number;
   registered: string;
   lastUpdated: string;
+  secret?: string | null;
   donor: {
     id: number;
     name: string;

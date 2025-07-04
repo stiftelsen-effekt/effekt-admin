@@ -19,6 +19,7 @@ import {
   setFundraiserFilterDonationCountRange,
   setFundraiserFilterDonationSumRange,
 } from "../../../../store/fundraisers/fundraiser-filters.actions";
+import { API_URL } from "../../../../config/config";
 
 interface Props {
   fundraisers: Array<IFundraiser> | undefined;
@@ -182,6 +183,24 @@ export const FundraisersList: React.FunctionComponent<Props> = ({
       sortMethod: (a: any, b: any) => {
         return DateTime.fromFormat(a, "dd.MM.yyyy") < DateTime.fromFormat(b, "dd.MM.yyyy") ? -1 : 1;
       },
+      width: 140,
+    },
+    {
+      Header: "Dashboard",
+      id: "dashboard",
+      accessor: (res: IFundraiser) => res.secret,
+      Cell: (row) =>
+        row.value ? (
+          <a
+            href={`${API_URL}/fundraisers/dashboard/${row.value}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            style={{ color: "black" }}
+          >
+            Dashboard ↗
+          </a>
+        ) : null,
       width: 140,
     },
   ];

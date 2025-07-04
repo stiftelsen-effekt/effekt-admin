@@ -182,9 +182,16 @@ import {
 } from "./store/taxunits.ts/taxunits.actions";
 import { fetchAutoGiroMandatesAction } from "./store/autogiro/autogiromedgivande.actions";
 import { fetchAutoGiroMandates } from "./store/autogiro/autogiromedgivande.saga";
-import { fetchFundraisersAction } from "./store/fundraisers/fundraisers-list.actions";
+import {
+  createFundraiserAction,
+  fetchFundraisersAction,
+} from "./store/fundraisers/fundraisers-list.actions";
 import { fetchFundraiserAction } from "./store/fundraisers/fundraiser.actions";
-import { fetchFundraisersSaga, fetchFundraiserSaga } from "./store/fundraisers/fundraisers.saga";
+import {
+  fetchFundraisersSaga,
+  fetchFundraiserSaga,
+  createFundraiserSaga,
+} from "./store/fundraisers/fundraisers.saga";
 import { watchDonorsList } from "./store/donors/donors-list.saga";
 import {
   fetchActiveRefferalsAction,
@@ -309,6 +316,7 @@ function* watchAll() {
 
     takeLatest(fetchFundraisersAction.started.type, fetchFundraisersSaga),
     takeLatest(fetchFundraiserAction.started.type, fetchFundraiserSaga),
+    takeLatest(createFundraiserAction.started.type, createFundraiserSaga),
 
     watchDonorsList(),
   ]);
