@@ -14,6 +14,7 @@ import {
   Smartphone,
   FileText,
   Award,
+  Tag,
 } from "react-feather";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AdminPanelLocale } from "../models/locale";
@@ -69,6 +70,12 @@ const navigationItems = {
       <span>AutoGiro</span> <FileText size={iconSize} color={"white"}></FileText>
     </NavMenuItem>
   ),
+  referralTypes: (
+    <NavMenuItem to={"/referraltypes"}>
+      {" "}
+      <span>Referrals</span> <Tag size={iconSize} color={"white"}></Tag>
+    </NavMenuItem>
+  ),
 };
 
 const localeMenuItems = {
@@ -80,6 +87,7 @@ const localeMenuItems = {
     navigationItems.fundraisers,
     navigationItems.avtaleGiroAgreements,
     navigationItems.vippsAgreements,
+    navigationItems.referralTypes,
   ],
   SV: [
     navigationItems.home,
@@ -88,6 +96,7 @@ const localeMenuItems = {
     navigationItems.donations,
     navigationItems.fundraisers,
     navigationItems.autogiroAgreements,
+    navigationItems.referralTypes,
   ],
 };
 

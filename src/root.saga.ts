@@ -186,8 +186,20 @@ import { fetchFundraisersAction } from "./store/fundraisers/fundraisers-list.act
 import { fetchFundraiserAction } from "./store/fundraisers/fundraiser.actions";
 import { fetchFundraisersSaga, fetchFundraiserSaga } from "./store/fundraisers/fundraisers.saga";
 import { watchDonorsList } from "./store/donors/donors-list.saga";
-import { fetchActiveRefferalsAction } from "./store/referrals/referrals.action";
-import { fetchActiveReferrals, fetchAllReferrals } from "./store/referrals/referrals.saga";
+import {
+  fetchActiveRefferalsAction,
+  fetchAllRefferalsAction,
+  createReferralTypeAction,
+  updateReferralTypeAction,
+  toggleReferralTypeActiveAction,
+} from "./store/referrals/referrals.action";
+import {
+  fetchActiveReferrals,
+  fetchAllReferrals,
+  createReferralType,
+  updateReferralType,
+  toggleReferralTypeActive,
+} from "./store/referrals/referrals.saga";
 
 function* watchAll() {
   yield all([
@@ -197,7 +209,10 @@ function* watchAll() {
     takeLatest(fetchAllCauseareasAction.started.type, fetchAllCauseAreas),
 
     takeLatest(fetchActiveRefferalsAction.started.type, fetchActiveReferrals),
-    takeLatest(fetchAllCauseareasAction.started.type, fetchAllReferrals),
+    takeLatest(fetchAllRefferalsAction.started.type, fetchAllReferrals),
+    takeLatest(createReferralTypeAction.started.type, createReferralType),
+    takeLatest(updateReferralTypeAction.started.type, updateReferralType),
+    takeLatest(toggleReferralTypeActiveAction.started.type, toggleReferralTypeActive),
 
     takeLatest(fetchPaymentMethodsAction.started.type, fetchPaymentMethods),
 

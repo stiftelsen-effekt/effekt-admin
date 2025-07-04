@@ -19,6 +19,27 @@ import { DateTime } from "luxon";
 import { EffektDatePicker } from "../../style/elements/datepicker/datepicker.style";
 import { EffektButton } from "../../style/elements/button.style";
 import { EffektInput } from "../../style/elements/input.style";
+import {
+  TableWrapper,
+  TableHeader,
+  ExplanationSection,
+  ExplanationHeader,
+  ExplanationContent,
+  Table,
+  TableHead,
+  TableRow,
+  TableHeaderCell,
+  TableCell,
+  DeleteButton,
+  LoadingOverlay,
+  LoadingSpinner,
+  ModalContent,
+  ModalTitle,
+  FormGrid,
+  FormGroup,
+  DatePickerGroup,
+  ModalFooter,
+} from "./VippsMatchingRules.style";
 
 export const VippsMatchingRulesPage: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -55,71 +76,20 @@ export const VippsMatchingRulesPage: React.FunctionComponent = () => {
 
   return (
     <Page>
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        {loading && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-              width: "100%",
-              position: "absolute",
-              top: 0,
-              left: 0,
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
-              zIndex: 1000,
-            }}
-          >
-            <h2>Loading...</h2>
-          </div>
-        )}
+      {loading && (
+        <LoadingOverlay>
+          <LoadingSpinner />
+        </LoadingOverlay>
+      )}
 
-        <MainHeader>Vipps matching rules</MainHeader>
+      <MainHeader>Vipps matching rules</MainHeader>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginBottom: "20px",
-          }}
-        >
-          <div
-            style={{
-              marginBottom: "20px",
-              maxWidth: "800px",
-              padding: "10px",
-              border: "1px solid #000",
-              borderRadius: "5px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                cursor: "pointer",
-                gap: "10px",
-              }}
-              onClick={() => setExplenationExpanded(!explenationExpanded)}
-            >
+      <TableWrapper>
+        <TableHeader>
+          <ExplanationSection>
+            <ExplanationHeader onClick={() => setExplenationExpanded(!explenationExpanded)}>
               <Info size={16} />
-              <h3
-                style={{
-                  fontSize: "16px",
-                  margin: 0,
-                }}
-              >
-                What are matching rules?
-              </h3>
+              <span>What are matching rules?</span>
               <ChevronDown
                 size={20}
                 style={{
@@ -128,13 +98,8 @@ export const VippsMatchingRulesPage: React.FunctionComponent = () => {
                   transition: "transform 0.3s ease",
                 }}
               />
-            </div>
-            <div
-              style={{
-                height: explenationExpanded ? "auto" : "0px",
-                overflow: "hidden",
-              }}
-            >
+            </ExplanationHeader>
+            <ExplanationContent expanded={explenationExpanded}>
               <p>
                 Vipps matching rules are criteria defined in a database that help automatically
                 process Vipps transactions, especially when a KID (Customer Identification Number)
@@ -172,80 +137,49 @@ export const VippsMatchingRulesPage: React.FunctionComponent = () => {
                   in their message to still be correctly attributed and processed.
                 </li>
               </ol>
-              <p></p>In short, these rules act as a fallback mechanism to assign a correct KID to
-              Vipps transactions based on other transaction data like the sales location and message
-              content, ensuring donations are properly logged even if the KID isn't directly
-              provided in the transaction details.
-            </div>
-          </div>
-          <EffektButton onClick={() => setShowCreate(true)}>
+              <p>
+                In short, these rules act as a fallback mechanism to assign a correct KID to Vipps
+                transactions based on other transaction data like the sales location and message
+                content, ensuring donations are properly logged even if the KID isn't directly
+                provided in the transaction details.
+              </p>
+            </ExplanationContent>
+          </ExplanationSection>
+          <EffektButton
+            onClick={() => setShowCreate(true)}
+            style={{ width: 200, alignSelf: "flex-start" }}
+          >
             <PlusSquare /> Add rule
           </EffektButton>
-        </div>
+        </TableHeader>
 
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            marginBottom: "20px",
-          }}
-        >
-          <thead>
-            <tr>
-              <th style={{ borderBottom: "2px solid #000", padding: "10px", textAlign: "left" }}>
-                Sales Location
-              </th>
-              <th style={{ borderBottom: "2px solid #000", padding: "10px", textAlign: "left" }}>
-                Message
-              </th>
-              <th style={{ borderBottom: "2px solid #000", padding: "10px", textAlign: "left" }}>
-                Resolve KID
-              </th>
-              <th style={{ borderBottom: "2px solid #000", padding: "10px", textAlign: "left" }}>
-                Adoveo ID
-              </th>
-              <th style={{ borderBottom: "2px solid #000", padding: "10px", textAlign: "left" }}>
-                From
-              </th>
-              <th style={{ borderBottom: "2px solid #000", padding: "10px", textAlign: "left" }}>
-                To
-              </th>
-              <th style={{ borderBottom: "2px solid #000", padding: "10px", textAlign: "left" }}>
-                Precendence
-              </th>
-              <th style={{ borderBottom: "2px solid #000", padding: "10px", textAlign: "left" }}>
-                Actions
-              </th>
-            </tr>
-          </thead>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeaderCell>Sales Location</TableHeaderCell>
+              <TableHeaderCell>Message</TableHeaderCell>
+              <TableHeaderCell>Resolve KID</TableHeaderCell>
+              <TableHeaderCell>Adoveo ID</TableHeaderCell>
+              <TableHeaderCell>From</TableHeaderCell>
+              <TableHeaderCell>To</TableHeaderCell>
+              <TableHeaderCell>Precedence</TableHeaderCell>
+              <TableHeaderCell>Actions</TableHeaderCell>
+            </TableRow>
+          </TableHead>
           <tbody>
             {rules
               .sort((a, b) => b.id - a.id)
               .map((rule: IVippsMatchingRule) => (
-                <tr key={rule.id}>
-                  <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
-                    {rule.salesLocation}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
-                    {rule.message}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
-                    {rule.resolveKID}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
-                    {rule.resolveAdoveoFundraiserID}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
-                    {shortDate(rule.periodFrom)}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
-                    {shortDate(rule.periodTo)}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
-                    {rule.precedence}
-                  </td>
-                  <td style={{ padding: "10px", borderBottom: "1px solid #ddd" }}>
-                    <EffektButton
+                <TableRow key={rule.id}>
+                  <TableCell>{rule.salesLocation}</TableCell>
+                  <TableCell>{rule.message}</TableCell>
+                  <TableCell>{rule.resolveKID}</TableCell>
+                  <TableCell>{rule.resolveAdoveoFundraiserID}</TableCell>
+                  <TableCell>{shortDate(rule.periodFrom)}</TableCell>
+                  <TableCell>{shortDate(rule.periodTo)}</TableCell>
+                  <TableCell>{rule.precedence}</TableCell>
+                  <TableCell>
+                    <DeleteButton
                       onClick={() => {
                         getAccessTokenSilently().then((token) => {
                           dispatch(
@@ -258,60 +192,57 @@ export const VippsMatchingRulesPage: React.FunctionComponent = () => {
                       }}
                     >
                       <Trash2 size={16} />
-                    </EffektButton>
-                  </td>
-                </tr>
+                    </DeleteButton>
+                  </TableCell>
+                </TableRow>
               ))}
           </tbody>
-        </table>
+        </Table>
+      </TableWrapper>
 
-        <EffektModal
-          visible={showCreate}
-          effect="fadeInUp"
-          onClickAway={() => setShowCreate(false)}
-        >
-          <div style={{ padding: "20px" }}>
-            <h2>Create New Matching Rule</h2>
-            <form
-              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-              onSubmit={(e) => {
-                e.preventDefault();
-                getAccessTokenSilently().then((token) => {
-                  dispatch(
-                    createVippsMatchingRuleAction.started({
-                      token,
-                      rule: {
-                        salesLocation: draftRule.salesLocation || "",
-                        message: draftRule.message || "",
-                        resolveKID: draftRule.resolveKID || "",
-                        resolveAdoveoFundraiserID: draftRule.resolveAdoveoFundraiserID || null,
-                        periodFrom: draftRule.periodFrom || DateTime.now(),
-                        periodTo: draftRule.periodTo || DateTime.now().plus({ years: 1 }),
-                        precedence: draftRule.precedence || 0,
-                      },
-                    }),
-                  );
-                  setShowCreate(false);
-                });
-              }}
-            >
-              <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+      <EffektModal visible={showCreate} effect="fadeInUp" onClickAway={() => setShowCreate(false)}>
+        <ModalContent>
+          <ModalTitle>Create New Matching Rule</ModalTitle>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              getAccessTokenSilently().then((token) => {
+                dispatch(
+                  createVippsMatchingRuleAction.started({
+                    token,
+                    rule: {
+                      salesLocation: draftRule.salesLocation || "",
+                      message: draftRule.message || "",
+                      resolveKID: draftRule.resolveKID || "",
+                      resolveAdoveoFundraiserID: draftRule.resolveAdoveoFundraiserID || null,
+                      periodFrom: draftRule.periodFrom || DateTime.now(),
+                      periodTo: draftRule.periodTo || DateTime.now().plus({ years: 1 }),
+                      precedence: draftRule.precedence || 0,
+                    },
+                  }),
+                );
+                setShowCreate(false);
+              });
+            }}
+          >
+            <FormGrid>
+              <FormGroup>
                 <label>Sales Location:</label>
                 <EffektInput
                   type="text"
                   value={draftRule.salesLocation || ""}
                   onChange={(e) => setDraftRule({ ...draftRule, salesLocation: e.target.value })}
                 />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+              </FormGroup>
+              <FormGroup>
                 <label>Message:</label>
                 <EffektInput
                   type="text"
                   value={draftRule.message || ""}
                   onChange={(e) => setDraftRule({ ...draftRule, message: e.target.value })}
                 />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+              </FormGroup>
+              <FormGroup>
                 <label>Resolve KID:</label>
                 <EffektInput
                   type="text"
@@ -319,8 +250,8 @@ export const VippsMatchingRulesPage: React.FunctionComponent = () => {
                   onChange={(e) => setDraftRule({ ...draftRule, resolveKID: e.target.value })}
                   required
                 />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+              </FormGroup>
+              <FormGroup>
                 <label>Adoveo Fundraiser ID:</label>
                 <EffektInput
                   type="number"
@@ -332,8 +263,11 @@ export const VippsMatchingRulesPage: React.FunctionComponent = () => {
                     })
                   }
                 />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+              </FormGroup>
+            </FormGrid>
+
+            <DatePickerGroup>
+              <FormGroup>
                 <label>Period From:</label>
                 <EffektDatePicker
                   selected={
@@ -350,8 +284,8 @@ export const VippsMatchingRulesPage: React.FunctionComponent = () => {
                   }
                   required
                 />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+              </FormGroup>
+              <FormGroup>
                 <label>Period To:</label>
                 <EffektDatePicker
                   selected={
@@ -368,23 +302,28 @@ export const VippsMatchingRulesPage: React.FunctionComponent = () => {
                   }
                   required
                 />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                <label>Precedence:</label>
-                <EffektInput
-                  type="number"
-                  value={draftRule.precedence || 0}
-                  onChange={(e) =>
-                    setDraftRule({ ...draftRule, precedence: parseInt(e.target.value) || 0 })
-                  }
-                  required
-                />
-              </div>
+              </FormGroup>
+            </DatePickerGroup>
+
+            <FormGroup className="full-width">
+              <label>Precedence:</label>
+              <EffektInput
+                type="number"
+                value={draftRule.precedence || 0}
+                onChange={(e) =>
+                  setDraftRule({ ...draftRule, precedence: parseInt(e.target.value) || 0 })
+                }
+                required
+              />
+            </FormGroup>
+
+            <ModalFooter>
+              <EffektButton onClick={() => setShowCreate(false)}>Cancel</EffektButton>
               <EffektButton type="submit">Create Rule</EffektButton>
-            </form>
-          </div>
-        </EffektModal>
-      </div>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </EffektModal>
     </Page>
   );
 };

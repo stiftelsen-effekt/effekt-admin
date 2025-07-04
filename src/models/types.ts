@@ -497,6 +497,7 @@ export interface IReferralType {
   id: number;
   name: string;
   ordering: number;
+  is_active: boolean;
 }
 
 /** Fundraisers */

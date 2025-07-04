@@ -108,6 +108,7 @@ export interface CauseAreasState {
 export interface ReferralsState {
   active?: Array<IReferralType>;
   all?: Array<IReferralType>;
+  loading: boolean;
 }
 
 export interface SingleDonationState {
