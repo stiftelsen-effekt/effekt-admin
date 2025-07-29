@@ -1,5 +1,6 @@
 import {
   deleteDonationAction,
+  exportDonationsAction,
   fetchDonationsAction,
   IDeleteDonationActionParams,
   IFetchDonationsActionParams,
@@ -10,6 +11,8 @@ import { AppState } from "../../models/state";
 import { IPagination, IDonationFilter } from "../../models/types";
 import { Action } from "typescript-fsa";
 import { AdminPanelLocale } from "../../models/locale";
+import { DateTime } from "luxon";
+import { toastError } from "../../util/toasthelper";
 
 const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
 
@@ -46,5 +49,45 @@ export function* deleteDonation(action: Action<IDeleteDonationActionParams>) {
     yield put(fetchDonationsAction.started({ token: action.payload.token }));
   } catch (ex) {
     yield put(deleteDonationAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* exportDonations(action: Action<{ token: string }>) {
+  try {
+    const state: AppState = yield select();
+    const { token } = action.payload;
+
+    const result: { blob: Blob; filename?: string } = yield call(API.callForBlob, {
+      endpoint: "/donations/",
+      method: API.Method.POST,
+      token,
+      data: {
+        ...state.donations.pagination,
+        filter: state.donations.filter,
+        export: true,
+      },
+    });
+
+    const filename =
+      result.filename || `donations_export_${DateTime.now().toISO({ includeOffset: true })}.csv`;
+
+    // Create download link and trigger download
+    const url = window.URL.createObjectURL(result.blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+    link.click();
+
+    // Cleanup
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    yield put(exportDonationsAction.done({ params: action.payload, result: undefined }));
+  } catch (error) {
+    toastError("Failed export", (error as Error).message);
+    yield put(exportDonationsAction.failed({ params: action.payload, error: error as Error }));
   }
 }

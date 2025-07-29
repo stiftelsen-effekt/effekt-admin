@@ -5,6 +5,8 @@ export const CreateDistributionWrapper = styled.div`
   flex-direction: column;
   max-width: 500px;
   padding: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
 
   & > * {
     margin: 6px 0;

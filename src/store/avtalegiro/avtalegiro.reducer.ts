@@ -24,6 +24,7 @@ import {
   updateAvtaleGiroDistributionAction,
   updateAvtaleGiroPaymentDateAction,
   updateAvtaleGiroStatusAction,
+  exportAvtaleGiroAgreementsAction,
 } from "./avtalegiro.actions";
 
 const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
@@ -72,6 +73,7 @@ const defaultAvtaleGiroAgreementState: AvtaleGiroAgreementsState = {
     recieved: [],
     expected: [],
   },
+  exportLoading: false,
 };
 
 export const avtaleGiroReducer = (
@@ -398,6 +400,23 @@ export const avtaleGiroReducer = (
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, created: action.payload },
       };
+  }
+
+  if (isType(action, exportAvtaleGiroAgreementsAction.started)) {
+    return {
+      ...state,
+      exportLoading: true,
+    };
+  } else if (isType(action, exportAvtaleGiroAgreementsAction.done)) {
+    return {
+      ...state,
+      exportLoading: false,
+    };
+  } else if (isType(action, exportAvtaleGiroAgreementsAction.failed)) {
+    return {
+      ...state,
+      exportLoading: false,
+    };
   }
 
   return state;

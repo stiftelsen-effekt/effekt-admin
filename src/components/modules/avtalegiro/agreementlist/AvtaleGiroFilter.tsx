@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../../models/state";
@@ -11,6 +11,7 @@ import {
   setAvtaleGiroFilterKID,
   setAvtaleGiroFilterPaymentDate,
   setAvtaleGiroFilterDraftDate,
+  exportAvtaleGiroAgreementsAction,
 } from "../../../../store/avtalegiro/avtalegiro.actions";
 import {
   EffektCheckChoice,
@@ -31,6 +32,9 @@ import {
 import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
 import EffektNumberRange from "../../../style/elements/effekt-range/effekt-range.component";
 import { thousandize } from "../../../../util/formatting";
+import { Oval } from "react-loader-spinner";
+import { EffektButton } from "../../../style/elements/button.style";
+import { Download } from "react-feather";
 
 const statusTypes = [
   { name: "STOPPED", id: 0 },
@@ -50,6 +54,8 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
   const donor = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.donor);
   const statuses = useSelector((state: AppState) => state.avtaleGiroAgreements.filter.statuses);
 
+  const exportLoading = useSelector((state: AppState) => state.avtaleGiroAgreements.exportLoading);
+
   useEffect(() => {
     if (!histogram) {
       getAccessTokenSilently().then((token) =>
@@ -64,6 +70,12 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
     // If status is not found, set box to unchecked
     selected: statuses ? statuses.indexOf(status.id) !== -1 : true,
   }));
+
+  const exportAvtaleGiroAgreements = useCallback(() => {
+    getAccessTokenSilently().then((token) => {
+      dispatch(exportAvtaleGiroAgreementsAction.started({ token }));
+    });
+  }, [dispatch, getAccessTokenSilently]);
 
   if (!histogram) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>;
   return (
@@ -181,6 +193,22 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
               </tr>
             </tbody>
           </table>
+
+          <EffektButton
+            onClick={exportAvtaleGiroAgreements}
+            inverted
+            style={{ marginTop: "10px", alignItems: "center", justifyContent: "center" }}
+            disabled={exportLoading}
+          >
+            {exportLoading ? (
+              <Oval color="white" secondaryColor="black" height={20} width={20} />
+            ) : (
+              <>
+                Export CSV&nbsp;
+                <Download size={16} />
+              </>
+            )}
+          </EffektButton>
         </FilterStatsTableContainer>
       </FilterContent>
     </FilterWrapper>

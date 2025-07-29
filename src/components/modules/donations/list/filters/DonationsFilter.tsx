@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   FilterWrapper,
@@ -35,6 +35,10 @@ import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filt
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchAllCauseareasAction } from "../../../../../store/causeareas/causeareas.action";
 import { thousandize } from "../../../../../util/formatting";
+import { exportDonationsAction } from "../../../../../store/donations/donations-list.actions";
+import { EffektButton } from "../../../../style/elements/button.style";
+import { Oval } from "react-loader-spinner";
+import { Download } from "react-feather";
 
 export const DonationsFilterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -65,6 +69,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   );
 
   const paymentMethods = useSelector((state: AppState) => state.singleDonation.paymentMethods);
+
+  const exportLoading = useSelector((state: AppState) => state.donations.exportLoading);
+
   if (paymentMethods.length === 0) dispatch(fetchPaymentMethodsAction.started(undefined));
 
   const histogram = useSelector((state: AppState) => state.donations.histogram);
@@ -115,6 +122,15 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
       }) ?? [];
 
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
+
+  const exportDonations = useCallback(() => {
+    getAccessTokenSilently().then(async (token) => {
+      const result = await dispatch(exportDonationsAction.started({ token }));
+      if (result.error) {
+        console.error("Error exporting donations:", result.error);
+      }
+    });
+  }, [dispatch, getAccessTokenSilently]);
 
   if (!histogram || !paymentMethods)
     return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>;
@@ -272,6 +288,22 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
               </tr>
             </tbody>
           </table>
+
+          <EffektButton
+            onClick={exportDonations}
+            inverted
+            style={{ marginTop: "10px", alignItems: "center", justifyContent: "center" }}
+            disabled={exportLoading}
+          >
+            {exportLoading ? (
+              <Oval color="white" secondaryColor="black" height={20} width={20} />
+            ) : (
+              <>
+                Export CSV&nbsp;
+                <Download size={16} />
+              </>
+            )}
+          </EffektButton>
         </FilterStatsTableContainer>
       </FilterContent>
     </FilterWrapper>

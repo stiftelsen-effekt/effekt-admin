@@ -20,9 +20,14 @@ import { uploadReportAction } from "./store/report/report-upload.actions";
 import { uploadReport } from "./store/report/report-upload.saga";
 import { createDonorAction } from "./store/donors/create-donor.actions";
 import { createDonor } from "./store/donors/create-donor.saga";
-import { deleteDonation, fetchDonations } from "./store/donations/donations-list.saga";
+import {
+  deleteDonation,
+  exportDonations,
+  fetchDonations,
+} from "./store/donations/donations-list.saga";
 import {
   deleteDonationAction,
+  exportDonationsAction,
   fetchDonationsAction,
 } from "./store/donations/donations-list.actions";
 import {
@@ -39,8 +44,13 @@ import {
 } from "./store/donations/donation.saga";
 import { fetchSumByMonth, fetchTotalByPeriod } from "./store/graphing/graphing.saga";
 import { fetchSumByMonthAction, fetchTotalByPeriodAction } from "./store/graphing/graphing.actions";
-import { fetchDistribution, fetchDistributions } from "./store/distributions/distributions.saga";
 import {
+  exportDistributions,
+  fetchDistribution,
+  fetchDistributions,
+} from "./store/distributions/distributions.saga";
+import {
+  exportDistributionsAction,
   fetchDistributionAction,
   fetchDistributionsAction,
 } from "./store/distributions/distribution.actions";
@@ -67,6 +77,7 @@ import {
   updateVippsStatus,
   updateVippsChargeDay,
   updateVippsDistribution,
+  exportVippsAgreements,
 } from "./store/vipps/vipps.saga";
 import {
   createVippsMatchingRuleAction,
@@ -83,8 +94,10 @@ import {
   updateVippsStatusAction,
   updateVippsChargeDayAction,
   updateVippsDistributionAction,
+  exportVippsAgreementsAction,
 } from "./store/vipps/vipps.actions";
 import {
+  exportAvtaleGiroAgreements,
   fetchAvtaleGiro,
   fetchAvtaleGiroAgreements,
   fetchAvtaleGiroExpectedByDate,
@@ -99,6 +112,7 @@ import {
   updateAvtaleGiroStatus,
 } from "./store/avtalegiro/avtalegiro.saga";
 import {
+  exportAvtaleGiroAgreementsAction,
   fetchAvtaleGiroAction,
   fetchAvtaleGiroAgreementsAction,
   fetchAvtaleGiroExpectedByDateAction,
@@ -114,6 +128,7 @@ import {
 } from "./store/avtalegiro/avtalegiro.actions";
 
 import {
+  exportAutoGiroAgreements,
   fetchAutoGiro,
   fetchAutoGiroAgreements,
   fetchAutoGiroExpectedByDate,
@@ -128,6 +143,7 @@ import {
   updateAutoGiroStatus,
 } from "./store/autogiro/autogiro.saga";
 import {
+  exportAutoGiroAgreementsAction,
   fetchAutoGiroAction,
   fetchAutoGiroAgreementsAction,
   fetchAutoGiroExpectedByDateAction,
@@ -192,7 +208,6 @@ import {
   fetchFundraiserSaga,
   createFundraiserSaga,
 } from "./store/fundraisers/fundraisers.saga";
-import { watchDonorsList } from "./store/donors/donors-list.saga";
 import {
   fetchActiveRefferalsAction,
   fetchAllRefferalsAction,
@@ -207,6 +222,8 @@ import {
   updateReferralType,
   toggleReferralTypeActive,
 } from "./store/referrals/referrals.saga";
+import { exportDonorsAction, fetchDonorsAction } from "./store/donors/donors-list.actions";
+import { exportDonors, fetchDonors } from "./store/donors/donors-list.saga";
 
 function* watchAll() {
   yield all([
@@ -253,6 +270,7 @@ function* watchAll() {
 
     takeLatest(fetchDonationsAction.started.type, fetchDonations),
     takeLatest(fetchDonationAction.started.type, fetchDonation),
+    takeLatest(exportDonationsAction.started.type, exportDonations),
     takeLatest(updateDonationAction.started.type, updateDonation),
     takeLatest(deleteDonationAction.started.type, deleteDonation),
     takeLatest(fetchTransactionCostsReportAction.started.type, fetchTransactionCostsReport),
@@ -263,6 +281,8 @@ function* watchAll() {
 
     takeLatest(fetchDistributionAction.started.type, fetchDistribution),
     takeLatest(fetchDistributionsAction.started.type, fetchDistributions),
+    takeLatest(exportDistributionsAction.started.type, exportDistributions),
+
     takeLatest(fetchOwnersAction.started.type, fetchOwners),
 
     takeLatest(resendReceiptAction.started.type, resendReceipt),
@@ -284,6 +304,7 @@ function* watchAll() {
     takeLatest(updateVippsStatusAction.started.type, updateVippsStatus),
     takeLatest(updateVippsChargeDayAction.started.type, updateVippsChargeDay),
     takeLatest(updateVippsDistributionAction.started.type, updateVippsDistribution),
+    takeLatest(exportVippsAgreementsAction.started.type, exportVippsAgreements),
 
     takeLatest(fetchAvtaleGiroAgreementsAction.started.type, fetchAvtaleGiroAgreements),
     takeLatest(fetchAvtaleGiroAction.started.type, fetchAvtaleGiro),
@@ -297,6 +318,7 @@ function* watchAll() {
     takeLatest(updateAvtaleGiroStatusAction.started.type, updateAvtaleGiroStatus),
     takeLatest(updateAvtaleGiroPaymentDateAction.started.type, updateAvtaleGiroPaymentDate),
     takeLatest(updateAvtaleGiroDistributionAction.started.type, updateAvtaleGiroDistribution),
+    takeLatest(exportAvtaleGiroAgreementsAction.started.type, exportAvtaleGiroAgreements),
 
     takeLatest(fetchAutoGiroAgreementsAction.started.type, fetchAutoGiroAgreements),
     takeLatest(fetchAutoGiroAction.started.type, fetchAutoGiro),
@@ -311,6 +333,7 @@ function* watchAll() {
     takeLatest(updateAutoGiroPaymentDateAction.started.type, updateAutoGiroPaymentDate),
     takeLatest(updateAutoGiroDistributionAction.started.type, updateAutoGiroDistribution),
     takeLatest(fetchAutogiroShipmentsAction.started.type, fetchAutogiroShipments),
+    takeLatest(exportAutoGiroAgreementsAction.started.type, exportAutoGiroAgreements),
 
     takeLatest(fetchAutoGiroMandatesAction.started.type, fetchAutoGiroMandates),
 
@@ -318,7 +341,8 @@ function* watchAll() {
     takeLatest(fetchFundraiserAction.started.type, fetchFundraiserSaga),
     takeLatest(createFundraiserAction.started.type, createFundraiserSaga),
 
-    watchDonorsList(),
+    takeLatest(fetchDonorsAction.started.type, fetchDonors),
+    takeLatest(exportDonorsAction.started.type, exportDonors),
   ]);
 }
 

@@ -40,7 +40,7 @@ export const DistributionsList: React.FunctionComponent<{
       Header: "Total sum",
       id: "sum",
       accessor: (res: any) => {
-        if (res.sum) return thousandize(res.sum) + " kr";
+        if (res.donation_sum) return thousandize(res.donation_sum) + " kr";
         else return "0 kr";
       },
       sortMethod: (a: any, b: any) => {
@@ -53,7 +53,7 @@ export const DistributionsList: React.FunctionComponent<{
       Header: "Number of donations",
       id: "count",
       accessor: (res: any) => {
-        if (res.count) return thousandize(res.count);
+        if (res.donation_count) return thousandize(res.donation_count);
         else return "0";
       },
       sortMethod: (a: any, b: any) => {

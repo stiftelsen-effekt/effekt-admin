@@ -11,6 +11,7 @@ import {
 } from "../../models/types";
 import * as API from "../../util/api";
 import {
+  exportAutoGiroAgreementsAction,
   fetchAutoGiroAgreementsAction,
   fetchAutoGiroExpectedByDateAction,
   fetchAutoGiroHistogramAction,
@@ -34,6 +35,8 @@ import {
   updateAutoGiroStatusAction,
 } from "./autogiro.actions";
 import { fetchAutoGiroAction } from "./autogiro.actions";
+import { DateTime } from "luxon";
+import { toastError } from "../../util/toasthelper";
 
 export function* fetchAutoGiroAgreements(action: Action<IFetchAutoGiroAgreementsActionParams>) {
   try {
@@ -342,6 +345,49 @@ export function* updateAutoGiroDistribution(
         error: new Error(typeof ex === "string" ? ex : ""),
         params: action.payload,
       }),
+    );
+  }
+}
+
+export function* exportAutoGiroAgreements(action: Action<{ token: string }>) {
+  try {
+    const state: AppState = yield select();
+    const { token } = action.payload;
+
+    const result: { blob: Blob; filename?: string } = yield call(API.callForBlob, {
+      endpoint: "/autogiro/agreements",
+      method: API.Method.POST,
+      token,
+      data: {
+        ...state.autoGiroAgreements.pagination,
+        filter: state.autoGiroAgreements.filter,
+        export: true,
+      },
+    });
+
+    const filename =
+      result.filename ||
+      `autogiro_agreements_export_${DateTime.now().toISO({ includeOffset: true })}.csv`;
+
+    // Create download link and trigger download
+    const url = window.URL.createObjectURL(result.blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+    link.click();
+
+    // Cleanup
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    yield put(exportAutoGiroAgreementsAction.done({ params: action.payload, result: undefined }));
+  } catch (error) {
+    toastError("Failed export", (error as Error).message);
+    yield put(
+      exportAutoGiroAgreementsAction.failed({ params: action.payload, error: error as Error }),
     );
   }
 }

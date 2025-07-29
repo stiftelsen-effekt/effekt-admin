@@ -71,12 +71,6 @@ export const VippsAgreementList: React.FunctionComponent<{
       accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created)),
       width: 120,
     },
-    {
-      Header: "Transaction cost",
-      id: "transactionCost",
-      accessor: "transaction_cost",
-      width: 120,
-    },
   ];
 
   const defaultSorting = [{ id: "created", desc: true }];

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../../models/state";
@@ -10,6 +10,7 @@ import {
   setVippsAgreementsFilterStatus,
   setVippsAgreementsFilterDraftDate,
   setVippsAgreementsFilterChargeDay,
+  exportVippsAgreementsAction,
 } from "../../../../store/vipps/vipps.actions";
 import {
   EffektCheckChoice,
@@ -30,6 +31,10 @@ import {
 import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
 import EffektNumberRange from "../../../style/elements/effekt-range/effekt-range.component";
 import { thousandize } from "../../../../util/formatting";
+import { useAuth0 } from "@auth0/auth0-react";
+import { EffektButton } from "../../../style/elements/button.style";
+import { Oval } from "react-loader-spinner";
+import { Download } from "react-feather";
 
 const statusTypes = [
   { name: "PENDING", id: 0 },
@@ -40,6 +45,7 @@ const statusTypes = [
 
 export const VippsAgreementFilter: React.FunctionComponent = () => {
   const dispatch = useDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const stats = useSelector((state: AppState) => state.vippsAgreements.filter.statistics);
   const amountRange = useSelector((state: AppState) => state.vippsAgreements.filter.amount);
@@ -48,6 +54,7 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
   const statuses = useSelector((state: AppState) => state.vippsAgreements.filter.statuses);
   const draftDate = useSelector((state: AppState) => state.vippsAgreements.filter.created);
   const histogram = useSelector((state: AppState) => state.vippsAgreements.histogram);
+  const exportLoading = useSelector((state: AppState) => state.vippsAgreements.exportLoading);
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -59,6 +66,12 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
     value: status.id,
     selected: statuses ? statuses.indexOf(status.name) !== -1 : true,
   }));
+
+  const exportVippsAgreements = useCallback(() => {
+    getAccessTokenSilently().then((token) => {
+      dispatch(exportVippsAgreementsAction.started({ token }));
+    });
+  }, [dispatch, getAccessTokenSilently]);
 
   if (!histogram) return <FilterWrapper isOpen={filterIsOpen}>Loading...</FilterWrapper>;
   return (
@@ -178,6 +191,22 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
               </tr>
             </tbody>
           </table>
+
+          <EffektButton
+            onClick={exportVippsAgreements}
+            inverted
+            style={{ marginTop: "10px", alignItems: "center", justifyContent: "center" }}
+            disabled={exportLoading}
+          >
+            {exportLoading ? (
+              <Oval color="white" secondaryColor="black" height={20} width={20} />
+            ) : (
+              <>
+                Export CSV&nbsp;
+                <Download size={16} />
+              </>
+            )}
+          </EffektButton>
         </FilterStatsTableContainer>
       </FilterContent>
     </FilterWrapper>

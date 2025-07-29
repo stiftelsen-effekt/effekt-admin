@@ -1,4 +1,5 @@
 import {
+  exportDistributionsAction,
   fetchDistributionAction,
   fetchDistributionsAction,
   IFetchDistributionActionParams,
@@ -9,6 +10,8 @@ import * as API from "../../util/api";
 import { AppState } from "../../models/state";
 import { IPagination, IDistributionFilter, IDistribution } from "../../models/types";
 import { Action } from "typescript-fsa";
+import { DateTime } from "luxon";
+import { toastError } from "../../util/toasthelper";
 
 export function* fetchDistribution(action: Action<IFetchDistributionActionParams>) {
   try {
@@ -72,5 +75,46 @@ export function* fetchDistributions(action: Action<IFetchDistributionsActionPara
         params: action.payload,
       }),
     );
+  }
+}
+
+export function* exportDistributions(action: Action<{ token: string }>) {
+  try {
+    const state: AppState = yield select();
+    const { token } = action.payload;
+
+    const result: { blob: Blob; filename?: string } = yield call(API.callForBlob, {
+      endpoint: "/distributions/search",
+      method: API.Method.POST,
+      token,
+      data: {
+        ...state.distributions.pagination,
+        filter: state.distributions.filter,
+        export: true,
+      },
+    });
+
+    const filename =
+      result.filename ||
+      `distributions_export_${DateTime.now().toISO({ includeOffset: true })}.csv`;
+
+    // Create download link and trigger download
+    const url = window.URL.createObjectURL(result.blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+    link.click();
+
+    // Cleanup
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    yield put(exportDistributionsAction.done({ params: action.payload, result: undefined }));
+  } catch (error) {
+    toastError("Failed export", (error as Error).message);
+    yield put(exportDistributionsAction.failed({ params: action.payload, error: error as Error }));
   }
 }

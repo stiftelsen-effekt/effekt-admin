@@ -23,6 +23,7 @@ import {
   updateAutoGiroDistributionAction,
   updateAutoGiroPaymentDateAction,
   updateAutoGiroStatusAction,
+  exportAutoGiroAgreementsAction,
 } from "./autogiro.actions";
 
 const defaultAutoGiroAgreementState: AutoGiroAgreementsState = {
@@ -59,6 +60,7 @@ const defaultAutoGiroAgreementState: AutoGiroAgreementsState = {
     recieved: [],
     expected: [],
   },
+  exportLoading: false,
 };
 
 export const autoGiroReducer = (
@@ -89,6 +91,14 @@ export const autoGiroReducer = (
     return { ...state, loading: true };
   } else if (isType(action, fetchAutoGiroAgreementsAction.failed)) {
     return { ...state, loading: false };
+  }
+
+  if (isType(action, exportAutoGiroAgreementsAction.started)) {
+    return { ...state, exportLoading: true };
+  } else if (isType(action, exportAutoGiroAgreementsAction.done)) {
+    return { ...state, exportLoading: false };
+  } else if (isType(action, exportAutoGiroAgreementsAction.failed)) {
+    return { ...state, exportLoading: false };
   }
 
   // Fetch single agreement

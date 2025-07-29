@@ -1,6 +1,10 @@
 import { DonationsState } from "../../models/state";
 import { isType } from "typescript-fsa";
-import { fetchDonationsAction, SET_DONATIONS_PAGINATION } from "./donations-list.actions";
+import {
+  exportDonationsAction,
+  fetchDonationsAction,
+  SET_DONATIONS_PAGINATION,
+} from "./donations-list.actions";
 import {
   fetchDonationAction,
   CLEAR_CURRENT_DONATION,
@@ -52,6 +56,7 @@ const defaultState: DonationsState = {
       avgDonation: 0,
     },
   },
+  exportLoading: false,
 };
 export const donationsReducer = (state = defaultState, action: any): DonationsState => {
   /**
@@ -197,6 +202,15 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, organizationIDs: action.payload },
       };
+  }
+
+  if (isType(action, exportDonationsAction.started)) {
+    return { ...state, exportLoading: true };
+  } else if (isType(action, exportDonationsAction.done)) {
+    return { ...state, exportLoading: false };
+  } else if (isType(action, exportDonationsAction.failed)) {
+    toastError("Failed to export donations", action.payload.error.message);
+    return { ...state, exportLoading: false };
   }
 
   return state;

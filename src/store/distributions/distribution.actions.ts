@@ -28,6 +28,10 @@ interface IFetchDistributionsResult {
   pages: number;
 }
 
+interface IExportDistributionsActionParams {
+  token: string;
+}
+
 export const fetchDistributionAction = actionCreator.async<
   IFetchDistributionActionParams,
   IFetchDistributionResult,
@@ -39,6 +43,12 @@ export const fetchDistributionsAction = actionCreator.async<
   IFetchDistributionsResult,
   Error
 >("FETCH_DISTRIBUTIONS");
+
+export const exportDistributionsAction = actionCreator.async<
+  IExportDistributionsActionParams,
+  void,
+  Error
+>("EXPORT_DISTRIBUTIONS");
 
 export const setDistributionPagination = (pagination: IPagination) => {
   return {

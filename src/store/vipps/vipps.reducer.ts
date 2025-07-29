@@ -32,6 +32,7 @@ import {
   updateVippsStatusAction,
   updateVippsChargeDayAction,
   updateVippsDistributionAction,
+  exportVippsAgreementsAction,
 } from "./vipps.actions";
 import Decimal from "decimal.js";
 import { DateTime } from "luxon";
@@ -77,6 +78,7 @@ const defaultAgreementState: VippsAgreementsState = {
       avgAgreement: 0,
     },
   },
+  exportLoading: false,
 };
 
 const defaultChargeState: VippsAgreementChargeState = {
@@ -301,6 +303,14 @@ export const vippsAgreementReducer = (
   ) {
     toastError("Failed to update Vipps agreement", action.payload.error.message);
     return { ...state, currentAgreementUpdating: false };
+  }
+
+  if (isType(action, exportVippsAgreementsAction.started)) {
+    return { ...state, exportLoading: true };
+  } else if (isType(action, exportVippsAgreementsAction.done)) {
+    return { ...state, exportLoading: false };
+  } else if (isType(action, exportVippsAgreementsAction.failed)) {
+    return { ...state, exportLoading: false };
   }
 
   return state;

@@ -36,7 +36,10 @@ import {
   IUpdateVippsStatusActionParams,
   IUpdateVippsChargeDayActionParams,
   IUpdateVippsDistributionActionParams,
+  exportVippsAgreementsAction,
 } from "./vipps.actions";
+import { DateTime } from "luxon";
+import { toastError } from "../../util/toasthelper";
 
 export function* fetchVippsAgreements(action: Action<IFetchVippsAgreementsActionParams>) {
   try {
@@ -335,5 +338,48 @@ export function* updateVippsDistribution(action: Action<IUpdateVippsDistribution
     }
   } catch (ex) {
     yield put(updateVippsDistributionAction.failed({ params: action.payload, error: ex as Error }));
+  }
+}
+
+export function* exportVippsAgreements(action: Action<{ token: string }>) {
+  try {
+    const state: AppState = yield select();
+    const { token } = action.payload;
+
+    const result: { blob: Blob; filename?: string } = yield call(API.callForBlob, {
+      endpoint: "/vipps/agreements",
+      method: API.Method.POST,
+      token,
+      data: {
+        ...state.vippsAgreements.pagination,
+        filter: state.vippsAgreements.filter,
+        export: true,
+      },
+    });
+
+    const filename =
+      result.filename ||
+      `vipps_agreements_export_${DateTime.now().toISO({ includeOffset: true })}.csv`;
+
+    // Create download link and trigger download
+    const url = window.URL.createObjectURL(result.blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+    link.click();
+
+    // Cleanup
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    yield put(exportVippsAgreementsAction.done({ params: action.payload, result: undefined }));
+  } catch (error) {
+    toastError("Failed export", (error as Error).message);
+    yield put(
+      exportVippsAgreementsAction.failed({ params: action.payload, error: error as Error }),
+    );
   }
 }

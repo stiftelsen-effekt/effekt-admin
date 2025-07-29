@@ -13,6 +13,10 @@ export interface IDeleteDonationActionParams {
   token: string;
 }
 
+export interface IExportDonationsActionParams {
+  token: string;
+}
+
 interface IFetchDonationsResult {
   rows: Array<IDonation>;
   statistics: {
@@ -40,3 +44,7 @@ export const deleteDonationAction = actionCreator.async<
   IFetchDonationsResult,
   Error
 >("DELETE_DONATION");
+
+export const exportDonationsAction = actionCreator.async<IExportDonationsActionParams, void, Error>(
+  "EXPORT_DONATIONS",
+);

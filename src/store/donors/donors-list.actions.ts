@@ -7,6 +7,10 @@ export interface IFetchDonorsActionParams {
   token: string;
 }
 
+export interface IExportDonorsActionParams {
+  token: string;
+}
+
 export const fetchDonorsAction = actionCreator.async<
   IFetchDonorsActionParams,
   {
@@ -25,3 +29,7 @@ export const setDonorsPagination = actionCreator<{
     desc: boolean;
   };
 }>("SET_DONORS_PAGINATION");
+
+export const exportDonorsAction = actionCreator.async<IExportDonorsActionParams, void, Error>(
+  "EXPORT_DONORS",
+);

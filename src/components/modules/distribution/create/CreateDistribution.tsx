@@ -44,7 +44,12 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
   }, [dispatch, allCauseAreas]);
 
   if (!taxUnits) {
-    return <span>Loading...</span>;
+    if (distributionInput.donor && distributionInput.donor.id) {
+      const donorId = distributionInput.donor.id;
+      getAccessTokenSilently().then((token) =>
+        dispatch(getDonorTaxUnitsAction.started({ token, id: donorId })),
+      );
+    }
   }
 
   if (!allCauseAreas) {
@@ -70,7 +75,7 @@ export const CreateDistribution: React.FunctionComponent<IProps> = ({ onSubmit }
       <h3>New distribution</h3>
       <DistributionInput
         causeAreas={allCauseAreas}
-        taxUnits={taxUnits}
+        taxUnits={taxUnits ? taxUnits : []}
         distribution={distributionInput.distribution}
         onChange={(dist) => dispatch(setDistributionInputDistribution(dist))}
       />

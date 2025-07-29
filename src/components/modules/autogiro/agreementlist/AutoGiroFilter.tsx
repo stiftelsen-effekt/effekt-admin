@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../../models/state";
@@ -11,6 +11,7 @@ import {
   setAutoGiroFilterKID,
   setAutoGiroFilterPaymentDate,
   setAutoGiroFilterDraftDate,
+  exportAutoGiroAgreementsAction,
 } from "../../../../store/autogiro/autogiro.actions";
 import {
   EffektCheckChoice,
@@ -31,6 +32,9 @@ import {
 import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
 import EffektNumberRange from "../../../style/elements/effekt-range/effekt-range.component";
 import { thousandize } from "../../../../util/formatting";
+import { Oval } from "react-loader-spinner";
+import { EffektButton } from "../../../style/elements/button.style";
+import { Download } from "react-feather";
 
 const statusTypes = [
   { name: "STOPPED", id: 0 },
@@ -51,12 +55,20 @@ export const AutoGiroFilter: React.FunctionComponent = () => {
   const donor = useSelector((state: AppState) => state.autoGiroAgreements.filter.donor);
   const statuses = useSelector((state: AppState) => state.autoGiroAgreements.filter.statuses);
 
+  const exportLoading = useSelector((state: AppState) => state.autoGiroAgreements.exportLoading);
+
   useEffect(() => {
     if (!histogram)
       getAccessTokenSilently().then((token) =>
         dispatch(fetchAutoGiroHistogramAction.started({ token })),
       );
   }, [histogram, dispatch, getAccessTokenSilently]);
+
+  const exportAutoGiroAgreements = useCallback(() => {
+    getAccessTokenSilently().then((token) => {
+      dispatch(exportAutoGiroAgreementsAction.started({ token }));
+    });
+  }, [dispatch, getAccessTokenSilently]);
 
   const statusChoices: Array<EffektCheckChoice> = statusTypes.map((status) => ({
     label: status.name,
@@ -181,6 +193,22 @@ export const AutoGiroFilter: React.FunctionComponent = () => {
               </tr>
             </tbody>
           </table>
+
+          <EffektButton
+            onClick={exportAutoGiroAgreements}
+            inverted
+            style={{ marginTop: "10px", alignItems: "center", justifyContent: "center" }}
+            disabled={exportLoading}
+          >
+            {exportLoading ? (
+              <Oval color="white" secondaryColor="black" height={20} width={20} />
+            ) : (
+              <>
+                Export CSV&nbsp;
+                <Download size={16} />
+              </>
+            )}
+          </EffektButton>
         </FilterStatsTableContainer>
       </FilterContent>
     </FilterWrapper>

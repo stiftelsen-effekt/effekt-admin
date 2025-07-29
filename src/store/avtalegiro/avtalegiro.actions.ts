@@ -84,6 +84,9 @@ export interface IFetchAvtaleGiroValidationTableActionParams {
 export interface IFetchAvtaleGiroHistogramActionParams {
   token: string;
 }
+export interface IExportAvtaleGiroAgreementsActionParams {
+  token: string;
+}
 
 export const fetchAvtaleGiroAgreementsAction = actionCreator.async<
   IFetchAvtaleGiroAgreementsActionParams,
@@ -145,6 +148,11 @@ export const fetchAvtaleGiroHistogramAction = actionCreator.async<
   Array<IHistogramBucket>,
   Error
 >("FETCH_AVTALEGIRO_HISTOGRAM");
+export const exportAvtaleGiroAgreementsAction = actionCreator.async<
+  IExportAvtaleGiroAgreementsActionParams,
+  void,
+  Error
+>("EXPORT_AVTALEGIRO_AGREEMENTS");
 
 export const setAvtaleGiroPagination = (pagination: IPagination) => {
   return {

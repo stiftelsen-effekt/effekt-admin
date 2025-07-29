@@ -145,6 +145,7 @@ export interface DonationsState {
   pagination: IPagination;
   filter: IDonationFilter;
   donations: Array<IDonation>;
+  exportLoading: boolean;
 }
 
 export interface ITransactionCostsReport {
@@ -187,6 +188,7 @@ export interface VippsAgreementsState {
   pagination: IPagination;
   filter: IVippsAgreementFilter;
   agreements: Array<IVippsAgreement>;
+  exportLoading: boolean;
 }
 
 export interface VippsAgreementChargeState {
@@ -210,6 +212,7 @@ export interface AvtaleGiroAgreementsState {
   pagination: IPagination;
   filter: IAvtaleGiroFilter;
   agreements: Array<IAvtaleGiro>;
+  exportLoading: boolean;
 }
 
 export interface AutoGiroAgreementsState {
@@ -222,6 +225,7 @@ export interface AutoGiroAgreementsState {
   pagination: IPagination;
   filter: IAutoGiroFilter;
   agreements: Array<IAutoGiro>;
+  exportLoading: boolean;
 }
 
 export interface AutoGiroMandatesState {
@@ -264,6 +268,7 @@ export interface DistributionsState {
       reason: string;
     };
   };
+  exportLoading: boolean;
 }
 
 export interface DataOwnerState {
@@ -344,6 +349,7 @@ export interface DonorsState {
     totalDonationSum: number;
     totalDonationCount: number;
   };
+  exportLoading: boolean;
 }
 
 export interface OrganizationsState {

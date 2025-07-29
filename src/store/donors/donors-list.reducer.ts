@@ -1,6 +1,6 @@
 import { DonorsState } from "../../models/state";
 import { AnyAction } from "redux";
-import { fetchDonorsAction, setDonorsPagination } from "./donors-list.actions";
+import { exportDonorsAction, fetchDonorsAction, setDonorsPagination } from "./donors-list.actions";
 import { isType } from "typescript-fsa";
 import { DateTime } from "luxon";
 import {
@@ -61,6 +61,7 @@ const initialState: DonorsState = {
     totalDonationCount: 0,
     totalDonationSum: 0,
   },
+  exportLoading: false,
 };
 
 export const donorsReducer = (
@@ -229,6 +230,23 @@ export const donorsReducer = (
         ...state.pagination,
         page: 0,
       },
+    };
+  }
+
+  if (isType(action, exportDonorsAction.started)) {
+    return {
+      ...state,
+      exportLoading: true,
+    };
+  } else if (isType(action, exportDonorsAction.done)) {
+    return {
+      ...state,
+      exportLoading: false,
+    };
+  } else if (isType(action, exportDonorsAction.failed)) {
+    return {
+      ...state,
+      exportLoading: false,
     };
   }
 

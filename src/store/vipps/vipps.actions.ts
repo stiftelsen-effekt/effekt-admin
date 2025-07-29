@@ -256,6 +256,16 @@ export const deleteVippsMatchingRuleAction = actionCreator.async<
   Error
 >("DELETE_VIPPS_MATCHING_RULE");
 
+export interface IExportVippsAgreementsActionParams {
+  token: string;
+}
+
+export const exportVippsAgreementsAction = actionCreator.async<
+  IExportVippsAgreementsActionParams,
+  void,
+  Error
+>("EXPORT_VIPPS_AGREEMENTS");
+
 // Vipps agreement edit actions
 export interface IUpdateVippsAmountActionParams {
   urlcode: string;

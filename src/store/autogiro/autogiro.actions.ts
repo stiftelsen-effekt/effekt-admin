@@ -84,6 +84,9 @@ export interface IFetchAutoGiroValidationTableActionParams {
 export interface IFetchAutoGiroHistogramActionParams {
   token: string;
 }
+export interface IExportAutogiroAgreementsActionParams {
+  token: string;
+}
 
 export const fetchAutoGiroAgreementsAction = actionCreator.async<
   IFetchAutoGiroAgreementsActionParams,
@@ -145,6 +148,11 @@ export const fetchAutoGiroHistogramAction = actionCreator.async<
   Array<IHistogramBucket>,
   Error
 >("FETCH_AUTOGIRO_HISTOGRAM");
+export const exportAutoGiroAgreementsAction = actionCreator.async<
+  IExportAutogiroAgreementsActionParams,
+  void,
+  Error
+>("EXPORT_AUTOGIRO_AGREEMENTS");
 
 export const setAutoGiroPagination = (pagination: IPagination) => {
   return {

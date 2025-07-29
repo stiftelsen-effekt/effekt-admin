@@ -6,6 +6,7 @@ import {
   SET_DISTRIBUTIONS_FILTER_DONOR,
   SET_DISTRIBUTIONS_FILTER_KID,
   fetchDistributionAction,
+  exportDistributionsAction,
 } from "./distribution.actions";
 import {
   createDistributionAction,
@@ -43,6 +44,7 @@ const defaultState: DistributionsState = {
       reason: "",
     },
   },
+  exportLoading: false,
 };
 
 export const distributionsReducer = (state = defaultState, action: any): DistributionsState => {
@@ -93,6 +95,14 @@ export const distributionsReducer = (state = defaultState, action: any): Distrib
       return { ...state, filter: { ...state.filter, donor: action.payload } };
     case SET_DISTRIBUTIONS_FILTER_KID:
       return { ...state, filter: { ...state.filter, KID: action.payload } };
+  }
+
+  if (isType(action, exportDistributionsAction.started)) {
+    return { ...state, exportLoading: true };
+  } else if (isType(action, exportDistributionsAction.done)) {
+    return { ...state, exportLoading: false };
+  } else if (isType(action, exportDistributionsAction.failed)) {
+    return { ...state, exportLoading: false };
   }
 
   /**
