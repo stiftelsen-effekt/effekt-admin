@@ -4,8 +4,29 @@ import { searchDonors } from "./store/donors/donor-selection.saga";
 import {
   fetchActiveCauseareasAction,
   fetchAllCauseareasAction,
+  createCauseAreaAction,
+  updateCauseAreaAction,
+  toggleCauseAreaActiveAction,
 } from "./store/causeareas/causeareas.action";
-import { fetchActiveCauseAreas, fetchAllCauseAreas } from "./store/causeareas/causeareas.saga";
+import {
+  fetchActiveCauseAreas,
+  fetchAllCauseAreas,
+  createCauseArea,
+  updateCauseArea,
+  toggleCauseAreaActive,
+} from "./store/causeareas/causeareas.saga";
+import {
+  fetchAllOrganizationsAction,
+  createOrganizationAction,
+  updateOrganizationAction,
+  toggleOrganizationActiveAction,
+} from "./store/organizations/organizations.action";
+import {
+  fetchAllOrganizations,
+  createOrganization,
+  updateOrganization,
+  toggleOrganizationActive,
+} from "./store/organizations/organizations.saga";
 import {
   fetchPaymentMethodsAction,
   createDistribitionAndInsertDonationAction,
@@ -231,6 +252,14 @@ function* watchAll() {
 
     takeLatest(fetchActiveCauseareasAction.started.type, fetchActiveCauseAreas),
     takeLatest(fetchAllCauseareasAction.started.type, fetchAllCauseAreas),
+    takeLatest(createCauseAreaAction.started.type, createCauseArea),
+    takeLatest(updateCauseAreaAction.started.type, updateCauseArea),
+    takeLatest(toggleCauseAreaActiveAction.started.type, toggleCauseAreaActive),
+
+    takeLatest(fetchAllOrganizationsAction.started.type, fetchAllOrganizations),
+    takeLatest(createOrganizationAction.started.type, createOrganization),
+    takeLatest(updateOrganizationAction.started.type, updateOrganization),
+    takeLatest(toggleOrganizationActiveAction.started.type, toggleOrganizationActive),
 
     takeLatest(fetchActiveRefferalsAction.started.type, fetchActiveReferrals),
     takeLatest(fetchAllRefferalsAction.started.type, fetchAllReferrals),

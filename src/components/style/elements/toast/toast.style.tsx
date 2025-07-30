@@ -5,6 +5,7 @@ import { red20, green20 } from "../../colors";
 export const EffektToastContainer = styled(ToastContainer)`
   .Toastify__toast {
     font-family: "ESKlarheitGrotesk";
+    position: relative;
   }
 
   .Toastify__toast--error {

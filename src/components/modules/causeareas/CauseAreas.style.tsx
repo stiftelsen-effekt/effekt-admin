@@ -1,39 +1,42 @@
 import styled from "styled-components";
 
 export const ModalContent = styled.div`
+  background: white;
   padding: 20px;
-  width: 400px;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90vw;
 `;
 
-export const ModalTitle = styled.h3`
+export const ModalTitle = styled.h2`
   margin: 0 0 20px 0;
+  color: #333;
 `;
 
 export const FormGroup = styled.div`
-  margin-top: 20px;
-
-  &:first-of-type {
-    margin-top: 0;
-  }
+  margin-bottom: 15px;
 
   label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     font-weight: 500;
+    color: #333;
   }
 `;
 
 export const ModalFooter = styled.div`
-  margin-top: 30px;
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
 `;
 
 export const TableActionsWrapper = styled.div`
   display: flex;
-  gap: 10px;
-  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 export const StatusBadge = styled.span<{ active: boolean }>`
@@ -48,30 +51,28 @@ export const StatusBadge = styled.span<{ active: boolean }>`
 export const PageActionsWrapper = styled.div`
   margin-bottom: 20px;
   display: flex;
-  flex-direction: row;
   justify-content: flex-end;
 `;
 
-export const InfoSection = styled.details`
-  margin-bottom: 20px;
-
-  summary {
-    cursor: pointer;
-    font-weight: bold;
-    padding: 10px 0;
-  }
-
-  p {
-    margin-top: 10px;
-    line-height: 1.6;
-  }
-`;
-
 export const LoadingWrapper = styled.div`
-  padding: 20px;
   text-align: center;
+  padding: 40px;
+  color: #666;
 `;
 
 export const TableWrapper = styled.div`
-  margin-top: 20px;
+  .rt-table {
+    border: 1px solid #eee;
+  }
+`;
+
+export const WarningWrapper = styled.div`
+  background: #a30909ff;
+  color: #ffffffff;
+  border-radius: 8px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
 `;

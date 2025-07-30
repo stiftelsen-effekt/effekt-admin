@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { AutoGiroListWrapper } from "../../modules/autogiro/agreementlist/AutoGiroList.style";
 import { EffektButton } from "../../style/elements/button.style";
 import { useHistory } from "react-router";
+import { ArrowRight } from "react-feather";
 
 export const AutoGiroPage: React.FunctionComponent = () => {
   const allAgreements = useSelector((state: AppState) => state.autoGiroAgreements.agreements);
@@ -16,7 +17,9 @@ export const AutoGiroPage: React.FunctionComponent = () => {
   return (
     <Page>
       <MainHeader>AutoGiro</MainHeader>
-      <EffektButton onClick={() => history.push("/autogiro/mandates/")}>Mandates</EffektButton>
+      <EffektButton onClick={() => history.push("/autogiro/mandates/")}>
+        Mandates <ArrowRight size={18} style={{ marginLeft: "5px" }} />
+      </EffektButton>
       <br />
       <br />
       <AutoGiroListWrapper>

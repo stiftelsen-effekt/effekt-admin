@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { IDistributionSearchResultItem } from "../../../../models/types";
 import { thousandize } from "../../../../util/formatting";
-import { PlusSquare } from "react-feather";
+import { Plus } from "react-feather";
 import { EffektButton } from "../../../style/elements/button.style";
 import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
 import { CreateDistribution } from "../create/CreateDistribution";
@@ -50,7 +50,7 @@ export const DistributionsList: React.FunctionComponent<{
       width: 125,
     },
     {
-      Header: "Number of donations",
+      Header: "Donations",
       id: "count",
       accessor: (res: any) => {
         if (res.donation_count) return thousandize(res.donation_count);
@@ -95,10 +95,21 @@ export const DistributionsList: React.FunctionComponent<{
   if (manual) {
     return (
       <div>
-        <div style={{ display: "flex", marginBottom: "20px" }}>
+        <div
+          style={{
+            display: "flex",
+            marginBottom: "20px",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+          }}
+        >
           <EffektButton onClick={() => setShowCreate(true)}>
-            <span>Create &nbsp;</span>{" "}
-            <PlusSquare color={"white"} size={18} style={{ verticalAlign: "middle" }} />
+            <Plus
+              color={"white"}
+              size={18}
+              style={{ verticalAlign: "middle", marginRight: "5px" }}
+            />
+            Add Distribution
           </EffektButton>
         </div>
 

@@ -1,8 +1,13 @@
 import { CauseAreasState } from "../../models/state";
 import { AnyAction } from "redux";
-import { fetchActiveCauseareasAction, fetchAllCauseareasAction } from "./causeareas.action";
+import {
+  fetchActiveCauseareasAction,
+  fetchAllCauseareasAction,
+  createCauseAreaAction,
+  updateCauseAreaAction,
+  toggleCauseAreaActiveAction,
+} from "./causeareas.action";
 import { isType } from "typescript-fsa";
-import { toastError } from "../../util/toasthelper";
 import Decimal from "decimal.js";
 
 const initialState: CauseAreasState = {
@@ -19,8 +24,6 @@ export const causeareasReducer = (
       ...state,
       active: action.payload.result,
     };
-  } else if (isType(action, fetchActiveCauseareasAction.failed)) {
-    toastError("Failed to fetch active organizations", action.payload.error.message);
   } else if (isType(action, fetchAllCauseareasAction.done)) {
     return {
       ...state,
@@ -33,8 +36,15 @@ export const causeareasReducer = (
         })),
       })),
     };
-  } else if (isType(action, fetchAllCauseareasAction.failed)) {
-    toastError("Failed to fetch all organizations", action.payload.error.message);
+  } else if (isType(action, createCauseAreaAction.done)) {
+    // The saga will refetch all cause areas, so we don't need to update state here
+    return state;
+  } else if (isType(action, updateCauseAreaAction.done)) {
+    // The saga will refetch all cause areas, so we don't need to update state here
+    return state;
+  } else if (isType(action, toggleCauseAreaActiveAction.done)) {
+    // The saga will refetch all cause areas, so we don't need to update state here
+    return state;
   }
 
   return state;

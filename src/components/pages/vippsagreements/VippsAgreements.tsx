@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../../models/state";
 import { useHistory } from "react-router";
 import { EffektButton } from "../../style/elements/button.style";
+import { ArrowRight } from "react-feather";
 
 export const VippsAgreementsPageComponent: React.FunctionComponent = () => {
   const agreements = useSelector((state: AppState) => state.vippsAgreements.agreements);
@@ -20,10 +21,10 @@ export const VippsAgreementsPageComponent: React.FunctionComponent = () => {
       <AgreementListWrapper>
         <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
           <EffektButton onClick={() => history.push("/vipps/agreements/charges")}>
-            See all charges
+            Agreement charges <ArrowRight size={18} style={{ marginLeft: "5px" }} />
           </EffektButton>
           <EffektButton onClick={() => history.push("/vipps/matchingrules")}>
-            See matching rules
+            Matching rules <ArrowRight size={18} style={{ marginLeft: "5px" }} />
           </EffektButton>
         </div>
         <br />

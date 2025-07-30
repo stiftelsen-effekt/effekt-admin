@@ -96,6 +96,7 @@ export const FilterStatsTableContainer = styled.div`
           text-align: right;
           /* Monospaced for number comparison clarity */
           font-family: "Courier New", monospace;
+          white-space: nowrap;
         }
       }
     }

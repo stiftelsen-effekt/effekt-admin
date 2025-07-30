@@ -48,6 +48,7 @@ export interface AppState {
   donorPage: DonorPageState;
 
   causeareas: CauseAreasState;
+  organizations: OrganizationsState;
   referrals: ReferralsState;
   singleDonation: SingleDonationState;
 
@@ -353,7 +354,5 @@ export interface DonorsState {
 }
 
 export interface OrganizationsState {
-  organizations: Array<IOrganization>;
-  currentOrganization?: IOrganization;
-  loading: boolean;
+  all?: Array<IOrganization>;
 }
