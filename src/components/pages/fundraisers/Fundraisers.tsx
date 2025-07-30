@@ -11,14 +11,8 @@ import DonorSearchDialog from "../../modules/donors/selection/DonorSelectionDial
 import { createFundraiserAction } from "../../../store/fundraisers/fundraisers-list.actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import { showDonorSelectionComponent } from "../../../store/donors/donor-selection.actions";
-import styled from "styled-components";
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
+import { Plus } from "react-feather";
+import { PageActionsWrapper } from "../../modules/fundraisers/Fundraisers.style";
 
 export const FundraisersPage: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -45,10 +39,13 @@ export const FundraisersPage: React.FunctionComponent = () => {
 
   return (
     <Page>
-      <HeaderContainer>
-        <MainHeader>Fundraisers</MainHeader>
-      </HeaderContainer>
-      <EffektButton onClick={handleAddFundraiser}>Add fundraiser</EffektButton>
+      <MainHeader>Fundraisers</MainHeader>
+
+      <PageActionsWrapper>
+        <EffektButton onClick={handleAddFundraiser}>
+          <Plus size={18} style={{ marginRight: "5px" }} /> Add fundraiser
+        </EffektButton>
+      </PageActionsWrapper>
       <FundraisersFilterComponent />
       <FundraisersListWrapper>
         <FundraisersList fundraisers={fundraisers} manual={true} />

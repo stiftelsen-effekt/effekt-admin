@@ -27,6 +27,7 @@ import { autoGiroMandateReducer } from "./store/autogiro/autogiromedgivande.redu
 import { fundraisersReducer } from "./store/fundraisers/fundraisers.reducer";
 import { donorsReducer } from "./store/donors/donors-list.reducer";
 import { refferalsReducer } from "./store/referrals/referrals.reducer";
+import { organizationsReducer } from "./store/organizations/organizations.reducer";
 
 const rootReducer = combineReducers<AppState>({
   graphing: graphingReducer,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers<AppState>({
   donorCreation: CreateDonorReducer,
   donorPage: donorPageReducer,
   causeareas: causeareasReducer,
+  organizations: organizationsReducer,
   referrals: refferalsReducer,
   singleDonation: singleDonationReducer,
   reportProcessing: reportProcessingReducer,

@@ -36,6 +36,8 @@ import { AdminPanelLocale } from "../models/locale";
 import { FundraisersPage } from "./pages/fundraisers/Fundraisers";
 import { VippsMatchingRulesPage } from "./pages/vippsmatchingrules/VippsMatchingRules";
 import ReferralTypesPage from "./pages/referraltypes/ReferralTypes";
+import CauseAreasPage from "./pages/causeareas/CauseAreas";
+import OrganizationsPage from "./pages/organizations/Organizations";
 
 export const AdminPanel: React.FunctionComponent = () => {
   const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
@@ -109,6 +111,14 @@ export const AdminPanel: React.FunctionComponent = () => {
           <Route exact path="/fundraisers" component={FundraisersPage}></Route>
 
           <Route exact path="/referraltypes" component={ReferralTypesPage}></Route>
+
+          <Route exact path="/causeareas" component={CauseAreasPage}></Route>
+          <Route
+            exact
+            path="/causeareas/:causeAreaId/organizations"
+            component={OrganizationsPage}
+          ></Route>
+          <Route exact path="/organizations" component={OrganizationsPage}></Route>
 
           <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
         </Switch>

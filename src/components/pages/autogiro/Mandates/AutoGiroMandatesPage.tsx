@@ -8,6 +8,7 @@ import { Page } from "../../../style/elements/page.style";
 import { AutoGiroMandateFilter } from "../../../modules/autogiro/medgivandelist/AutoGiroMandateFilter";
 import { useHistory } from "react-router";
 import { EffektButton } from "../../../style/elements/button.style";
+import { ArrowLeft } from "react-feather";
 
 export const AutoGiroMandatesPage: React.FunctionComponent = () => {
   const allMandates = useSelector((state: AppState) => state.autoGiroMandates.mandates);
@@ -16,7 +17,10 @@ export const AutoGiroMandatesPage: React.FunctionComponent = () => {
   return (
     <Page>
       <MainHeader>AutoGiro Mandates</MainHeader>
-      <EffektButton onClick={() => history.push("/autogiro/")}>Agreements</EffektButton>
+      <EffektButton onClick={() => history.push("/autogiro/")}>
+        <ArrowLeft size={18} style={{ marginRight: "5px" }} />
+        Back to Agreements
+      </EffektButton>
       <br />
       <br />
       <AutoGiroMandateListWrapper>

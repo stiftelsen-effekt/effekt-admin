@@ -23,9 +23,13 @@ export interface IOrganization {
   id: number;
   name: string;
   abbreviation: string;
-  shortDesc: string;
+  shortDescription?: string;
+  longDescription?: string;
+  informationUrl?: string;
+  isActive: boolean;
+  ordering?: number;
   standardShare: Decimal;
-  infoUrl: string;
+  causeAreaId: number;
 }
 
 export interface IPaymentMethod {
@@ -73,6 +77,11 @@ export interface IDistributionCauseArea {
 export interface ICauseArea {
   id: number;
   name: string;
+  shortDescription?: string;
+  longDescription?: string;
+  informationUrl?: string;
+  isActive: boolean;
+  ordering?: number;
   standardSplit: boolean;
   standardPercentageShare: Decimal;
   organizations: Array<IOrganization>;

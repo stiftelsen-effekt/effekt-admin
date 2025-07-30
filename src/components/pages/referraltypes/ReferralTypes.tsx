@@ -10,7 +10,7 @@ import {
 import { Page } from "../../style/elements/page.style";
 import { MainHeader } from "../../style/elements/headers.style";
 import ReactTable from "react-table";
-import { Plus, Save } from "react-feather";
+import { Edit, Plus, Save, ToggleLeft, ToggleRight } from "react-feather";
 import { toastError } from "../../../util/toasthelper";
 import { IReferralType } from "../../../models/types";
 import { EffektModal } from "../../style/elements/effekt-modal/effekt-modal.component.style";
@@ -128,7 +128,7 @@ const ReferralTypesPage: React.FunctionComponent<Props> = () => {
       accessor: "name",
     },
     {
-      Header: "Ordering",
+      Header: "Order",
       accessor: "ordering",
       width: 80,
     },
@@ -142,14 +142,16 @@ const ReferralTypesPage: React.FunctionComponent<Props> = () => {
     },
     {
       Header: "Actions",
-      width: 260,
+      width: 200,
       Cell: ({ row }: { row: { _original: IReferralType } }) => {
         if (!row || !row._original) return null;
         return (
           <TableActionsWrapper>
-            <EffektButton onClick={() => openEditModal(row._original)}>Edit</EffektButton>
+            <EffektButton onClick={() => openEditModal(row._original)}>
+              <Edit size={18} />
+            </EffektButton>
             <EffektButton onClick={() => handleToggleActive(row._original.id)}>
-              {row._original.is_active ? "Deactivate" : "Activate"}
+              {row._original.is_active ? <ToggleRight size={18} /> : <ToggleLeft size={18} />}
             </EffektButton>
           </TableActionsWrapper>
         );
@@ -163,7 +165,7 @@ const ReferralTypesPage: React.FunctionComponent<Props> = () => {
 
       <PageActionsWrapper>
         <EffektButton onClick={() => setShowAddModal(true)}>
-          <Plus size={16} style={{ marginRight: "5px" }} /> Add Referral Type
+          <Plus size={18} style={{ marginRight: "5px" }} /> Add Referral Type
         </EffektButton>
       </PageActionsWrapper>
 
