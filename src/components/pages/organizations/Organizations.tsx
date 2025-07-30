@@ -119,7 +119,7 @@ const OrganizationsPage: React.FunctionComponent<Props> = () => {
         ?.filter((org) => org.causeAreaId === causeAreaIdNumber)
         .reduce((sum, org) => sum.plus(org.standardShare || 0), new Decimal(0)) || new Decimal(0)
     );
-  }, [organizations]);
+  }, [organizations, causeAreaIdNumber]);
 
   return (
     <Page>
