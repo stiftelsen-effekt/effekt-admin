@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   FilterWrapper,
   FilterGroupHeader,
@@ -37,6 +37,7 @@ import { Download } from "react-feather";
 import { useAuth0 } from "@auth0/auth0-react";
 import { exportDonorsAction } from "../../../../../store/donors/donors-list.actions";
 import { Oval } from "react-loader-spinner";
+import { fetchAllRefferalsAction } from "../../../../../store/referrals/referrals.action";
 
 export const DonorsFilterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -64,6 +65,18 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
   const statistics = useSelector((state: AppState) => state.donors.statistics);
 
   const exportLoading = useSelector((state: AppState) => state.donors.exportLoading);
+
+  useEffect(() => {
+    if (!referrals) {
+      dispatch(fetchAllRefferalsAction.started(undefined));
+    }
+  }, [dispatch, referrals]);
+
+  useEffect(() => {
+    if (!causeAreas) {
+      dispatch(fetchAllRefferalsAction.started(undefined));
+    }
+  }, [dispatch, causeAreas]);
 
   const organizationChoices: Array<EffektCheckChoice> =
     causeAreas
