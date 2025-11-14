@@ -245,6 +245,7 @@ export interface IVippsAgreementFilter {
   KID?: string;
   donor?: string;
   statuses?: Array<string>;
+  agreementID?: string;
   statistics: {
     numAgreements: number;
     sumAgreements: number;
@@ -274,6 +275,8 @@ export interface IVippsAgreementChargeFilter {
   KID?: string;
   statuses?: Array<string>;
   donor: string;
+  agreementID?: string;
+  chargeID?: string;
   statistics: {
     numCharges: number;
     sumCharges: number;

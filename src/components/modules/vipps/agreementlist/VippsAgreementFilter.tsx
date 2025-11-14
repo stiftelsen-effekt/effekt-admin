@@ -10,6 +10,7 @@ import {
   setVippsAgreementsFilterStatus,
   setVippsAgreementsFilterDraftDate,
   setVippsAgreementsFilterChargeDay,
+  setVippsAgreementsFilterAgreementID,
   exportVippsAgreementsAction,
 } from "../../../../store/vipps/vipps.actions";
 import {
@@ -52,6 +53,7 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
   const KID = useSelector((state: AppState) => state.vippsAgreements.filter.KID);
   const donor = useSelector((state: AppState) => state.vippsAgreements.filter.donor);
   const statuses = useSelector((state: AppState) => state.vippsAgreements.filter.statuses);
+  const agreementID = useSelector((state: AppState) => state.vippsAgreements.filter.agreementID);
   const draftDate = useSelector((state: AppState) => state.vippsAgreements.filter.created);
   const histogram = useSelector((state: AppState) => state.vippsAgreements.histogram);
   const exportLoading = useSelector((state: AppState) => state.vippsAgreements.exportLoading);
@@ -118,6 +120,18 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
             style={{ width: "100%" }}
             onChange={(e: any) => {
               dispatch(setVippsAgreementsFilterKID(e.target.value));
+            }}
+          ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Agreement ID like</FilterGroupHeader>
+          <FilterInput
+            value={agreementID}
+            placeholder={"Fuzzy search"}
+            style={{ width: "100%" }}
+            onChange={(e: any) => {
+              dispatch(setVippsAgreementsFilterAgreementID(e.target.value));
             }}
           ></FilterInput>
         </FilterGroup>

@@ -10,6 +10,8 @@ import {
   setVippsChargesFilterDueDate,
   setVippsChargesFilterKID,
   setVippsChargesFilterStatus,
+  setVippsChargesFilterAgreementID,
+  setVippsChargesFilterChargeID,
 } from "../../../../store/vipps/vipps.actions";
 import {
   EffektCheckChoice,
@@ -54,6 +56,8 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
   const KID = useSelector((state: AppState) => state.vippsAgreementCharges.filter.KID);
   const donor = useSelector((state: AppState) => state.vippsAgreementCharges.filter.donor);
   const statuses = useSelector((state: AppState) => state.vippsAgreementCharges.filter.statuses);
+  const agreementID = useSelector((state: AppState) => state.vippsAgreementCharges.filter.agreementID);
+  const chargeID = useSelector((state: AppState) => state.vippsAgreementCharges.filter.chargeID);
   const histogram = useSelector((state: AppState) => state.vippsAgreements.histogram);
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
@@ -134,6 +138,30 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
             style={{ width: "100%" }}
             onChange={(e: any) => {
               dispatch(setVippsChargesFilterKID(e.target.value));
+            }}
+          ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Agreement ID like</FilterGroupHeader>
+          <FilterInput
+            value={agreementID}
+            placeholder={"Fuzzy search"}
+            style={{ width: "100%" }}
+            onChange={(e: any) => {
+              dispatch(setVippsChargesFilterAgreementID(e.target.value));
+            }}
+          ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Charge ID like</FilterGroupHeader>
+          <FilterInput
+            value={chargeID}
+            placeholder={"Fuzzy search"}
+            style={{ width: "100%" }}
+            onChange={(e: any) => {
+              dispatch(setVippsChargesFilterChargeID(e.target.value));
             }}
           ></FilterInput>
         </FilterGroup>

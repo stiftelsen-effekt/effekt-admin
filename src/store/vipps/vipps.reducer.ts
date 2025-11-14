@@ -18,11 +18,14 @@ import {
   SET_VIPPS_AGREEMENTS_FILTER_DONOR,
   SET_VIPPS_AGREEMENTS_FILTER_KID,
   SET_VIPPS_AGREEMENTS_FILTER_STATUS,
+  SET_VIPPS_AGREEMENTS_FILTER_AGREEMENT_ID,
   SET_VIPPS_AGREEMENTS_PAGINATION,
   SET_VIPPS_CHARGES_FILTER_AMOUNT,
   SET_VIPPS_CHARGES_FILTER_DONOR,
   SET_VIPPS_CHARGES_FILTER_KID,
   SET_VIPPS_CHARGES_FILTER_STATUS,
+  SET_VIPPS_CHARGES_FILTER_AGREEMENT_ID,
+  SET_VIPPS_CHARGES_FILTER_CHARGE_ID,
   SET_VIPPS_CHARGES_PAGINATION,
   SET_VIPPS_CHARGES_FILTER_DUE_DATE,
   fetchVippsMatchingRulesAction,
@@ -72,6 +75,7 @@ const defaultAgreementState: VippsAgreementsState = {
     KID: "",
     donor: "",
     statuses: undefined,
+    agreementID: "",
     statistics: {
       numAgreements: 0,
       sumAgreements: 0,
@@ -106,6 +110,8 @@ const defaultChargeState: VippsAgreementChargeState = {
     KID: "",
     statuses: undefined,
     donor: "",
+    agreementID: "",
+    chargeID: "",
     statistics: {
       numCharges: 0,
       sumCharges: 0,
@@ -255,6 +261,12 @@ export const vippsAgreementReducer = (
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, KID: action.payload },
       };
+    case SET_VIPPS_AGREEMENTS_FILTER_AGREEMENT_ID:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, agreementID: action.payload },
+      };
   }
 
   // Update Vipps agreement actions
@@ -401,6 +413,18 @@ export const vippsAgreementChargeReducer = (
         ...state,
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, KID: action.payload },
+      };
+    case SET_VIPPS_CHARGES_FILTER_AGREEMENT_ID:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, agreementID: action.payload },
+      };
+    case SET_VIPPS_CHARGES_FILTER_CHARGE_ID:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, chargeID: action.payload },
       };
   }
 

@@ -16,6 +16,7 @@ export const SET_VIPPS_AGREEMENTS_FILTER_DONOR = "SET_VIPPS_AGREEMENTS_FILTER_DO
 export const SET_VIPPS_AGREEMENTS_FILTER_DRAFT_DATE = "SET_VIPPS_AGREEMENTS_FILTER_DRAFT_DATE";
 export const SET_VIPPS_AGREEMENTS_FILTER_KID = "SET_VIPPS_AGREEMENTS_FILTER_KID";
 export const SET_VIPPS_AGREEMENTS_FILTER_STATUS = "SET_VIPPS_AGREEMENTS_FILTER_STATUS";
+export const SET_VIPPS_AGREEMENTS_FILTER_AGREEMENT_ID = "SET_VIPPS_AGREEMENTS_FILTER_AGREEMENT_ID";
 
 // Vipps charge actions
 export const SET_VIPPS_CHARGES_PAGINATION = "SET_VIPPS_CHARGES_PAGINATION";
@@ -24,6 +25,8 @@ export const SET_VIPPS_CHARGES_FILTER_KID = "SET_VIPPS_CHARGES_FILTER_KID";
 export const SET_VIPPS_CHARGES_FILTER_DUE_DATE = "SET_VIPPS_CHARGES_FILTER_DUE_DATE";
 export const SET_VIPPS_CHARGES_FILTER_DONOR = "SET_VIPPS_CHARGES_FILTER_DONOR";
 export const SET_VIPPS_CHARGES_FILTER_STATUS = "SET_VIPPS_CHARGES_FILTER_STATUS";
+export const SET_VIPPS_CHARGES_FILTER_AGREEMENT_ID = "SET_VIPPS_CHARGES_FILTER_AGREEMENT_ID";
+export const SET_VIPPS_CHARGES_FILTER_CHARGE_ID = "SET_VIPPS_CHARGES_FILTER_CHARGE_ID";
 
 const actionCreator = actionCreatorFactory();
 
@@ -182,6 +185,13 @@ export const setVippsAgreementsFilterStatus = (status: string[] | undefined) => 
   };
 };
 
+export const setVippsAgreementsFilterAgreementID = (agreementID: string) => {
+  return {
+    type: SET_VIPPS_AGREEMENTS_FILTER_AGREEMENT_ID,
+    payload: agreementID,
+  };
+};
+
 export const setVippsChargesPagination = (pagination: IPagination) => {
   return {
     type: SET_VIPPS_CHARGES_PAGINATION,
@@ -221,6 +231,20 @@ export const setVippsChargesFilterStatus = (status: string[] | undefined) => {
   return {
     type: SET_VIPPS_CHARGES_FILTER_STATUS,
     payload: status,
+  };
+};
+
+export const setVippsChargesFilterAgreementID = (agreementID: string) => {
+  return {
+    type: SET_VIPPS_CHARGES_FILTER_AGREEMENT_ID,
+    payload: agreementID,
+  };
+};
+
+export const setVippsChargesFilterChargeID = (chargeID: string) => {
+  return {
+    type: SET_VIPPS_CHARGES_FILTER_CHARGE_ID,
+    payload: chargeID,
   };
 };
 
