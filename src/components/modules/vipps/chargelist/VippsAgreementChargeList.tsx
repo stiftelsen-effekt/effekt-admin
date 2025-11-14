@@ -38,7 +38,7 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
     getAccessTokenSilently().then((token) =>
       dispatch(fetchVippsAgreementChargesAction.started({ token })),
     );
-  }, [pagination, filter, dispatch, getAccessTokenSilently]);
+  }, [pagination, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions = [
     {

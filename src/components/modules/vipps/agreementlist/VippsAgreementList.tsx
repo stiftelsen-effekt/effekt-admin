@@ -40,7 +40,7 @@ export const VippsAgreementList: React.FunctionComponent<{
         dispatch(fetchVippsAgreementsAction.started({ token })),
       );
     }
-  }, [pagination, filter, manual, dispatch, getAccessTokenSilently]);
+  }, [pagination, manual, dispatch, getAccessTokenSilently]);
 
   const columnDefinitions = [
     {
