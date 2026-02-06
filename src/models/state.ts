@@ -302,6 +302,9 @@ export interface FundraisersState {
   };
 }
 
+export type DonorFundraiserGiving = "only" | "atLeastOnce" | "never";
+export type DonorFundraiserType = "facebook" | "adoveo" | "homebrew";
+
 export interface DonorFiltersState {
   name: string;
   email: string;
@@ -328,6 +331,8 @@ export interface DonorFiltersState {
     from: number | null;
     to: number | null;
   };
+  fundraiserGiving?: DonorFundraiserGiving;
+  fundraiserTypes?: Array<DonorFundraiserType>;
   referralTypeIDs?: Array<number>;
   recipientOrgIDs?: Array<number>;
 }

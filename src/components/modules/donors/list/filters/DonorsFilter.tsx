@@ -11,12 +11,14 @@ import {
   FilterStatsTableContainer,
 } from "../../../../style/elements/filters.component.style";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../../../../models/state";
+import { AppState, DonorFundraiserGiving, DonorFundraiserType } from "../../../../../models/state";
 import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
 import {
   setDonorFilterName,
   setDonorFilterEmail,
   setDonorFilterDateRange,
+  setDonorFilterFundraiserGiving,
+  setDonorFilterFundraiserTypes,
   setDonorFilterDonationsSum,
   setDonorFilterLastDonationDate,
   setDonorFilterRecipientOrgIDs,
@@ -38,6 +40,76 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { exportDonorsAction } from "../../../../../store/donors/donors-list.actions";
 import { Oval } from "react-loader-spinner";
 import { fetchAllRefferalsAction } from "../../../../../store/referrals/referrals.action";
+import styled from "styled-components";
+
+const FundraiserFilterSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+`;
+
+const FundraiserSubHeader = styled.div`
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #cccccc;
+  margin-bottom: 6px;
+`;
+
+const FundraiserRadioList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const FundraiserRadioOption = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  cursor: pointer;
+`;
+
+const FundraiserRadioInput = styled.input`
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+`;
+
+const FundraiserRadioVisual = styled.span<{ checked: boolean }>`
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid #666666;
+  background: #f2f2f2;
+  flex: 0 0 26px;
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: black;
+    opacity: ${(props) => (props.checked ? 1 : 0)};
+  }
+`;
+
+const FundraiserRadioLabel = styled.span`
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.2;
+`;
 
 export const DonorsFilterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -46,6 +118,7 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
 
   const name = useSelector((state: AppState) => state.donors.filter.name);
   const email = useSelector((state: AppState) => state.donors.filter.email);
+  const donorId = useSelector((state: AppState) => state.donors.filter.donorId);
   const registeredDateRange = useSelector((state: AppState) => state.donors.filter.registeredDate);
   const donationsDateRange = useSelector(
     (state: AppState) => state.donors.filter.donationsDateRange,
@@ -55,6 +128,8 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
   );
   const donationsCountRange = useSelector((state: AppState) => state.donors.filter.donationsCount);
   const donationsSumRange = useSelector((state: AppState) => state.donors.filter.donationsSum);
+  const fundraiserGiving = useSelector((state: AppState) => state.donors.filter.fundraiserGiving);
+  const fundraiserTypes = useSelector((state: AppState) => state.donors.filter.fundraiserTypes);
   const referralTypeIDs = useSelector((state: AppState) => state.donors.filter.referralTypeIDs);
   const recipientOrgIDs = useSelector((state: AppState) => state.donors.filter.recipientOrgIDs);
   const newsletter = useSelector((state: AppState) => state.donors.filter.newsletter);
@@ -97,6 +172,34 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
         selected: referralTypeIDs ? referralTypeIDs.includes(referral.id) : true,
       };
     }) ?? [];
+
+  const fundraiserTypeChoices: Array<EffektCheckChoice> = [
+    {
+      label: "Facebook",
+      value: "facebook",
+      selected: fundraiserTypes ? fundraiserTypes.includes("facebook") : true,
+    },
+    {
+      label: "Adoveo",
+      value: "adoveo",
+      selected: fundraiserTypes ? fundraiserTypes.includes("adoveo") : true,
+    },
+    {
+      label: "Homebrew",
+      value: "homebrew",
+      selected: fundraiserTypes ? fundraiserTypes.includes("homebrew") : true,
+    },
+  ];
+
+  const fundraiserGivingChoices: Array<{
+    label: string;
+    value: DonorFundraiserGiving | undefined;
+  }> = [
+    { label: "Any", value: undefined },
+    { label: "Fundraiser donations only", value: "only" },
+    { label: "At least one fundraiser donation", value: "atLeastOnce" },
+    { label: "No fundraiser donations", value: "never" },
+  ];
 
   const exportDonors = useCallback(() => {
     getAccessTokenSilently().then(async (token) => {
@@ -143,6 +246,7 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
         <FilterGroup>
           <FilterGroupHeader>Donor ID</FilterGroupHeader>
           <FilterInput
+            value={donorId?.toString() || ""}
             placeholder="Search by donor ID"
             style={{ width: "100%" }}
             onChange={(e) => {
@@ -323,6 +427,49 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
               );
             }}
           ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Fundraiser</FilterGroupHeader>
+          <FundraiserFilterSection>
+            <div>
+              <FundraiserSubHeader>Donation behavior</FundraiserSubHeader>
+              <FundraiserRadioList>
+                {fundraiserGivingChoices.map((choice, index) => {
+                  const checked =
+                    typeof choice.value === "undefined"
+                      ? typeof fundraiserGiving === "undefined"
+                      : fundraiserGiving === choice.value;
+                  return (
+                    <FundraiserRadioOption key={index} title={choice.label}>
+                      <FundraiserRadioInput
+                        type="radio"
+                        name="fundraiser-giving"
+                        checked={checked}
+                        onChange={() => dispatch(setDonorFilterFundraiserGiving(choice.value))}
+                      />
+                      <FundraiserRadioVisual checked={checked} />
+                      <FundraiserRadioLabel>{choice.label}</FundraiserRadioLabel>
+                    </FundraiserRadioOption>
+                  );
+                })}
+              </FundraiserRadioList>
+            </div>
+            <div>
+              <FundraiserSubHeader>Fundraiser types</FundraiserSubHeader>
+              <EffektCheckForm
+                inverted={true}
+                choices={fundraiserTypeChoices}
+                onChange={(selected: Array<DonorFundraiserType>, allSelected: boolean) => {
+                  if (allSelected) {
+                    dispatch(setDonorFilterFundraiserTypes(undefined));
+                  } else {
+                    dispatch(setDonorFilterFundraiserTypes(selected));
+                  }
+                }}
+              ></EffektCheckForm>
+            </div>
+          </FundraiserFilterSection>
         </FilterGroup>
 
         <FilterGroup>

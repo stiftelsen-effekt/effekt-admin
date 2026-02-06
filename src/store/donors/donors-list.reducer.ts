@@ -7,6 +7,8 @@ import {
   setDonorFilterDateRange,
   setDonorFilterDonationsCount,
   setDonorFilterDonationsDateRange,
+  setDonorFilterFundraiserGiving,
+  setDonorFilterFundraiserTypes,
   setDonorFilterDonationsSum,
   setDonorFilterEmail,
   setDonorFilterId,
@@ -53,6 +55,8 @@ const initialState: DonorsState = {
       from: null,
       to: null,
     },
+    fundraiserGiving: undefined,
+    fundraiserTypes: undefined,
     referralTypeIDs: undefined,
     recipientOrgIDs: undefined,
   },
@@ -201,6 +205,30 @@ export const donorsReducer = (
       filter: {
         ...state.filter,
         donationsSum: action.payload,
+      },
+      pagination: {
+        ...state.pagination,
+        page: 0,
+      },
+    };
+  } else if (isType(action, setDonorFilterFundraiserGiving)) {
+    return {
+      ...state,
+      filter: {
+        ...state.filter,
+        fundraiserGiving: action.payload,
+      },
+      pagination: {
+        ...state.pagination,
+        page: 0,
+      },
+    };
+  } else if (isType(action, setDonorFilterFundraiserTypes)) {
+    return {
+      ...state,
+      filter: {
+        ...state.filter,
+        fundraiserTypes: action.payload,
       },
       pagination: {
         ...state.pagination,

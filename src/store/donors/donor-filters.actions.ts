@@ -1,5 +1,6 @@
 import { actionCreatorFactory } from "typescript-fsa";
 import { DateTime } from "luxon";
+import { DonorFundraiserGiving, DonorFundraiserType } from "../../models/state";
 
 const actionCreator = actionCreatorFactory("DONOR_FILTERS");
 
@@ -33,6 +34,14 @@ export const setDonorFilterDonationsSum = actionCreator<{
   from: number | null;
   to: number | null;
 }>("SET_DONOR_FILTER_DONATIONS_SUM");
+
+export const setDonorFilterFundraiserGiving = actionCreator<DonorFundraiserGiving | undefined>(
+  "SET_DONOR_FILTER_FUNDRAISER_GIVING",
+);
+
+export const setDonorFilterFundraiserTypes = actionCreator<Array<DonorFundraiserType> | undefined>(
+  "SET_DONOR_FILTER_FUNDRAISER_TYPES",
+);
 
 export const setDonorFilterReferralTypeIDs = actionCreator<Array<number> | undefined>(
   "SET_DONOR_FILTER_REFERRAL_TYPE_IDS",
