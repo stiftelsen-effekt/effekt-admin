@@ -32,15 +32,15 @@ import { DistributionComponent } from "./pages/distributions/Distribution";
 import { AutoGiroPage } from "./pages/autogiro/AutoGiroPage";
 import { AutoGiroAgreement } from "./pages/autogiro/AutoGiroAgreement/AutoGiroAgreement";
 import { AutoGiroMandatesPage } from "./pages/autogiro/Mandates/AutoGiroMandatesPage";
-import { AdminPanelLocale } from "../models/locale";
 import { FundraisersPage } from "./pages/fundraisers/Fundraisers";
 import { VippsMatchingRulesPage } from "./pages/vippsmatchingrules/VippsMatchingRules";
 import ReferralTypesPage from "./pages/referraltypes/ReferralTypes";
 import CauseAreasPage from "./pages/causeareas/CauseAreas";
 import OrganizationsPage from "./pages/organizations/Organizations";
+import { APP_LOCALE } from "../config/config";
 
 export const AdminPanel: React.FunctionComponent = () => {
-  const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
+  const locale = APP_LOCALE;
 
   //TODO: Move someplace where it is run only once
   const dispatch = useDispatch();

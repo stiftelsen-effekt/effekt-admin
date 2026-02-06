@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import {
@@ -21,4 +21,14 @@ Chart.register(PointElement);
 Chart.register(LineElement);
 Chart.register(LineController);
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element not found");
+}
+
+createRoot(rootElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);

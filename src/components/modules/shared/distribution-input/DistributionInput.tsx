@@ -247,7 +247,7 @@ export const DistributionInput: React.FC<{
         </div>
       ))}
       <EffektModal
-        visible={showAddTaxUnitModal && donorId}
+        visible={Boolean(showAddTaxUnitModal && donorId)}
         effect="fadeInUp"
         onClickAway={() => setShowAddTaxUnitModal(false)}
       >

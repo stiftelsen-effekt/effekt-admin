@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { CSSProperties, useEffect } from "react";
+import { CSSProperties, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { fetchTransactionCostsReportAction } from "../../../../store/donations/donation.actions";

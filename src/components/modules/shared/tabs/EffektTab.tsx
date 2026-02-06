@@ -1,5 +1,5 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
-export const EffektTab: React.FC = ({ children }) => {
+export const EffektTab: React.FC<PropsWithChildren> = ({ children }) => {
   return <div>{children}</div>;
 };

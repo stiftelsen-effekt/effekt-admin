@@ -9,13 +9,12 @@ import { Plus } from "react-feather";
 import { useAuth0 } from "@auth0/auth0-react";
 import { CreateTaxUnitAction } from "../../../../store/taxunits.ts/taxunits.actions";
 import { AppState } from "../../../../models/state";
+import { fnr as validateFnr } from "@navikt/fnrvalidator";
 
 interface IProps {
   onSubmit(): void;
   donorId: number;
 }
-
-const validator = require("@navikt/fnrvalidator");
 
 export const NewTaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, donorId }) => {
   const { getAccessTokenSilently } = useAuth0();
@@ -31,7 +30,7 @@ export const NewTaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, don
         alert("Please fill all fields");
         return;
       }
-      const fnr = validator.fnr(state.ssn);
+      const fnr = validateFnr(state.ssn);
       if (!(fnr.status === "valid" || state.ssn.length === 9)) {
         alert("Invalid SSN or orgnr.");
         return;

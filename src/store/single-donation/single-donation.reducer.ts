@@ -10,7 +10,7 @@ import { isType } from "typescript-fsa";
 import { toast } from "react-toastify";
 import { toastError } from "../../util/toasthelper";
 import { updateDonationAction } from "../donations/donation.actions";
-import { AdminPanelLocale } from "../../models/locale";
+import { APP_LOCALE } from "../../config/config";
 
 const initialState: SingleDonationState = {
   editSaving: false,
@@ -56,8 +56,7 @@ export const singleDonationReducer = (
 
   //TODO: Move to another place in state
   if (isType(action, fetchPaymentMethodsAction.done)) {
-    const methodsMask =
-      paymentMethodLocaleMask[process.env.REACT_APP_LOCALE as AdminPanelLocale] ?? [];
+    const methodsMask = paymentMethodLocaleMask[APP_LOCALE] ?? [];
     return {
       ...state,
       paymentMethods: action.payload.result

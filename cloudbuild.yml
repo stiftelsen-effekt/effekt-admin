@@ -1,16 +1,16 @@
 steps:
   - id: "install"
-    name: "node:19.0.0"
+    name: "node:22"
     entrypoint: "npm"
     args: ["install"]
 
   - id: "type-check"
-    name: "node:19.0.0"
+    name: "node:22"
     entrypoint: "npm"
     args: ["run", "typecheck"]
 
   - id: "test"
-    name: "node:19.0.0"
+    name: "node:22"
     entrypoint: "npm"
     env: ["CI=true"]
     args: ["run", "test"]

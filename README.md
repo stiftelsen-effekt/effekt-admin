@@ -28,7 +28,7 @@ Currently, the admin panel is not the source of truth for our donation data. Our
 
 ## Getting started
 
-This project is bootstrapped with [create react app](https://create-react-app.dev/).
+This project is bootstrapped with [Vite](https://vite.dev/).
 
 To run the application, you must first install the dependencies, using npm.
 
@@ -36,7 +36,7 @@ To run the application, you must first install the dependencies, using npm.
 
 You may then run the application in development mode with the command
 
-`npm start`.
+`npm run dev`.
 
 To test and use the application, we need to configure the usage of the api.
 

@@ -10,11 +10,11 @@ import * as API from "../../util/api";
 import { AppState } from "../../models/state";
 import { IPagination, IDonationFilter } from "../../models/types";
 import { Action } from "typescript-fsa";
-import { AdminPanelLocale } from "../../models/locale";
 import { DateTime } from "luxon";
 import { toastError } from "../../util/toasthelper";
+import { APP_LOCALE } from "../../config/config";
 
-const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
+const locale = APP_LOCALE;
 
 export function* fetchDonations(action: Action<IFetchDonationsActionParams>) {
   try {

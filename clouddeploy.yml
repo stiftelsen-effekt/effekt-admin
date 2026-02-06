@@ -1,16 +1,16 @@
 steps:
   - id: "install"
-    name: "node:19.0.0"
+    name: "node:22"
     entrypoint: "npm"
     args: ["install"]
 
   - id: "type-check"
-    name: "node:19.0.0"
+    name: "node:22"
     entrypoint: "npm"
     args: ["run", "typecheck"]
 
   - id: "test"
-    name: "node:19.0.0"
+    name: "node:22"
     entrypoint: "npm"
     env: ["CI=true"]
     args: ["run", "test"]
@@ -22,33 +22,33 @@ steps:
     # 3. Build for region B
     # 4. Deploy to region B
   - id: "build-norway"
-    name: "node:19.0.0"
+    name: "node:22"
     entrypoint: "npm"
     env:
       - "CI=true"
-      - "REACT_APP_API_URL=https://data.gieffektivt.no"
-      - "REACT_APP_AUTH_DOMAIN=gieffektivt.eu.auth0.com"
-      - "REACT_APP_AUTH_CLIENT_ID=jg0jOryc8mhJ0Z0FVLfrDxx5qaznd2x8"
-      - "REACT_APP_AUTH_AUDIENCE=https://data.gieffektivt.no"
-      - "REACT_APP_LOCALE=NO"
+      - "VITE_API_URL=https://data.gieffektivt.no"
+      - "VITE_AUTH_DOMAIN=gieffektivt.eu.auth0.com"
+      - "VITE_AUTH_CLIENT_ID=jg0jOryc8mhJ0Z0FVLfrDxx5qaznd2x8"
+      - "VITE_AUTH_AUDIENCE=https://data.gieffektivt.no"
+      - "VITE_LOCALE=NO"
     args: ["run", "build"]
 
   - id: "deploy-norway"
     name: "gcr.io/cloud-builders/gsutil"
-    args: ["-m", "cp", "-r", "build/*", "gs://static.gieffektivt.no/"]
+    args: ["-m", "cp", "-r", "dist/*", "gs://static.gieffektivt.no/"]
 
   - id: "build-sweden"
-    name: "node:19.0.0"
+    name: "node:22"
     entrypoint: "npm"
     env:
       - "CI=true"
-      - "REACT_APP_API_URL=https://api.geeffektivt.se"
-      - "REACT_APP_AUTH_DOMAIN=geeffektivt.eu.auth0.com"
-      - "REACT_APP_AUTH_CLIENT_ID=LFS9efinrKEt1d6AbpVMjqHVIszj6TOv"
-      - "REACT_APP_AUTH_AUDIENCE=geeffektivt.se"
-      - "REACT_APP_LOCALE=SV"
+      - "VITE_API_URL=https://api.geeffektivt.se"
+      - "VITE_AUTH_DOMAIN=geeffektivt.eu.auth0.com"
+      - "VITE_AUTH_CLIENT_ID=LFS9efinrKEt1d6AbpVMjqHVIszj6TOv"
+      - "VITE_AUTH_AUDIENCE=geeffektivt.se"
+      - "VITE_LOCALE=SV"
     args: ["run", "build"]
 
   - id: "deploy-sweden"
     name: "gcr.io/cloud-builders/gsutil"
-    args: ["-m", "cp", "-r", "build/*", "gs://admin.geeffektivt.se/"]
+    args: ["-m", "cp", "-r", "dist/*", "gs://admin.geeffektivt.se/"]

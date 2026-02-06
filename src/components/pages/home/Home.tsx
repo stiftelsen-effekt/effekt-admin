@@ -8,7 +8,7 @@ import { LogsReport } from "../../modules/logs/report/LogsReport";
 import { MonthlyDonationsReport } from "../graphing/MonthlyDonationsReport";
 import { AvtaleGiroValidationTable } from "../../modules/avtalegiro/validationtable/AvtalegiroValidationTable";
 import { TransactionCostsReport } from "../../modules/donations/reports/TransactionCostsReport";
-import { AdminPanelLocale } from "../../../models/locale";
+import { APP_LOCALE } from "../../../config/config";
 
 const localePanels = {
   NO: [<AvtaleGiroReport />, <AvtaleGiroValidationTable />, <VippsReport />],
@@ -16,7 +16,7 @@ const localePanels = {
 };
 
 export const HomeComponent: React.FC = () => {
-  const locale = process.env.REACT_APP_LOCALE as AdminPanelLocale;
+  const locale = APP_LOCALE;
 
   return (
     <Page>

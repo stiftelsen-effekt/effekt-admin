@@ -125,7 +125,9 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
 
   const exportDonations = useCallback(() => {
     getAccessTokenSilently().then(async (token) => {
-      const result = await dispatch(exportDonationsAction.started({ token }));
+      const result = (await dispatch(exportDonationsAction.started({ token }))) as {
+        error?: unknown;
+      };
       if (result.error) {
         console.error("Error exporting donations:", result.error);
       }

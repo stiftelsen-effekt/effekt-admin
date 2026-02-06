@@ -14,6 +14,7 @@ import {
 import { AppState } from "../../../../models/state";
 import { DateTime } from "luxon";
 import { EffektSelect } from "../../../style/elements/select.style";
+import { fnr as validateFnr } from "@navikt/fnrvalidator";
 
 interface IProps {
   onSubmit(): void;
@@ -36,8 +37,7 @@ export const TaxUnitModal: React.FunctionComponent<IProps> = ({ onSubmit, taxUni
   const update = () => {
     getAccessTokenSilently().then((token) => {
       if (state.name && state.ssn) {
-        const validator = require("@navikt/fnrvalidator");
-        const fnr = validator.fnr(state.ssn);
+        const fnr = validateFnr(state.ssn);
         if (fnr.status === "valid" || state.ssn.length === 9) {
           dispatch(
             UpdateTaxUnitAction.started({
