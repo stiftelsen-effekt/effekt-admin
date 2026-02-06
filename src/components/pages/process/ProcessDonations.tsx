@@ -5,7 +5,7 @@ import { MainHeader, GreenBox, RedBox } from "../../style/elements/headers.style
 import { IInvalidTransaction } from "../../../models/types";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState, ReportProcessingState } from "../../../models/state";
-import { Redirect } from "react-router";
+import { Navigate } from "react-router-dom";
 import { EffektDisplayTable } from "../../style/elements/display-table/display-table.component.style";
 import { SingleDonation } from "../../modules/single-donation/SingleDonation";
 import { popInvalidTransaction } from "../../../store/process/process.actions";
@@ -30,7 +30,7 @@ export const ProcessDonations: React.FunctionComponent = (props) => {
   }
 
   if (processingState.invalidTransactions.length === 0) {
-    return <Redirect to="/register"></Redirect>;
+    return <Navigate to="/register" replace />;
   }
 
   const ignoreTransaction = () => {

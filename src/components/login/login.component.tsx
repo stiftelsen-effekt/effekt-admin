@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router";
+import { Navigate } from "react-router-dom";
 import { LoginWrapper, LoginButton, LoginHeader } from "./login.component.style";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -28,8 +28,8 @@ export const LoginComponent: React.FunctionComponent = () => {
       </div>
     );
   } else if (user) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" replace />;
   } else {
-    return <Redirect to="/"></Redirect>;
+    return <Navigate to="/" replace />;
   }
 };

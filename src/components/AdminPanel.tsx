@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Switch, Route, Redirect } from "react-router";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { HomeComponent } from "./pages/home/Home";
 import { MainNavigation } from "./Navigation";
 import { AdminPanelWrapper } from "./AdminPanel.style";
@@ -69,59 +69,47 @@ export const AdminPanel: React.FunctionComponent = () => {
     <div>
       <AdminPanelWrapper>
         <MainNavigation locale={locale}></MainNavigation>
-        <Switch>
-          <Route exact path="/home" component={HomeComponent}></Route>
-          <Route exact path="/distributions" component={DistributionsPageComponent}></Route>
-          <Route exact path="/distributions/:id" component={DistributionComponent}></Route>
-          <Route exact path="/register" component={RegisterComponent}></Route>
-          <Route exact path="/register/process" component={ProcessDonations}></Route>
-          <Route exact path="/graphing" component={GraphingPageComponent}></Route>
-          <Route exact path="/reports" component={ReportsComponent}></Route>
-          <Route exact path="/donors" component={DonorsPageComponent}></Route>
-          <Route exact path="/donors/:id" component={DonorPage}></Route>
-          <Route exact path="/donations" component={DonationsPageComponent}></Route>
-          <Route exact path="/donations/:id" component={DonationPageComponent}></Route>
-          <Route exact path="/settings" render={() => <div>Settings</div>}></Route>
+        <Routes>
+          <Route path="/home" element={<HomeComponent />} />
+          <Route path="/distributions" element={<DistributionsPageComponent />} />
+          <Route path="/distributions/:id" element={<DistributionComponent />} />
+          <Route path="/register" element={<RegisterComponent />} />
+          <Route path="/register/process" element={<ProcessDonations />} />
+          <Route path="/graphing" element={<GraphingPageComponent />} />
+          <Route path="/reports" element={<ReportsComponent />} />
+          <Route path="/donors" element={<DonorsPageComponent />} />
+          <Route path="/donors/:id" element={<DonorPage />} />
+          <Route path="/donations" element={<DonationsPageComponent />} />
+          <Route path="/donations/:id" element={<DonationPageComponent />} />
+          <Route path="/settings" element={<div>Settings</div>} />
 
-          <Route exact path="/logs" component={LogsPageComponent}></Route>
-          <Route exact path="/logs/:id" component={LogEntryComponent}></Route>
+          <Route path="/logs" element={<LogsPageComponent />} />
+          <Route path="/logs/:id" element={<LogEntryComponent />} />
 
-          <Route exact path="/vipps/agreements" component={VippsAgreementsPageComponent}></Route>
-          <Route exact path="/vipps/agreement/:id" component={VippsAgreementPageComponent}></Route>
+          <Route path="/vipps/agreements" element={<VippsAgreementsPageComponent />} />
+          <Route path="/vipps/agreement/:id" element={<VippsAgreementPageComponent />} />
           <Route
-            exact
             path="/vipps/agreements/charges"
-            component={VippsAgreementChargesPageComponent}
-          ></Route>
-          <Route exact path="/vipps/matchingrules" component={VippsMatchingRulesPage}></Route>
+            element={<VippsAgreementChargesPageComponent />}
+          />
+          <Route path="/vipps/matchingrules" element={<VippsMatchingRulesPage />} />
 
-          <Route exact path="/avtalegiro" component={AvtaleGiroPage}></Route>
-          <Route exact path="/avtalegiro/:id" component={AvtaleGiroAgreement}></Route>
+          <Route path="/avtalegiro" element={<AvtaleGiroPage />} />
+          <Route path="/avtalegiro/:id" element={<AvtaleGiroAgreement />} />
+          <Route path="/avtalegiro/validation/:date" element={<AvtaleGiroValidationPage />} />
 
-          <Route
-            exact
-            path="/avtalegiro/validation/:date"
-            component={AvtaleGiroValidationPage}
-          ></Route>
+          <Route path="/autogiro" element={<AutoGiroPage />} />
+          <Route path="/autogiro/mandates/" element={<AutoGiroMandatesPage />} />
+          <Route path="/autogiro/:id" element={<AutoGiroAgreement />} />
 
-          <Route exact path="/autogiro" component={AutoGiroPage}></Route>
-          <Route exact path="/autogiro/mandates/" component={AutoGiroMandatesPage}></Route>
-          <Route exact path="/autogiro/:id" component={AutoGiroAgreement}></Route>
+          <Route path="/fundraisers" element={<FundraisersPage />} />
+          <Route path="/referraltypes" element={<ReferralTypesPage />} />
+          <Route path="/causeareas" element={<CauseAreasPage />} />
+          <Route path="/causeareas/:causeAreaId/organizations" element={<OrganizationsPage />} />
+          <Route path="/organizations" element={<OrganizationsPage />} />
 
-          <Route exact path="/fundraisers" component={FundraisersPage}></Route>
-
-          <Route exact path="/referraltypes" component={ReferralTypesPage}></Route>
-
-          <Route exact path="/causeareas" component={CauseAreasPage}></Route>
-          <Route
-            exact
-            path="/causeareas/:causeAreaId/organizations"
-            component={OrganizationsPage}
-          ></Route>
-          <Route exact path="/organizations" component={OrganizationsPage}></Route>
-
-          <Route path="/" render={() => <Redirect to="/home"></Redirect>}></Route>
-        </Switch>
+          <Route path="*" element={<Navigate to="/home" replace />} />
+        </Routes>
       </AdminPanelWrapper>
       {/* General overlay elements */}
       <EffektToastContainer />

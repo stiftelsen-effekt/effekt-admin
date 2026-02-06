@@ -17,7 +17,7 @@ import { HelpCircle, PlusSquare } from "react-feather";
 import { EffektButton } from "../../../style/elements/button.style";
 import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
 import { CreateDonor } from "../create/CreateDonor";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 interface IDonorTableState {
@@ -30,7 +30,7 @@ interface IDonorTableState {
 export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: number }> = ({
   pageSize,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   const getDefaultState = (): IDonorTableState => {
@@ -115,7 +115,7 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
   };
 
   const rowDoubleClick = (donorID: number) => {
-    history.push(`donors/${donorID}`);
+    navigate(`/donors/${donorID}`);
   };
 
   const rowStyle = (rowIndex: number, selectedIndex: number) => {

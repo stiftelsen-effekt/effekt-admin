@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { RouteComponentProps, NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Page } from "../../style/elements/page.style";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../models/state";
@@ -15,16 +15,11 @@ import { EffektButton } from "../../style/elements/button.style";
 import { FileText, PieChart, User } from "react-feather";
 import { EditVippsAgreement } from "../../modules/vipps/editagreement/EditVippsAgreement";
 
-interface IParams {
-  id: string;
-}
-
-export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({
-  match,
-}: RouteComponentProps<IParams>) => {
-  const agreementID = match.params.id;
+export const VippsAgreementPageComponent: React.FunctionComponent = () => {
+  const { id } = useParams<"id">();
+  const agreementID = id;
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   const agreement: IVippsAgreement | undefined = useSelector(
@@ -34,10 +29,15 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
   const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!agreementID) return;
     getAccessTokenSilently().then((token) =>
       dispatch(fetchVippsAgreementAction.started({ id: agreementID, token })),
     );
   }, [agreementID, dispatch, getAccessTokenSilently]);
+
+  if (!agreementID) {
+    return <Page>Loading agreement...</Page>;
+  }
 
   if (agreement && !agreement.id) {
     return (
@@ -59,7 +59,7 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
           <EffektButton
             onClick={() =>
               agreement.distribution.donorId &&
-              history.push(`/donors/${agreement.distribution.donorId}`)
+              navigate(`/donors/${agreement.distribution.donorId}`)
             }
           >
             <User size={16} />
@@ -68,13 +68,13 @@ export const VippsAgreementPageComponent: React.FunctionComponent<RouteComponent
 
           <EffektButton
             onClick={() => {
-              history.push("/distributions/" + agreement.KID);
+              navigate("/distributions/" + agreement.KID);
             }}
           >
             <PieChart size={16} />
             Distribution
           </EffektButton>
-          <EffektButton onClick={() => history.push("/vipps/agreements")}>
+          <EffektButton onClick={() => navigate("/vipps/agreements")}>
             <FileText size={16} /> All agreements
           </EffektButton>
         </EffektButtonsWrapper>

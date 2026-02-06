@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { shortDate, thousandize } from "../../../../util/formatting";
 import { DateTime } from "luxon";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import {
   fetchVippsAgreementsAction,
   setVippsAgreementsPagination,
@@ -32,7 +32,7 @@ export const VippsAgreementList: React.FunctionComponent<{
 
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (manual) {
@@ -218,7 +218,7 @@ export const VippsAgreementList: React.FunctionComponent<{
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          history.push(`/vipps/agreement/${rowInfo.original.ID}`);
+          navigate(`/vipps/agreement/${rowInfo.original.ID}`);
         },
       };
     }

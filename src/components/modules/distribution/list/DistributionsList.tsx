@@ -12,7 +12,7 @@ import { Plus } from "react-feather";
 import { EffektButton } from "../../../style/elements/button.style";
 import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
 import { CreateDistribution } from "../create/CreateDistribution";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const DistributionsList: React.FunctionComponent<{
@@ -24,7 +24,7 @@ export const DistributionsList: React.FunctionComponent<{
 }> = ({ distributions, manual, defaultPageSize, hideName, hideEmail }) => {
   const pages = useSelector((state: AppState) => state.distributions.pages);
   const loading = useSelector((state: AppState) => state.distributions.loading);
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -85,7 +85,7 @@ export const DistributionsList: React.FunctionComponent<{
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          history.push(`/distributions/${rowInfo.original.KID}`);
+          navigate(`/distributions/${rowInfo.original.KID}`);
         },
       };
     }

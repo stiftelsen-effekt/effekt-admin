@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReportTypes, uploadReportAction } from "../../../store/report/report-upload.actions";
 import { toast } from "react-toastify";
 import { AppState } from "../../../models/state";
-import { Redirect, useHistory } from "react-router";
+import { Navigate, useNavigate } from "react-router-dom";
 import { OwnerSelect } from "../owner-select/OwnerSelect";
 import { EffektLoadingSpinner } from "../../style/elements/loading-spinner";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -43,7 +43,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
   };
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const [state, setState] = useState<IState>(getDefaultState());
 
@@ -80,7 +80,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
     (state: AppState) => state.reportProcessing.invalidTransactions.length !== 0,
   );
 
-  if (shouldProcess) return <Redirect to="/register/process"></Redirect>;
+  if (shouldProcess) return <Navigate to="/register/process" replace />;
   if (!dataOwners) {
     return <p>Loading data owners...</p>;
   }
@@ -112,7 +112,7 @@ export const ReportUpload: React.FunctionComponent = (props) => {
           <td>
             <EffektButton
               onClick={() => {
-                history.push("/vipps/matchingrules");
+                navigate("/vipps/matchingrules");
               }}
             >
               <List size={14} /> Matching

@@ -1,47 +1,31 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
-import { RouteProps, Route, Redirect } from "react-router";
+import { Navigate, useLocation } from "react-router-dom";
 import { EffektLoadingSpinner } from "../style/elements/loading-spinner";
 
-interface IPrivateRouteProps {
-  component: React.FC;
-}
-
-export const PrivateRoute: React.FC<IPrivateRouteProps & RouteProps> = ({
-  component: Component,
-  ...rest
-}) => {
+export const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({ children }) => {
   const { user, isAuthenticated, isLoading } = useAuth0();
+  const location = useLocation();
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <Route
-        {...rest}
-        render={(props) => (
-          <div
-            style={{
-              width: "100vw",
-              height: "100vh",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <EffektLoadingSpinner></EffektLoadingSpinner>
-          </div>
-        )}
-      />
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <EffektLoadingSpinner></EffektLoadingSpinner>
+      </div>
     );
+  }
 
   if (isAuthenticated && user) {
-    return <Route {...rest} render={(props) => <Component {...props} />} />;
-  } else
-    return (
-      <Route
-        {...rest}
-        render={(props) => (
-          <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
-        )}
-      />
-    );
+    return children;
+  }
+
+  return <Navigate to="/login" state={{ from: location }} replace />;
 };

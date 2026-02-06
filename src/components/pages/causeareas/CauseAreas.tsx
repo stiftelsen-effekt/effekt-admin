@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AlertTriangle, Plus } from "react-feather";
 import { useAuth0 } from "@auth0/auth0-react";
 import Decimal from "decimal.js";
@@ -24,7 +24,7 @@ interface Props {}
 
 const CauseAreasPage: React.FunctionComponent<Props> = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const causeAreas = useSelector((state: AppState) => state.causeareas.all);
 
@@ -90,7 +90,7 @@ const CauseAreasPage: React.FunctionComponent<Props> = () => {
   };
 
   const handleManageOrganizations = (causeAreaId: number) => {
-    history.push(`/causeareas/${causeAreaId}/organizations`);
+    navigate(`/causeareas/${causeAreaId}/organizations`);
   };
 
   const handleCloseEditModal = () => {

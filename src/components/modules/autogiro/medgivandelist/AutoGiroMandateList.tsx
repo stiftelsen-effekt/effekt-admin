@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ReactTable from "react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { IAutoGiroMandate } from "../../../../models/types";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
@@ -16,7 +16,7 @@ export const AutoGiroMandateList: React.FunctionComponent<{
   defaultPageSize?: number;
 }> = ({ mandates, manual, defaultPageSize }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   const loading = useSelector((state: AppState) => state.autoGiroMandates.loading);
@@ -62,7 +62,7 @@ export const AutoGiroMandateList: React.FunctionComponent<{
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          history.push(`/autogiro/mandates/${rowInfo.original.ID}`);
+          navigate(`/autogiro/mandates/${rowInfo.original.ID}`);
         },
       };
     }

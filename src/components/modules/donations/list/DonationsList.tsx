@@ -8,7 +8,7 @@ import {
 import { AppState } from "../../../../models/state";
 import { shortDate, thousandize } from "../../../../util/formatting";
 import { DateTime } from "luxon";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { IDonation } from "../../../../models/types";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FilterHeader, FilterIcon } from "./DonationsList.style";
@@ -39,7 +39,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({
   hideKID,
 }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   const pages = useSelector((state: AppState) => state.donations.pages);
@@ -246,7 +246,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          history.push(`/donations/${rowInfo.original.id}`);
+          navigate(`/donations/${rowInfo.original.id}`);
         },
       };
     }

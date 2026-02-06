@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { shortDate, thousandize } from "../../../../util/formatting";
 import { DateTime } from "luxon";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { IDonor } from "../../../../models/types";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
@@ -31,7 +31,7 @@ interface Props {
 
 export const DonorsList: React.FunctionComponent<Props> = ({ donors, manual, defaultPageSize }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   const pages = useSelector((state: AppState) => state.donors.pages);
@@ -230,7 +230,7 @@ export const DonorsList: React.FunctionComponent<Props> = ({ donors, manual, def
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          history.push(`/donors/${rowInfo.original.id}`);
+          navigate(`/donors/${rowInfo.original.id}`);
         },
       };
     }

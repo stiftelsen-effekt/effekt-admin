@@ -4,7 +4,7 @@ import { MainHeader, SubHeader } from "../../../style/elements/headers.style";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { AvtaleGiroList } from "../../../modules/avtalegiro/agreementlist/AvtaleGiroList";
-import { useHistory, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   fetchAvtaleGiroMissingByDateAction,
   fetchAvtaleGiroRecievedByDateAction,
@@ -15,8 +15,8 @@ import { EffektDatePicker } from "../../../style/elements/datepicker/datepicker.
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const AvtaleGiroValidationPage: React.FunctionComponent = () => {
-  const params = useParams<{ date?: string }>();
-  const history = useHistory();
+  const params = useParams<"date">();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -48,7 +48,7 @@ export const AvtaleGiroValidationPage: React.FunctionComponent = () => {
           selected={parsedDate.toJSDate()}
           onChange={(date) => {
             if (date) {
-              history.push(`/avtalegiro/validation/${DateTime.fromJSDate(date).toISO()}`);
+              navigate(`/avtalegiro/validation/${DateTime.fromJSDate(date).toISO()}`);
             }
           }}
           dateFormat="dd.MM.yyyy"

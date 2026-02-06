@@ -1,7 +1,7 @@
 import { MainHeader } from "../../style/elements/headers.style";
 import React, { useEffect, useState } from "react";
 import { Page } from "../../style/elements/page.style";
-import { RouteComponentProps, useHistory } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../models/state";
 import { DonorKeyInfo } from "./donor/KeyInfo";
@@ -35,15 +35,10 @@ import { EffektButton } from "../../style/elements/button.style";
 import { EffektModal } from "../../style/elements/effekt-modal/effekt-modal.component.style";
 import { showDonorSelectionComponent } from "../../../store/donors/donor-selection.actions";
 
-interface IParams {
-  id: string;
-}
-
-export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = ({
-  match,
-}: RouteComponentProps<IParams>) => {
+export const DonorPage: React.FunctionComponent = () => {
+  const { id } = useParams<"id">();
   const dispatch = useDispatch();
-  const donorId = parseInt(match.params.id);
+  const donorId = id ? parseInt(id) : NaN;
   const { getAccessTokenSilently } = useAuth0();
 
   const data = useSelector((state: AppState) => state.donorPage);
@@ -52,17 +47,21 @@ export const DonorPage: React.FunctionComponent<RouteComponentProps<IParams>> = 
   const selectedDonor = useSelector((state: AppState) => state.donorSelector.selectedDonor);
   const donor = useSelector((state: AppState) => state.donorPage.donor);
 
-  const router = useHistory();
+  const navigate = useNavigate();
 
   const mergeDonorDestionationId = useSelector(
     (state: AppState) => state.donorPage.mergedDonorTargetId,
   );
 
+  if (!id || Number.isNaN(donorId)) {
+    return <Page>Loading...</Page>;
+  }
+
   useEffect(() => {
     if (mergeDonorDestionationId) {
-      router.push(`/donors/${mergeDonorDestionationId}`);
+      navigate(`/donors/${mergeDonorDestionationId}`);
     }
-  }, [mergeDonorDestionationId, router]);
+  }, [mergeDonorDestionationId, navigate]);
 
   useEffect(() => {
     getAccessTokenSilently().then((token) => {

@@ -20,7 +20,7 @@ import { ChargeListWrapper, FilterHeader, FilterIcon } from "./VippsAgreementCha
 import { VippsChargeFilter } from "./VippsAgreementChargeFilter";
 import { useAuth0 } from "@auth0/auth0-react";
 import { EffektButton } from "../../../style/elements/button.style";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "react-feather";
 
 export const VippsAgreementChargeList: React.FunctionComponent = () => {
@@ -30,7 +30,7 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
   const pagination = useSelector((state: AppState) => state.vippsAgreementCharges.pagination);
   const filter = useSelector((state: AppState) => state.vippsAgreementCharges.filter);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -200,7 +200,7 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
 
   return (
     <ChargeListWrapper>
-      <EffektButton onClick={() => history.push("/vipps/agreements")}>
+      <EffektButton onClick={() => navigate("/vipps/agreements")}>
         <ArrowLeft size={18} style={{ marginRight: "5px" }} /> Back to agreements
       </EffektButton>
       <br />

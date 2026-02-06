@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { List } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { AppState } from "../../../../models/state";
 import { IAvtalegiroReport } from "../../../../models/types";
 import { fetchAvtaleGiroReportAction } from "../../../../store/avtalegiro/avtalegiro.actions";
@@ -20,10 +20,10 @@ export const AvtaleGiroReport = () => {
     (state: AppState) => state.avtaleGiroAgreements.report,
   );
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
-  const handleAgreementListButtonClick = () => history.push("/avtalegiro");
+  const handleAgreementListButtonClick = () => navigate("/avtalegiro");
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Page } from "../../style/elements/page.style";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../models/state";
@@ -15,28 +15,26 @@ import { DonationKeyInfoComponent } from "../../modules/donations/keyinfo/KeyInf
 import { EffektButton } from "../../style/elements/button.style";
 import { EffektButtonsWrapper } from "../../style/elements/buttons-wrapper/EffektButtonsWrapper.style";
 import { PieChart, User, Edit } from "react-feather";
-import { useHistory } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { deleteDonationAction } from "../../../store/donations/donations-list.actions";
 import { RegisterReceiptComponent } from "../../modules/donations/receipt/Receipt";
 import { EditDonation } from "../../modules/donation/EditDonation";
 
-interface IParams {
-  id: string;
-}
-
-export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({
-  match,
-}: RouteComponentProps<IParams>) => {
-  const donationID = parseInt(match.params.id);
+export const DonationPageComponent: React.FunctionComponent = () => {
+  const { id } = useParams<"id">();
+  const donationID = id ? parseInt(id) : NaN;
   const [showEdit, setShowEdit] = useState(false);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   const donation: IDonation | undefined = useSelector(
     (state: AppState) => state.donations.currentDonation,
   );
+
+  if (!id || Number.isNaN(donationID)) {
+    return <Page>Loading...</Page>;
+  }
 
   if (donation && donation.id !== donationID) {
     dispatch(clearCurrentDonation());
@@ -58,7 +56,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
         <EffektButtonsWrapper>
           <EffektButton
             onClick={() => {
-              history.push("/donors/" + donation.donorId);
+              navigate("/donors/" + donation.donorId);
             }}
           >
             <User size={16} />
@@ -66,7 +64,7 @@ export const DonationPageComponent: React.FunctionComponent<RouteComponentProps<
           </EffektButton>
           <EffektButton
             onClick={() => {
-              history.push("/distributions/" + donation.KID);
+              navigate("/distributions/" + donation.KID);
             }}
           >
             <PieChart size={16} />

@@ -3,16 +3,12 @@ import { DateTime } from "luxon";
 import React from "react";
 import JSONTree from "react-json-tree";
 import { useDispatch, useSelector } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AppState } from "../../../models/state";
 import { clearCurrentLogEntry, fetchLogEntryAction } from "../../../store/logs/logs.actions";
 import { longDateTime } from "../../../util/formatting";
 import { ResourceHeader, ResourceSubHeader } from "../../style/elements/headers.style";
 import { Page } from "../../style/elements/page.style";
-
-interface IParams {
-  id: string;
-}
 
 // This is a workaround for TypeScript
 // https://stackoverflow.com/questions/69220088/jsx-element-class-does-not-support-attributes-because-it-does-not-have-a-props
@@ -30,14 +26,17 @@ const JSONView = JSONTree as unknown as {
   new (): JSONTreeFix;
 };
 
-export const LogEntryComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({
-  match,
-}: RouteComponentProps<IParams>) => {
-  const entryId = parseInt(match.params.id);
+export const LogEntryComponent: React.FunctionComponent = () => {
+  const { id } = useParams<"id">();
+  const entryId = id ? parseInt(id) : NaN;
 
   const entry = useSelector((state: AppState) => state.logs.currentEntry);
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
+
+  if (!id || Number.isNaN(entryId)) {
+    return <Page>Loading...</Page>;
+  }
 
   if (entry && entry.ID !== entryId) {
     getAccessTokenSilently().then((token) => {

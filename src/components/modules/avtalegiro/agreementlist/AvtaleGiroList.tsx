@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { longDateTime, shortDate, thousandize } from "../../../../util/formatting";
 import { DateTime } from "luxon";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import {
   fetchAvtaleGiroAgreementsAction,
   setAvtaleGiroPagination,
@@ -18,7 +18,7 @@ export const AvtaleGiroList: React.FunctionComponent<{
   defaultPageSize?: number;
 }> = ({ agreements, manual, defaultPageSize }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   const loading = useSelector((state: AppState) => state.avtaleGiroAgreements.loading);
@@ -108,7 +108,7 @@ export const AvtaleGiroList: React.FunctionComponent<{
     if (rowInfo && rowInfo.row) {
       return {
         onDoubleClick: (e: any) => {
-          history.push(`/avtalegiro/${rowInfo.original.ID}`);
+          navigate(`/avtalegiro/${rowInfo.original.ID}`);
         },
       };
     }

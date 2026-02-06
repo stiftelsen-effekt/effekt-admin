@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { List } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { AppState, VippsAgreementsState } from "../../../../models/state";
 import { fetchAgreementsReportAction } from "../../../../store/vipps/vipps.actions";
 import { thousandize } from "../../../../util/formatting";
@@ -18,10 +18,10 @@ export const VippsReport = () => {
   const agreements: VippsAgreementsState = useSelector((state: AppState) => state.vippsAgreements);
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const handleAgreementListButtonClick = () => history.push("vipps/agreements");
-  const handleChargesListButtonClick = () => history.push("vipps/agreements/charges");
+  const handleAgreementListButtonClick = () => navigate("/vipps/agreements");
+  const handleChargesListButtonClick = () => navigate("/vipps/agreements/charges");
 
   useEffect(() => {
     getAccessTokenSilently().then((token) =>

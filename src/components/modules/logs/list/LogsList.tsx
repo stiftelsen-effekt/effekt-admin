@@ -5,7 +5,7 @@ import { fetchLogsAction, setLogsPaginationAction } from "../../../../store/logs
 import { AppState } from "../../../../models/state";
 import { longDateTime } from "../../../../util/formatting";
 import { DateTime } from "luxon";
-import { Redirect } from "react-router";
+import { Navigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 interface LogsListProps {
@@ -65,7 +65,7 @@ export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showM
     return {};
   };
 
-  if (entry !== null) return <Redirect to={`/logs/${entry}`}></Redirect>;
+  if (entry !== null) return <Navigate to={`/logs/${entry}`} replace />;
   return (
     <ReactTable
       manual

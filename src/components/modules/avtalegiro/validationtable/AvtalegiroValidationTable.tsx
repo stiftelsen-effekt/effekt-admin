@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { fetchAvtaleGiroValidationTableAction } from "../../../../store/avtalegiro/avtalegiro.actions";
 import { ReportContent, ReportHeader, ReportWrapper } from "../../shared/report/Report.style";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const AvtaleGiroValidationTable = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -59,7 +59,7 @@ export const AvtaleGiroValidationTable = () => {
             now.day < rowInfo.original.date
               ? now.set({ day: rowInfo.original.date }).minus({ months: 1 }).toISO()
               : now.set({ day: rowInfo.original.date }).toISO();
-          history.push(`/avtalegiro/validation/${date}`);
+          navigate(`/avtalegiro/validation/${date}`);
         },
       };
     }

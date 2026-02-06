@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-globals */
 import React, { useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
 import { Page } from "../../../style/elements/page.style";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
@@ -18,18 +17,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { DonationsList } from "../../../modules/donations/list/DonationsList";
 import { EffektButton } from "../../../style/elements/button.style";
 import { FileText, PieChart, User } from "react-feather";
-import { useHistory } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { EditAvtaleGiroAgreement } from "../../../modules/avtalegiro/editagreement/EditAvtalegiroAgreement";
 import { EffektButtonsWrapper } from "../../../style/elements/buttons-wrapper/EffektButtonsWrapper.style";
 
-interface IParams {
-  id: string;
-}
-
-export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IParams>> = ({
-  match,
-}: RouteComponentProps<IParams>) => {
-  const history = useHistory();
+export const AvtaleGiroAgreement: React.FunctionComponent = () => {
+  const navigate = useNavigate();
+  const { id } = useParams<"id">();
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
 
@@ -38,13 +32,18 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
   );
 
   const [editMenuVisible, setEditMenuVisible] = useState<boolean>(false);
-  const avtaleGiroID = match.params.id;
+  const avtaleGiroID = id;
 
   useEffect(() => {
+    if (!avtaleGiroID) return;
     getAccessTokenSilently().then((token) =>
       dispatch(fetchAvtaleGiroAction.started({ id: avtaleGiroID, token })),
     );
   }, [avtaleGiroID, dispatch, getAccessTokenSilently]);
+
+  if (!avtaleGiroID) {
+    return <Page>Loading...</Page>;
+  }
 
   if (avtaleGiro) {
     return (
@@ -56,7 +55,7 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
           <EffektButton
             onClick={() =>
               avtaleGiro.distribution.donorId &&
-              history.push(`/donors/${avtaleGiro.distribution.donorId}`)
+              navigate(`/donors/${avtaleGiro.distribution.donorId}`)
             }
           >
             <User size={16} />
@@ -65,13 +64,13 @@ export const AvtaleGiroAgreement: React.FunctionComponent<RouteComponentProps<IP
 
           <EffektButton
             onClick={() => {
-              history.push("/distributions/" + avtaleGiro.KID);
+              navigate("/distributions/" + avtaleGiro.KID);
             }}
           >
             <PieChart size={16} />
             Distribution
           </EffektButton>
-          <EffektButton onClick={() => history.push("/avtalegiro")}>
+          <EffektButton onClick={() => navigate("/avtalegiro")}>
             <FileText size={16} /> All agreements
           </EffektButton>
         </EffektButtonsWrapper>

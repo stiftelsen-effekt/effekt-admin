@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-globals */
 import React, { useEffect } from "react";
-import { RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState, CurrentDistributionState } from "../../../models/state";
 import { DistributionGraphComponent } from "../../modules/distribution/Graph";
@@ -12,30 +11,30 @@ import { DistributionKeyInfo } from "./DistributionKeyInfo";
 import { DonationsList } from "../../modules/donations/list/DonationsList";
 import { EffektButton } from "../../style/elements/button.style";
 import { PieChart, User } from "react-feather";
-import { useHistory } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { EffektButtonsWrapper } from "../../style/elements/buttons-wrapper/EffektButtonsWrapper.style";
 import { useAuth0 } from "@auth0/auth0-react";
 
-interface IParams {
-  id: string;
-}
-
-export const DistributionComponent: React.FunctionComponent<RouteComponentProps<IParams>> = ({
-  match,
-}: RouteComponentProps<IParams>) => {
+export const DistributionComponent: React.FunctionComponent = () => {
+  const { id } = useParams<"id">();
   const current: CurrentDistributionState | undefined = useSelector(
     (state: AppState) => state.distributions.current,
   );
-  const KID = match.params.id;
+  const KID = id;
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
+    if (!KID) return;
     getAccessTokenSilently().then((token) =>
       dispatch(fetchDistributionAction.started({ kid: KID, token })),
     );
   }, [KID, dispatch, getAccessTokenSilently]);
+
+  if (!KID) {
+    return <Page>Loading...</Page>;
+  }
 
   if (current && current.distribution && current.distribution.causeAreas) {
     return (
@@ -46,7 +45,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
         <EffektButtonsWrapper>
           <EffektButton
             onClick={() => {
-              history.push("/donors/" + current.distribution?.donorId);
+              navigate("/donors/" + current.distribution?.donorId);
             }}
           >
             <User size={16} />
@@ -54,7 +53,7 @@ export const DistributionComponent: React.FunctionComponent<RouteComponentProps<
           </EffektButton>
           <EffektButton
             onClick={() => {
-              history.push("/distributions");
+              navigate("/distributions");
             }}
           >
             <PieChart size={16} />

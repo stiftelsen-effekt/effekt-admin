@@ -1,5 +1,16 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, type NavLinkProps } from "react-router-dom";
+
+const NavMenuLink = ({ className, ...props }: NavLinkProps) => (
+  <NavLink
+    {...props}
+    className={({ isActive }) =>
+      [typeof className === "string" ? className : "", isActive ? "active" : ""]
+        .filter(Boolean)
+        .join(" ")
+    }
+  />
+);
 
 export const MainNav = styled.nav`
   width: 240px;
@@ -27,7 +38,7 @@ export const NavMenu = styled.ul`
   overflow: auto;
 `;
 
-export const NavMenuItem = styled(NavLink)`
+export const NavMenuItem = styled(NavMenuLink)`
   font-size: 24px;
   font-weight: 100;
   color: white;
