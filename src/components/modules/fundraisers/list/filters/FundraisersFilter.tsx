@@ -225,7 +225,7 @@ export const FundraisersFilterComponent: React.FunctionComponent = () => {
               </tr>
               <tr>
                 <td>Average</td>
-                <td>kr {thousandize(statistics.avgDonation)}</td>
+                <td>kr {thousandize(Math.round(statistics.avgDonation))}</td>
               </tr>
             </tbody>
           </table>
