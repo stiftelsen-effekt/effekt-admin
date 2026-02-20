@@ -9,15 +9,15 @@ import { IHistogramBucket } from "../../../models/types";
 interface IProps {
   range: Array<number>;
   onChange([from, to]: Array<number>): void;
+  histogram: Array<IHistogramBucket>;
+  unit?: string;
 }
 
-interface IProps {
-  histogram: Array<IHistogramBucket>;
-}
 export const HistogramInputComponent: React.FunctionComponent<IProps> = ({
   histogram,
   range,
   onChange,
+  unit = "kr",
 }) => {
   const buckets = histogram.map((histogram) => histogram.bucket);
   buckets.push(Number.MAX_SAFE_INTEGER); //Upper bound
@@ -92,7 +92,7 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({
               } catch (ex) {}
             }}
           ></FilterInput>
-          <span>&nbsp;&nbsp;kr</span>
+          {unit && <span>&nbsp;&nbsp;{unit}</span>}
         </div>
         <img src={rightArrow} style={{ height: "20px", color: "white" }} alt="arrow" />
         <div>
@@ -106,7 +106,7 @@ export const HistogramInputComponent: React.FunctionComponent<IProps> = ({
               } catch (ex) {}
             }}
           ></FilterInput>
-          <span>&nbsp;&nbsp;kr</span>
+          {unit && <span>&nbsp;&nbsp;{unit}</span>}
         </div>
       </div>
     </div>

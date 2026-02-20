@@ -14,13 +14,15 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../../../models/state";
 import {
-  setFundraiserFilterRegistrationDateRange,
-  setFundraiserFilterDonor,
-  setFundraiserFilterId,
-  setFundraiserFilterDonationCountRange,
-  setFundraiserFilterDonationSumRange,
-  setFundraiserFilterOrganizationIDs,
-} from "../../../../../store/fundraisers/fundraiser-filters.actions";
+  setAdoveoFilterCreatedDateRange,
+  setAdoveoFilterName,
+  setAdoveoFilterFundraiserId,
+  setAdoveoFilterAdoveoId,
+  setAdoveoFilterDonorName,
+  setAdoveoFilterDonationCountRange,
+  setAdoveoFilterDonationSumRange,
+  setAdoveoFilterOrganizationIDs,
+} from "../../../../../store/adoveo/adoveo-filters.actions";
 import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
 import { HistogramInputComponent } from "../../../histogram-input/HistogramInput";
 import rightArrow from "../../../../../assets/right-arrow.svg";
@@ -31,33 +33,31 @@ import {
 import { thousandize } from "../../../../../util/formatting";
 import { fetchAllCauseareasAction } from "../../../../../store/causeareas/causeareas.action";
 
-export const FundraisersFilterComponent: React.FunctionComponent = () => {
+export const AdoveoFilterComponent: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
-  const filter = useSelector((state: AppState) => state.fundraisers.filter);
+  const filter = useSelector((state: AppState) => state.adoveo.filter);
   const causeAreas = useSelector((state: AppState) => state.causeareas.all);
-  const statistics = useSelector((state: AppState) => state.fundraisers.statistics);
+  const statistics = useSelector((state: AppState) => state.adoveo.statistics);
 
   useEffect(() => {
     if (!causeAreas) dispatch(fetchAllCauseareasAction.started(undefined));
   }, [causeAreas, dispatch]);
 
   const selectedOrganizationIDs = useSelector(
-    (state: AppState) => state.fundraisers.filter.organizationIDs,
+    (state: AppState) => state.adoveo.filter.organizationIDs,
   );
 
   const organizationChoices: Array<EffektCheckChoice> =
     causeAreas
       ?.flatMap((c) => c.organizations)
-      ?.map((organization) => {
-        return {
-          label: organization.name || organization.abbreviation || "Unknown",
-          value: organization.id,
-          selected: selectedOrganizationIDs
-            ? selectedOrganizationIDs.includes(organization.id)
-            : true,
-        };
-      }) ?? [];
+      ?.map((organization) => ({
+        label: organization.name || organization.abbreviation || "Unknown",
+        value: organization.id,
+        selected: selectedOrganizationIDs
+          ? selectedOrganizationIDs.includes(organization.id)
+          : true,
+      })) ?? [];
 
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
 
@@ -71,34 +71,63 @@ export const FundraisersFilterComponent: React.FunctionComponent = () => {
         <FilterHeader>Filters</FilterHeader>
 
         <FilterGroup>
-          <FilterGroupHeader>Registration date range</FilterGroupHeader>
+          <FilterGroupHeader>Name</FilterGroupHeader>
+          <FilterInput
+            value={filter.name}
+            placeholder={"Fuzzy search"}
+            style={{ width: "100%" }}
+            onChange={(e) => dispatch(setAdoveoFilterName(e.target.value))}
+          ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Fundraiser ID</FilterGroupHeader>
+          <FilterInput
+            value={filter.fundraiserId}
+            placeholder={"123"}
+            style={{ width: "100%" }}
+            onChange={(e) => dispatch(setAdoveoFilterFundraiserId(e.target.value))}
+          ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Adoveo ID</FilterGroupHeader>
+          <FilterInput
+            value={filter.adoveoId}
+            placeholder={"456"}
+            style={{ width: "100%" }}
+            onChange={(e) => dispatch(setAdoveoFilterAdoveoId(e.target.value))}
+          ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Donor name</FilterGroupHeader>
+          <FilterInput
+            value={filter.donorName}
+            placeholder={"Fuzzy search"}
+            style={{ width: "100%" }}
+            onChange={(e) => dispatch(setAdoveoFilterDonorName(e.target.value))}
+          ></FilterInput>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Created date range</FilterGroupHeader>
           <FilterDateRangeWrapper>
             <FilterDateRange
-              from={filter.registrationDate.from}
-              to={filter.registrationDate.to}
+              from={filter.createdDate.from}
+              to={filter.createdDate.to}
               onChangeFrom={(date) => {
                 dispatch(
-                  setFundraiserFilterRegistrationDateRange({
-                    from: date,
-                    to: filter.registrationDate.to,
-                  }),
+                  setAdoveoFilterCreatedDateRange({ from: date, to: filter.createdDate.to }),
                 );
               }}
               onChangeTo={(date) => {
                 dispatch(
-                  setFundraiserFilterRegistrationDateRange({
-                    from: filter.registrationDate.from,
-                    to: date,
-                  }),
+                  setAdoveoFilterCreatedDateRange({ from: filter.createdDate.from, to: date }),
                 );
               }}
               onChangeRange={(to, from) => {
-                dispatch(
-                  setFundraiserFilterRegistrationDateRange({
-                    from: to,
-                    to: from,
-                  }),
-                );
+                dispatch(setAdoveoFilterCreatedDateRange({ from: to, to: from }));
               }}
               inverted
             ></FilterDateRange>
@@ -122,7 +151,7 @@ export const FundraisersFilterComponent: React.FunctionComponent = () => {
               onChange={(e) => {
                 const val = parseInt(e.target.value);
                 dispatch(
-                  setFundraiserFilterDonationCountRange({
+                  setAdoveoFilterDonationCountRange({
                     from: isNaN(val) ? 0 : val,
                     to: filter.donationCount.to,
                   }),
@@ -141,7 +170,7 @@ export const FundraisersFilterComponent: React.FunctionComponent = () => {
               onChange={(e) => {
                 const val = parseInt(e.target.value);
                 dispatch(
-                  setFundraiserFilterDonationCountRange({
+                  setAdoveoFilterDonationCountRange({
                     from: filter.donationCount.from,
                     to: isNaN(val) ? Number.MAX_SAFE_INTEGER : val,
                   }),
@@ -161,38 +190,9 @@ export const FundraisersFilterComponent: React.FunctionComponent = () => {
               let maxRange = range[1];
               if (isNaN(minRange)) minRange = 0;
               if (isNaN(maxRange)) maxRange = Number.MAX_SAFE_INTEGER;
-              dispatch(
-                setFundraiserFilterDonationSumRange({
-                  from: minRange,
-                  to: maxRange,
-                }),
-              );
+              dispatch(setAdoveoFilterDonationSumRange({ from: minRange, to: maxRange }));
             }}
           ></HistogramInputComponent>
-        </FilterGroup>
-
-        <FilterGroup>
-          <FilterGroupHeader>Fundraiser ID</FilterGroupHeader>
-          <FilterInput
-            value={filter.fundraiserId}
-            placeholder={"123"}
-            style={{ width: "100%" }}
-            onChange={(e) => {
-              dispatch(setFundraiserFilterId(e.target.value));
-            }}
-          ></FilterInput>
-        </FilterGroup>
-
-        <FilterGroup>
-          <FilterGroupHeader>Donor like</FilterGroupHeader>
-          <FilterInput
-            value={filter.donor}
-            placeholder={"Fuzzy search"}
-            style={{ width: "100%" }}
-            onChange={(e) => {
-              dispatch(setFundraiserFilterDonor(e.target.value));
-            }}
-          ></FilterInput>
         </FilterGroup>
 
         {causeAreas && (
@@ -203,9 +203,9 @@ export const FundraisersFilterComponent: React.FunctionComponent = () => {
               choices={organizationChoices}
               onChange={(selected: Array<number>, allSelected: boolean) => {
                 if (allSelected) {
-                  dispatch(setFundraiserFilterOrganizationIDs(undefined));
+                  dispatch(setAdoveoFilterOrganizationIDs(undefined));
                 } else {
-                  dispatch(setFundraiserFilterOrganizationIDs(selected));
+                  dispatch(setAdoveoFilterOrganizationIDs(selected));
                 }
               }}
             ></EffektCheckForm>
@@ -225,7 +225,7 @@ export const FundraisersFilterComponent: React.FunctionComponent = () => {
               </tr>
               <tr>
                 <td>Average</td>
-                <td>kr {thousandize(statistics.avgDonation)}</td>
+                <td>kr {thousandize(Math.round(statistics.avgDonation))}</td>
               </tr>
             </tbody>
           </table>

@@ -229,6 +229,8 @@ import {
   fetchFundraiserSaga,
   createFundraiserSaga,
 } from "./store/fundraisers/fundraisers.saga";
+import { fetchAdoveoAction, createAdoveoAction } from "./store/adoveo/adoveo-list.actions";
+import { fetchAdoveoSaga, createAdoveoSaga } from "./store/adoveo/adoveo.saga";
 import {
   fetchActiveRefferalsAction,
   fetchAllRefferalsAction,
@@ -369,6 +371,9 @@ function* watchAll() {
     takeLatest(fetchFundraisersAction.started.type, fetchFundraisersSaga),
     takeLatest(fetchFundraiserAction.started.type, fetchFundraiserSaga),
     takeLatest(createFundraiserAction.started.type, createFundraiserSaga),
+
+    takeLatest(fetchAdoveoAction.started.type, fetchAdoveoSaga),
+    takeLatest(createAdoveoAction.started.type, createAdoveoSaga),
 
     takeLatest(fetchDonorsAction.started.type, fetchDonors),
     takeLatest(exportDonorsAction.started.type, exportDonors),

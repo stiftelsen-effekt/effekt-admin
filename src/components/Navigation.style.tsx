@@ -33,19 +33,20 @@ export const MainNav = styled.nav`
 
 export const NavMenu = styled.ul`
   padding: 0;
-  text-align: right;
   padding-right: 36px;
+  padding-left: 24px;
   overflow: auto;
 `;
 
 export const NavMenuItem = styled(NavMenuLink)`
-  font-size: 24px;
-  font-weight: 100;
+  font-size: 15px;
+  font-weight: 400;
   color: white;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding: 7px 0;
   text-decoration: none;
-  display: list-item;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
 
   &.active:after {
@@ -53,44 +54,62 @@ export const NavMenuItem = styled(NavMenuLink)`
     display: block;
     position: absolute;
     right: -36px;
-    top: 18px;
+    top: 50%;
+    transform: translateY(-50%);
 
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 11px 11px 11px 0;
+    border-width: 8px 8px 8px 0;
     border-color: transparent #fff transparent transparent;
   }
 
   span {
     display: inline-block;
-    margin-right: 10px;
     vertical-align: middle;
   }
 
   svg {
     display: inline-block;
     vertical-align: middle;
+    flex-shrink: 0;
   }
+`;
+
+export const NavGroupHeader = styled.li`
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #666;
+  list-style: none;
+  padding-top: 16px;
+  padding-bottom: 4px;
+
+  &:first-child {
+    padding-top: 0;
+  }
+`;
+
+export const NavSeparator = styled.li`
+  list-style: none;
+  border-top: 1px solid #333;
+  margin: 8px 0;
 `;
 
 export const Logout = styled.span`
   cursor: pointer;
   bottom: 48px;
   padding-right: 36px;
-  left: 36px;
-  font-size: 24px;
-  font-weight: 300;
+  padding-left: 24px;
+  font-size: 15px;
+  font-weight: 400;
   color: white;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding-top: 0px;
   padding-bottom: 12px;
-  align-self: flex-end;
-
-  & span {
-    margin-right: 14px;
-  }
 `;
 
 export const LogoHolder = styled.img`

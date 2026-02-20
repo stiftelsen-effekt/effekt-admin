@@ -1,6 +1,14 @@
 import React from "react";
 
-import { MainNav, NavMenu, NavMenuItem, Logout, LogoHolder } from "./Navigation.style";
+import {
+  MainNav,
+  NavMenu,
+  NavMenuItem,
+  NavGroupHeader,
+  NavSeparator,
+  Logout,
+  LogoHolder,
+} from "./Navigation.style";
 import NOLogo from "../assets/GiEffektivt_Logo_Hvit_RGB.png";
 import SELogo from "../assets/GeEffektivt_Logo_Hvit_RGB.png";
 import {
@@ -14,131 +22,118 @@ import {
   Smartphone,
   FileText,
   Award,
+  Globe,
   Tag,
   Target,
 } from "react-feather";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AdminPanelLocale } from "../models/locale";
 
-const iconSize: number = 20;
+const iconSize: number = 16;
 
-const navigationItems = {
-  home: (
-    <NavMenuItem to={"/home"}>
-      {" "}
-      <span>Home</span> <Home size={iconSize} color={"white"}></Home>
-    </NavMenuItem>
-  ),
-  donors: (
-    <NavMenuItem to={"/donors"}>
-      {" "}
-      <span>Donors</span> <User size={iconSize} color={"white"}></User>
-    </NavMenuItem>
-  ),
-  distributions: (
-    <NavMenuItem to={"/distributions"}>
-      {" "}
-      <span>Distributions</span> <PieChart size={iconSize} color={"white"}></PieChart>
-    </NavMenuItem>
-  ),
-  donations: (
-    <NavMenuItem to={"/donations"}>
-      {" "}
-      <span>Donations</span> <List size={iconSize} color={"white"}></List>
-    </NavMenuItem>
-  ),
-  fundraisers: (
-    <NavMenuItem to={"/fundraisers"}>
-      {" "}
-      <span>Fundraisers</span> <Award size={iconSize} color={"white"}></Award>
-    </NavMenuItem>
-  ),
-  vippsAgreements: (
-    <NavMenuItem to={"/vipps/agreements"}>
-      {" "}
-      <span>Vipps</span> <Smartphone size={iconSize} color={"white"}></Smartphone>
-    </NavMenuItem>
-  ),
-  avtaleGiroAgreements: (
-    <NavMenuItem to={"/avtalegiro"}>
-      {" "}
-      <span>AvtaleGiro</span> <FileText size={iconSize} color={"white"}></FileText>
-    </NavMenuItem>
-  ),
-  autogiroAgreements: (
-    <NavMenuItem to={"/autogiro"}>
-      {" "}
-      <span>AutoGiro</span> <FileText size={iconSize} color={"white"}></FileText>
-    </NavMenuItem>
-  ),
-  referralTypes: (
-    <NavMenuItem to={"/referraltypes"}>
-      {" "}
-      <span>Referrals</span> <Tag size={iconSize} color={"white"}></Tag>
-    </NavMenuItem>
-  ),
-  causeAreas: (
-    <NavMenuItem to={"/causeareas"}>
-      {" "}
-      <span>Cause Areas</span> <Target size={iconSize} color={"white"}></Target>
-    </NavMenuItem>
-  ),
-};
-
-const localeMenuItems = {
+const localeMenuGroups = {
   NO: [
-    navigationItems.home,
-    navigationItems.donors,
-    navigationItems.distributions,
-    navigationItems.donations,
-    navigationItems.fundraisers,
-    navigationItems.avtaleGiroAgreements,
-    navigationItems.vippsAgreements,
-    navigationItems.referralTypes,
-    navigationItems.causeAreas,
+    {
+      header: "Overview",
+      items: [
+        { to: "/home", label: "Home", icon: Home },
+        { to: "/donors", label: "Donors", icon: User },
+        { to: "/distributions", label: "Distributions", icon: PieChart },
+        { to: "/donations", label: "Donations", icon: List },
+      ],
+    },
+    {
+      header: "Agreements",
+      items: [
+        { to: "/vipps/agreements", label: "Vipps", icon: Smartphone },
+        { to: "/avtalegiro", label: "AvtaleGiro", icon: FileText },
+      ],
+    },
+    {
+      header: "Fundraisers",
+      items: [
+        { to: "/fundraisers", label: "Fundraisers", icon: Award },
+        { to: "/adoveo", label: "Adoveo", icon: Globe },
+      ],
+    },
+    {
+      header: "Reporting",
+      items: [
+        { to: "/register", label: "Register", icon: Upload },
+        { to: "/logs", label: "Logs", icon: Activity },
+      ],
+    },
+    {
+      header: "Configuration",
+      items: [
+        { to: "/referraltypes", label: "Referrals", icon: Tag },
+        { to: "/causeareas", label: "Cause Areas", icon: Target },
+      ],
+    },
   ],
   SV: [
-    navigationItems.home,
-    navigationItems.donors,
-    navigationItems.distributions,
-    navigationItems.donations,
-    navigationItems.fundraisers,
-    navigationItems.autogiroAgreements,
-    navigationItems.referralTypes,
-    navigationItems.causeAreas,
+    {
+      header: "Overview",
+      items: [
+        { to: "/home", label: "Home", icon: Home },
+        { to: "/donors", label: "Donors", icon: User },
+        { to: "/distributions", label: "Distributions", icon: PieChart },
+        { to: "/donations", label: "Donations", icon: List },
+      ],
+    },
+    {
+      header: "Agreements",
+      items: [{ to: "/autogiro", label: "AutoGiro", icon: FileText }],
+    },
+    {
+      header: "Fundraisers",
+      items: [
+        { to: "/fundraisers", label: "Fundraisers", icon: Award },
+        { to: "/adoveo", label: "Adoveo", icon: Globe },
+      ],
+    },
+    {
+      header: "Reporting",
+      items: [
+        { to: "/register", label: "Register", icon: Upload },
+        { to: "/logs", label: "Logs", icon: Activity },
+      ],
+    },
+    {
+      header: "Configuration",
+      items: [
+        { to: "/referraltypes", label: "Referrals", icon: Tag },
+        { to: "/causeareas", label: "Cause Areas", icon: Target },
+      ],
+    },
   ],
 };
 
 export const MainNavigation: React.FC<{ locale: AdminPanelLocale }> = ({ locale }) => {
   const { logout } = useAuth0();
 
+  const groups = localeMenuGroups[locale];
+
   return (
     <MainNav>
       <LogoHolder src={locale === AdminPanelLocale.NO ? NOLogo : SELogo}></LogoHolder>
 
       <NavMenu>
-        {localeMenuItems[locale].map((item, index) => (
-          <React.Fragment key={index}>{item}</React.Fragment>
+        {groups.map((group, groupIndex) => (
+          <React.Fragment key={group.header}>
+            {groupIndex > 0 && <NavSeparator />}
+            <NavGroupHeader>{group.header}</NavGroupHeader>
+            {group.items.map((item) => (
+              <NavMenuItem key={item.to} to={item.to}>
+                <span>{item.label}</span>
+                <item.icon size={iconSize} color={"white"} />
+              </NavMenuItem>
+            ))}
+          </React.Fragment>
         ))}
-        <NavMenuItem to={"/register"}>
-          {" "}
-          <span>Register</span> <Upload size={iconSize} color={"white"}></Upload>
-        </NavMenuItem>
-        {/**
-         *  <NavMenuItem to={"/reports"}>
-         *    {" "}
-         *    <span>Reports</span> <Clipboard size={iconSize} color={"white"}></Clipboard>
-         *  </NavMenuItem>
-         */}
-
-        <NavMenuItem to={"/logs"}>
-          {" "}
-          <span>Logs</span> <Activity size={iconSize} color={"white"}></Activity>
-        </NavMenuItem>
       </NavMenu>
 
       <Logout onClick={() => logout({ returnTo: window.location.origin })}>
-        {" "}
         <span>Logout</span> <LogOut size={iconSize} color={"white"}></LogOut>
       </Logout>
     </MainNav>

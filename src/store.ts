@@ -25,6 +25,7 @@ import { autoGiroReducer } from "./store/autogiro/autogiro.reducer";
 import { taxUnitsReducer } from "./store/taxunits.ts/taxunits.reducer";
 import { autoGiroMandateReducer } from "./store/autogiro/autogiromedgivande.reducer";
 import { fundraisersReducer } from "./store/fundraisers/fundraisers.reducer";
+import { adoveoReducer } from "./store/adoveo/adoveo.reducer";
 import { donorsReducer } from "./store/donors/donors-list.reducer";
 import { refferalsReducer } from "./store/referrals/referrals.reducer";
 import { organizationsReducer } from "./store/organizations/organizations.reducer";
@@ -52,6 +53,7 @@ const rootReducer = combineReducers<AppState>({
   autoGiroAgreements: autoGiroReducer,
   autoGiroMandates: autoGiroMandateReducer,
   fundraisers: fundraisersReducer,
+  adoveo: adoveoReducer,
   donors: donorsReducer,
 });
 

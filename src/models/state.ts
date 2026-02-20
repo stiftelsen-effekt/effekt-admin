@@ -34,6 +34,8 @@ import {
   IAutoGiroMandateFilter,
   IFundraiser,
   IFundraiserFilter,
+  IAdoveo,
+  IAdoveoFilter,
   IReferralType,
   IVippsMatchingRule,
   IOrganization,
@@ -71,6 +73,7 @@ export interface AppState {
   vippsMatchingRules: VippsMatchingRulesState;
 
   fundraisers: FundraisersState;
+  adoveo: AdoveoState;
 
   donors: DonorsState;
 }
@@ -356,6 +359,19 @@ export interface DonorsState {
     totalDonationCount: number;
   };
   exportLoading: boolean;
+}
+
+export interface AdoveoState {
+  fundraisers: Array<IAdoveo>;
+  pages: number;
+  loading: boolean;
+  pagination: IPagination;
+  filter: IAdoveoFilter;
+  statistics: {
+    numFundraisers: number;
+    sumDonations: number;
+    avgDonation: number;
+  };
 }
 
 export interface OrganizationsState {

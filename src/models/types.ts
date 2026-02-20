@@ -548,6 +548,42 @@ export interface IFundraiserFilter {
   organizationIDs?: Array<number>;
 }
 
+/** Adoveo */
+
+export interface IAdoveo {
+  id: number;
+  name: string;
+  adoveoId: number | null;
+  created: string;
+  lastUpdated: string;
+  lastImport: string | null;
+  donor: { id: number; name: string } | null;
+  orgShares: IAdoveoOrgShare[];
+  statistics: {
+    totalSum: number;
+    donationCount: number;
+    averageDonation: number;
+  };
+}
+
+export interface IAdoveoOrgShare {
+  orgId: number;
+  orgName: string;
+  share: number;
+  standardSplit: boolean;
+}
+
+export interface IAdoveoFilter {
+  name: string;
+  fundraiserId: string;
+  adoveoId: string;
+  donorName: string;
+  createdDate: { from: Date | null; to: Date | null };
+  donationCount: { from: number; to: number };
+  donationSum: { from: number; to: number };
+  organizationIDs?: number[];
+}
+
 /** Matching rules */
 export interface IVippsMatchingRule {
   id: number;

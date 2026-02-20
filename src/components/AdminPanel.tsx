@@ -33,6 +33,7 @@ import { AutoGiroPage } from "./pages/autogiro/AutoGiroPage";
 import { AutoGiroAgreement } from "./pages/autogiro/AutoGiroAgreement/AutoGiroAgreement";
 import { AutoGiroMandatesPage } from "./pages/autogiro/Mandates/AutoGiroMandatesPage";
 import { FundraisersPage } from "./pages/fundraisers/Fundraisers";
+import { AdoveoPage } from "./pages/adoveo/Adoveo";
 import { VippsMatchingRulesPage } from "./pages/vippsmatchingrules/VippsMatchingRules";
 import ReferralTypesPage from "./pages/referraltypes/ReferralTypes";
 import CauseAreasPage from "./pages/causeareas/CauseAreas";
@@ -103,6 +104,7 @@ export const AdminPanel: React.FunctionComponent = () => {
           <Route path="/autogiro/:id" element={<AutoGiroAgreement />} />
 
           <Route path="/fundraisers" element={<FundraisersPage />} />
+          <Route path="/adoveo" element={<AdoveoPage />} />
           <Route path="/referraltypes" element={<ReferralTypesPage />} />
           <Route path="/causeareas" element={<CauseAreasPage />} />
           <Route path="/causeareas/:causeAreaId/organizations" element={<OrganizationsPage />} />
