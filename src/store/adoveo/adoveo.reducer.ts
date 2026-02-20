@@ -23,7 +23,7 @@ const defaultState: AdoveoState = {
       desc: true,
     },
     page: 0,
-    limit: 10,
+    limit: 25,
   },
   filter: {
     name: "",

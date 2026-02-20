@@ -22,7 +22,7 @@ const defaultState: FundraisersState = {
       desc: true,
     },
     page: 0,
-    limit: 10,
+    limit: 25,
   },
   filter: {
     registrationDate: {
