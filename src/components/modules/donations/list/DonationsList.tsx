@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ReactTable from "react-table";
+import { ColumnDef, Row, SortingState } from "@tanstack/react-table";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchDonationsAction,
@@ -22,6 +22,19 @@ import {
   setDonationFilterTaxUnitTypes,
 } from "../../../../store/donations/donation-filters.actions";
 import { Briefcase, User } from "react-feather";
+import {
+  EffektTable,
+  paginationFromApiState,
+  sortingFromApiState,
+  sortingToApiState,
+} from "../../../style/elements/react-table/EffektTable";
+
+type DonationTableRow = IDonation & {
+  donor?: string;
+  kid?: string;
+  taxUnitType?: string | null;
+  timestamp: Date | string;
+};
 
 interface Props {
   donations: Array<IDonation> | undefined;
@@ -54,238 +67,233 @@ export const DonationsList: React.FunctionComponent<Props> = ({
     }
   }, [pagination, manual, dispatch, getAccessTokenSilently]);
 
-  const columnDefinitions: any[] = [
+  const columnDefinitions: ColumnDef<DonationTableRow>[] = [
     {
-      Header: () => {
-        if (manual) {
-          return filter.id ? (
-            <FilterHeader>
-              <span>ID</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setDonationFilterDonationId(""));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "ID"
-          );
-        } else {
-          return "ID";
-        }
+      header: () => {
+        if (!manual) return "ID";
+        return filter.id ? (
+          <FilterHeader>
+            <span>ID</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setDonationFilterDonationId(""));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "ID"
+        );
       },
-      accessor: "id",
-      width: 80,
+      accessorKey: "id",
+      size: 80,
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.paymentMethodIDs &&
-            filter.paymentMethodIDs.length !== paymentMethods.length ? (
-            <FilterHeader>
-              <span>Method</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setDonationFilterPaymentMethodIDs(undefined));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Method"
-          );
-        } else {
-          return "Method";
-        }
+      header: () => {
+        if (!manual) return "Method";
+        return filter.paymentMethodIDs &&
+          filter.paymentMethodIDs.length !== paymentMethods.length ? (
+          <FilterHeader>
+            <span>Method</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setDonationFilterPaymentMethodIDs(undefined));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Method"
+        );
       },
-      accessor: "paymentMethod",
-      width: 150,
+      accessorKey: "paymentMethod",
+      size: 150,
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.sum.from > 0 || filter.sum.to !== Number.MAX_SAFE_INTEGER ? (
-            <FilterHeader>
-              <span>Amount</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setDonationFilterSumRange(0, Number.MAX_SAFE_INTEGER));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Amount"
-          );
-        } else {
-          return "Amount";
-        }
+      header: () => {
+        if (!manual) return "Amount";
+        return filter.sum.from > 0 || filter.sum.to !== Number.MAX_SAFE_INTEGER ? (
+          <FilterHeader>
+            <span>Amount</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setDonationFilterSumRange(0, Number.MAX_SAFE_INTEGER));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Amount"
+        );
       },
       id: "sum",
-      accessor: (res: any) => thousandize(res.sum) + " kr",
-      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
-      width: 140,
+      accessorFn: (donation) => donation.sum,
+      cell: ({ getValue }) => (
+        <span style={{ textAlign: "right", width: "100%" }}>
+          {thousandize(getValue<number>())} kr
+        </span>
+      ),
+      size: 140,
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.taxUnitTypes ? (
-            <FilterHeader>
-              <span>Tax</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setDonationFilterTaxUnitTypes(undefined));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Tax"
-          );
-        } else {
-          return "Tax";
-        }
+      header: () => {
+        if (!manual) return "Tax";
+        return filter.taxUnitTypes ? (
+          <FilterHeader>
+            <span>Tax</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setDonationFilterTaxUnitTypes(undefined));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Tax"
+        );
       },
-      accessor: (res: any) => {
-        if (res.taxUnitType) {
-          return res.taxUnitType === "organization" ? <Briefcase size={16} /> : <User size={16} />;
-        } else {
-          return null;
-        }
-      },
+      accessorFn: (donation) => donation.taxUnitType ?? null,
       id: "taxUnitType",
-      width: 80,
-      Cell: (row) => <span style={{ textAlign: "center", width: "100%" }}>{row.value}</span>,
+      cell: ({ getValue }) => {
+        const value = getValue<string | null>();
+        return (
+          <span style={{ textAlign: "center", width: "100%" }}>
+            {value ? value === "organization" ? <Briefcase size={16} /> : <User size={16} /> : null}
+          </span>
+        );
+      },
+      size: 80,
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.date.from || filter.date.to ? (
-            <FilterHeader>
-              <span>Date</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setDonationFilterDateRange(null, null));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Date"
-          );
-        } else {
-          return "Date";
-        }
+      header: () => {
+        if (!manual) return "Date";
+        return filter.date.from || filter.date.to ? (
+          <FilterHeader>
+            <span>Date</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setDonationFilterDateRange(null, null));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Date"
+        );
       },
       id: "timestamp",
-      accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp)),
-      sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, "dd.MM.yyyy") < DateTime.fromFormat(b, "dd.MM.yyyy") ? -1 : 1;
+      accessorFn: (donation) => donation.timestamp,
+      cell: ({ getValue }) => {
+        const value = getValue<Date | string>();
+        return shortDate(
+          value instanceof Date ? DateTime.fromJSDate(value) : DateTime.fromISO(String(value)),
+        );
       },
-      width: 100,
+      size: 100,
     },
   ];
 
   if (!hideDonorName) {
     columnDefinitions.splice(1, 0, {
-      Header: () => {
-        if (manual) {
-          return filter.donor ? (
-            <FilterHeader>
-              <span>Donor</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setDonationFilterDonor(""));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Donor"
-          );
-        } else {
-          return "Donor";
-        }
+      header: () => {
+        if (!manual) return "Donor";
+        return filter.donor ? (
+          <FilterHeader>
+            <span>Donor</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setDonationFilterDonor(""));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Donor"
+        );
       },
-      accessor: "donor",
+      accessorKey: "donor",
     });
   }
 
   if (!hideKID) {
     columnDefinitions.splice(4, 0, {
-      Header: () => {
-        if (manual) {
-          return filter.KID ? (
-            <FilterHeader>
-              <span>KID</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setDonationFilterKid(""));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "KID"
-          );
-        } else {
-          return "KID";
-        }
+      header: () => {
+        if (!manual) return "KID";
+        return filter.KID ? (
+          <FilterHeader>
+            <span>KID</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setDonationFilterKid(""));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "KID"
+        );
       },
       id: "kid",
-      accessor: (res) => res.kid || res.KID,
-      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
-      width: 180,
+      accessorFn: (donation) => donation.kid || donation.KID || "",
+      cell: ({ getValue }) => (
+        <span style={{ textAlign: "right", width: "100%" }}>{getValue<string>()}</span>
+      ),
+      size: 180,
     });
   }
 
-  const defaultSorting = [{ id: "timestamp", desc: true }];
+  const defaultSorting: SortingState = manual
+    ? sortingFromApiState(pagination.sort)
+    : [{ id: "timestamp", desc: true }];
 
-  const trProps = (tableState: any, rowInfo: any) => {
-    if (rowInfo && rowInfo.row) {
-      return {
-        onDoubleClick: (e: any) => {
-          navigate(`/donations/${rowInfo.original.id}`);
-        },
-      };
-    }
-    return {};
-  };
+  const getRowProps = (row: Row<DonationTableRow>) => ({
+    onDoubleClick: () => {
+      navigate(`/donations/${row.original.id}`);
+    },
+  });
 
   if (manual) {
     return (
-      <>
-        <ReactTable
-          manual
-          data={donations}
-          page={pagination.page}
-          pages={pages}
-          pageSize={defaultPageSize ? defaultPageSize : pagination.limit}
-          loading={loading}
-          columns={columnDefinitions}
-          defaultSorted={defaultSorting}
-          onPageChange={(page) => dispatch(setDonationsPagination({ ...pagination, page }))}
-          onSortedChange={(sorted) =>
-            dispatch(setDonationsPagination({ ...pagination, sort: sorted[0] }))
-          }
-          onPageSizeChange={(pagesize) =>
-            dispatch(setDonationsPagination({ ...pagination, limit: pagesize }))
-          }
-          getTrProps={trProps}
-        />
-      </>
-    );
-  } else {
-    return (
-      <ReactTable
+      <EffektTable
         data={donations}
-        defaultPageSize={defaultPageSize}
+        manualPagination
+        manualSorting
+        pageCount={pages}
+        pagination={paginationFromApiState(pagination)}
+        sorting={defaultSorting}
         loading={loading}
         columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        getTrProps={trProps}
+        initialSorting={defaultSorting}
+        onPaginationChange={(nextPagination) =>
+          dispatch(
+            setDonationsPagination({
+              ...pagination,
+              page: nextPagination.pageIndex,
+              limit: nextPagination.pageSize,
+            }),
+          )
+        }
+        onSortingChange={(nextSorting) =>
+          dispatch(
+            setDonationsPagination({
+              ...pagination,
+              sort: sortingToApiState(nextSorting, pagination.sort),
+            }),
+          )
+        }
+        getRowProps={getRowProps}
       />
     );
   }
+
+  return (
+    <EffektTable
+      data={donations}
+      defaultPageSize={defaultPageSize}
+      loading={loading}
+      columns={columnDefinitions}
+      initialSorting={defaultSorting}
+      getRowProps={getRowProps}
+    />
+  );
 };

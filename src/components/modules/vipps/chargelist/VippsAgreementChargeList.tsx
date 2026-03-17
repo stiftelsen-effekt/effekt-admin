@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ReactTable from "react-table";
+import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { shortDate } from "../../../../util/formatting";
@@ -22,6 +22,18 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { EffektButton } from "../../../style/elements/button.style";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "react-feather";
+import { IVippsAgreementCharge } from "../../../../models/types";
+import {
+  EffektTable,
+  paginationFromApiState,
+  sortingFromApiState,
+  sortingToApiState,
+} from "../../../style/elements/react-table/EffektTable";
+
+type VippsChargeRow = IVippsAgreementCharge & {
+  full_name?: string;
+  timestamp_created?: string;
+};
 
 export const VippsAgreementChargeList: React.FunctionComponent = () => {
   const data = useSelector((state: AppState) => state.vippsAgreementCharges.charges);
@@ -40,163 +52,161 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
     );
   }, [pagination, dispatch, getAccessTokenSilently]);
 
-  const columnDefinitions = [
+  const columnDefinitions: ColumnDef<VippsChargeRow>[] = [
     {
-      Header: () => {
-        return filter.dueDate && (filter.dueDate.from || filter.dueDate.to) ? (
+      header: () =>
+        filter.dueDate && (filter.dueDate.from || filter.dueDate.to) ? (
           <FilterHeader>
             <span>Due date</span>
             <FilterIcon
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={(event) => {
+                event.stopPropagation();
                 dispatch(setVippsChargesFilterDueDate(null, null));
               }}
-            ></FilterIcon>
+            />
           </FilterHeader>
         ) : (
           "Due date"
-        );
-      },
+        ),
       id: "dueDate",
-      accessor: (res: any) => shortDate(DateTime.fromISO(res.dueDate)),
-      width: 93,
+      accessorFn: (charge) => charge.dueDate,
+      cell: ({ getValue }) => shortDate(DateTime.fromISO(getValue<string>())),
+      size: 93,
     },
     {
-      Header: () => {
-        return filter.agreementID && filter.agreementID.length > 0 ? (
+      header: () =>
+        filter.agreementID && filter.agreementID.length > 0 ? (
           <FilterHeader>
             <span>Agreement ID</span>
             <FilterIcon
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={(event) => {
+                event.stopPropagation();
                 dispatch(setVippsChargesFilterAgreementID(""));
               }}
-            ></FilterIcon>
+            />
           </FilterHeader>
         ) : (
           "Agreement ID"
-        );
-      },
-      accessor: "agreementID",
-      width: 129,
+        ),
+      accessorKey: "agreementID",
+      size: 129,
     },
     {
-      Header: () => {
-        return filter.chargeID && filter.chargeID.length > 0 ? (
+      header: () =>
+        filter.chargeID && filter.chargeID.length > 0 ? (
           <FilterHeader>
             <span>Charge ID</span>
             <FilterIcon
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={(event) => {
+                event.stopPropagation();
                 dispatch(setVippsChargesFilterChargeID(""));
               }}
-            ></FilterIcon>
+            />
           </FilterHeader>
         ) : (
           "Charge ID"
-        );
-      },
-      accessor: "chargeID",
-      width: 130,
+        ),
+      accessorKey: "chargeID",
+      size: 130,
     },
     {
-      Header: () => {
-        return filter.donor && filter.donor.length > 0 ? (
+      header: () =>
+        filter.donor && filter.donor.length > 0 ? (
           <FilterHeader>
             <span>Donor</span>
             <FilterIcon
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={(event) => {
+                event.stopPropagation();
                 dispatch(setVippsChargesFilterDonor(""));
               }}
-            ></FilterIcon>
+            />
           </FilterHeader>
         ) : (
           "Donor"
-        );
-      },
-      accessor: "full_name",
+        ),
+      accessorFn: (charge) => charge.full_name ?? "",
+      id: "full_name",
     },
     {
-      Header: () => {
-        return filter.statuses && filter.statuses.length > 0 ? (
+      header: () =>
+        filter.statuses && filter.statuses.length > 0 ? (
           <FilterHeader>
             <span>Status</span>
             <FilterIcon
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={(event) => {
+                event.stopPropagation();
                 dispatch(setVippsChargesFilterStatus(undefined));
               }}
-            ></FilterIcon>
+            />
           </FilterHeader>
         ) : (
           "Status"
-        );
-      },
-      accessor: "status",
-      width: 114,
+        ),
+      accessorKey: "status",
+      size: 114,
     },
     {
-      Header: () => {
-        return filter.amountNOK.from > 0 || filter.amountNOK.to !== Number.MAX_SAFE_INTEGER ? (
+      header: () =>
+        filter.amountNOK.from > 0 || filter.amountNOK.to !== Number.MAX_SAFE_INTEGER ? (
           <FilterHeader>
             <span>Sum</span>
             <FilterIcon
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={(event) => {
+                event.stopPropagation();
                 dispatch(setVippsChargesFilterAmount({ from: 0, to: Number.MAX_SAFE_INTEGER }));
               }}
-            ></FilterIcon>
+            />
           </FilterHeader>
         ) : (
           "Sum"
-        );
-      },
-      accessor: "amountNOK",
-      width: 83,
+        ),
+      accessorKey: "amountNOK",
+      size: 83,
     },
     {
-      Header: () => {
-        return filter.KID && filter.KID.length > 0 ? (
+      header: () =>
+        filter.KID && filter.KID.length > 0 ? (
           <FilterHeader>
             <span>KID</span>
             <FilterIcon
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={(event) => {
+                event.stopPropagation();
                 dispatch(setVippsChargesFilterKID(""));
               }}
-            ></FilterIcon>
+            />
           </FilterHeader>
         ) : (
           "KID"
-        );
-      },
-      accessor: "KID",
+        ),
+      accessorKey: "KID",
       id: "kid",
-      width: 150,
+      size: 150,
     },
     {
-      Header: "Created",
+      header: "Created",
       id: "created",
-      accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created)),
-      width: 98,
+      accessorFn: (charge) => charge.timestamp_created ?? charge.timestamp,
+      cell: ({ getValue }) => shortDate(DateTime.fromISO(getValue<string>())),
+      size: 98,
     },
     {
-      Header: "Refund",
+      header: "Refund",
       id: "refund",
-      accessor: (res: any) => (
+      accessorFn: (charge) => charge,
+      enableSorting: false,
+      cell: ({ row }) => (
         <RefundButton
-          agreementId={res.agreementID}
-          chargeId={res.chargeID}
-          amount={res.amountNOK}
-          disabled={res.status !== "CHARGED"}
+          agreementId={row.original.agreementID}
+          chargeId={row.original.chargeID}
+          amount={row.original.amountNOK}
+          disabled={row.original.status !== "CHARGED"}
         />
       ),
-      width: 75,
+      size: 75,
     },
   ];
 
-  const defaultSorting = [{ id: "dueDate", desc: true }];
+  const defaultSorting: SortingState = sortingFromApiState(pagination.sort);
 
   return (
     <ChargeListWrapper>
@@ -205,21 +215,32 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
       </EffektButton>
       <br />
       <br />
-      <ReactTable
-        manual
+      <EffektTable
         data={data}
-        page={pagination.page}
-        pages={pages}
-        pageSize={pagination.limit}
+        manualPagination
+        manualSorting
+        pageCount={pages}
+        pagination={paginationFromApiState(pagination)}
+        sorting={defaultSorting}
         loading={loading}
         columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        onPageChange={(page) => dispatch(setVippsChargesPagination({ ...pagination, page }))}
-        onSortedChange={(sorted) =>
-          dispatch(setVippsChargesPagination({ ...pagination, sort: sorted[0] }))
+        initialSorting={defaultSorting}
+        onPaginationChange={(nextPagination) =>
+          dispatch(
+            setVippsChargesPagination({
+              ...pagination,
+              page: nextPagination.pageIndex,
+              limit: nextPagination.pageSize,
+            }),
+          )
         }
-        onPageSizeChange={(pagesize) =>
-          dispatch(setVippsChargesPagination({ ...pagination, limit: pagesize }))
+        onSortingChange={(nextSorting) =>
+          dispatch(
+            setVippsChargesPagination({
+              ...pagination,
+              sort: sortingToApiState(nextSorting, pagination.sort),
+            }),
+          )
         }
       />
       <VippsChargeFilter />
@@ -240,7 +261,7 @@ const RefundButton: React.FC<{
     <button
       disabled={disabled}
       onClick={() => {
-        let sure = window.confirm(
+        const sure = window.confirm(
           `Do you really want to refund the charge with ID ${chargeId} and sum ${amount} kr?`,
         );
         if (sure) {
@@ -250,6 +271,7 @@ const RefundButton: React.FC<{
           });
         }
       }}
+      type="button"
     >
       Refund
     </button>

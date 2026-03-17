@@ -1,9 +1,9 @@
 import { AppState, DonorFiltersState } from "../../../../models/state";
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ColumnDef, Row, SortingState } from "@tanstack/react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { DateTime } from "luxon";
 import "../../../style/elements/react-table/table.css";
-import ReactTable from "react-table";
 import {
   searchDonorAction,
   setSelectedDonor,
@@ -19,12 +19,13 @@ import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.c
 import { CreateDonor } from "../create/CreateDonor";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { EffektTable } from "../../../style/elements/react-table/EffektTable";
 
 interface IDonorTableState {
-  sorted: Array<any>;
+  sorted: SortingState;
   page: number;
   pageSize: number;
-  selected: any;
+  selected: number | null;
 }
 
 export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: number }> = ({
@@ -79,63 +80,55 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
     dispatch(setDonorSelectionQuery(event.target.value));
   };
 
-  const columnDefinitions = [
+  const columnDefinitions: ColumnDef<IDonor>[] = [
     {
-      Header: "ID",
-      accessor: "id",
-      width: 100,
+      header: "ID",
+      accessorKey: "id",
+      size: 100,
     },
     {
-      Header: "name",
-      accessor: "name",
-      width: 300,
+      header: "name",
+      accessorKey: "name",
+      size: 300,
     },
     {
-      Header: "email",
-      accessor: "email",
-      width: 500,
+      header: "email",
+      accessorKey: "email",
+      size: 500,
     },
     {
       id: "registered",
-      Header: "registered",
-      accessor: (donor: IDonor) => shortDate(donor.registered),
-      sortMethod: (a: any, b: any) => {
-        return DateTime.fromFormat(a, "dd.MM.yyyy") > DateTime.fromFormat(b, "dd.MM.yyyy") ? -1 : 1;
-      },
-      width: 150,
+      header: "registered",
+      accessorFn: (donor: IDonor) => donor.registered,
+      cell: ({ getValue }) => shortDate(DateTime.fromISO(getValue<string>())),
+      size: 150,
     },
   ];
 
-  const rowClick = (rowInfo: any) => {
+  const rowClick = (row: Row<IDonor>) => {
     setState({
       ...state,
-      selected: rowInfo.index,
+      selected: row.index,
     });
-    dispatch(setSelectedDonor(rowInfo.original));
+    dispatch(setSelectedDonor(row.original));
   };
 
   const rowDoubleClick = (donorID: number) => {
     navigate(`/donors/${donorID}`);
   };
 
-  const rowStyle = (rowIndex: number, selectedIndex: number) => {
+  const rowStyle = (rowIndex: number, selectedIndex: number | null) => {
     return {
       background: rowIndex === selectedIndex ? "black" : "",
       color: rowIndex === selectedIndex ? "white" : "",
     };
   };
 
-  const trProps = (tableState: any, rowInfo: any) => {
-    if (rowInfo && rowInfo.row) {
-      return {
-        onClick: (e: React.MouseEvent) => rowClick(rowInfo),
-        onDoubleClick: (e: any) => rowDoubleClick(rowInfo.original.id),
-        style: rowStyle(rowInfo.index, state.selected),
-      };
-    } else {
-      return {};
-    }
-  };
+  const getRowProps = (row: Row<IDonor>) => ({
+    onClick: () => rowClick(row),
+    onDoubleClick: () => rowDoubleClick(row.original.id),
+    style: rowStyle(row.index, state.selected),
+  });
 
   const [showCreate, setShowCreate] = useState<boolean>(false);
 
@@ -194,19 +187,22 @@ export const DonorSelectionComponent: React.FunctionComponent<{ pageSize?: numbe
           <CreateDonor onSubmit={() => setShowCreate(false)}></CreateDonor>
         </EffektModal>
       </div>
-      <ReactTable
+      <EffektTable
         data={searchResult?.rows || []}
         columns={columnDefinitions}
         defaultPageSize={state.pageSize}
-        onSortedChange={(sorted) => setState({ ...state, sorted })}
-        onPageChange={(page) => setState({ ...state, page: page })}
-        onPageSizeChange={(pageSize, page) => setState({ ...state, page, pageSize })}
-        getTrProps={trProps}
-        pages={searchResult?.pages || 0}
-        page={state.page}
-        manual={true}
+        manualPagination
+        manualSorting
+        pageCount={searchResult?.pages || 0}
+        pagination={{ pageIndex: state.page, pageSize: state.pageSize }}
+        sorting={state.sorted}
+        onSortingChange={(sorted) => setState({ ...state, sorted })}
+        onPaginationChange={(pagination) =>
+          setState({ ...state, page: pagination.pageIndex, pageSize: pagination.pageSize })
+        }
+        getRowProps={getRowProps}
         loading={loading}
-      ></ReactTable>
+      />
     </div>
   );
 };

@@ -38,6 +38,9 @@ import {
   exportVippsAgreementsAction,
 } from "./vipps.actions";
 import Decimal from "decimal.js";
+
+const toRoundedNumber = (value: Decimal.Value | null | undefined) =>
+  value === null || value === undefined ? 0 : new Decimal(value).round().toNumber();
 import { DateTime } from "luxon";
 
 const defaultAgreementState: VippsAgreementsState = {
@@ -139,13 +142,9 @@ export const vippsAgreementReducer = (
       filter: {
         ...state.filter,
         statistics: {
-          numAgreements: action.payload.result.statistics.numAgreements,
-          sumAgreements: new Decimal(action.payload.result.statistics.sumAgreements)
-            .round()
-            .toNumber(),
-          avgAgreement: new Decimal(action.payload.result.statistics.avgAgreement)
-            .round()
-            .toNumber(),
+          numAgreements: action.payload.result.statistics.numAgreements ?? 0,
+          sumAgreements: toRoundedNumber(action.payload.result.statistics.sumAgreements),
+          avgAgreement: toRoundedNumber(action.payload.result.statistics.avgAgreement),
         },
       },
     };
@@ -341,9 +340,9 @@ export const vippsAgreementChargeReducer = (
       filter: {
         ...state.filter,
         statistics: {
-          numCharges: action.payload.result.statistics.numCharges,
-          sumCharges: new Decimal(action.payload.result.statistics.sumCharges).round().toNumber(),
-          avgCharge: new Decimal(action.payload.result.statistics.avgCharge).round().toNumber(),
+          numCharges: action.payload.result.statistics.numCharges ?? 0,
+          sumCharges: toRoundedNumber(action.payload.result.statistics.sumCharges),
+          avgCharge: toRoundedNumber(action.payload.result.statistics.avgCharge),
         },
       },
     };
