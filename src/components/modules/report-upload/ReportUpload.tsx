@@ -13,6 +13,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { EffektInput } from "../../style/elements/input.style";
 import { fetchOwnersAction, setCurrentOwnerAction } from "../../../store/owners/owners.actions";
 import { List } from "react-feather";
+import { callForBlob, Method } from "../../../util/api";
 
 interface IState {
   vippsReport: File | null;
@@ -24,6 +25,9 @@ interface IState {
   autoGiroReport: File | null;
   adoveoFundraiserReport: File | null;
   adoveoGiftcardReport: File | null;
+  ku65Report: File | null;
+  ku65Year: string;
+  ku65Generating: boolean;
   resourceId?: string;
 }
 
@@ -39,6 +43,9 @@ export const ReportUpload: React.FunctionComponent = (props) => {
       autoGiroReport: null,
       adoveoFundraiserReport: null,
       adoveoGiftcardReport: null,
+      ku65Report: null,
+      ku65Year: String(new Date().getFullYear() - 1),
+      ku65Generating: false,
     };
   };
 
@@ -74,6 +81,41 @@ export const ReportUpload: React.FunctionComponent = (props) => {
         }),
       ),
     );
+  };
+
+  const downloadKu65Xml = async () => {
+    if (state.ku65Generating) return;
+    if (!state.ku65Report) return toast.error("No file selected");
+    const year = parseInt(state.ku65Year, 10);
+    if (!Number.isFinite(year) || year < 2000 || year > 2100) {
+      return toast.error("Invalid year");
+    }
+
+    setState({ ...state, ku65Generating: true });
+    try {
+      const token = await getAccessTokenSilently();
+      const formData = new FormData();
+      formData.append("report", state.ku65Report);
+      formData.append("year", String(year));
+      const { blob, filename } = await callForBlob({
+        endpoint: "/tax/skatteverket/ku65",
+        method: Method.POST,
+        token,
+        formData,
+      });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = filename ?? `ku65_${year}.xml`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(url);
+    } catch (err: any) {
+      toast.error(err?.message ?? "Failed to generate KU65 XML");
+    } finally {
+      setState((prev) => ({ ...prev, ku65Generating: false }));
+    }
   };
 
   const shouldProcess: boolean = useSelector(
@@ -261,6 +303,31 @@ export const ReportUpload: React.FunctionComponent = (props) => {
             </EffektButton>
           </td>
           {state.autoGiroReport !== null && loading && <EffektLoadingSpinner />}
+        </tr>
+        <tr>
+          <td>
+            <strong>🇸🇪 KU65 Tax XML</strong>
+          </td>
+          <td>
+            <EffektFileInput
+              onChange={(file: File) =>
+                !state.ku65Generating && setState({ ...state, ku65Report: file })
+              }
+              id="ku65-upload"
+            />
+          </td>
+          <td>
+            <EffektInput
+              value={state.ku65Year}
+              onChange={(e) => setState({ ...state, ku65Year: e.target.value })}
+              placeholder="Year"
+              style={{ width: "80px" }}
+            />
+          </td>
+          <td>
+            <EffektButton onClick={downloadKu65Xml}>Generate XML</EffektButton>
+          </td>
+          {state.ku65Generating && <EffektLoadingSpinner />}
         </tr>
         <tr>
           <td>
