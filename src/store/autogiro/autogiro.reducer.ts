@@ -1,4 +1,7 @@
 import Decimal from "decimal.js";
+
+const toRoundedNumber = (value: Decimal.Value | null | undefined) =>
+  value === null || value === undefined ? 0 : new Decimal(value).round().toNumber();
 import { toast } from "react-toastify";
 import { isType } from "typescript-fsa";
 import { AutoGiroAgreementsState } from "../../models/state";
@@ -78,12 +81,9 @@ export const autoGiroReducer = (
         ...state.filter,
         statistics: {
           ...action.payload.result.statistics,
-          sumAgreements: new Decimal(action.payload.result.statistics.sumAgreements)
-            .round()
-            .toNumber(),
-          avgAgreement: new Decimal(action.payload.result.statistics.avgAgreement)
-            .round()
-            .toNumber(),
+          numAgreements: action.payload.result.statistics.numAgreements ?? 0,
+          sumAgreements: toRoundedNumber(action.payload.result.statistics.sumAgreements),
+          avgAgreement: toRoundedNumber(action.payload.result.statistics.avgAgreement),
         },
       },
     };

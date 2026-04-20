@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ReactTable from "react-table";
+import { ColumnDef, Row, SortingState } from "@tanstack/react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { shortDate, thousandize } from "../../../../util/formatting";
@@ -19,9 +19,20 @@ import {
 import { IVippsAgreement } from "../../../../models/types";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FilterHeader, FilterIcon } from "./VippsAgreementList.style";
+import {
+  EffektTable,
+  paginationFromApiState,
+  sortingFromApiState,
+  sortingToApiState,
+} from "../../../style/elements/react-table/EffektTable";
+
+type VippsAgreementTableRow = IVippsAgreement & {
+  ID?: string;
+  full_name?: string;
+};
 
 export const VippsAgreementList: React.FunctionComponent<{
-  agreements: Array<IVippsAgreement> | undefined;
+  agreements: Array<VippsAgreementTableRow> | undefined;
   manual?: boolean;
   defaultPageSize?: number;
 }> = ({ agreements, manual, defaultPageSize }) => {
@@ -42,219 +53,214 @@ export const VippsAgreementList: React.FunctionComponent<{
     }
   }, [pagination, manual, dispatch, getAccessTokenSilently]);
 
-  const columnDefinitions = [
+  const columnDefinitions: ColumnDef<VippsAgreementTableRow>[] = [
     {
-      Header: () => {
-        if (manual) {
-          return filter.agreementID && filter.agreementID.length > 0 ? (
-            <FilterHeader>
-              <span>Agreement ID</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setVippsAgreementsFilterAgreementID(""));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Agreement ID"
-          );
-        } else {
-          return "Agreement ID";
-        }
+      header: () => {
+        if (!manual) return "Agreement ID";
+
+        return filter.agreementID && filter.agreementID.length > 0 ? (
+          <FilterHeader>
+            <span>Agreement ID</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setVippsAgreementsFilterAgreementID(""));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Agreement ID"
+        );
       },
-      accessor: "ID",
+      accessorFn: (agreement) => agreement.ID ?? agreement.id,
       id: "id",
-      width: 140,
+      size: 140,
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.donor && filter.donor.length > 0 ? (
-            <FilterHeader>
-              <span>Donor</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setVippsAgreementsFilterDonor(""));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Donor"
-          );
-        } else {
-          return "Donor";
-        }
+      header: () => {
+        if (!manual) return "Donor";
+
+        return filter.donor && filter.donor.length > 0 ? (
+          <FilterHeader>
+            <span>Donor</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setVippsAgreementsFilterDonor(""));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Donor"
+        );
       },
-      accessor: "full_name",
+      accessorFn: (agreement) => agreement.full_name ?? String(agreement.donorID),
+      id: "full_name",
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.statuses && filter.statuses.length > 0 ? (
-            <FilterHeader>
-              <span>Status</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setVippsAgreementsFilterStatus(undefined));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Status"
-          );
-        } else {
-          return "Status";
-        }
+      header: () => {
+        if (!manual) return "Status";
+
+        return filter.statuses && filter.statuses.length > 0 ? (
+          <FilterHeader>
+            <span>Status</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setVippsAgreementsFilterStatus(undefined));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Status"
+        );
       },
-      accessor: "status",
-      width: 110,
+      accessorKey: "status",
+      size: 110,
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.amount.from > 0 || filter.amount.to !== Number.MAX_SAFE_INTEGER ? (
-            <FilterHeader>
-              <span>Sum</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(
-                    setVippsAgreementsFilterAmount({ from: 0, to: Number.MAX_SAFE_INTEGER }),
-                  );
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Sum"
-          );
-        } else {
-          return "Sum";
-        }
+      header: () => {
+        if (!manual) return "Sum";
+
+        return filter.amount.from > 0 || filter.amount.to !== Number.MAX_SAFE_INTEGER ? (
+          <FilterHeader>
+            <span>Sum</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setVippsAgreementsFilterAmount({ from: 0, to: Number.MAX_SAFE_INTEGER }));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Sum"
+        );
       },
       id: "amount",
-      width: 110,
-      accessor: (res: any) => thousandize(res.amount),
+      size: 110,
+      accessorFn: (agreement) => agreement.amount,
+      cell: ({ getValue }) => thousandize(getValue<number>()),
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.chargeDay && (filter.chargeDay.from > 0 || filter.chargeDay.to < 28) ? (
-            <FilterHeader>
-              <span>Charge day</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setVippsAgreementsFilterChargeDay({ from: 0, to: 28 }));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Charge day"
-          );
-        } else {
-          return "Charge day";
-        }
+      header: () => {
+        if (!manual) return "Charge day";
+
+        return filter.chargeDay && (filter.chargeDay.from > 0 || filter.chargeDay.to < 28) ? (
+          <FilterHeader>
+            <span>Charge day</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setVippsAgreementsFilterChargeDay({ from: 0, to: 28 }));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Charge day"
+        );
       },
-      accessor: "monthly_charge_day",
+      accessorKey: "monthly_charge_day",
       id: "chargeDay",
-      width: 80,
+      size: 80,
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.KID && filter.KID.length > 0 ? (
-            <FilterHeader>
-              <span>KID</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setVippsAgreementsFilterKID(""));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "KID"
-          );
-        } else {
-          return "KID";
-        }
+      header: () => {
+        if (!manual) return "KID";
+
+        return filter.KID && filter.KID.length > 0 ? (
+          <FilterHeader>
+            <span>KID</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setVippsAgreementsFilterKID(""));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "KID"
+        );
       },
-      accessor: "KID",
+      accessorKey: "KID",
       id: "kid",
-      width: 120,
+      size: 120,
     },
     {
-      Header: () => {
-        if (manual) {
-          return filter.created && (filter.created.from || filter.created.to) ? (
-            <FilterHeader>
-              <span>Draft date</span>
-              <FilterIcon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  dispatch(setVippsAgreementsFilterDraftDate(null, null));
-                }}
-              ></FilterIcon>
-            </FilterHeader>
-          ) : (
-            "Draft date"
-          );
-        } else {
-          return "Draft date";
-        }
+      header: () => {
+        if (!manual) return "Draft date";
+
+        return filter.created && (filter.created.from || filter.created.to) ? (
+          <FilterHeader>
+            <span>Draft date</span>
+            <FilterIcon
+              onClick={(event) => {
+                event.stopPropagation();
+                dispatch(setVippsAgreementsFilterDraftDate(null, null));
+              }}
+            />
+          </FilterHeader>
+        ) : (
+          "Draft date"
+        );
       },
       id: "created",
-      accessor: (res: any) => shortDate(DateTime.fromISO(res.timestamp_created)),
-      width: 120,
+      accessorFn: (agreement) => agreement.timestamp_created,
+      cell: ({ getValue }) => shortDate(DateTime.fromISO(getValue<string>())),
+      size: 120,
     },
   ];
 
-  const defaultSorting = [{ id: "created", desc: true }];
+  const defaultSorting: SortingState = manual
+    ? sortingFromApiState(pagination.sort)
+    : [{ id: "created", desc: true }];
 
-  const trProps = (tableState: any, rowInfo: any) => {
-    if (rowInfo && rowInfo.row) {
-      return {
-        onDoubleClick: (e: any) => {
-          navigate(`/vipps/agreement/${rowInfo.original.ID}`);
-        },
-      };
-    }
-    return {};
-  };
+  const getRowProps = (row: Row<VippsAgreementTableRow>) => ({
+    onDoubleClick: () => {
+      navigate(`/vipps/agreement/${row.original.ID ?? row.original.id}`);
+    },
+  });
 
   if (manual) {
     return (
-      <ReactTable
-        manual
+      <EffektTable
         data={agreements}
-        page={pagination.page}
-        pages={pages}
-        pageSize={pagination.limit}
+        manualPagination
+        manualSorting
+        pageCount={pages}
+        pagination={paginationFromApiState(pagination)}
+        sorting={defaultSorting}
         loading={loading}
         columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        onPageChange={(page) => dispatch(setVippsAgreementsPagination({ ...pagination, page }))}
-        onSortedChange={(sorted) =>
-          dispatch(setVippsAgreementsPagination({ ...pagination, sort: sorted[0] }))
+        initialSorting={defaultSorting}
+        onPaginationChange={(nextPagination) =>
+          dispatch(
+            setVippsAgreementsPagination({
+              ...pagination,
+              page: nextPagination.pageIndex,
+              limit: nextPagination.pageSize,
+            }),
+          )
         }
-        onPageSizeChange={(pagesize) =>
-          dispatch(setVippsAgreementsPagination({ ...pagination, limit: pagesize }))
+        onSortingChange={(nextSorting) =>
+          dispatch(
+            setVippsAgreementsPagination({
+              ...pagination,
+              sort: sortingToApiState(nextSorting, pagination.sort),
+            }),
+          )
         }
-        getTrProps={trProps}
-      />
-    );
-  } else {
-    return (
-      <ReactTable
-        data={agreements}
-        defaultPageSize={defaultPageSize}
-        columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        getTrProps={trProps}
+        getRowProps={getRowProps}
       />
     );
   }
+
+  return (
+    <EffektTable
+      data={agreements}
+      defaultPageSize={defaultPageSize}
+      columns={columnDefinitions}
+      initialSorting={defaultSorting}
+      getRowProps={getRowProps}
+    />
+  );
 };
