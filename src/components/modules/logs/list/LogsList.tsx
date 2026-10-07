@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ReactTable from "react-table";
+import { ColumnDef, Row, SortingState } from "@tanstack/react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLogsAction, setLogsPaginationAction } from "../../../../store/logs/logs-list.actions";
 import { AppState } from "../../../../models/state";
@@ -7,6 +7,13 @@ import { longDateTime } from "../../../../util/formatting";
 import { DateTime } from "luxon";
 import { Navigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import {
+  EffektTable,
+  paginationFromApiState,
+  sortingFromApiState,
+  sortingToApiState,
+} from "../../../style/elements/react-table/EffektTable";
+import { ILogEntry } from "../../../../models/types";
 
 interface LogsListProps {
   showPagination?: boolean;
@@ -25,66 +32,73 @@ export const LogsList: React.FC<LogsListProps> = ({ showPagination = true, showM
     getAccessTokenSilently().then((token) => dispatch(fetchLogsAction.started({ token })));
   }, [pagination, dispatch, getAccessTokenSilently]);
 
-  const columnDefinitions: any = [
+  const columnDefinitions: ColumnDef<ILogEntry>[] = [
     {
-      Header: "ID",
-      accessor: "ID",
-      width: 80,
+      header: "ID",
+      accessorKey: "ID",
+      size: 80,
     },
     {
-      Header: "Label",
-      accessor: "label",
-      width: 180,
+      header: "Label",
+      accessorKey: "label",
+      size: 180,
     },
     {
-      Header: "Timestamp",
+      header: "Timestamp",
       id: "timestamp",
-      accessor: (res: any) => longDateTime(DateTime.fromISO(res.timestamp)),
-      width: showMeta ? 150 : undefined,
+      accessorFn: (entry) => entry.timestamp,
+      cell: ({ getValue }) => longDateTime(DateTime.fromISO(getValue<string>())),
+      size: showMeta ? 150 : undefined,
     },
   ];
 
   if (showMeta) {
     columnDefinitions.push({
-      Header: "Meta",
-      accessor: "meta",
+      header: "Meta",
+      accessorKey: "meta",
     });
   }
 
-  const defaultSorting = [{ id: "timestamp", desc: true }];
+  const defaultSorting: SortingState = sortingFromApiState(pagination.sort);
 
   let [entry, setEntry] = useState<number | null>(null);
-  const trProps = (tableState: any, rowInfo: any) => {
-    if (rowInfo && rowInfo.row) {
-      return {
-        onDoubleClick: (e: any) => {
-          setEntry(rowInfo.original.ID);
-        },
-      };
-    }
-    return {};
-  };
+  const getRowProps = (row: Row<ILogEntry>) => ({
+    onDoubleClick: () => {
+      setEntry(row.original.ID);
+    },
+  });
 
   if (entry !== null) return <Navigate to={`/logs/${entry}`} replace />;
   return (
-    <ReactTable
-      manual
+    <EffektTable
       data={data}
-      page={pagination.page}
-      pages={pages}
-      pageSize={pagination.limit}
+      manualPagination
+      manualSorting
+      pageCount={pages}
+      pagination={paginationFromApiState(pagination)}
+      sorting={defaultSorting}
       loading={loading}
       columns={columnDefinitions}
-      defaultSorted={defaultSorting}
+      initialSorting={defaultSorting}
       showPagination={showPagination}
-      onPageChange={(page) => dispatch(setLogsPaginationAction({ ...pagination, page }))}
-      onSortedChange={(sorted) =>
-        dispatch(setLogsPaginationAction({ ...pagination, sort: sorted[0] }))
+      onPaginationChange={(nextPagination) =>
+        dispatch(
+          setLogsPaginationAction({
+            ...pagination,
+            page: nextPagination.pageIndex,
+            limit: nextPagination.pageSize,
+          }),
+        )
       }
-      onPageSizeChange={(pagesize) =>
-        dispatch(setLogsPaginationAction({ ...pagination, limit: pagesize }))
+      onSortingChange={(nextSorting) =>
+        dispatch(
+          setLogsPaginationAction({
+            ...pagination,
+            sort: sortingToApiState(nextSorting, pagination.sort),
+          }),
+        )
       }
-      getTrProps={trProps}
+      getRowProps={getRowProps}
     />
   );
 };

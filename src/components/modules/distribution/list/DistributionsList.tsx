@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import ReactTable from "react-table";
+import React, { useEffect, useState } from "react";
+import { ColumnDef, Row, SortingState } from "@tanstack/react-table";
 import {
   setDistributionPagination,
   fetchDistributionsAction,
@@ -14,9 +14,19 @@ import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.c
 import { CreateDistribution } from "../create/CreateDistribution";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import {
+  EffektTable,
+  paginationFromApiState,
+  sortingFromApiState,
+  sortingToApiState,
+} from "../../../style/elements/react-table/EffektTable";
+
+type DistributionTableRow = IDistributionSearchResultItem & {
+  KID?: string;
+};
 
 export const DistributionsList: React.FunctionComponent<{
-  distributions: Array<IDistributionSearchResultItem> | undefined;
+  distributions: Array<DistributionTableRow> | undefined;
   manual?: boolean;
   defaultPageSize?: number;
   hideName?: boolean;
@@ -24,73 +34,74 @@ export const DistributionsList: React.FunctionComponent<{
 }> = ({ distributions, manual, defaultPageSize, hideName, hideEmail }) => {
   const pages = useSelector((state: AppState) => state.distributions.pages);
   const loading = useSelector((state: AppState) => state.distributions.loading);
+  const pagination = useSelector((state: AppState) => state.distributions.pagination);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
   const [showCreate, setShowCreate] = useState<boolean>(false);
 
-  let columnDefinitions: any[] = [
+  useEffect(() => {
+    if (manual) {
+      getAccessTokenSilently().then((token) =>
+        dispatch(fetchDistributionsAction.started({ token })),
+      );
+    }
+  }, [manual, pagination, dispatch, getAccessTokenSilently]);
+
+  let columnDefinitions: ColumnDef<DistributionTableRow>[] = [
     {
-      Header: "KID",
-      accessor: "KID",
-      width: 170,
+      header: "KID",
+      id: "KID",
+      accessorFn: (distribution) => distribution.KID ?? distribution.kid ?? "",
+      size: 170,
     },
     {
-      Header: "Total sum",
+      header: "Total sum",
       id: "sum",
-      accessor: (res: any) => {
-        if (res.donation_sum) return thousandize(res.donation_sum) + " kr";
-        else return "0 kr";
-      },
-      sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
-      },
-      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
-      width: 125,
+      accessorFn: (distribution) => distribution.sum ?? 0,
+      cell: ({ getValue }) => (
+        <span style={{ textAlign: "right", width: "100%" }}>
+          {thousandize(getValue<number>())} kr
+        </span>
+      ),
+      size: 125,
     },
     {
-      Header: "Donations",
+      header: "Donations",
       id: "count",
-      accessor: (res: any) => {
-        if (res.donation_count) return thousandize(res.donation_count);
-        else return "0";
-      },
-      sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
-      },
-      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
-      width: 100,
+      accessorFn: (distribution) => distribution.count ?? 0,
+      cell: ({ getValue }) => (
+        <span style={{ textAlign: "right", width: "100%" }}>{thousandize(getValue<number>())}</span>
+      ),
+      size: 100,
     },
   ];
 
   if (!hideName) {
     columnDefinitions.splice(1, 0, {
-      Header: "Name",
-      accessor: "full_name",
+      header: "Name",
+      accessorKey: "full_name",
     });
   }
 
   if (!hideEmail) {
     columnDefinitions.splice(2, 0, {
-      Header: "Email",
-      accessor: "email",
-      width: 350,
+      header: "Email",
+      accessorKey: "email",
+      size: 350,
     });
   }
 
-  const defaultSorting = [{ id: "KID", desc: true }];
+  const defaultSorting: SortingState = manual
+    ? sortingFromApiState(pagination.sort)
+    : [{ id: "KID", desc: true }];
 
-  const trProps = (tableState: any, rowInfo: any) => {
-    if (rowInfo && rowInfo.row) {
-      return {
-        onDoubleClick: (e: any) => {
-          navigate(`/distributions/${rowInfo.original.KID}`);
-        },
-      };
-    }
-    return {};
-  };
+  const getRowProps = (row: Row<DistributionTableRow>) => ({
+    onDoubleClick: () => {
+      navigate(`/distributions/${row.original.KID ?? row.original.kid}`);
+    },
+  });
 
   if (manual) {
     return (
@@ -120,38 +131,46 @@ export const DistributionsList: React.FunctionComponent<{
         >
           <CreateDistribution onSubmit={() => setShowCreate(false)} />
         </EffektModal>
-        <ReactTable
-          manual
+        <EffektTable
           data={distributions}
-          pages={pages}
+          manualPagination
+          manualSorting
+          pageCount={pages}
+          pagination={paginationFromApiState(pagination)}
           loading={loading}
           columns={columnDefinitions}
-          defaultSorted={defaultSorting}
           defaultPageSize={defaultPageSize}
-          getTrProps={trProps}
-          onFetchData={(state) => {
+          initialSorting={defaultSorting}
+          sorting={defaultSorting}
+          getRowProps={getRowProps}
+          onPaginationChange={(nextPagination) =>
             dispatch(
               setDistributionPagination({
-                sort: state.sorted[0],
-                page: state.page,
-                limit: state.pageSize,
+                ...pagination,
+                page: nextPagination.pageIndex,
+                limit: nextPagination.pageSize,
               }),
-            );
-            getAccessTokenSilently().then((token) =>
-              dispatch(fetchDistributionsAction.started({ token })),
-            );
-          }}
+            )
+          }
+          onSortingChange={(nextSorting) =>
+            dispatch(
+              setDistributionPagination({
+                ...pagination,
+                sort: sortingToApiState(nextSorting, pagination.sort),
+              }),
+            )
+          }
         />
       </div>
     );
   } else {
     return (
-      <ReactTable
+      <EffektTable
         data={distributions}
         columns={columnDefinitions}
-        defaultSorted={defaultSorting}
         defaultPageSize={defaultPageSize}
-        getTrProps={trProps}
+        initialSorting={defaultSorting}
+        getRowProps={getRowProps}
       />
     );
   }

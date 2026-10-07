@@ -55,9 +55,9 @@ export const adoveoReducer = (state = defaultState, action: AnyAction): AdoveoSt
       pages: action.payload.result.pages,
       statistics: {
         numFundraisers:
-          action.payload.result.statistics?.totalCount || action.payload.result.fundraisers.length,
-        sumDonations: action.payload.result.statistics?.totalSum || 0,
-        avgDonation: action.payload.result.statistics?.avgDonation || 0,
+          action.payload.result.statistics?.totalCount ?? action.payload.result.fundraisers.length,
+        sumDonations: action.payload.result.statistics?.totalSum ?? 0,
+        avgDonation: action.payload.result.statistics?.avgDonation ?? 0,
       },
     };
   }

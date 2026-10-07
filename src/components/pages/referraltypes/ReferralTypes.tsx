@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../models/state";
 import {
@@ -9,7 +10,6 @@ import {
 } from "../../../store/referrals/referrals.action";
 import { Page } from "../../style/elements/page.style";
 import { MainHeader } from "../../style/elements/headers.style";
-import ReactTable from "react-table";
 import { Edit, Plus, Save, ToggleLeft, ToggleRight } from "react-feather";
 import { toastError } from "../../../util/toasthelper";
 import { IReferralType } from "../../../models/types";
@@ -28,6 +28,7 @@ import {
   LoadingWrapper,
   TableWrapper,
 } from "./ReferralTypes.style";
+import { EffektTable } from "../../style/elements/react-table/EffektTable";
 
 interface Props {}
 
@@ -117,45 +118,46 @@ const ReferralTypesPage: React.FunctionComponent<Props> = () => {
     setShowEditModal(true);
   };
 
-  const columns = [
+  const columns: ColumnDef<IReferralType>[] = [
     {
-      Header: "ID",
-      accessor: "id",
-      width: 60,
+      header: "ID",
+      accessorKey: "id",
+      size: 60,
     },
     {
-      Header: "Name",
-      accessor: "name",
+      header: "Name",
+      accessorKey: "name",
     },
     {
-      Header: "Order",
-      accessor: "ordering",
-      width: 80,
+      header: "Order",
+      accessorKey: "ordering",
+      size: 80,
     },
     {
-      Header: "Status",
-      accessor: "is_active",
-      width: 100,
-      Cell: ({ value }: { value: boolean }) => (
-        <StatusBadge active={value}>{value ? "Active" : "Inactive"}</StatusBadge>
+      header: "Status",
+      accessorKey: "is_active",
+      size: 100,
+      cell: ({ getValue }) => (
+        <StatusBadge active={Boolean(getValue<boolean>())}>
+          {getValue<boolean>() ? "Active" : "Inactive"}
+        </StatusBadge>
       ),
     },
     {
-      Header: "Actions",
-      width: 200,
-      Cell: ({ row }: { row: { _original: IReferralType } }) => {
-        if (!row || !row._original) return null;
-        return (
-          <TableActionsWrapper>
-            <EffektButton onClick={() => openEditModal(row._original)}>
-              <Edit size={18} />
-            </EffektButton>
-            <EffektButton onClick={() => handleToggleActive(row._original.id)}>
-              {row._original.is_active ? <ToggleRight size={18} /> : <ToggleLeft size={18} />}
-            </EffektButton>
-          </TableActionsWrapper>
-        );
-      },
+      header: "Actions",
+      id: "actions",
+      size: 200,
+      enableSorting: false,
+      cell: ({ row }) => (
+        <TableActionsWrapper>
+          <EffektButton onClick={() => openEditModal(row.original)}>
+            <Edit size={18} />
+          </EffektButton>
+          <EffektButton onClick={() => handleToggleActive(row.original.id)}>
+            {row.original.is_active ? <ToggleRight size={18} /> : <ToggleLeft size={18} />}
+          </EffektButton>
+        </TableActionsWrapper>
+      ),
     },
   ];
 
@@ -173,7 +175,7 @@ const ReferralTypesPage: React.FunctionComponent<Props> = () => {
 
       {!loading && referralTypes && referralTypes.length > 0 && (
         <TableWrapper>
-          <ReactTable
+          <EffektTable
             data={referralTypes}
             columns={columns}
             defaultPageSize={25}

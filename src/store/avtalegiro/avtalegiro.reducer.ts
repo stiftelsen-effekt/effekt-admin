@@ -1,4 +1,7 @@
 import Decimal from "decimal.js";
+
+const toNumber = (value: string | number | null | undefined) =>
+  value === null || value === undefined ? 0 : Number(value);
 import { toast } from "react-toastify";
 import { isType } from "typescript-fsa";
 import { AvtaleGiroAgreementsState } from "../../models/state";
@@ -90,9 +93,9 @@ export const avtaleGiroReducer = (
       filter: {
         ...state.filter,
         statistics: {
-          numAgreements: action.payload.result.statistics.numAgreements,
-          sumAgreements: parseFloat(action.payload.result.statistics.sumAgreements),
-          avgAgreement: parseFloat(action.payload.result.statistics.avgAgreement),
+          numAgreements: action.payload.result.statistics.numAgreements ?? 0,
+          sumAgreements: toNumber(action.payload.result.statistics.sumAgreements),
+          avgAgreement: toNumber(action.payload.result.statistics.avgAgreement),
         },
       },
     };

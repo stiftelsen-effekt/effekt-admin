@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ReactTable from "react-table";
+import { ColumnDef, Row, SortingState } from "@tanstack/react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { longDateTime, shortDate, thousandize } from "../../../../util/formatting";
@@ -11,9 +11,20 @@ import {
 } from "../../../../store/avtalegiro/avtalegiro.actions";
 import { IAvtaleGiro } from "../../../../models/types";
 import { useAuth0 } from "@auth0/auth0-react";
+import {
+  EffektTable,
+  paginationFromApiState,
+  sortingFromApiState,
+  sortingToApiState,
+} from "../../../style/elements/react-table/EffektTable";
+
+type AvtaleGiroTableRow = IAvtaleGiro & {
+  ID?: string;
+  notice?: number;
+};
 
 export const AvtaleGiroList: React.FunctionComponent<{
-  agreements: Array<IAvtaleGiro> | undefined;
+  agreements: Array<AvtaleGiroTableRow> | undefined;
   manual?: boolean;
   defaultPageSize?: number;
 }> = ({ agreements, manual, defaultPageSize }) => {
@@ -33,119 +44,131 @@ export const AvtaleGiroList: React.FunctionComponent<{
     }
   }, [pagination, manual, dispatch, getAccessTokenSilently]);
 
-  const columnDefinitions = [
+  const columnDefinitions: ColumnDef<AvtaleGiroTableRow>[] = [
     {
-      Header: "Agreement ID",
-      accessor: "ID",
+      header: "Agreement ID",
       id: "id",
-      width: 120,
+      accessorFn: (agreement) => agreement.ID ?? agreement.id,
+      size: 120,
     },
     {
-      Header: "Donor",
-      accessor: "full_name",
+      header: "Donor",
+      accessorFn: (agreement) => agreement.full_name || agreement.donor,
+      id: "full_name",
     },
     {
-      Header: "Status",
+      header: "Status",
       id: "active",
-      accessor: (res: any) => {
-        if (res.active === 1) return "ACTIVE";
-        if (res.active === 0 && res.cancelled) return "STOPPED";
+      accessorFn: (agreement) => {
+        if (agreement.active === 1) return "ACTIVE";
+        if (agreement.active === 0 && agreement.cancelled) return "STOPPED";
         return "INACTIVE";
       },
-      width: 90,
+      size: 90,
     },
     {
-      Header: "Sum",
+      header: "Sum",
       id: "amount",
-      accessor: (res: any) => thousandize(res.amount),
-      sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
-      },
-      width: 85,
+      accessorFn: (agreement) => agreement.amount,
+      cell: ({ getValue }) => thousandize(getValue<number>()),
+      size: 85,
     },
     {
-      Header: "Day",
-      accessor: "payment_date",
+      header: "Day",
+      accessorKey: "payment_date",
       id: "paymentDate",
-      width: 60,
+      size: 60,
     },
     {
-      Header: "KID",
-      accessor: "KID",
+      header: "KID",
+      accessorKey: "KID",
       id: "kid",
-      width: 160,
+      size: 160,
     },
     {
-      Header: "Draft date",
+      header: "Draft date",
       id: "created",
-      accessor: (res: any) => shortDate(DateTime.fromISO(res.created, { setZone: true })),
-      width: 110,
+      accessorFn: (agreement) => agreement.created,
+      cell: ({ getValue }) => shortDate(DateTime.fromISO(getValue<string>(), { setZone: true })),
+      size: 110,
     },
     {
-      Header: "Last updated",
+      header: "Last updated",
       id: "lastUpdated",
-      accessor: (res: any) => longDateTime(DateTime.fromISO(res.last_updated)),
-      width: 150,
+      accessorFn: (agreement) => agreement.last_updated,
+      cell: ({ getValue }) => longDateTime(DateTime.fromISO(getValue<string>())),
+      size: 150,
     },
     {
-      Header: "Cancellation date",
+      header: "Cancellation date",
       id: "cancelled",
-      accessor: (res: any) =>
-        res.cancelled && shortDate(DateTime.fromISO(res.cancelled, { setZone: true })),
-      width: 115,
+      accessorFn: (agreement) => agreement.cancelled ?? "",
+      cell: ({ getValue }) => {
+        const cancelled = getValue<string>();
+        return cancelled ? shortDate(DateTime.fromISO(cancelled, { setZone: true })) : "";
+      },
+      size: 115,
     },
     {
-      Header: "Notify",
+      header: "Notify",
       id: "notice",
-      accessor: (res: any) => (res.notice === 1 ? "YES" : "NO"),
-      width: 60,
+      accessorFn: (agreement) => (agreement.notice === 1 ? "YES" : "NO"),
+      size: 60,
     },
   ];
 
-  const defaultSorting = [{ id: "created", desc: true }];
+  const defaultSorting: SortingState = manual
+    ? sortingFromApiState(pagination.sort)
+    : [{ id: "created", desc: true }];
 
-  const trProps = (tableState: any, rowInfo: any) => {
-    if (rowInfo && rowInfo.row) {
-      return {
-        onDoubleClick: (e: any) => {
-          navigate(`/avtalegiro/${rowInfo.original.ID}`);
-        },
-      };
-    }
-    return {};
-  };
+  const getRowProps = (row: Row<AvtaleGiroTableRow>) => ({
+    onDoubleClick: () => {
+      navigate(`/avtalegiro/${row.original.ID ?? row.original.id}`);
+    },
+  });
 
   if (manual) {
     return (
-      <ReactTable
-        manual
+      <EffektTable
         data={agreements}
-        page={pagination.page}
-        pages={pages}
-        pageSize={pagination.limit}
+        manualPagination
+        manualSorting
+        pageCount={pages}
+        pagination={paginationFromApiState(pagination)}
+        sorting={defaultSorting}
         loading={loading}
         columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        onPageChange={(page) => dispatch(setAvtaleGiroPagination({ ...pagination, page }))}
-        onSortedChange={(sorted) =>
-          dispatch(setAvtaleGiroPagination({ ...pagination, sort: sorted[0] }))
+        initialSorting={defaultSorting}
+        onPaginationChange={(nextPagination) =>
+          dispatch(
+            setAvtaleGiroPagination({
+              ...pagination,
+              page: nextPagination.pageIndex,
+              limit: nextPagination.pageSize,
+            }),
+          )
         }
-        onPageSizeChange={(pagesize) =>
-          dispatch(setAvtaleGiroPagination({ ...pagination, limit: pagesize }))
+        onSortingChange={(nextSorting) =>
+          dispatch(
+            setAvtaleGiroPagination({
+              ...pagination,
+              sort: sortingToApiState(nextSorting, pagination.sort),
+            }),
+          )
         }
-        getTrProps={trProps}
-      />
-    );
-  } else {
-    return (
-      <ReactTable
-        data={agreements}
-        loading={loading}
-        columns={columnDefinitions}
-        defaultPageSize={defaultPageSize}
-        defaultSorted={defaultSorting}
-        getTrProps={trProps}
+        getRowProps={getRowProps}
       />
     );
   }
+
+  return (
+    <EffektTable
+      data={agreements}
+      loading={loading}
+      columns={columnDefinitions}
+      defaultPageSize={defaultPageSize}
+      initialSorting={defaultSorting}
+      getRowProps={getRowProps}
+    />
+  );
 };

@@ -1,8 +1,9 @@
 import React from "react";
-import ReactTable from "react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { Edit, ToggleLeft, ToggleRight } from "react-feather";
 import { IOrganization } from "../../../../models/types";
 import { EffektButton } from "../../../style/elements/button.style";
+import { EffektTable } from "../../../style/elements/react-table/EffektTable";
 import {
   TableActionsWrapper,
   StatusBadge,
@@ -27,56 +28,60 @@ const OrganizationsList: React.FunctionComponent<Props> = ({
     ? organizations?.filter((org) => org.causeAreaId === causeAreaId)
     : organizations;
 
-  const columns = [
+  const columns: ColumnDef<IOrganization>[] = [
     {
-      Header: "ID",
-      accessor: "id",
-      width: 60,
+      header: "ID",
+      accessorKey: "id",
+      size: 60,
     },
     {
-      Header: "Name",
-      accessor: "name",
+      header: "Name",
+      accessorKey: "name",
     },
     {
-      Header: "Abbreviation",
-      accessor: "abbreviation",
-      width: 120,
+      header: "Abbreviation",
+      accessorKey: "abbreviation",
+      size: 120,
     },
     {
-      Header: "Order",
-      accessor: "ordering",
-      width: 80,
+      header: "Order",
+      accessorKey: "ordering",
+      size: 80,
     },
     {
-      Header: "Standard",
-      accessor: "standardShare",
-      width: 100,
-      Cell: ({ value }: { value: any }) => (value ? `${value.toNumber()}%` : "0%"),
+      header: "Standard",
+      accessorKey: "standardShare",
+      size: 100,
+      cell: ({ getValue }) => {
+        const value = getValue<IOrganization["standardShare"]>();
+        return value ? `${value.toNumber()}%` : "0%";
+      },
     },
     {
-      Header: "Status",
-      accessor: "isActive",
-      width: 100,
-      Cell: ({ value }: { value: boolean }) => (
-        <StatusBadge active={value}>{value ? "Active" : "Inactive"}</StatusBadge>
+      header: "Status",
+      accessorKey: "isActive",
+      size: 100,
+      cell: ({ getValue }) => (
+        <StatusBadge active={Boolean(getValue<boolean>())}>
+          {getValue<boolean>() ? "Active" : "Inactive"}
+        </StatusBadge>
       ),
     },
     {
-      Header: "Actions",
-      width: 200,
-      Cell: ({ row }: { row: { _original: IOrganization } }) => {
-        if (!row || !row._original) return null;
-        return (
-          <TableActionsWrapper>
-            <EffektButton onClick={() => onEdit(row._original)}>
-              <Edit size={18} />
-            </EffektButton>
-            <EffektButton onClick={() => onToggleActive(row._original.id)}>
-              {row._original.isActive ? <ToggleRight size={18} /> : <ToggleLeft size={18} />}
-            </EffektButton>
-          </TableActionsWrapper>
-        );
-      },
+      header: "Actions",
+      id: "actions",
+      size: 200,
+      enableSorting: false,
+      cell: ({ row }) => (
+        <TableActionsWrapper>
+          <EffektButton onClick={() => onEdit(row.original)}>
+            <Edit size={18} />
+          </EffektButton>
+          <EffektButton onClick={() => onToggleActive(row.original.id)}>
+            {row.original.isActive ? <ToggleRight size={18} /> : <ToggleLeft size={18} />}
+          </EffektButton>
+        </TableActionsWrapper>
+      ),
     },
   ];
 
@@ -94,12 +99,7 @@ const OrganizationsList: React.FunctionComponent<Props> = ({
 
   return (
     <TableWrapper>
-      <ReactTable
-        data={filteredOrganizations}
-        columns={columns}
-        defaultPageSize={25}
-        loading={false}
-      />
+      <EffektTable columns={columns} data={filteredOrganizations} defaultPageSize={25} />
     </TableWrapper>
   );
 };

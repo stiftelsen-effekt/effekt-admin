@@ -25,6 +25,9 @@ import {
 } from "./donation-filters.actions";
 import Decimal from "decimal.js";
 
+const toRoundedNumber = (value: Decimal.Value | null | undefined) =>
+  value === null || value === undefined ? 0 : new Decimal(value).round().toNumber();
+
 const defaultState: DonationsState = {
   donations: [],
   transactionCostsReport: undefined,
@@ -72,10 +75,8 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
         ...state.filter,
         statistics: {
           ...action.payload.result.statistics,
-          sumDonations: new Decimal(action.payload.result.statistics.sumDonations)
-            .round()
-            .toNumber(),
-          avgDonation: new Decimal(action.payload.result.statistics.avgDonation).round().toNumber(),
+          sumDonations: toRoundedNumber(action.payload.result.statistics.sumDonations),
+          avgDonation: toRoundedNumber(action.payload.result.statistics.avgDonation),
         },
       },
     };

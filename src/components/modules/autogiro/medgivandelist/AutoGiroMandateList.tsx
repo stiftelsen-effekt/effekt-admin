@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ReactTable from "react-table";
+import { ColumnDef, Row, SortingState } from "@tanstack/react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,12 @@ import {
   fetchAutoGiroMandatesAction,
   setAutoGiroMandatePagination,
 } from "../../../../store/autogiro/autogiromedgivande.actions";
+import {
+  EffektTable,
+  paginationFromApiState,
+  sortingFromApiState,
+  sortingToApiState,
+} from "../../../style/elements/react-table/EffektTable";
 
 export const AutoGiroMandateList: React.FunctionComponent<{
   mandates: Array<IAutoGiroMandate> | undefined;
@@ -31,74 +37,80 @@ export const AutoGiroMandateList: React.FunctionComponent<{
     }
   }, [pagination, manual, dispatch, getAccessTokenSilently]);
 
-  const columnDefinitions = [
+  const columnDefinitions: ColumnDef<IAutoGiroMandate>[] = [
     {
-      Header: "Mandate ID",
-      accessor: "ID",
+      header: "Mandate ID",
+      accessorKey: "ID",
       id: "ID",
-      width: 120,
+      size: 120,
     },
     {
-      Header: "Donor",
-      accessor: "full_name",
+      header: "Donor",
+      accessorKey: "full_name",
     },
     {
-      Header: "Status",
-      accessor: "status",
+      header: "Status",
+      accessorKey: "status",
       id: "status",
-      width: 90,
+      size: 90,
     },
     {
-      Header: "KID",
-      accessor: "KID",
+      header: "KID",
+      accessorKey: "KID",
       id: "kid",
-      width: 160,
+      size: 160,
     },
   ];
 
-  const defaultSorting = [{ id: "created", desc: true }];
+  const defaultSorting: SortingState = sortingFromApiState(pagination.sort);
 
-  const trProps = (tableState: any, rowInfo: any) => {
-    if (rowInfo && rowInfo.row) {
-      return {
-        onDoubleClick: (e: any) => {
-          navigate(`/autogiro/mandates/${rowInfo.original.ID}`);
-        },
-      };
-    }
-    return {};
-  };
+  const getRowProps = (row: Row<IAutoGiroMandate>) => ({
+    onDoubleClick: () => {
+      navigate(`/autogiro/mandates/${row.original.ID}`);
+    },
+  });
 
   if (manual) {
     return (
-      <ReactTable
-        manual
+      <EffektTable
         data={mandates}
-        page={pagination.page}
-        pages={pages}
-        pageSize={pagination.limit}
+        manualPagination
+        manualSorting
+        pageCount={pages}
+        pagination={paginationFromApiState(pagination)}
+        sorting={defaultSorting}
         loading={loading}
         columns={columnDefinitions}
-        defaultSorted={defaultSorting}
-        onPageChange={(page) => dispatch(setAutoGiroMandatePagination({ ...pagination, page }))}
-        onSortedChange={(sorted) =>
-          dispatch(setAutoGiroMandatePagination({ ...pagination, sort: sorted[0] }))
+        initialSorting={defaultSorting}
+        onPaginationChange={(nextPagination) =>
+          dispatch(
+            setAutoGiroMandatePagination({
+              ...pagination,
+              page: nextPagination.pageIndex,
+              limit: nextPagination.pageSize,
+            }),
+          )
         }
-        onPageSizeChange={(pagesize) =>
-          dispatch(setAutoGiroMandatePagination({ ...pagination, limit: pagesize }))
+        onSortingChange={(nextSorting) =>
+          dispatch(
+            setAutoGiroMandatePagination({
+              ...pagination,
+              sort: sortingToApiState(nextSorting, pagination.sort),
+            }),
+          )
         }
-        getTrProps={trProps}
+        getRowProps={getRowProps}
       />
     );
   } else {
     return (
-      <ReactTable
+      <EffektTable
         data={mandates}
         loading={loading}
         columns={columnDefinitions}
         defaultPageSize={defaultPageSize}
-        defaultSorted={defaultSorting}
-        getTrProps={trProps}
+        initialSorting={defaultSorting}
+        getRowProps={getRowProps}
       />
     );
   }
