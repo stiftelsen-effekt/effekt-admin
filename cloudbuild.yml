@@ -14,3 +14,6 @@ steps:
     entrypoint: "npm"
     env: ["CI=true"]
     args: ["run", "test"]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
