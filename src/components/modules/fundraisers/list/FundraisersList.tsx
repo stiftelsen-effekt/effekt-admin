@@ -6,7 +6,7 @@ import {
   setFundraisersPagination,
 } from "../../../../store/fundraisers/fundraisers-list.actions";
 import { AppState } from "../../../../models/state";
-import { shortDate, thousandize } from "../../../../util/formatting";
+import { shortDate, formatAmount, thousandize } from "../../../../util/formatting";
 import { DateTime } from "luxon";
 import { useNavigate } from "react-router-dom";
 import { IFundraiser } from "../../../../models/types";
@@ -118,7 +118,7 @@ export const FundraisersList: React.FunctionComponent<Props> = ({
         }
       },
       id: "totalSum",
-      accessor: (res: IFundraiser) => thousandize(res.statistics.totalSum) + " kr",
+      accessor: (res: IFundraiser) => formatAmount(res.statistics.totalSum) + " kr",
       Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 140,
     },
@@ -153,8 +153,7 @@ export const FundraisersList: React.FunctionComponent<Props> = ({
     {
       Header: "Average",
       id: "averageDonation",
-      accessor: (res: IFundraiser) =>
-        thousandize(Math.round(res.statistics.averageDonation)) + " kr",
+      accessor: (res: IFundraiser) => formatAmount(res.statistics.averageDonation) + " kr",
       Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 140,
     },

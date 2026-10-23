@@ -6,7 +6,7 @@ import {
   setAdoveoPagination,
 } from "../../../../store/adoveo/adoveo-list.actions";
 import { AppState } from "../../../../models/state";
-import { shortDate, thousandize } from "../../../../util/formatting";
+import { shortDate, formatAmount, thousandize } from "../../../../util/formatting";
 import { DateTime } from "luxon";
 import { IAdoveo } from "../../../../models/types";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -126,7 +126,7 @@ export const AdoveoList: React.FunctionComponent = () => {
           "Sum"
         ),
       id: "totalSum",
-      accessor: (res: IAdoveo) => thousandize(res.statistics.totalSum) + " kr",
+      accessor: (res: IAdoveo) => formatAmount(res.statistics.totalSum) + " kr",
       Cell: (row: any) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 140,
     },

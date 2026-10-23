@@ -9,7 +9,7 @@ import {
   KeyInfoTimestamp,
   KeyInfoValue,
 } from "../../../style/elements/keyinfo/keyinfo.style";
-import { shortDate } from "../../../../util/formatting";
+import { formatAmount, shortDate } from "../../../../util/formatting";
 
 interface AgreementInfo {
   amount: number;
@@ -31,7 +31,7 @@ export const AgreementKeyInfoComponent: React.FunctionComponent<IProps> = ({ agr
     <KeyInfoWrapper>
       <KeyInfoGroup>
         <KeyInfoHeader>Monthly sum</KeyInfoHeader>
-        <KeyInfoSum>{agreement.amount} kr</KeyInfoSum>
+        <KeyInfoSum>{formatAmount(agreement.amount)} kr</KeyInfoSum>
       </KeyInfoGroup>
 
       <KeyInfoGroup>

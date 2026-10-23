@@ -3,7 +3,7 @@ import { CSSProperties, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { fetchTransactionCostsReportAction } from "../../../../store/donations/donation.actions";
-import { thousandize } from "../../../../util/formatting";
+import { formatAmount } from "../../../../util/formatting";
 import { ReportContent, ReportHeader, ReportWrapper } from "../../shared/report/Report.style";
 
 const cellStyle: CSSProperties = { textAlign: "right" };
@@ -62,8 +62,8 @@ const DataRow = ({ label, currentVal, prevVal }) => {
   return (
     <tr>
       <td>{label}</td>
-      <td style={cellStyle}>{thousandize(prevVal)} kr</td>
-      <td style={cellStyle}>{thousandize(currentVal)} kr</td>
+      <td style={cellStyle}>{formatAmount(prevVal)} kr</td>
+      <td style={cellStyle}>{formatAmount(currentVal)} kr</td>
       <td style={cellStyle}>{getPercentageChange(currentVal, prevVal)}</td>
     </tr>
   );

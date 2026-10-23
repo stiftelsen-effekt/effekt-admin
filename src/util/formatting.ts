@@ -18,3 +18,11 @@ export const thousandize = (number: number | null | undefined) =>
   number !== null && number !== undefined
     ? Intl.NumberFormat(numberFormatLocale).format(number)
     : "-";
+
+export const formatAmount = (number: number | null | undefined) =>
+  number !== null && number !== undefined
+    ? Intl.NumberFormat(numberFormatLocale, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(number)
+    : "-";

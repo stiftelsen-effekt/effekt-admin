@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ReactTable from "react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
-import { longDateTime, shortDate, thousandize } from "../../../../util/formatting";
+import { longDateTime, shortDate, formatAmount } from "../../../../util/formatting";
 import { DateTime } from "luxon";
 import { useNavigate } from "react-router-dom";
 import {
@@ -58,10 +58,8 @@ export const AutoGiroList: React.FunctionComponent<{
     {
       Header: "Sum",
       id: "amount",
-      accessor: (res: IAutoGiro) => thousandize(res.amount),
-      sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
-      },
+      accessor: (res: IAutoGiro) => res.amount,
+      Cell: (row) => formatAmount(row.value),
       width: 85,
     },
     {

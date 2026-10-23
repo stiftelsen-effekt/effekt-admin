@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { AppState } from "../../../../models/state";
 import { IAvtalegiroReport } from "../../../../models/types";
 import { fetchAvtaleGiroReportAction } from "../../../../store/avtalegiro/avtalegiro.actions";
-import { thousandize } from "../../../../util/formatting";
+import { formatAmount } from "../../../../util/formatting";
 import { EffektButton } from "../../../style/elements/button.style";
 import {
   ReportActions,
@@ -40,15 +40,15 @@ export const AvtaleGiroReport = () => {
           <tbody>
             <tr>
               <td>Median agreement sum</td>
-              <td>{thousandize(report.medianAgreementSum)} kr</td>
+              <td>{formatAmount(report.medianAgreementSum)} kr</td>
             </tr>
             <tr>
               <td>Average agreement sum</td>
-              <td>{thousandize(report.averageAgreementSum)} kr</td>
+              <td>{formatAmount(report.averageAgreementSum)} kr</td>
             </tr>
             <tr>
               <td>Total agreement sum</td>
-              <td>{thousandize(report.totalAgreementSum)} kr</td>
+              <td>{formatAmount(report.totalAgreementSum)} kr</td>
             </tr>
           </tbody>
         </table>
@@ -58,19 +58,23 @@ export const AvtaleGiroReport = () => {
             <tr>
               <td>Agreements drafted</td>
               <td>{report.draftedThisMonth}</td>
-              <td style={{ textAlign: "right" }}>({thousandize(report.sumDraftedThisMonth)} kr)</td>
+              <td style={{ textAlign: "right" }}>
+                ({formatAmount(report.sumDraftedThisMonth)} kr)
+              </td>
             </tr>
             <tr>
               <td>Agreements activated</td>
               <td>{report.activatedThisMonth}</td>
               <td style={{ textAlign: "right" }}>
-                ({thousandize(report.sumActivatedThisMonth)} kr)
+                ({formatAmount(report.sumActivatedThisMonth)} kr)
               </td>
             </tr>
             <tr>
               <td>Agreements stopped</td>
               <td>{report.stoppedThisMonth}</td>
-              <td style={{ textAlign: "right" }}>({thousandize(report.sumStoppedThisMonth)} kr)</td>
+              <td style={{ textAlign: "right" }}>
+                ({formatAmount(report.sumStoppedThisMonth)} kr)
+              </td>
             </tr>
           </tbody>
         </table>

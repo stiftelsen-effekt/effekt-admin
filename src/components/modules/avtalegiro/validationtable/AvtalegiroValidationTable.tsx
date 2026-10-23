@@ -7,6 +7,7 @@ import { ReportContent, ReportHeader, ReportWrapper } from "../../shared/report/
 import { useNavigate } from "react-router-dom";
 import { DateTime } from "luxon";
 import { useAuth0 } from "@auth0/auth0-react";
+import { formatAmount } from "../../../../util/formatting";
 
 export const AvtaleGiroValidationTable = () => {
   const navigate = useNavigate();
@@ -21,8 +22,6 @@ export const AvtaleGiroValidationTable = () => {
     );
   }, [dispatch, getAccessTokenSilently]);
 
-  const thousandize = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-
   const columnDefinitions = [
     {
       Header: "Date",
@@ -33,17 +32,17 @@ export const AvtaleGiroValidationTable = () => {
     {
       Header: "Expected",
       id: "expected",
-      accessor: (res: any) => thousandize(res.expected) + " kr",
+      accessor: (res: any) => formatAmount(res.expected) + " kr",
     },
     {
       Header: "Actual",
       id: "actual",
-      accessor: (res: any) => (res.actual !== null ? thousandize(res.actual) + " kr" : "-"),
+      accessor: (res: any) => (res.actual !== null ? formatAmount(res.actual) + " kr" : "-"),
     },
     {
       Header: "Diff",
       id: "diff",
-      accessor: (res: any) => (res.actual !== null ? thousandize(res.diff) + " kr" : "-"),
+      accessor: (res: any) => (res.actual !== null ? formatAmount(res.diff) + " kr" : "-"),
     },
   ];
 

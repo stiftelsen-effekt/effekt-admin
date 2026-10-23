@@ -31,7 +31,7 @@ import {
 } from "../../../style/elements/filters.component.style";
 import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
 import EffektNumberRange from "../../../style/elements/effekt-range/effekt-range.component";
-import { thousandize } from "../../../../util/formatting";
+import { formatAmount, thousandize } from "../../../../util/formatting";
 import { Oval } from "react-loader-spinner";
 import { EffektButton } from "../../../style/elements/button.style";
 import { Download } from "react-feather";
@@ -185,11 +185,11 @@ export const AvtaleGiroFilter: React.FunctionComponent = () => {
               </tr>
               <tr>
                 <td>Sum</td>
-                <td>kr {thousandize(statistics.sumAgreements)}</td>
+                <td>kr {formatAmount(statistics.sumAgreements)}</td>
               </tr>
               <tr>
                 <td>Average</td>
-                <td>kr {thousandize(statistics.avgAgreement)}</td>
+                <td>kr {formatAmount(statistics.avgAgreement)}</td>
               </tr>
             </tbody>
           </table>
