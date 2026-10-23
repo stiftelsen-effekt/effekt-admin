@@ -29,7 +29,9 @@ import {
   setDonationFilterOrganizationIDs,
   setDonationFilterTaxUnitTypes,
   setDonationFilterFundraiserId,
+  setDonationFilterDataOwnerIDs,
 } from "../../../../../store/donations/donation-filters.actions";
+import { fetchOwnersAction } from "../../../../../store/owners/owners.actions";
 import { fetchHistogramAction } from "../../../../../store/donations/donation.actions";
 import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -59,6 +61,15 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
   const selectedOrganizationIDs = useSelector(
     (state: AppState) => state.donations.filter.organizationIDs,
   );
+
+  const dataOwners = useSelector((state: AppState) => state.dataOwner.owners);
+  const selectedDataOwnerIDs = useSelector(
+    (state: AppState) => state.donations.filter.dataOwnerIDs,
+  );
+
+  useEffect(() => {
+    if (!dataOwners) dispatch(fetchOwnersAction.started(undefined));
+  }, [dataOwners, dispatch]);
 
   const donationId = useSelector((state: AppState) => state.donations.filter.id);
   const donationFundraiserId = useSelector(
@@ -107,6 +118,15 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
       selected: taxUnitTypes ? taxUnitTypes.includes(null) : true,
     },
   ];
+
+  const dataOwnerChoices: Array<EffektCheckChoice> =
+    dataOwners?.map((owner) => {
+      return {
+        label: owner.name,
+        value: owner.id,
+        selected: selectedDataOwnerIDs ? selectedDataOwnerIDs.includes(owner.id) : true,
+      };
+    }) ?? [];
 
   const organizationChoices: Array<EffektCheckChoice> =
     causeAreas
@@ -253,6 +273,21 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
                 dispatch(setDonationFilterTaxUnitTypes(undefined));
               } else {
                 dispatch(setDonationFilterTaxUnitTypes(selected));
+              }
+            }}
+          ></EffektCheckForm>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterGroupHeader>Data owner</FilterGroupHeader>
+          <EffektCheckForm
+            inverted={true}
+            choices={dataOwnerChoices}
+            onChange={(selected: Array<number>, allSelected: boolean) => {
+              if (allSelected) {
+                dispatch(setDonationFilterDataOwnerIDs(undefined));
+              } else {
+                dispatch(setDonationFilterDataOwnerIDs(selected));
               }
             }}
           ></EffektCheckForm>
