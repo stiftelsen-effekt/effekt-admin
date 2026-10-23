@@ -22,6 +22,7 @@ import {
   SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS,
   SET_DONATION_FILTER_TAX_UNIT_TYPES,
   SET_DONATION_FILTER_FUNDRAISER_ID,
+  SET_DONATION_FILTER_DATA_OWNER_IDS,
 } from "./donation-filters.actions";
 import Decimal from "decimal.js";
 
@@ -50,6 +51,7 @@ const defaultState: DonationsState = {
     paymentMethodIDs: undefined,
     taxUnitTypes: undefined,
     organizationIDs: undefined,
+    dataOwnerIDs: undefined,
     statistics: {
       numDonations: 0,
       sumDonations: 0,
@@ -201,6 +203,12 @@ export const donationsReducer = (state = defaultState, action: any): DonationsSt
         ...state,
         pagination: { ...state.pagination, page: 0 },
         filter: { ...state.filter, organizationIDs: action.payload },
+      };
+    case SET_DONATION_FILTER_DATA_OWNER_IDS:
+      return {
+        ...state,
+        pagination: { ...state.pagination, page: 0 },
+        filter: { ...state.filter, dataOwnerIDs: action.payload },
       };
   }
 

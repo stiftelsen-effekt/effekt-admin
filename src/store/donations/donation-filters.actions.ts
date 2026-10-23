@@ -7,6 +7,7 @@ export const SET_DONATION_FILTER_PAYMENT_METHOD_IDS = "SET_DONATION_FILTER_PAYME
 export const SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS = "SET_DONATION_FILTER_ORGANIZATION_IDS";
 export const SET_DONATION_FILTER_TAX_UNIT_TYPES = "SET_DONATION_FILTER_TAX_UNIT_TYPES";
 export const SET_DONATION_FILTER_FUNDRAISER_ID = "SET_DONATION_FILTER_FUNDRAISER_ID";
+export const SET_DONATION_FILTER_DATA_OWNER_IDS = "SET_DONATION_FILTER_DATA_OWNER_IDS";
 
 export interface IActionRangeParams<T> {
   from: T;
@@ -95,6 +96,15 @@ export const setDonationFilterOrganizationIDs = (
 ): IFilterAction<Array<number> | undefined> => {
   return {
     type: SET_DONATION_FILTER_PAYMENT_ORGANIZATION_IDS,
+    payload: IDs,
+  };
+};
+
+export const setDonationFilterDataOwnerIDs = (
+  IDs: Array<number> | undefined,
+): IFilterAction<Array<number> | undefined> => {
+  return {
+    type: SET_DONATION_FILTER_DATA_OWNER_IDS,
     payload: IDs,
   };
 };
