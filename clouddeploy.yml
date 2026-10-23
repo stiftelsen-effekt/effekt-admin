@@ -52,3 +52,6 @@ steps:
   - id: "deploy-sweden"
     name: "gcr.io/cloud-builders/gsutil"
     args: ["-m", "cp", "-r", "dist/*", "gs://admin.geeffektivt.se/"]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
