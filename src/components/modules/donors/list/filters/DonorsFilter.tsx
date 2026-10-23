@@ -33,7 +33,7 @@ import {
   EffektCheckChoice,
   EffektCheckForm,
 } from "../../../../style/elements/effekt-check/effekt-check-form.component";
-import { thousandize } from "../../../../../util/formatting";
+import { formatAmount, thousandize } from "../../../../../util/formatting";
 import { EffektButton } from "../../../../style/elements/button.style";
 import { Download } from "react-feather";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -541,7 +541,7 @@ export const DonorsFilterComponent: React.FunctionComponent = () => {
             <tbody>
               <tr>
                 <td>Sum donations</td>
-                <td>kr {thousandize(Math.round(statistics.totalDonationSum))}</td>
+                <td>kr {formatAmount(statistics.totalDonationSum)}</td>
               </tr>
               <tr>
                 <td>Count donations</td>

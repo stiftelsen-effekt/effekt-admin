@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppState, VippsAgreementsState } from "../../../../models/state";
 import { fetchAgreementsReportAction } from "../../../../store/vipps/vipps.actions";
-import { thousandize } from "../../../../util/formatting";
+import { formatAmount } from "../../../../util/formatting";
 import { EffektButton } from "../../../style/elements/button.style";
 import {
   ReportActions,
@@ -38,15 +38,15 @@ export const VippsReport = () => {
           <tbody>
             <tr>
               <td>Median agreement sum</td>
-              <td>{thousandize(agreements.medianAgreementSum)} kr</td>
+              <td>{formatAmount(agreements.medianAgreementSum)} kr</td>
             </tr>
             <tr>
               <td>Average agreement sum</td>
-              <td>{thousandize(agreements.averageAgreementSum)} kr</td>
+              <td>{formatAmount(agreements.averageAgreementSum)} kr</td>
             </tr>
             <tr>
               <td>Total agreement sum</td>
-              <td>{thousandize(agreements.totalAgreementSum)} kr</td>
+              <td>{formatAmount(agreements.totalAgreementSum)} kr</td>
             </tr>
           </tbody>
         </table>
@@ -57,28 +57,28 @@ export const VippsReport = () => {
               <td>Agreements activated</td>
               <td>{agreements.activatedThisMonth}</td>
               <td style={{ textAlign: "right" }}>
-                ({thousandize(agreements.sumActivatedThisMonth)} kr)
+                ({formatAmount(agreements.sumActivatedThisMonth)} kr)
               </td>
             </tr>
             <tr>
               <td>Agreements stopped</td>
               <td>{agreements.stoppedThisMonth}</td>
               <td style={{ textAlign: "right" }}>
-                ({thousandize(agreements.sumStoppedThisMonth)} kr)
+                ({formatAmount(agreements.sumStoppedThisMonth)} kr)
               </td>
             </tr>
             <tr>
               <td>Agreements pending</td>
               <td>{agreements.pendingThisMonth}</td>
               <td style={{ textAlign: "right" }}>
-                ({thousandize(agreements.sumPendingThisMonth)} kr)
+                ({formatAmount(agreements.sumPendingThisMonth)} kr)
               </td>
             </tr>
             <tr>
               <td>Agreements expired</td>
               <td>{agreements.expiredThisMonth}</td>
               <td style={{ textAlign: "right" }}>
-                ({thousandize(agreements.sumExpiredThisMonth)} kr)
+                ({formatAmount(agreements.sumExpiredThisMonth)} kr)
               </td>
             </tr>
           </tbody>

@@ -11,7 +11,7 @@ import {
   KeyInfoTimestamp,
   KeyInfoValue,
 } from "../../../style/elements/keyinfo/keyinfo.style";
-import { thousandize } from "../../../../util/formatting";
+import { formatAmount } from "../../../../util/formatting";
 
 interface IProps {
   donation: IDonation;
@@ -23,9 +23,9 @@ export const DonationKeyInfoComponent: React.FunctionComponent<IProps> = ({ dona
     <KeyInfoWrapper>
       <KeyInfoGroup>
         <KeyInfoHeader>Gross sum</KeyInfoHeader>
-        <KeyInfoSum>{thousandize(donation.sum)} kr</KeyInfoSum>
+        <KeyInfoSum>{formatAmount(donation.sum)} kr</KeyInfoSum>
         <KeyInfoTransactionCost>
-          {thousandize(donation.transactionCost)} kr transaction cost
+          {formatAmount(donation.transactionCost)} kr transaction cost
         </KeyInfoTransactionCost>
       </KeyInfoGroup>
 

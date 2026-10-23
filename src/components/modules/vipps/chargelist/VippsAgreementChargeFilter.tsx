@@ -30,7 +30,7 @@ import {
   FilterStatsTableContainer,
 } from "../../../style/elements/filters.component.style";
 import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
-import { thousandize } from "../../../../util/formatting";
+import { formatAmount, thousandize } from "../../../../util/formatting";
 
 const statusTypes = [
   { name: "CHARGED", id: 0 },
@@ -56,7 +56,9 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
   const KID = useSelector((state: AppState) => state.vippsAgreementCharges.filter.KID);
   const donor = useSelector((state: AppState) => state.vippsAgreementCharges.filter.donor);
   const statuses = useSelector((state: AppState) => state.vippsAgreementCharges.filter.statuses);
-  const agreementID = useSelector((state: AppState) => state.vippsAgreementCharges.filter.agreementID);
+  const agreementID = useSelector(
+    (state: AppState) => state.vippsAgreementCharges.filter.agreementID,
+  );
   const chargeID = useSelector((state: AppState) => state.vippsAgreementCharges.filter.chargeID);
   const histogram = useSelector((state: AppState) => state.vippsAgreements.histogram);
   const [filterIsOpen, setFilterIsOpen] = useState<boolean>(false);
@@ -194,11 +196,11 @@ export const VippsChargeFilter: React.FunctionComponent = () => {
               </tr>
               <tr>
                 <td>Sum</td>
-                <td>kr {thousandize(stats.sumCharges)}</td>
+                <td>kr {formatAmount(stats.sumCharges)}</td>
               </tr>
               <tr>
                 <td>Average</td>
-                <td>kr {thousandize(stats.avgCharge)}</td>
+                <td>kr {formatAmount(stats.avgCharge)}</td>
               </tr>
             </tbody>
           </table>

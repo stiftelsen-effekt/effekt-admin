@@ -6,7 +6,7 @@ import {
   setDonationsPagination,
 } from "../../../../store/donations/donations-list.actions";
 import { AppState } from "../../../../models/state";
-import { shortDate, thousandize } from "../../../../util/formatting";
+import { shortDate, formatAmount } from "../../../../util/formatting";
 import { DateTime } from "luxon";
 import { useNavigate } from "react-router-dom";
 import { IDonation } from "../../../../models/types";
@@ -123,7 +123,7 @@ export const DonationsList: React.FunctionComponent<Props> = ({
         }
       },
       id: "sum",
-      accessor: (res: any) => thousandize(res.sum) + " kr",
+      accessor: (res: any) => formatAmount(res.sum) + " kr",
       Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 140,
     },

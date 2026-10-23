@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ReactTable from "react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
-import { shortDate, thousandize } from "../../../../util/formatting";
+import { shortDate, formatAmount } from "../../../../util/formatting";
 import { DateTime } from "luxon";
 import { useNavigate } from "react-router-dom";
 import { IDonor } from "../../../../models/types";
@@ -148,11 +148,10 @@ export const DonorsList: React.FunctionComponent<Props> = ({ donors, manual, def
           "Sum"
         );
       },
-      accessor: (donor: IDonor) => thousandize(Math.round(donor.donationsSum ?? 0)) + " kr",
-      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
-      sortMethod: (a: string, b: string) => {
-        return Number(a.replaceAll(" ", "")) - Number(b.replace(" ", ""));
-      },
+      accessor: (donor: IDonor) => donor.donationsSum ?? 0,
+      Cell: (row) => (
+        <span style={{ textAlign: "right", width: "100%" }}>{formatAmount(row.value)} kr</span>
+      ),
       width: 120,
     },
     {
@@ -175,9 +174,6 @@ export const DonorsList: React.FunctionComponent<Props> = ({ donors, manual, def
       },
       accessor: (donor: IDonor) => donor.donationsCount,
       Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
-      sortMethod: (a: string, b: string) => {
-        return Number(a.replaceAll(" ", "")) - Number(b.replace(" ", ""));
-      },
       width: 70,
     },
     {

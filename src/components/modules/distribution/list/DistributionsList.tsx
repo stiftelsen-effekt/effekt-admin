@@ -7,7 +7,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../../../models/state";
 import { IDistributionSearchResultItem } from "../../../../models/types";
-import { thousandize } from "../../../../util/formatting";
+import { formatAmount, thousandize } from "../../../../util/formatting";
 import { Plus } from "react-feather";
 import { EffektButton } from "../../../style/elements/button.style";
 import { EffektModal } from "../../../style/elements/effekt-modal/effekt-modal.component.style";
@@ -39,27 +39,19 @@ export const DistributionsList: React.FunctionComponent<{
     {
       Header: "Total sum",
       id: "sum",
-      accessor: (res: any) => {
-        if (res.donation_sum) return thousandize(res.donation_sum) + " kr";
-        else return "0 kr";
-      },
-      sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
-      },
-      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
+      accessor: (res: any) => Number(res.donation_sum ?? 0),
+      Cell: (row) => (
+        <span style={{ textAlign: "right", width: "100%" }}>{formatAmount(row.value)} kr</span>
+      ),
       width: 125,
     },
     {
       Header: "Donations",
       id: "count",
-      accessor: (res: any) => {
-        if (res.donation_count) return thousandize(res.donation_count);
-        else return "0";
-      },
-      sortMethod: (a: any, b: any) => {
-        return parseFloat(a.replace(" ", "")) > parseFloat(b.replace(" ", "")) ? -1 : 1;
-      },
-      Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
+      accessor: (res: any) => Number(res.donation_count ?? 0),
+      Cell: (row) => (
+        <span style={{ textAlign: "right", width: "100%" }}>{thousandize(row.value)}</span>
+      ),
       width: 100,
     },
   ];

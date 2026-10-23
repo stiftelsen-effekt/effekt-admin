@@ -36,7 +36,7 @@ import { fetchHistogramAction } from "../../../../../store/donations/donation.ac
 import { FilterOpenButton } from "../../../../style/elements/filter-buttons/filter-open-button.component";
 import { useAuth0 } from "@auth0/auth0-react";
 import { fetchAllCauseareasAction } from "../../../../../store/causeareas/causeareas.action";
-import { thousandize } from "../../../../../util/formatting";
+import { formatAmount, thousandize } from "../../../../../util/formatting";
 import { exportDonationsAction } from "../../../../../store/donations/donations-list.actions";
 import { EffektButton } from "../../../../style/elements/button.style";
 import { Oval } from "react-loader-spinner";
@@ -317,11 +317,11 @@ export const DonationsFilterComponent: React.FunctionComponent = () => {
               </tr>
               <tr>
                 <td>Sum</td>
-                <td>kr {thousandize(statistics.sumDonations)}</td>
+                <td>kr {formatAmount(statistics.sumDonations)}</td>
               </tr>
               <tr>
                 <td>Average</td>
-                <td>kr {thousandize(statistics.avgDonation)}</td>
+                <td>kr {formatAmount(statistics.avgDonation)}</td>
               </tr>
             </tbody>
           </table>

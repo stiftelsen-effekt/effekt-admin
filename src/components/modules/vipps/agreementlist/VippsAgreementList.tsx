@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ReactTable from "react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
-import { shortDate, thousandize } from "../../../../util/formatting";
+import { shortDate, formatAmount } from "../../../../util/formatting";
 import { DateTime } from "luxon";
 import { useNavigate } from "react-router-dom";
 import {
@@ -136,7 +136,7 @@ export const VippsAgreementList: React.FunctionComponent<{
       },
       id: "amount",
       width: 110,
-      accessor: (res: any) => thousandize(res.amount),
+      accessor: (res: any) => formatAmount(res.amount),
     },
     {
       Header: () => {

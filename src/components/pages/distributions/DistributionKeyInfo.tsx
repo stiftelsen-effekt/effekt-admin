@@ -1,7 +1,7 @@
 import React from "react";
 import { CurrentDistributionState } from "../../../models/state";
 import { ITaxUnit } from "../../../models/types";
-import { thousandize } from "../../../util/formatting";
+import { formatAmount } from "../../../util/formatting";
 import {
   KeyInfoWrapper,
   KeyInfoGroup,
@@ -53,7 +53,7 @@ export const DistributionKeyInfo: React.FunctionComponent<IProps> = ({ distribut
       <KeyInfoWrapper>
         <KeyInfoGroup>
           <KeyInfoHeader>Sum donations</KeyInfoHeader>
-          <KeyInfoSum>{thousandize(sumDonations)} kr</KeyInfoSum>
+          <KeyInfoSum>{formatAmount(sumDonations)} kr</KeyInfoSum>
         </KeyInfoGroup>
         <KeyInfoGroup>
           <KeyInfoHeader>KID</KeyInfoHeader>

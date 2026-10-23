@@ -30,7 +30,7 @@ import {
   EffektCheckForm,
   EffektCheckChoice,
 } from "../../../../style/elements/effekt-check/effekt-check-form.component";
-import { thousandize } from "../../../../../util/formatting";
+import { formatAmount, thousandize } from "../../../../../util/formatting";
 import { fetchAllCauseareasAction } from "../../../../../store/causeareas/causeareas.action";
 
 export const AdoveoFilterComponent: React.FunctionComponent = () => {
@@ -221,11 +221,11 @@ export const AdoveoFilterComponent: React.FunctionComponent = () => {
               </tr>
               <tr>
                 <td>Sum</td>
-                <td>kr {thousandize(statistics.sumDonations)}</td>
+                <td>kr {formatAmount(statistics.sumDonations)}</td>
               </tr>
               <tr>
                 <td>Average</td>
-                <td>kr {thousandize(Math.round(statistics.avgDonation))}</td>
+                <td>kr {formatAmount(statistics.avgDonation)}</td>
               </tr>
             </tbody>
           </table>

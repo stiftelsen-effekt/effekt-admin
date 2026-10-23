@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ReactTable from "react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
-import { shortDate } from "../../../../util/formatting";
+import { formatAmount, shortDate } from "../../../../util/formatting";
 import { DateTime } from "luxon";
 import {
   fetchVippsAgreementChargesAction,
@@ -153,6 +153,7 @@ export const VippsAgreementChargeList: React.FunctionComponent = () => {
         );
       },
       accessor: "amountNOK",
+      Cell: (row) => formatAmount(row.value),
       width: 83,
     },
     {
@@ -241,7 +242,9 @@ const RefundButton: React.FC<{
       disabled={disabled}
       onClick={() => {
         let sure = window.confirm(
-          `Do you really want to refund the charge with ID ${chargeId} and sum ${amount} kr?`,
+          `Do you really want to refund the charge with ID ${chargeId} and sum ${formatAmount(
+            amount,
+          )} kr?`,
         );
         if (sure) {
           getAccessTokenSilently().then((token) => {

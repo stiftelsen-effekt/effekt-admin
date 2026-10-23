@@ -1,6 +1,6 @@
 import React from "react";
 import { TotalDonationAmountWrapper } from "./TotalDonationAmount.style";
-import { thousandize } from "../../../../util/formatting";
+import { formatAmount } from "../../../../util/formatting";
 
 interface IProps {
   totalDonationAmount: number;
@@ -17,16 +17,11 @@ export const TotalDonationAmount: React.FunctionComponent<IProps> = ({
         <tbody>
           <tr>
             <td> Total donations </td>
-            <td> kr {thousandize(Number(totalDonationAmount.toFixed(2)))} </td>
+            <td> kr {formatAmount(totalDonationAmount)} </td>
           </tr>
           <tr>
             <td> Total except operations donations </td>
-            <td>
-              {" "}
-              kr {thousandize(
-                Number((totalDonationAmount - operationsDonationAmount).toFixed(2)),
-              )}{" "}
-            </td>
+            <td> kr {formatAmount(totalDonationAmount - operationsDonationAmount)} </td>
           </tr>
         </tbody>
       </table>

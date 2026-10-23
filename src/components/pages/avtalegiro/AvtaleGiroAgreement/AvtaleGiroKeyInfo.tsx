@@ -9,7 +9,7 @@ import {
   KeyInfoTimestamp,
   KeyInfoValue,
 } from "../../../style/elements/keyinfo/keyinfo.style";
-import { shortDate } from "../../../../util/formatting";
+import { formatAmount, shortDate } from "../../../../util/formatting";
 import { IAvtaleGiro, ITaxUnit } from "../../../../models/types";
 
 export const AvtaleGiroKeyInfo: React.FunctionComponent<{
@@ -47,7 +47,7 @@ export const AvtaleGiroKeyInfo: React.FunctionComponent<{
     <KeyInfoWrapper>
       <KeyInfoGroup>
         <KeyInfoHeader>Monthly amount</KeyInfoHeader>
-        <KeyInfoSum>{agreement.amount} kr</KeyInfoSum>
+        <KeyInfoSum>{formatAmount(agreement.amount)} kr</KeyInfoSum>
       </KeyInfoGroup>
 
       <KeyInfoGroup>

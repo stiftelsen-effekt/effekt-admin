@@ -31,7 +31,7 @@ import {
 } from "../../../style/elements/filters.component.style";
 import { HistogramInputComponent } from "../../histogram-input/HistogramInput";
 import EffektNumberRange from "../../../style/elements/effekt-range/effekt-range.component";
-import { thousandize } from "../../../../util/formatting";
+import { formatAmount, thousandize } from "../../../../util/formatting";
 import { useAuth0 } from "@auth0/auth0-react";
 import { EffektButton } from "../../../style/elements/button.style";
 import { Oval } from "react-loader-spinner";
@@ -197,11 +197,11 @@ export const VippsAgreementFilter: React.FunctionComponent = () => {
               </tr>
               <tr>
                 <td>Sum</td>
-                <td>kr {thousandize(stats.sumAgreements)}</td>
+                <td>kr {formatAmount(stats.sumAgreements)}</td>
               </tr>
               <tr>
                 <td>Average</td>
-                <td>kr {thousandize(stats.avgAgreement)}</td>
+                <td>kr {formatAmount(stats.avgAgreement)}</td>
               </tr>
             </tbody>
           </table>

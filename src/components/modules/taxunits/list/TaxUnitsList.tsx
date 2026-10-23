@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactTable from "react-table";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../../../models/state";
-import { thousandize, longDateTime } from "../../../../util/formatting";
+import { formatAmount, thousandize, longDateTime } from "../../../../util/formatting";
 import { DateTime } from "luxon";
 import { ITaxUnit } from "../../../../models/types";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -68,7 +68,7 @@ export const TaxUnitList: React.FunctionComponent<Props> = ({
       Header: "Sum donations",
       id: "sumdonations",
       textAlign: "right",
-      accessor: (res: ITaxUnit) => thousandize(res.sumDonations) + " kr",
+      accessor: (res: ITaxUnit) => formatAmount(res.sumDonations) + " kr",
       Cell: (row) => <span style={{ textAlign: "right", width: "100%" }}>{row.value}</span>,
       width: 170,
     },
